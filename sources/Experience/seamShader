@@ -1,0 +1,70 @@
+vertex: 
+#define MPI 3.1415926535897932384626433832795
+
+uniform float uTime;
+
+varying vec2 vUv;
+varying vec3 v_normal;
+varying vec3 v_view;
+
+
+void main() {
+  // vPosition = position;
+
+  vec4 transformed = modelViewMatrix * vec4(position, 1.0);
+  v_view = normalize(- transformed.xyz);
+  v_normal = normal;
+
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  vUv = uv;
+}
+
+
+fragment:
+uniform float uTime;
+// uniform sampler2D uT1; vec4 img = texture2D(uT1, vUv);
+
+varying vec2 vUv;
+varying vec3 v_normal;
+varying vec3 v_view;
+
+// varying vec3 vPosition;
+
+vec4 mainImage( out vec4 fragColor, in vec2 fragCoord )
+{   
+    float speed = .1;
+    float scale = 0.002;
+    vec2 p = fragCoord * scale;   
+    for(int i=1; i<10; i++){
+        p.x+=0.3/float(i)*sin(float(i)*3.*p.y+uTime*speed);
+        p.y+=0.3/float(i)*cos(float(i)*3.*p.x+uTime*speed);
+    }
+    float r=cos(p.x+p.y+1.)*.5+.5;
+    float g=sin(p.x+p.y+1.)*.5+.5;
+    float b=(sin(p.x+p.y)+cos(p.x+p.y))*.5+.5;
+    vec3 color = vec3(r,g,b);
+    return vec4(color,1);
+}
+
+
+
+void main() {
+
+  vec3 x = normalize( vec3(v_view.z, 0., -v_view.x));
+  vec3 y = cross(v_view, x);
+  vec2 fakeUv = vec2( dot(x, v_normal), dot(y, v_normal)) * .495 + .5;
+
+  
+  // alternative to kill the seam
+  //vec2 uv = vUv * 1000.; // BAD
+  vec2 uv = fakeUv * 1000.; // GOOD
+
+
+  vec4 color = mainImage(gl_FragColor, uv);
+
+  gl_FragColor = vec4(color.rgb, 1.);
+
+  }
+
+
+ 

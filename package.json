@@ -1,0 +1,44 @@
+{
+  "repository": {
+    "type": "git",
+    "url": "#"
+  },
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "vite serve --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mediapipe/hands": "^0.4.1675469240",
+    "@mediapipe/tasks-vision": "^0.1.0-alpha-11",
+    "@tensorflow/tfjs": "^4.7.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.7.0",
+    "@theatre/core": "^0.5.0",
+    "@theatre/studio": "^0.5.0",
+    "cannon": "^0.6.2",
+    "events": "^3.3.0",
+    "gsap": "^3.10.4",
+    "stats.js": "^0.17.0",
+    "stylus": "^0.58.1",
+    "three": "^0.141.0",
+    "three.proton.js": "^0.2.3",
+    "threex": "^1.0.0",
+    "troika-3d": "^0.46.0",
+    "troika-3d-ui": "^0.46.4",
+    "troika-three-text": "^0.46.4",
+    "tweakpane": "^3.1.6",
+    "vite": "^2.9.12"
+  },
+  "devDependencies": {
+    "lil-gui": "^0.17.0",
+    "vite-plugin-glsl": "^0.2.2",
+    "vite-plugin-string": "^1.1.2"
+  },
+  "name": "threejs-template-complex-master",
+  "description": "🚧 This template is under construction",
+  "version": "1.0.0",
+  "main": "vite.config.js",
+  "keywords": [],
+  "author": ""
+}

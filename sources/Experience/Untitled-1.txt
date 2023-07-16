@@ -1,0 +1,78 @@
+
+import * as THREE from "three";
+import Experience from "./Experience.js";
+import { vertexShader } from "./vertex.js";
+import { fragmentShader } from "./fragment.js";
+import EventEmitter from "./Utils/EventEmitter.js";
+
+import GSAP from "gsap";
+
+
+export default class Raycaster extends EventEmitter {
+
+  constructor() {
+
+    super();
+
+    this.experience = new Experience();
+    this.resources = this.experience.resources;
+
+    this.time = this.experience.time;
+    this.debug = this.experience.debug;
+    this.camera = this.experience.camera;
+    this.controls = this.experience.controls;
+    this.scene = this.experience.scene;
+   
+    this.world = this.experience.world;
+    this.scene2 = this.experience.scene2;
+
+    this.resource1 = this.resources.items.meTexture;
+    this.vid = this.resources.items.video2
+    this.setRaycast()
+
+    //this.setLiveVideo()
+    
+  
+
+  }
+
+
+
+setRaycast(){
+const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+
+window.addEventListener('click', (event) => {
+  const mouse = {
+    x: (event.clientX / window.innerWidth) * 2 - 1,
+    y: -(event.clientY / window.innerHeight) * 2 + 1,
+  };
+
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObjects(scene.children);
+  if (intersects.length > 0) {
+    const point = intersects[0].point;
+    const cameraMatrix = camera.matrixWorldInverse;
+    const worldPoint = new THREE.Vector3().copy(point).applyMatrix4(cameraMatrix);
+    sphere.position.copy(worldPoint);
+  } else {
+    const distance = 10;
+    const worldPoint = new THREE.Vector3(mouse.x * distance, mouse.y * distance, -distance);
+    sphere.position.copy(worldPoint);
+  }
+  scene.add(sphere);
+});
+
+}
+
+
+
+update(){
+
+
+}
+}

@@ -1,0 +1,193 @@
+{
+  "sheetsById": {
+    "LITTLES": {
+      "staticOverrides": {
+        "byObject": {
+          "this.font": {
+            "x": 305,
+            "y": 280
+          }
+        }
+      },
+      "sequence": {
+        "subUnitsPerUnit": 30,
+        "length": 10,
+        "type": "PositionalSequence",
+        "tracksByObject": {
+          "this.font": {
+            "trackData": {
+              "NK6e4tDe21": {
+                "type": "BasicKeyframedTrack",
+                "keyframes": [
+                  {
+                    "id": "8Anug4yDMf",
+                    "position": 0,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.44852941176470584,
+                      -3.0547297531059647
+                    ],
+                    "value": 401
+                  },
+                  {
+                    "id": "bmOGqXD1u5",
+                    "position": 1.567,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "value": -1838009.8811240827
+                  },
+                  {
+                    "id": "r1ZGuCeNFD",
+                    "position": 3.333,
+                    "connectedRight": true,
+                    "handles": [
+                      0.6061721404303511,
+                      4.808811686340163,
+                      0.3799835405998537,
+                      -108.04804482176725
+                    ],
+                    "value": -4589297.079732208
+                  },
+                  {
+                    "id": "4oe_GPz9pm",
+                    "position": 5.7,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "value": -184.1804160765559
+                  },
+                  {
+                    "id": "Q32NEqDZNr",
+                    "position": 6.067,
+                    "connectedRight": true,
+                    "handles": [
+                      0.12027293613556167,
+                      37.860633502029884,
+                      0.5,
+                      0
+                    ],
+                    "value": 184.1804160765559
+                  },
+                  {
+                    "id": "dirknN1rlt",
+                    "position": 8.233,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "value": 184.1804160765559
+                  }
+                ]
+              },
+              "6vNAd2n5Gl": {
+                "type": "BasicKeyframedTrack",
+                "keyframes": [
+                  {
+                    "id": "OgSTwntxdP",
+                    "position": 1.233,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.4497857525441885,
+                      1.0689655172413792
+                    ],
+                    "value": 280
+                  },
+                  {
+                    "id": "SfQ7jkpQNV",
+                    "position": 3.1,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "value": 241
+                  },
+                  {
+                    "id": "6x7sJ0RSBl",
+                    "position": 3.133,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "value": 280
+                  }
+                ]
+              },
+              "P_Xhjd94wj": {
+                "type": "BasicKeyframedTrack",
+                "keyframes": [
+                  {
+                    "id": "UARc8z0VJK",
+                    "position": 0.7,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "value": 500
+                  },
+                  {
+                    "id": "YSnEkPJlO7",
+                    "position": 1.7,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "value": 0
+                  },
+                  {
+                    "id": "V5MuHh3UX9",
+                    "position": 6.133,
+                    "connectedRight": true,
+                    "handles": [
+                      0.5,
+                      1,
+                      0.5,
+                      0
+                    ],
+                    "value": 248.17241379310346
+                  }
+                ]
+              }
+            },
+            "trackIdByPropPath": {
+              "[\"x\"]": "NK6e4tDe21",
+              "[\"y\"]": "6vNAd2n5Gl",
+              "[\"z\"]": "P_Xhjd94wj"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitionVersion": "0.4.0",
+  "revisionHistory": [
+    "NBw3zi5Qy_stXlym"
+  ]
+}
