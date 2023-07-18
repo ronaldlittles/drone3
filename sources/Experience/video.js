@@ -132,35 +132,39 @@ export default class Video extends EventEmitter {
     return this.texture2;
   }
 
-  setPlane() {//this.group = new THREE.Group()
-
-    // this.scene2.add(this.group)
-
-    this.plane = new THREE.Mesh(
-      new THREE.PlaneGeometry(2, 2, 2),
-
-      new THREE.MeshBasicMaterial({
-        color: "purple",
-
-        map: this.renderer.renderTarget.texture,
-        //normalMap: this.resource1,
-
-        /*  opacity: 1,
-        transparent: true,
-        roughness: 0.1,
-        metalness: 0.5,
-        clearcoat: 1,
-        transmission: 0.9, */
-        side: THREE.DoubleSide,
-      })
-    );
-
-    this.plane.scale.setScalar(400)
-    this.plane.position.set(0, 100, 0);
-
-    this.plane.name = 'videoplane'
-
-    this.scene2.add(this.plane);
+  setPlane() {
+    const length = 5;
+    const spacing = 300; // Adjust this value to change the spacing between the planes
+    const totalWidth = spacing * length; // Calculate the total width occupied by the planes
+    const offsetX = -totalWidth / 2; // Calculate the offset to center the planes
+   
+    const maxY = 750; // Maximum X position
+    this.planes = [];
+  
+    for (let i = 0; i <= length; i++) {
+      this.plane = new THREE.Mesh(
+        new RoundedBoxGeometry(2, .2, 2, 4, 4),
+        new THREE.MeshBasicMaterial({
+          color: "white",
+          map: this.renderer.renderTarget.texture,
+          side: THREE.DoubleSide,
+        })
+      );
+  
+      this.planes.push(this.plane);
+      this.scene2.add(this.planes[i]);
+  
+     
+      const posX = offsetX + i * spacing 
+      this.plane.position.set(posX, 200, 0);
+  
+      this.plane.scale.setScalar(100);
+      this.plane.name = "videoplane";
+    }
+  
+  
+  
+  
 
    
 

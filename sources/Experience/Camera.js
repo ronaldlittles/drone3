@@ -124,6 +124,10 @@ export default class Camera {
     this.orbitControls.enableDamping = true;
     this.orbitControls.autoRotate = false;
     this.orbitControls.autoRotateSpeed = 1
+
+    console.log(this.orbitControls)
+
+    
   
    
   }
@@ -216,6 +220,11 @@ export default class Camera {
   update() {
    
 this.orbitControls.update()
+
+this.azimuth = this.orbitControls.getAzimuthalAngle()
+
+
+
 
     //this.instance.position.x += 10;
     //this.instance.position.y += 1;

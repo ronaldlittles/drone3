@@ -220,6 +220,8 @@ export default class Box {
 
    
     const myText = new Text();
+
+    console.log(myText)
     this.myText = myText;
     this.scene2.add(this.myText);
 
@@ -227,11 +229,12 @@ export default class Box {
       "the brain is the strongest muscle of the body.";
 
     this.myText.fontSize = 145;
+    this.myText.textAlign = 'center';
     
     this.myText.color = 'yellow';
-    this.myText.position.set(-300, 200 , -2000);
+    this.myText.position.set(-500, 200 , -2000);
     
-    this.myText.maxWidth = 2500;
+    this.myText.maxWidth = 3500;
    
    
     this.myText.sync();
@@ -270,6 +273,7 @@ export default class Box {
     this.myText4.fontSize = 250;
     this.myText4.color = "blue";
     this.myText4.maxWidth = 3500;
+    this.myText4.textAlign = 'center';
    
     this.myText4.position.set(-400, 200, -1000);
     this.myText4.sync();
@@ -277,12 +281,12 @@ export default class Box {
 
 let keyPressStartTime = 0;
 let keyPressDuration = 0;
-const textDisplayInterval = 3000; 
-const textLingerDuration = 6000; 
+const textDisplayInterval = 500; 
+const textLingerDuration = 1000; 
 const texts = [this.myText, this.myText4]; 
 let currentIndex = 0;
 let isTextLingering = false;
-const distance = 500;
+const distance = 1500;
 
 
 document.addEventListener("keydown", function(event) {
@@ -328,7 +332,7 @@ function displayText() {
 
   const textElement =  texts[currentIndex];
 
-  console.log(textElement)
+  //console.log(textElement)
   
   GSAP.to(textElement.position, 1, {
 
@@ -481,27 +485,8 @@ window.addEventListener('pointerdown', () => {
 
     
 
-    // Parameters for the Flower of Life pattern
-let radius = 1;
-const circleCount = 6;
-const layers = 6;
-const angleIncrement = 360 / circleCount;
+    
 
-// Create circles and position them
-for (let layer = 0; layer < layers; layer++) {
-  for (let i = 0; i < circleCount; i++) {
-    const angle = (i * angleIncrement) * Math.PI / 180;
-    const x = radius * Math.cos(angle);
-    const y = radius * Math.sin(angle);
-    const circleGeometry = new THREE.CircleGeometry(radius, 32);
-    const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const circle = new THREE.Mesh(circleGeometry, circleMaterial);
-    //circle.scale.setScalar(50)
-    circle.position.set(x, y, 0);
-    this.scene2.add(circle);
-  }
-  radius += 2; // Increase radius for the next layer
-}
 
     const wallModels = [];
 
@@ -596,7 +581,7 @@ this.scene2.add(mazeGroup);
 
 
   update(){
-    this.shaderMaterial.uniforms.time.value += 5.5
+    this.shaderMaterial.uniforms.time.value += this.time.delta * 10;
     
 
     //this.myText.curveRadius -= 10.0;

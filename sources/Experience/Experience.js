@@ -56,7 +56,7 @@ export default class Experience
   
         this.setConfig()
         this.setDebug()
-        this.setStats()
+        //this.setStats()
         this.setScene()
         this.setScene2()
         this.setCamera()
@@ -167,7 +167,11 @@ export default class Experience
     setScene2()
     {
         this.scene2 = new THREE.Scene()
-
+        const color = 0x0000FF;
+        
+        const near = 10;
+        const far = 5000;
+        this.scene2.fog = new THREE.Fog(color, near, far)
 
     }
 

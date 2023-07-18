@@ -42,12 +42,12 @@ export default class Streetlamp {
     this.model2.name = "rotor";
     this.scene2.add(this.model2);
     this.model2.position.set(0, 250, 800);
-    this.model2.rotation.set(-.1, 0, 0);
+    this.model2.rotation.set(0, 0, 0);
     this.model2.scale.setScalar(450);
     this.model2.castShadow = true;
     this.model2.receiveShadow = true;
 
-    console.log(this.model2);
+    
 
     //this.model2.add(this.camera.instance)
     //this.camera.instance.lookAt(new THREE.Vector3(0,0,0))
@@ -191,6 +191,9 @@ updateRotors(object) {
 }
 
 update() {
+
+  this.model2.rotation.z = this.camera.azimuth 
+  this.model2.rotation.x = this.camera.azimuth * -.5
 
   //updateRotors(this.model2)
 
