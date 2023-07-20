@@ -51,7 +51,8 @@ export default class Camera {
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    this.instance.position.set(0,0,1200);
+    this.instance.position.set(0,50,1250);
+  
    
     this.scene2.add(this.instance);
    
@@ -120,10 +121,12 @@ export default class Camera {
     this.orbitControls.enabled = true;
     //this.orbitControls.screenSpacePanning = true;
     this.orbitControls.enableKeys = false;
-    this.orbitControls.zoomSpeed = 0.5;
+    this.orbitControls.zoomSpeed = 1.5;
     this.orbitControls.enableDamping = true;
     this.orbitControls.autoRotate = false;
     this.orbitControls.autoRotateSpeed = 1
+    this.orbitControls.maxPolarAngle = Math.PI/2;
+    this.orbitControls.minPolarAngle = Math.PI/2;
 
     console.log(this.orbitControls)
 

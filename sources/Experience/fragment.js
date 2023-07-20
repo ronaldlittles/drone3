@@ -83,13 +83,15 @@ uniform vec3 fogColor;
 uniform sampler2D texture1;
 uniform sampler2D texture2;
 
+uniform float azimuth;
+
 varying vec2 vUv;
 
 void main( void ) {
 
   vec2 position = - 1.0 + 2.0 * vUv;
 
-  vec4 noise = texture2D( texture1, position );
+  vec4 noise = texture2D( texture1, position * azimuth );
   vec2 T1 = vUv + vec2( 0.0, 1.5 ) * time * 0.02;
   vec2 T2 = vUv + vec2( 0.0, 1.0 ) * time * 0.01;
 

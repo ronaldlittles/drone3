@@ -49,7 +49,7 @@ export default class World {
         //this.setFont();
         //this.setRoom()
         this.setLamp();
-        //this.setVideo();
+      this.setVideo();
       }
     });
   }
@@ -150,7 +150,7 @@ export default class World {
 
     if (this.setdrawing) this.setdrawing.update();
 
-    //if (this.video) this.video.update();
+    if (this.video) this.video.update();
 
     if (this.particles) this.particles.update();
 

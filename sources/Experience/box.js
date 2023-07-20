@@ -3,7 +3,7 @@ import Experience from "./Experience.js";
 import { Text } from "troika-three-text";
 import { smokeVertex } from "./smokeVertex.js";
 import { smokeFragment } from "./smokeFragment.js";
-import Video from './video.js';
+//import Video from './video.js';
 import Floor from "./floor.js";
 //import GUI from 'lil-gui';
 import GSAP from "gsap";
@@ -89,7 +89,8 @@ export default class Box {
 					time: { value: 1.0 },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
 					texture1: { value: this.resource2 },
-					texture2: { value: this.resource1 }
+					texture2: { value: this.resource1 },
+          azimuth: { value: null },
       
       },
 
@@ -390,9 +391,9 @@ function nextText() {
     /*   this.shaderMaterial.uniforms.texture2.value.wrapS =
       this.shaderMaterial.uniforms.texture2.value.wrapT = THREE.MirroredRepeatWrapping; */
 
-      this.video = new Video()
+     /*  this.video = new Video()
   
-      this.videoTexture = this.video.setVideoTexture()
+      this.videoTexture = this.video.setVideoTexture() */
 
 
 let length =20;
@@ -583,7 +584,7 @@ this.scene2.add(mazeGroup);
   update(){
     this.shaderMaterial.uniforms.time.value += this.time.delta * 10;
     
-
+    this.shaderMaterial.uniforms.azimuth.value = this.camera.azimuth;
     //this.myText.curveRadius -= 10.0;
 
   /*   const time = this.time.elapsed * 0.001;
