@@ -41,12 +41,21 @@ export default class Streetlamp {
     this.model2 = this.resource2.scene;
     this.model2.name = "rotor";
     this.scene2.add(this.model2);
-    this.model2.position.set(0, 250, 800);
+    this.model2.position.set(0, 50, 800);
     this.model2.rotation.set(0, 0, 0);
-    this.model2.scale.setScalar(450);
+    this.model2.scale.setScalar(400);
     this.model2.castShadow = true;
     this.model2.receiveShadow = true;
 
+
+    this.meshes = [];
+          this.model2.traverse((object) => {
+            if (object.isMesh) {
+              this.meshes.push(object);
+            }
+          });
+      
+    console.log(this.meshes)
     
 
     //this.model2.add(this.camera.instance)
@@ -82,10 +91,23 @@ handleKeyUp(event) {
  } else if (event.key === 'ArrowRight') {
   this.model2.position.x -= 10;
  }
+}
 
+ handleKeyUp(event) {
+  if (event.key === 'ArrowUp') {
+   this.model2.position.z += 10;
+  } else if (event.key === 'ArrowDown') {
+   this.model2.position.z -= 10;
+  }
+ }
 
-
-
+  handleKeyUp(event) {
+    if (event.key === 'ArrowDown') {
+     this.model2.position.z += 10;
+    } else if (event.key === 'ArrowUp') {
+     this.model2.position.z -= 10;
+    }
+  
 
 
 /* let keyPressStartTime = 0;
@@ -191,6 +213,41 @@ updateRotors(object) {
 }
 
 update() {
+
+
+
+ /*  for (let i = 0; i < this.meshes.length; i++) {
+    const mesh = this.meshes[i];
+    const direction = new THREE.Vector3(
+      Math.random() * 2 - 1,
+  Math.random() * 2 - 1,
+  Math.random() * 2 - 1
+).normalize(); 
+const distance = 10;
+ 
+  mesh.position.x += Math.sin(  Math.random() * .2 - .1 ) *2
+  mesh.position.y += Math.sin(  Math.random() * .2 - .1 ) * 2
+  mesh.position.Z += Math.sin( Math.random() * .2 - .1 ) * 2 
+
+
+const targetPosition = mesh.position.clone().add(direction.multiplyScalar(distance));
+
+  GSAP.to(mesh.position, 10), {
+  x: Math.random() * 2 - 1,
+  y: Math.random() * 2 - 1, 
+  Z:  Math.random() * 2 - 1,
+  easing: "power2.easeOut",
+  yoyo: true,
+  repeat: -1
+ 
+}  
+
+  }*/
+
+
+
+
+
 
   this.model2.rotation.z = this.camera.azimuth 
   this.model2.rotation.x = this.camera.azimuth * -.5

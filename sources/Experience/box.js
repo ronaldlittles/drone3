@@ -62,7 +62,7 @@ export default class Box {
       "/assets/DarkSeazpos.jpg",
     ]);
 
-    this.scene2.background = this.cubeTexture
+//this.scene2.background = this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
@@ -116,14 +116,14 @@ export default class Box {
 
       this.mesh1 = new THREE.Mesh(this.geometry, this.shaderMaterial);
       
-      this.mesh1.name ='pillars'
+      this.mesh1.name ='road'
      
       this.mesh1.scale.set(300,150,0)
       
       this.scene2.add(this.mesh1);
 
       this.mesh1.position.z = 600;
-      this.mesh1.rotation.x = 1.601;
+      this.mesh1.rotation.x = 1.650;
 
     
 
@@ -484,71 +484,6 @@ window.addEventListener('pointerdown', () => {
 
   setLights() {
 
-    
-
-    
-
-
-    const wallModels = [];
-
-// Create your wall models
-const wallModel1 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({color: 0xff0000}))
-const wallModel2 = new THREE.Mesh(this.geometry, new THREE.MeshBasicMaterial({color: 0x0000ff}))
-
-// Add the wall models to the array
-//wallModels.push(wallModel1);
-wallModels.push(wallModel2);
-const wallSpacing = 15.0; // Spacing between walls
-
-const maze = [
-  [1, 1, 1, 1, 1,1,1,1,1,1,1,1,1],
-  [1, 1, 1, 1, 1,1,1,1,1,1,1,1,1],
-  [1, 1, 1, 1, 1,1,1,1,1,1,1,1,1],
-
-  [1, 1, 1, 1, 1,1], // Example row 1: walls
-  [1, 0, 0, 0, 1,1], // Example row 2: walls and empty spaces
-  [1, 0, 1, 0, 1,1], // Example row 3: walls and empty spaces
-  [1, 0, 0, 0, 1],1, // Example row 4: walls and empty spaces
-  [1, 1, 1, 1, 1,1,1,1,1,1,1,1,1],
-  [1, 1, 1, 1, 1,1,1,1,1,1,1,1,1],
-  [1, 1, 1, 1, 1,1,1,1,1,1,1,1,1]     // Example row 5: walls
-];
-
-const mazeGroup = new THREE.Group();
-
-let previousWallPosition = new THREE.Vector3(0, 0, 0); 
-
-for (let i = 0; i <maze.length; i++) {
-  for (let j = 0; j < maze[i].length; j++) {
-    const tile = maze[i][j];
-    const x = j - maze.length / 2 
-    const z = j + Math.sin(maze[0].length) * 360
-    const y = i * Math.random() * 360
-    if (tile === 1) {
-      const wallMesh = wallModels[Math.floor(Math.random())].clone(); 
-
-      wallMesh.scale.setScalar(25)
-
-      wallMesh.position.copy(previousWallPosition); 
-
-
-      wallMesh.position.x += x * wallSpacing;
-      wallMesh.position.z += y * wallSpacing;
-      wallMesh.position.y += z / wallSpacing;
-
-      mazeGroup.add(wallMesh);
-      previousWallPosition.copy(wallMesh.position); 
-    }
-   
-  }
-}
-
-this.scene2.add(mazeGroup); 
-
-    
-
-    
-
 
     const lights = new THREE.HemisphereLight(0xffffff,0x0000ff, 1.0);
     lights.position.set(0, 25, 0);
@@ -584,7 +519,7 @@ this.scene2.add(mazeGroup);
   update(){
     this.shaderMaterial.uniforms.time.value += this.time.delta * 10;
     
-    this.shaderMaterial.uniforms.azimuth.value = this.camera.azimuth;
+    this.shaderMaterial.uniforms.azimuth.value = this.camera.azimuth * 2.5 + Math.PI;
     //this.myText.curveRadius -= 10.0;
 
   /*   const time = this.time.elapsed * 0.001;

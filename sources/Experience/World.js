@@ -2,6 +2,7 @@ import * as THREE from "three";
 import Experience from "./Experience.js";
 import SceneWorld from "./sceneworld.js";
 import Box from "./box.js";
+import Walls from "./walls.js"
 
 import Font from './font.js'
 
@@ -50,6 +51,7 @@ export default class World {
         //this.setRoom()
         this.setLamp();
       this.setVideo();
+      this.setWalls();
       }
     });
   }
@@ -61,6 +63,12 @@ export default class World {
     console.log(this.racetrack)
 
   } */
+
+  setWalls(){
+
+    this.walls = new Walls();
+
+    }
 
   setRaycaster() {
 
@@ -145,6 +153,8 @@ export default class World {
 
     //if(this.tshirt)
     //this.tshirt.update()
+
+    if(this.walls) this.walls.update();
 
     if (this.raycaster) this.raycaster.update();
 

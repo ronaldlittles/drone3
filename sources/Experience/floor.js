@@ -4,6 +4,7 @@ import { Reflector } from "three/examples/jsm/objects/Reflector.js";
 import * as Curves from "three/examples/jsm/curves/CurveExtras.js";
 import { vertexShader } from "./vertex.js";
 import {fragmentShader} from "./fragment.js";
+import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 
 
 import Particles from "./particles.js";
@@ -17,7 +18,9 @@ import { ShapeUtils } from "three/src/extras/ShapeUtils.js";
 import GSAP from "gsap";
 //import {Font1} from './font.js'
 //import Video from './video.js'
-import Box from "./box.js";
+
+
+
 
 
 export default class Floor extends THREE.Curve {
@@ -42,7 +45,7 @@ export default class Floor extends THREE.Curve {
     this.setTouch();
     this.setPlane();
     this.setTangent();
-    //this.setCurve();
+    this.setCurve();
     //this.setFont1();
 
     //this.setWater();
@@ -59,10 +62,13 @@ export default class Floor extends THREE.Curve {
     this.tangent = new THREE.Vector3();
     this.quaternion = new THREE.Quaternion();
     this.spherical = new THREE.Spherical();
-    this.rotationMatrix = new THREE.Matrix4();
+    //this.rotationMatrix = new THREE.Matrix4();
 
-    this.boxes = new Box();
-    console.log(this.boxes);
+   
+
+    this.exporter = new GLTFExporter();
+
+    console.log(this.exporter)
   }
 
   setFont1() {
@@ -115,7 +121,7 @@ export default class Floor extends THREE.Curve {
         const y = Math.sin(t * 10) * 2 + Math.cos(t * 17) * 2 + 5;
         const z = Math.sin(t) * Math.sin(t * 4) * 50;
 
-        return vector.set(x, y, z).multiplyScalar(4);
+        return vector.set(x, y, z).multiplyScalar(8);
       },
 
       getTangentAt(t) {
@@ -160,13 +166,26 @@ export default class Floor extends THREE.Curve {
       opacity: 0.9,
 
       uniforms: {
-        uvScale: { value: new THREE.Vector2(1, 1) },
-        vColor: { value: new THREE.Color("blue") },
+        //model: { value: new THREE.Matrix4(this.modelMatrix) },
+        //uvScale: { value: new THREE.Vector2(1, 1) },
+        //vColor: { value: new THREE.Color("blue") },
         time: { value: null },
         texture1: { value: this.resources.items.yellow },
       },
 
-      vertexShader: vertexShader.vertexShader,
+      vertexShader: `
+
+      //uniform mat4 model;
+      varying vec2 vUv;
+    
+      void main()
+      {
+    
+        vUv = uv;
+        vec4 mvPosition = modelViewMatrix  * vec4( position, 1.0 );
+        gl_Position = projectionMatrix * mvPosition;
+    
+      }`,
       fragmentShader: fragmentShader.fragmentShader,
     });
 
@@ -234,7 +253,7 @@ export default class Floor extends THREE.Curve {
 
     
 
-    this.mesh = new THREE.Mesh(this.rollercoaster, this.material2);
+    this.mesh = new THREE.Mesh(this.rollercoaster, this.shaderMaterial);
 
     this.mesh.scale.setScalar(100)
 
@@ -248,7 +267,9 @@ export default class Floor extends THREE.Curve {
     this.scene2.add(this.mesh);
 
     this.material2.needsUpdate = true;
-
+    console.log(this.mesh.matrix)
+    this.modelMatrix = this.mesh.matrix
+   
    
   }
   

@@ -1,6 +1,7 @@
 const fragmentShader = {
   fragmentShader: `
 
+  #include <common>
  
 /* vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
 vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
@@ -89,9 +90,14 @@ varying vec2 vUv;
 
 void main( void ) {
 
+  
+
   vec2 position = - 1.0 + 2.0 * vUv;
 
   vec4 noise = texture2D( texture1, position * azimuth );
+
+  float l = linearToRelativeLuminance( noise.xyz );
+
   vec2 T1 = vUv + vec2( 0.0, 1.5 ) * time * 0.02;
   vec2 T2 = vUv + vec2( 0.0, 1.0 ) * time * 0.01;
 
@@ -108,6 +114,8 @@ void main( void ) {
   if( temp.r > 1.0 ) { temp.bg += clamp( temp.r - 2.0, 0.0, 100.0 ); }
   if( temp.g > 1.0 ) { temp.rb += temp.g - 1.0; }
   if( temp.b > 1.0 ) { temp.rg += temp.b - 1.0; }
+
+ 
 
   gl_FragColor = temp;
 

@@ -11,7 +11,7 @@ export default [
 
       {
         name: "meTexture",
-        source: "/assets/lava.jpg",
+        source: "/assets/me.jpg",
         type: "texture",
       },
 
@@ -39,7 +39,7 @@ export default [
       },
 
       {
-        name: "yellow",
+        name: "forrest",
         source: "/assets/forrest.jpg",
         type: "texture",
       },

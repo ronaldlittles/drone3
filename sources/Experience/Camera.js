@@ -51,8 +51,8 @@ export default class Camera {
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    this.instance.position.set(0,50,1250);
-  
+    this.instance.position.set(0,50,650);
+    this.instance.lookAt(0,0,0)
    
     this.scene2.add(this.instance);
    
@@ -79,13 +79,13 @@ export default class Camera {
       60,
       this.sizes.aspect,
       .1,
-      100000
+      1000
     );
     this.instance2.rotation.reorder("YXZ");
     this.instance2.matrixAutoUpdate = true;
     this.instance2.updateProjectionMatrix();
     this.instance2.matrixWorldNeedsUpdate = true;
-    this.instance2.position.set(0, 0, 1200);
+    this.instance2.position.set(0, 0, 300);
 
     this.scene.add(this.instance2);
 
@@ -126,7 +126,7 @@ export default class Camera {
     this.orbitControls.autoRotate = false;
     this.orbitControls.autoRotateSpeed = 1
     this.orbitControls.maxPolarAngle = Math.PI/2;
-    this.orbitControls.minPolarAngle = Math.PI/2;
+    //this.orbitControls.minPolarAngle = Math.PI/2;
 
     console.log(this.orbitControls)
 
