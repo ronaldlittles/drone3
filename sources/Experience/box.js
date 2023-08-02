@@ -62,7 +62,7 @@ export default class Box {
       "/assets/DarkSeazpos.jpg",
     ]);
 
-//this.scene2.background = this.cubeTexture
+    //this.scene2.background = this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
@@ -110,21 +110,23 @@ export default class Box {
   this.resource1.colorSpace = THREE.SRGBColorSpace;
 
 
-    this.geometry = new THREE.CylinderGeometry(2.2,2.2,10,32,32,false);
+    
 
-      //this.geometry = new THREE.PlaneGeometry(2,2,100,100);
+      this.geometry = new THREE.PlaneGeometry(2,2,100,100);
 
       this.mesh1 = new THREE.Mesh(this.geometry, this.shaderMaterial);
       
       this.mesh1.name ='road'
      
-      this.mesh1.scale.set(300,150,0)
+      this.mesh1.scale.set(600,150,0)
+
+      this.mesh1.scale.setScalar(1500)
       
       this.scene2.add(this.mesh1);
 
       this.mesh1.position.z = 600;
-      this.mesh1.rotation.x = 1.650;
-
+      this.mesh1.rotation.x += Math.PI/2;
+      this.mesh1.position.y = -10; 
     
 
     

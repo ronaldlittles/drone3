@@ -26,10 +26,54 @@ export default class Streetlamp {
     //this.setLights();
     //this.displayText();
     //this.updateRotors();
-    
-  }
+
+   
+
+
+  this.rotationSpeed = .5;
+  this.movementSpeed = 50.0;
+
+  this.handleKeyDown = this.handleKeyDown.bind(this);
+  this.handleKeyUp = this.handleKeyUp.bind(this);
+
+  document.addEventListener("keydown", this.handleKeyDown)
+document.addEventListener("keyup", this.handleKeyUp)
+ 
+
+
+this.arrowUpPressed = false;
+this.arrowLeftPressed = false;
+this.arrowRightPressed = false;
+
+ 
+
 
   
+  }
+
+
+  handleKeyDown(event) {
+    if (event.key === 'ArrowUp') {
+      this.arrowUpPressed = true;
+    } else if (event.key === 'ArrowLeft') {
+      this.arrowLeftPressed = true;
+    } else if (event.key === 'ArrowRight') {
+      this.arrowRightPressed = true;
+    }
+    }
+    
+     handleKeyUp(event) {
+    if (event.key === 'ArrowUp') {
+      this.arrowUpPressed = false;
+    } else if (event.key === 'ArrowLeft') {
+      this.arrowLeftPressed = false;
+    } else if (event.key === 'ArrowRight') {
+      this.arrowRightPressed = false;
+    }
+    
+  } 
+  
+
 
   setModel() {
     
@@ -41,9 +85,9 @@ export default class Streetlamp {
     this.model2 = this.resource2.scene;
     this.model2.name = "rotor";
     this.scene2.add(this.model2);
-    this.model2.position.set(0, 50, 800);
-    this.model2.rotation.set(0, 0, 0);
-    this.model2.scale.setScalar(400);
+    this.model2.position.set(0, 75, 0);
+    this.model2.rotation.set(-150, 0, 700);
+    this.model2.scale.setScalar(200);
     this.model2.castShadow = true;
     this.model2.receiveShadow = true;
 
@@ -54,14 +98,26 @@ export default class Streetlamp {
               this.meshes.push(object);
             }
           });
+
+         /*  for (let i = 0; i < this.meshes.length; i++) {
+            const mesh = this.meshes[i];
       
-    console.log(this.meshes)
-    
+          GSAP.to(mesh.position, 10), {
+            x: Math.random() * 2 - 1,
+            y: Math.random() * 2 - 1, 
+            Z:  Math.random() * 2 - 1,
+            easing: "power2.easeOut",
+            yoyo: true,
+            repeat: -1
+           
+          }  
+          
+        } */
 
     //this.model2.add(this.camera.instance)
     //this.camera.instance.lookAt(new THREE.Vector3(0,0,0))
 
-    if (this.model2) {
+     if (this.model2) {
       GSAP.to(this.model2.position, 10, {
         //x: this.model2.position.x + Math.random() * distance - distance / 2,
         y: this.model2.position.y + Math.random() * distance - distance / 2,
@@ -70,75 +126,20 @@ export default class Streetlamp {
         repeat: -1,
         yoyo: true,
       });
-    }
 
- // Add event listeners for the left and right arrow keys
- document.addEventListener('keydown', this.handleKeyDown.bind(this));
- document.addEventListener('keyup', this.handleKeyUp.bind(this));
-}
-
-handleKeyDown(event) {
- if (event.key === 'ArrowLeft') {
-  this.model2.position.x -= 10;
- } else if (event.key === 'ArrowRight') {
-  this.model2.position.x += 10;
- }
-}
-
-handleKeyUp(event) {
- if (event.key === 'ArrowLeft') {
-  this.model2.position.x += 10;
- } else if (event.key === 'ArrowRight') {
-  this.model2.position.x -= 10;
- }
-}
-
- handleKeyUp(event) {
-  if (event.key === 'ArrowUp') {
-   this.model2.position.z += 10;
-  } else if (event.key === 'ArrowDown') {
-   this.model2.position.z -= 10;
-  }
- }
-
-  handleKeyUp(event) {
-    if (event.key === 'ArrowDown') {
-     this.model2.position.z += 10;
-    } else if (event.key === 'ArrowUp') {
-     this.model2.position.z -= 10;
-    }
-  
-
-
-/* let keyPressStartTime = 0;
-let keyPressDuration = 0;
-const textDisplayInterval = 3000; 
-const textLingerDuration = 2000; 
-const texts = ["Text 1", "Text 2", "Text 3"]; 
-let currentIndex = 0;
-let isTextLingering = false;
-
-
-document.addEventListener("keydown", function(event) {
-  if (event.key === "ArrowUp") {
-    keyPressStartTime = performance.now(); 
-    isTextLingering = false; 
-    
-  }
-});
-
-document.addEventListener("keydown", function(event) {
-  if (event.key === "ArrowUp") {
-    keyPressDuration = performance.now() - keyPressStartTime; 
-
-    if (keyPressDuration >= textDisplayInterval && !isTextLingering) {
-      displayText(); 
-      isTextLingering = true; 
-      setTimeout(nextText, textLingerDuration); 
       
-    }
-  }
-});
+    } 
+
+ 
+    
+     
+
+    
+
+
+
+
+
 
 // Function to display text
 function displayText() {
@@ -156,9 +157,13 @@ function nextText() {
  
 
 }
- */
+ 
 
-}
+
+
+
+  
+  }
 
 
   setLights() {
@@ -214,37 +219,27 @@ updateRotors(object) {
 
 update() {
 
+  /* this.camera.instance.position.copy(this.model2.position)
+  this.camera.instance.position.y += 35
+  this.camera.instance.position.z += 150
+  this.camera.instance.lookAt(this.model2.position)    */
 
 
- /*  for (let i = 0; i < this.meshes.length; i++) {
-    const mesh = this.meshes[i];
-    const direction = new THREE.Vector3(
-      Math.random() * 2 - 1,
-  Math.random() * 2 - 1,
-  Math.random() * 2 - 1
-).normalize(); 
-const distance = 10;
- 
-  mesh.position.x += Math.sin(  Math.random() * .2 - .1 ) *2
-  mesh.position.y += Math.sin(  Math.random() * .2 - .1 ) * 2
-  mesh.position.Z += Math.sin( Math.random() * .2 - .1 ) * 2 
+
+if (this.arrowLeftPressed) {
+ this.model2.rotation.y += this.rotationSpeed;
+}
+if (this.arrowRightPressed) {
+ this.model2.rotation.y -= this.rotationSpeed;
+}
 
 
-const targetPosition = mesh.position.clone().add(direction.multiplyScalar(distance));
-
-  GSAP.to(mesh.position, 10), {
-  x: Math.random() * 2 - 1,
-  y: Math.random() * 2 - 1, 
-  Z:  Math.random() * 2 - 1,
-  easing: "power2.easeOut",
-  yoyo: true,
-  repeat: -1
- 
-}  
-
-  }*/
-
-
+if (this.arrowUpPressed) {
+  const forwardVector = new THREE.Vector3(0, 0, -1);
+  const forwardDirection = forwardVector.clone();
+  forwardDirection.applyQuaternion(this.model2.quaternion);
+ this.model2.position.add(forwardDirection.multiplyScalar(this.movementSpeed));
+}
 
 
 
@@ -254,40 +249,9 @@ const targetPosition = mesh.position.clone().add(direction.multiplyScalar(distan
 
   //updateRotors(this.model2)
 
-  //this.camera.instance.copy(this.model2.position)
-  //this.camera.instance.lookAt(this.model.position)
+  
 
-  this.speed = .5
-  this.maxHeight = 5000
-  this.offsetZ = this.speed * this.time.elapsed
-
-  /* this.texture0.offset.set(  this.offsetZ, 0 )
-  this.texture1.offset.set( 0, this.offsetZ )
-  this.texture2.offset.set( 0, this.offsetZ )
-  this.texture3.offset.set( 0, this.offsetZ )  */
-
-  /*  this.model.position.z += this.speed
-
-  this.range = 1000
-
-  if(this.model.position.z > this.range){
-    this.model.position.z -= this.range 
-  }
-  if(this.model.position.z < -this.range){
-    this.model.position += this.range 
-  }  */
-
-  /* this.plane1.position.z += this.speed * this.time.elapsed
-
-  this.plane2.position.z += this.speed * this.time.elapsed
-
-  if(this.plane1.position.z > this.maxHeight){
-    this.plane1.position.z -= 2 * this.maxHeight
-  }
-
-  if(this.plane2.position.z > this.maxHeight){
-    this.plane2.position.z -= 2* this.maxHeight
-  } */
+ 
 
 
 }

@@ -3,6 +3,7 @@ import Experience from "./Experience.js";
 import EventEmitter from "./Utils/EventEmitter.js";
 import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 
 export default class Walls extends EventEmitter {
@@ -23,7 +24,7 @@ export default class Walls extends EventEmitter {
     this.mouse = this.experience.mouse;
 
     this.resource2 = this.resources.items.fireTexture;
-    this.resource1 = this.resources.items.forrest;
+    this.resource1 = this.resources.items.tacoBell;
 
     this.mazeGroup = new THREE.Group();
   this.scene2.add(this.mazeGroup);
@@ -79,23 +80,16 @@ export default class Walls extends EventEmitter {
 
          let x, y;
 
-         const columnWidth = 50; 
+         const columnWidth = 60; 
         const mazeWidth = this.maze[0].length;
 
        
 
           for (let row = 0; row < this.maze.length; row++) {
              
-              y = -row *50;
+              y = -row *60;
   
               map[y] = {};
-  
-              
-  
-              
-             //let length = Math.floor(this.maze[row].length / 2);
-          
-              //map.right = Math.max(map.right, length);
   
              
               for (let column = 0; column < this.maze[row].length; column += 2) {
@@ -104,6 +98,8 @@ export default class Walls extends EventEmitter {
   
                  let cell = this.maze[row][column];
 
+                 
+
                  let object = null;
   
                   if (cell === '#') {
@@ -111,6 +107,14 @@ export default class Walls extends EventEmitter {
                       object = this.mesh.clone();
                       
                   } 
+                  
+                  else if (cell === "."){
+
+                    object = this.mesh2.clone();
+
+                  }
+
+
   
                   if (object !== null) {
 
@@ -119,28 +123,31 @@ export default class Walls extends EventEmitter {
                       this.mazeGroup.add(object);
                       this.mazeGroup.rotation.x = -Math.PI / 2;
                       this.mazeGroup.position.y = 50
-                      //console.log(map[y][x])
-                      //console.log(object)
+                      
                       
 
                   }
               }
           }
 
+        console.log(map)
           
         }
 
 
         createWall() {
           const boxSize = 48; 
-          const spacing = .5; 
+          const spacing = 0; 
         
-          this.geometry = new THREE.BoxGeometry(2, 60, 96);
+          this.geometry = new THREE.BoxGeometry(2, 80, 96);
           this.material = new THREE.MeshBasicMaterial({
             map: this.resource1,
             side: THREE.DoubleSide,
+            transparent: true,
+            opacity: .5
           });
           this.mesh = new THREE.Mesh(this.geometry, this.material);
+          this.mesh.rotation.x += Math.PI / 2;
         
           // Offset the boxes so they are positioned at the center of each cell
           const offset = (boxSize + spacing) / 2;
@@ -151,14 +158,30 @@ export default class Walls extends EventEmitter {
 
 
 
-           if(this.debug){
 
-      this.debugFolder = this.debug.addFolder()
+     
+          this.geometry2 = new THREE.CylinderGeometry(4,4,36,36, true, 0, Math.PI);
+          this.material2 = new THREE.MeshBasicMaterial({
+            map: this.resource1,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: .5
+          });
+          this.mesh2 = new THREE.Mesh(this.geometry2, this.material2);
+
+
+       
+
+
+
+       if(this.debug){
+
+       this.debugFolder = this.debug.addFolder()
 
       
 
       this.debugFolder
-        .add(this.mazeGroup.position,'y',0)
+        .add(this.mazeGroup.position,'z',0)
         .min(0)
         .max(100)
         .step(0.01) 

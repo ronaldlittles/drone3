@@ -36,7 +36,7 @@ export default class Video extends EventEmitter {
    
     
     this.resource2 = this.resources.items.fireTexture;
-    this.resource1 = this.resources.items.forrest;
+    this.resource1 = this.resources.items.tacoBell;
     //this.vid = this.resources.items.video2
 
     //this.setVideo();
