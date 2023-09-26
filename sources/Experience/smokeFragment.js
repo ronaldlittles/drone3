@@ -7,8 +7,19 @@ uniform vec2 resolution;
 uniform vec2 uvScale;
 uniform sampler2D texture1;
 
+float sphere(vec3 p, vec3 c, float r) {
+  return length(p - c) - r;
+};
 
 
+float box(vec3 p, vec3 b) {
+  vec3 d = abs(p) - b;
+  return min(max(d.x, max(d.y, d.z)), 0.0) + length(max(d, 0.0));
+};
+
+figure8(vec3 p, vec3 c, float r) {
+  return length(p - c) - r;
+};
 
 
 

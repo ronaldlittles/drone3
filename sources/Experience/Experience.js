@@ -171,7 +171,7 @@ export default class Experience
         
         const near = 10;
         const far = 5000;
-        this.scene2.fog = new THREE.Fog(color, near, far)
+        //this.scene2.fog = new THREE.Fog(color, near, far)
 
     }
 

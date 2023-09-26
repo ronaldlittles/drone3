@@ -7,7 +7,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 
-
+import Walls from './walls.js'
 
 
 
@@ -50,7 +50,7 @@ export default class Video extends EventEmitter {
     this.setSound();
    
     this.setPlane();
-    
+    this.walls = new Walls();
   }
 
   setLiveVideo() {
@@ -143,26 +143,22 @@ export default class Video extends EventEmitter {
       this.camera.instance.add( listener );
 
       
-      const sound = new THREE.Audio( listener );
-
+      //const sound = new THREE.Audio( listener );
+      this.sound = new THREE.PositionalAudio( listener );
+    
      
       const audioLoader = new THREE.AudioLoader();
-      audioLoader.load( '/assets/mixkitfunky.mp3', function( buffer ) {
-        sound.setBuffer( buffer );
-        sound.setLoop( true );
-        sound.setVolume( 0.5 );
-        sound.play();
+      audioLoader.load( '/assets/mixkitfunky.mp3', ( buffer )=> {
+      this.sound.setBuffer( buffer );
+      this.sound.setLoop( true );
+      this.sound.setVolume( 0.5 );
+      this.sound.play();
       });
 
             
-      this.analyser = new THREE.AudioAnalyser( sound, 32 );
-
-      console.log(this.analyser)
-
-     
-      //this.data = this.analyser.getAverageFrequency();
-
   }
+
+
 
   setPlane() {
 
@@ -178,7 +174,7 @@ export default class Video extends EventEmitter {
 
         mouse: { value: this.mouse },
         fogColor: { value: new THREE.Vector3(0, 0, 0.1) },
-        fogDensity: { value: 4.5 },
+        radius: { value: .5 },
 
         uvScale: { value: new THREE.Vector2(1.0, 1.0) },
         time: { value: 1.0 },
@@ -192,6 +188,7 @@ export default class Video extends EventEmitter {
         //texture2: { value: this.resource2 },
       },
 
+
       vertexShader: `
 
      attribute vec3 aPosition;
@@ -199,35 +196,29 @@ export default class Video extends EventEmitter {
      uniform vec2 uvScale;
      varying vec2 vUv;
      uniform float time;
+     uniform float radius;
 
      float s(float lambda) {
       return 3.0 * lambda * lambda - 2.0 * lambda * lambda * lambda;
     }
    
-     void main()
-     {
    
+   
+      
+      void main() {
+        vUv = uv;
+         vec3 newPosition = position;
+
+       
+        float angle = mix(0.0, -3.14159 * 0.5, vUv.x);  // Bending angle from 0 to -pi/2
+        float r = radius * vUv.y;
+        newPosition.x = r * cos(angle);
+        //newPosition.y = radius - r * sin(angle); 
+        
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
     
    
-       float terrainScale = .01;
-      float terrainHeight = .000005;
-
-      // Map vertex position to the range [-0.5, 0.5] based on the terrain scale
-      vec3 pos = (position.xyz / terrainScale) - 0.5;
-    
-      // Apply lambda function to the x and z coordinates (corners)
-      //pos.x = s(pos.x)*terrainHeight;
-      //pos.z = s(pos.z);
-    
-      // Combine position with height based on the lambda function
-      vec3 finalPosition = vec3(pos);
-    
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      vUv = uv;
-
-
-   
-     }
      
          `,
       fragmentShader: `
@@ -274,36 +265,36 @@ export default class Video extends EventEmitter {
 
 
 
-    const length = 15;
-    const spacing = 100; // Adjust this value to change the spacing between the planes
+   /*  const length = 1;
+    const spacing = 200; // Adjust this value to change the spacing between the planes
     const totalWidth = spacing * length; // Calculate the total width occupied by the planes
-    const offsetX = -totalWidth / 2; // Calculate the offset to center the planes
+    const offsetX = -totalWidth / 2; // Calculate the offset to center the planes */
    
    
     this.planes = [];
   
-    for (let i = 0; i <= length; i++) {
+    //for (let i = 0; i <= length; i++) {
 
       this.plane = new THREE.Mesh(
 
-        new RoundedBoxGeometry(2, 2 , 2, 4, 4),
+        new THREE.PlaneGeometry(2,2,100,100),
 
         this.shaderMaterial
        
       );
   
-      this.planes.push(this.plane);
-      this.scene2.add(this.planes[i]);
+      //this.planes.push(this.plane);
+      //this.scene2.add(this.plane);
   
      
-      const posX = offsetX + i * spacing 
-      this.plane.position.set(posX, 200, 0);
+      //const posX = offsetX + i * spacing 
+      this.plane.position.set(0, 100, 400);
   
-      this.plane.scale.set(25,25,25);
+      this.plane.scale.set(150,150);
 
       this.plane.name = "videoplaneboxes";
 
-    } 
+    //} 
  
 
     this.perlin = new ImprovedNoise();
@@ -348,13 +339,13 @@ export default class Video extends EventEmitter {
 
      this.geometry = new THREE.BoxGeometry(2,2,2,100,100,100)
 
-     this.plane2 = new THREE.Mesh(this.roundedBox, this.shaderMaterial);
+     this.plane2 = new THREE.Mesh(this.geometry, this.shaderMaterial);
 
      this.plane2.scale.setScalar(50);
 
      this.plane2.position.set(0, 300, 290);
 
-     this.plane2.name = "RACETRACK";
+     this.plane2.name = "BIGBOX";
 
      //this.scene2.add(this.plane2);
 
@@ -384,29 +375,32 @@ export default class Video extends EventEmitter {
           this.shaderMaterial.uniforms.pNoise.value += 0.05;
         }); 
     }*/
+
+    const easeOutCubic = function ( t ) {
+
+      return ( -- t ) * t * t + 1;
+
+    };
+
+   
+    this.scaleCurve = function ( t ) {
+
+      return Math.abs( easeOutCubic( ( t > 0.5 ? 1 - t : t ) * 2 ) );
+
+    };
    
     
   }
 
   update() {
 
-    this.shaderMaterial.uniforms.time.value += this.time.delta * 5;
+    
+
+    this.shaderMaterial.uniforms.time.value +=  5;
     this.shaderMaterial.uniforms.pNoise.value.x += this.time.delta * 2;
 
-   this.data = this.analyser.getFrequencyData();
-
-    for(let i =0; i<this.planes.length; i++){
-
-      this.planes[i].scale.y = this.data[i]*.5;
-
-      this.planes[10].scale.y = this.data[5]*.5;
-      this.planes[11].rotation.z = this.data[6]*.5;
-
-     this.planes[10].rotation.z += this.data[5]*5;
-
-      
-
-    } 
+   
+   
 
 
 

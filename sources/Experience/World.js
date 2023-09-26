@@ -8,7 +8,7 @@ import Font from './font.js'
 
 
 import Car from "./car.js";
-import Streetlamp from "./streetlamp.js";
+//import Drone from "./drone.js";
 import Controls from "./Controls.js";
 import Floor from "./floor.js";
 import Particles from './particles.js'
@@ -46,10 +46,8 @@ export default class World {
         this.setMenu();
         //this.setFloor()
         //this.setParticles()
-        //this.setTShirt()
-        //this.setFont();
-        //this.setRoom()
-        this.setLamp();
+        
+        //this.setDrone();
       this.setVideo();
       this.setWalls();
       }
@@ -134,8 +132,8 @@ export default class World {
     this.font = new Font();
   }
 
-  setLamp() {
-    this.picframe = new Streetlamp();
+  setDrone() {
+    this.drone = new Drone();
   }
 
   setMenu() {
@@ -174,7 +172,7 @@ export default class World {
 
     if (this.sceneworld) this.sceneworld.update();
 
-    if (this.picframe) this.picframe.update();
+    //if (this.drone) this.drone.update();
 
     if (this.menu) this.menu.update();
   }

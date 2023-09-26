@@ -4,8 +4,14 @@ import EventEmitter from "./Utils/EventEmitter.js";
 import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-
-
+import { vertexShader } from "./vertex.js";
+import { fragmentShader } from "./fragment.js";
+import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
+import { Flow } from 'three/examples/jsm/modifiers/CurveModifier.js';
+import RollerCoasterGeometry from './track1.js'
+import { ViewHelper } from "three/examples/jsm/helpers/ViewHelper.js";
+import { DecoratedTorusKnot5c } from "three/examples/jsm/curves/CurveExtras.js";
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
 export default class Walls extends EventEmitter {
   constructor() {
     super();
@@ -23,154 +29,468 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource2 = this.resources.items.fireTexture;
+    this.resource2 = this.resources.items.smoke;
     this.resource1 = this.resources.items.tacoBell;
+    this.resource3 = this.resources.items.droneModel;
+    this.resource4 = this.resources.items.buildingModel;
 
-    this.mazeGroup = new THREE.Group();
-  this.scene2.add(this.mazeGroup);
+    /* this.mazeGroup = new THREE.Group();
+    this.scene2.add(this.mazeGroup); */
+
+    this.setModel();
+   
+    this.createWall();
+    
+
+    this.setRaycaster();
 
     
-    this.setMaze();
-    this.createWall();
-    this.setWalls();
+
+    /* this.CameraHelper = new ViewHelper(this.camera.instance);
+    this.scene2.add(this.CameraHelper); */
+
+
+    this.rotationSpeed = .005;
+    this.movementSpeed = 5.0;
+  
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+  
+    document.addEventListener("keydown", this.handleKeyDown)
+    document.addEventListener("keyup", this.handleKeyUp)
+  
+  
+    document.addEventListener("pointerdown", this.handleKeyDown)
+    document.addEventListener("pointerup", this.handleKeyUp)
+   
+  
+  
+  this.arrowUpPressed = false;
+  this.arrowLeftPressed = false;
+  this.arrowRightPressed = false;
+  
+   
+  
+  
+    
+    }
+  
+  
+    handleKeyDown(event) {
+      if (event.key === 'ArrowUp') {
+        this.arrowUpPressed = true;
+      } else if (event.key === 'ArrowLeft') {
+        this.arrowLeftPressed = true;
+      } else if (event.key === 'ArrowRight') {
+        this.arrowRightPressed = true;
+      }
+      }
+      
+       handleKeyUp(event) {
+      if (event.key === 'ArrowUp') {
+        this.arrowUpPressed = false;
+      } else if (event.key === 'ArrowLeft') {
+        this.arrowLeftPressed = false;
+      } else if (event.key === 'ArrowRight') {
+        this.arrowRightPressed = false;
+      }
     
   }
+
+  setModel() {
+
+    this.model = this.resource3.scene;
+    this.model.name = "droneModel";
+    this.scene2.add(this.model);
+    this.model.position.set(50, 0,20);
+    this.model.rotation.set(0, 0, 0);
+    this.model.scale.set(200,10,600)
+    this.model.scale.setScalar(10);
+    this.model.castShadow = true;
+    this.model.receiveShadow = true;
+
+
+     this.model2 = this.resource4.scene;
+    this.model2.scale.setScalar(3)
+    //this.scene2.add(this.model2);
+    this.model2.castShadow = true;
+    this.model2.position.y = -200;
+    //this.model2.receiveShadow = true; 
+   
+    
+   
+
+
+    this.meshes = [];
+          this.model.traverse((object) => {
+            if (object.isMesh) {
+              this.meshes.push(object);
+            } 
+          });
+
+        /*  this.meshes[0].material.map = this.resource1
+         this.meshes[0].material.transparent = true
+         this.meshes[0].material.opacity = .2 */
+
+        
+        }
 
 
    
 
-    setMaze(){
+  
+        setRaycaster() {
 
-       
-        this.maze = [
-          
-            '# # # # # # # # # # # # # # # # # # # # # # # # # # # #',
-            '# . . . . . . . . . . . . # # . . . . . . . . . . . . #',
-            '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-            '# o # # # # . # # # # # . # # . # # # # # . # # # # o #',
-            '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-            '# . . . . . . . . . . . . . . . . . . . . . . . . . . #',
-            '# . # # # # . # # . # # # # # # # # . # # . # # # # . #',
-            '# . # # # # . # # . # # # # # # # # . # # . # # # # . #',
-            '# . . . . . . # # . . . . # # . . . . # # . . . . . . #',
-            '# # # # # # . # # # # #   # #   # # # # # . # # # # # #',
-           
-            '# # # # # # . # #   # # # # # # # #   # # . # # # # # #',
-            '# . . . . . . . . . . . . # # . . . . . . . . . . . . #',
-            '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-            '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-            '# o . . # # . . . . . . . P   . . . . . . . # # . . o #',
-            '# # # . # # . # # . # # # # # # # # . # # . # # . # # #',
-            '# # # . # # . # # . # # # # # # # # . # # . # # . # # #',
-            '# . . . . . . # # . . . . # # . . . . # # . . . . . . #',
-            '# . # # # # # # # # # # . # # . # # # # # # # # # # . #',
-            '# . # # # # # # # # # # . # # . # # # # # # # # # # . #',
-            '# . . . . . . . . . . . . . . . . . . . . . . . . . . #',
-            '# # # # # # # # # # # # # # # # # # # # # # # # # # # #'
-                ];
-      
+          const label = document.createElement("div");
+          label.style.position = "absolute";
+          label.style.top = "10px";
+          label.style.left = "10px";
+          label.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+          label.style.color = "white";
+          label.style.padding = "5px";
+          label.style.fontFamily = "Arial";
+          label.style.fontSize = "12px";
+          label.style.pointerEvents = "none"; // Make sure the label doesn't interfere with mouse events
+          document.body.appendChild(label);
+
+          window.addEventListener("pointerdown", (event) => {
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(this.mouse, this.camera.instance);
         
+            if (this.objectsArray1 && this.objectsArray2) {
+              const intersects = raycaster.intersectObjects([...this.objectsArray1, ...this.objectsArray2]);
         
-            
-        }
+              if (intersects.length > 0) {
+                this.point = intersects[0].object;
+
+              this.label1 = this.objectsArray1.indexOf(this.point)
+               this.label2 = this.objectsArray2.indexOf(this.point)
+                
+                this.scene2.remove(this.point);
         
-        setWalls(){
-
-          let map = {}
-
-         let x, y;
-
-         const columnWidth = 60; 
-        const mazeWidth = this.maze[0].length;
-
-       
-
-          for (let row = 0; row < this.maze.length; row++) {
              
-              y = -row *60;
-  
-              map[y] = {};
-  
+                if (this.objectsArray1.includes(this.point)) {
+                  this.objectsArray1.splice(this.objectsArray1.indexOf(this.point), 1);
+                } else if (this.objectsArray2.includes(this.point)) {
+                  this.objectsArray2.splice(this.objectsArray2.indexOf(this.point), 1);
+                }
+
+                
+
+                 this.removedPointArray = [];
+                 this.removedPointArray.length = 0;
+              
+               this.removedPointArray.push(this.point);
+               console.log( this.removedPointArray)
+              label.textContent = `Index: ${this.label1} ${this.label2 }`;
+              
+            } else {
              
-              for (let column = 0; column < this.maze[row].length; column += 2) {
-
-                  x = Math.floor(column - mazeWidth/2 ) * columnWidth;
-  
-                 let cell = this.maze[row][column];
-
-                 
-
-                 let object = null;
-  
-                  if (cell === '#') {
-
-                      object = this.mesh.clone();
-                      
-                  } 
-                  
-                  else if (cell === "."){
-
-                    object = this.mesh2.clone();
-
-                  }
-
-
-  
-                  if (object !== null) {
-
-                      object.position.set(x, y, 0);
-                      map[y][x] = object;
-                      this.mazeGroup.add(object);
-                      this.mazeGroup.rotation.x = -Math.PI / 2;
-                      this.mazeGroup.position.y = 50
-                      
-                      
-
-                  }
-              }
-          }
-
-        console.log(map)
+              label.textContent = "";
+            }
           
-        }
+            }
 
 
-        createWall() {
-          const boxSize = 48; 
-          const spacing = 0; 
-        
-          this.geometry = new THREE.BoxGeometry(2, 80, 96);
-          this.material = new THREE.MeshBasicMaterial({
-            map: this.resource1,
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: .5
           });
-          this.mesh = new THREE.Mesh(this.geometry, this.material);
-          this.mesh.rotation.x += Math.PI / 2;
+        }
         
-          // Offset the boxes so they are positioned at the center of each cell
-          const offset = (boxSize + spacing) / 2;
         
-          // Set the position of the maze group so that the boxes are edge-to-edge
-          this.mazeGroup.position.x = 135//-((this.maze[0].length - 1) * (boxSize + spacing)) / 2 + offset;
-          this.mazeGroup.position.y = -((this.maze.length - 1) * (boxSize + spacing)) / 2 + offset;
+        
+
+          getPointAt2(t) {
+
+           const radius = 150;
+            const vector = new THREE.Vector3();
+           
+            const PI2 = Math.PI * 2;
+            t = t * PI2;
+    
+            
+            const x = Math.sin( t*2 ) *radius// Math.cos( t*2 ) * 100 ;
+						const y = 0//Math.cos( t * 30 )// * 2 + Math.cos( t * 57 ) * 2 + 5;
+						const z = Math.cos( t ) *radius //+ Math.sin( t  ) * 50; 
+
+          
+         
+            return vector.set( x, y, z ).multiplyScalar( 2 );
+          }
+     
+          getTangentAt2(t) {
+            const vector2 = new THREE.Vector2();
+            const delta = 0.0001;
+            const t1 = Math.max(0, t - delta);
+            const t2 = Math.min(1, t + delta);
+    
+            return vector2
+              .copy(this.getPointAt2(t2))
+              .sub(this.getPointAt2(t1))
+              .normalize();
+
+          } 
+     
+
+         
+          
+        
+         
+
+      createWall() {
+
+        this.video = document.querySelector(".video");
+        
+        this.video.play();
+    
+        this.texture = new THREE.VideoTexture(this.video);
+
+      this.shaderMaterial = new THREE.ShaderMaterial({
+         extensions: {
+          derivatives: "#extension GL_OES_standard_derivatives : enable"
+        }, 
+      side: THREE.DoubleSide,
+      //VertexColors: true,
+      transparent: true,
+      
+    
+      uniforms: {
+
+          resolution: { value: new THREE.Vector4() },
+          progress: { value: 1.45 },
+					time: { value: null },
+					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
+					uTexture: { value: this.texture },
+					uDots: { value: this.resource2 },
+          azimuth: { value: null },
+      
+      },
+
+      vertexShader: vertexShader.vertexShader,
+      fragmentShader: fragmentShader.fragmentShader,
+
+    });
+
+    this.resource1.wrapS = THREE.RepeatWrapping;
+
+    this.resource1.wrapT = THREE.RepeatWrapping;
+
+    this.resource1.repeat.set(.5,.5) 
+
+    //this.resource1.rotation = Math.PI / 2;
+
+    let number = 50;
+    this.geometry = new THREE.PlaneGeometry(2,2, number, number);
+
+    //this.geometry = new THREE.BufferGeometry()
+    this.positions = new Float32Array(number * 3);
+    this.randoms = new Float32Array(number * 3);
+    this.sizes = new Float32Array(number * 1);
+
+     for (let i = 0; i < number*3; i++) {
+     this.positions[i + 0] = (Math.random() - 0.5);
+     this.positions[i + 1] = (Math.random() - 0.5);
+     this.positions[i + 2] = (Math.random() - 0.5); 
+
+      this.randoms[i + 0] = Math.random();
+      this.randoms[i + 1] = Math.random();
+      this.randoms[i + 2] = Math.random();
+
+      this.sizes[i + 0] = 0.5 + 0.5*Math.random(); 
+      
+    }
+
+    this.geometry.setAttribute(
+      "positions",
+      new THREE.BufferAttribute(this.positions, 3)
+    );
+    this.geometry.setAttribute(
+      "aRandom",
+      new THREE.BufferAttribute(this.randoms, 3)
+    );
+    this.geometry.setAttribute(
+      "size",
+      new THREE.BufferAttribute(this.sizes, 1)
+    ); 
 
 
 
+
+    this.plane = new THREE.Points(this.geometry, this.shaderMaterial)
+    //this.scene2.add(this.plane);
+    this.plane.scale.setScalar(250)
+   
+
+   
+   
+   
+
+    const numPoints = 2000; 
+
+   this.spline = new THREE.CatmullRomCurve3([]);
+
+   
+
+     for (let i = 0; i < numPoints; i++) {
+        const t = i / (numPoints - 1);
+        this.spline.points.push(this.getPointAt2(t));
+    }
+    const pos3 = this.spline.getSpacedPoints(100)
+
+    console.log(this.spline) 
+  
+    /* this.spline.curveType = 'catmullrom';
+    this.spline.closed = true;
+    this.spline.uniform = true;
+       
+    this.spline.tension  = .9;
+    this.spline.needsUpdate = true
+    this.spline.updateArcLengths(); */
+
+    //console.log(this.spline.getPointAt())
+ 
+    this.tubeGeo = new THREE.TubeGeometry(this.spline, 100, 3.4, 100, true);
+    this.tube = new THREE.Points(this.tubeGeo, this.shaderMaterial);
+    //this.scene2.add(this.tube);
+    this.tube.scale.setScalar(100); 
++ 
+      this.tubeGeo.setAttribute(
+      "position",
+      new THREE.BufferAttribute(this.positions, 3)
+    );
+    this.tubeGeo.setAttribute(
+      "aRandom",
+      new THREE.BufferAttribute(this.randoms, 3)
+    );
+    this.tubeGeo.setAttribute(
+      "size",
+      new THREE.BufferAttribute(this.sizes, 1)
+    ); 
+
+        
+   
+
+          const sphere = new THREE.Mesh(
+
+           //put glass on top of each wall
+
+           new THREE.BoxGeometry(4.0,2.0,.25),
+
+           //new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(100)),
+
+               new THREE.MeshBasicMaterial({
+
+             map: this.resource2,
+             side: THREE.DoubleSide,
+             transparent: true,
+             opacity: .5,
+             //transmission: .98,
+             //color: 'purple',
+                vertexColors: false,
+
+           })      
+           //this.shaderMaterial
+           )
+
+          sphere.scale.setScalar(5)
+         
+          //sphere.geometry.computeBoundingBox();
+
+          
+         
+        
+         
+       
+          this.sphere2 = new THREE.Mesh(
+
+           
+ 
+            new THREE.BoxGeometry(4.0,2.0,.25),
+ 
+          
+ 
+            new THREE.MeshBasicMaterial({
+ 
+              map: this.resource1,
+              side: THREE.DoubleSide,
+              transparent: true,
+              opacity: 1.0,
+             
+ 
+            }) 
+            
+          )
+
+          //this.sphere2.rotation.x += Math.PI/2
+          //this.sphere2.scale.setScalar(5)
+         
+    const numObjects = 150; // Number of objects to place on each side
+    this.spacing = 33; // Adjust this value for spacing
+    this.scaleFactor = .55;
+
+    this.objectsArray1 = [];
+    this.objectsArray2 = [];
+
+    for (let i = 0; i < numObjects; i++) {
+
+    const t = i / (numObjects - 1); // Ranges from 0 to 1
+
+    const positionOnCurve = this.spline.getPointAt(t);
+    this.tangent = this.spline.getTangentAt(t);
 
      
-          this.geometry2 = new THREE.CylinderGeometry(4,4,36,36, true, 0, Math.PI);
-          this.material2 = new THREE.MeshBasicMaterial({
-            map: this.resource1,
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: .5
-          });
-          this.mesh2 = new THREE.Mesh(this.geometry2, this.material2);
+      this.sphere2Clone = this.sphere2.clone()
+
+     this.sphere2Clone.position.copy(positionOnCurve)
+     
+     this.scene2.add(this.sphere2Clone)
+  
+    const referenceVector = new THREE.Vector3(0, 1, 0); 
+    const normal = new THREE.Vector3();
+    normal.crossVectors(referenceVector, this.tangent).normalize();
+
+   
+    this.offset = normal.clone().multiplyScalar(this.spacing * (i % 2 === 0 ? 1 : -1));
+
+    const angle = Math.atan2(this.tangent.x, this.tangent.z);
+   
+    
+    this.positionLeft = positionOnCurve.clone().add(this.offset);
+    this.positionRight = positionOnCurve.clone().sub(this.offset);
+
+    this.sphereLeft = this.model2.clone();
+    this.sphereLeft.isWall = true
+    this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
+
+    
+   
+    this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
+
+    this.objectsArray1.push(this.sphereLeft)
+    this.scene2.add(this.sphereLeft);
+
+   
+    
+    
+    
 
 
-       
+    this.sphereRight = sphere.clone();
+    this.sphereRight.isWall = true
+    this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
+
+
+    this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
+
+    this.objectsArray1.push(this.sphereRight)
+    this.scene2.add(this.sphereRight);
+
+
+   
+
+
+
+}
+
+    
 
 
 
@@ -178,19 +498,24 @@ export default class Walls extends EventEmitter {
 
        this.debugFolder = this.debug.addFolder()
 
+       this.debugFolder
+                .add(sphere.rotation, 'z', 0, 360, 1)
+
       
 
-      this.debugFolder
-        .add(this.mazeGroup.position,'z',0)
-        .min(0)
-        .max(100)
-        .step(0.01) 
-        
-       this.debugFolder
-        .add(this.mazeGroup.rotation, "x", -1.650, 100.0, 0.005)
+           this.debugFolder
+                .add(this, 'spacing', 0, 250, 1) // Adjust min, max, and step as needed
+                .name('spacing').onChange(() => {
+                  this.spacing += 5
+                })
 
-        this.debugFolder
-        .add(this.mazeGroup.position, "x", -131.50, 1000.0, 0.5)
+ 
+          this.debugFolder
+              .add(this, 'scaleFactor', 0.1, 50.0, 0.1) // Adjust min, max, and step as needed
+              .name('Scale Factor').onChange(() => {
+                this.scaleFactor += 0.1
+              })
+
 
 
         
@@ -206,8 +531,129 @@ export default class Walls extends EventEmitter {
 
 
   update() {
+ 
+     /* for(let i =0; i< this.objectsArray1.length; i+=5) {
 
-  }
+      this.objectsArray1[i].rotation.y += .1
+      //this.objectsArray1[i].rotation.z += .01
+      //this.objectsArray1[i].rotation.x += .01
+    }   */
+    
+    this.sphere2.rotation.y += this.time.elapsed * 2;
 
+     this.camera.instance.position.copy(this.model.position)
+    
+     this.camera.instance.translateZ(15)
+     this.camera.instance.translateY(2)
+ 
+  
+    this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
 
+    const looptime = 20 ;
+    const t = (this.time.elapsed  % looptime) / looptime;
+    const t2 = ((this.time.elapsed + .01) % looptime) / looptime;
+
+    const pos = this.spline.getPointAt(t);
+    const pos2 = this.spline.getPointAt(t2);
+
+    const tangent = this.spline.getTangentAt(t);
+
+    //AUTOPILOT
+    this.model.position.copy(pos)
+    
+   if( this.removedPointArray){
+
+    this.objectsArray1.filter((object) => {
+      const dist = 10.0;
+
+      
+
+      if ( this.removedPointArray.length === 0) {
+        return true; 
+    }
+  
+      if (! this.removedPointArray.includes(object)) {
+          while (this.model.position.distanceTo(object.position) < dist) {
+              const away = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.1);
+              this.model.position.add(away);
+          }
+          return true;
+      }
+  
+      return false;
+  });
+  
+  this.objectsArray2.filter((object) => {
+      const dist = 10.0;
+
+        if ( this.removedPointArray.length === 0) {
+        return true; // No points removed yet, allow collision calculations
+    }
+  
+      if (! this.removedPointArray.includes(object)) {
+          while (this.model.position.distanceTo(object.position) < dist) {
+              const away = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.1);
+              this.model.position.add(away);
+          }
+          return true;
+      }
+  
+      return false;
+  });
+  
 }
+
+    if (this.arrowLeftPressed) {
+    this.model.rotation.y += Math.PI/2 *.4 //this.rotationSpeed;
+    }
+    if (this.arrowRightPressed) {
+    this.model.rotation.y -= Math.PI/2 *.4//this.rotationSpeed;
+    }
+
+
+    if (this.arrowUpPressed) {
+      this.forwardVector = new THREE.Vector3(0, 0, 1);
+      this.forwardDirection = this.forwardVector.clone();
+      this.forwardDirection.applyQuaternion(this.model.quaternion);
+      this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
+      //console.log(this.forwardDirection)
+      this.camera.instance.lookAt(pos2)
+    } 
+
+     if(this.model.position.z > 150 || this.model.position.z < -100) {
+      this.model.position.z = 150
+      //this.model.rotation.y += Math.PI
+    }
+
+    if(this.model.position.x > 100 || this.model.position.x < -100) {
+      this.model.position.x = 100
+      //this.model.rotation.y += Math.PI
+    } 
+    this.meshes.forEach((mesh) => {
+
+
+
+      if (mesh.name.startsWith('Plane') && mesh.name != 'Plane054')  {
+  
+       this.circles = mesh
+       this.circles.rotation.y += Math.PI/2 * this.time.delta;
+  
+      
+      }
+  
+     /*  if(mesh.name.includes('Drone_Camera')){
+  
+        this.droneCamera = mesh
+  
+        this.droneCamera.scale.x = this.data
+  
+        //console.log(this.data)
+  
+       } */
+  
+    });
+
+    
+      }
+
+    }

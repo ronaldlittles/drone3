@@ -11,7 +11,7 @@ import GSAP from "gsap";
 import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
 //import {test}  from "./video.js";
-
+import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 export default class Box {
 
   constructor(_options = {}) {
@@ -32,8 +32,8 @@ export default class Box {
     
    
     this.setCubeTexture()
-    this.resource1 = this.resources.items.lennaTexture;
-    this.resource2 = this.resources.items.fireTexture;
+    this.resource1 = this.resources.items.smoke;
+    this.resource2 = this.resources.items.smoke;
     this.resource3 = this.resources.items.sceneModel
     this.setLights()
     this.setCity() 
@@ -102,7 +102,7 @@ export default class Box {
    
   this.resource1.wrapS =  THREE.RepeatWrapping;
   this.resource1.wrapT =  THREE.RepeatWrapping;
-  this.resource1.repeat.set(.5,100)
+  this.resource1.repeat.set(1,1)
 
   this.resource2.wrapS = THREE.RepeatWrapping;
   this.resource2.wrapT =THREE.RepeatWrapping; 
@@ -118,11 +118,11 @@ export default class Box {
       
       this.mesh1.name ='road'
      
-      this.mesh1.scale.set(600,150,0)
+      this.mesh1.scale.set(600,0,0)
 
       this.mesh1.scale.setScalar(1500)
       
-      this.scene2.add(this.mesh1);
+      //this.scene2.add(this.mesh1);
 
       this.mesh1.position.z = 600;
       this.mesh1.rotation.x += Math.PI/2;
@@ -272,7 +272,7 @@ export default class Box {
     this.scene2.add(this.myText4);
 
     this.myText4.text =
-      "EVERYTHING HAS A PATTERN ";
+      "wherever you go there you are";
     this.myText4.fontSize = 250;
     this.myText4.color = "blue";
     this.myText4.maxWidth = 3500;

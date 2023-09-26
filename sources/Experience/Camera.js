@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Experience from "./Experience.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { MapControls, OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import {DragControls} from 'three/examples/jsm/controls/DragControls.js';
 import World from './World.js'
 import EventEmitter from './Utils/EventEmitter.js'
@@ -27,10 +27,10 @@ export default class Camera {
     //this.createOrthographicCamera()
     this.setInstance();
     this.setInstance2();
-    this.setOrbitControls()
+    //this.setOrbitControls()
     //this.setDragControls();
     //this.setModes()
-
+    //this.setMapControls()
     //this.setDebug()
 
      
@@ -51,8 +51,8 @@ export default class Camera {
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    this.instance.position.set(0,50,650);
-    this.instance.lookAt(0,0,0)
+    //this.instance.position.set(0,0,0);
+    //this.instance.lookAt(0,0,0)
    
     this.scene2.add(this.instance);
    
@@ -124,8 +124,8 @@ export default class Camera {
     this.orbitControls.zoomSpeed = 1.5;
     this.orbitControls.enableDamping = true;
     this.orbitControls.autoRotate = false;
-    this.orbitControls.autoRotateSpeed = 1
-    this.orbitControls.maxPolarAngle = Math.PI/2;
+    this.orbitControls.autoRotateSpeed = 15
+    //this.orbitControls.maxPolarAngle = Math.PI/2;
     //this.orbitControls.minPolarAngle = Math.PI/2;
 
     console.log(this.orbitControls)
@@ -135,7 +135,24 @@ export default class Camera {
    
   }
 
-  
+  setMapControls(){
+
+    this.mapControls = new MapControls(this.instance, this.targetElement );
+
+    //mapControls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
+
+    this.mapControls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    this.mapControls.dampingFactor = 0.05;
+
+    this.mapControls.screenSpacePanning = false;
+
+    this.mapControls.minDistance = 100;
+    this.mapControls.maxDistance = 200;
+
+    this.mapControls.maxPolarAngle = Math.PI /3;
+
+    
+}
 
   setDebug() {
     if (this.debug) {
@@ -222,9 +239,9 @@ export default class Camera {
 
   update() {
    
-this.orbitControls.update()
+//this.orbitControls.update()
 
-this.azimuth = this.orbitControls.getAzimuthalAngle()
+//this.azimuth = this.orbitControls.getAzimuthalAngle()
 
 
 

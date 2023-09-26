@@ -16,25 +16,19 @@ export default [
       },
 
       {
-        name: "lavaTexture",
+        name: "fluffy",
         source: "/assets/fluffy.png",
         type: "texture",
       },
 
       {
-        name: "fireTexture",
-        source: "/assets/cloud.png",
+        name: "smoke",
+        source: "/assets/smoke512.png",
         type: "texture",
       },
       {
         name: "wallTexture",
         source: "/assets/DarkSeaxpos.jpg",
-        type: "texture",
-      },
-
-      {
-        name: "lennaTexture",
-        source: "/assets/road.jpg",
         type: "texture",
       },
 
@@ -45,10 +39,16 @@ export default [
       },
 
       {
-        name: "sceneModel",
-        source: "/assets/baloons.glb",
-        type: "gltfModel",
+        name: "road",
+        source: "/assets/road.jpg",
+        type: "texture",
       },
+
+     /*  {
+        name: "walltrackModel",
+        source: "/assets/walltrack.glb",
+        type: "gltfModel",
+      }, */
 
       /* {
         name: "terrainModel",
@@ -63,8 +63,8 @@ export default [
       }, 
 
       {
-        name: "runningModel",
-        source: "/assets/Soldier.glb",
+        name: "buildingModel",
+        source: "/assets/streetlight/scene.gltf",
         type: "gltfModel",
       },
 
