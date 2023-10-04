@@ -102,10 +102,10 @@ export default class Walls extends EventEmitter {
     this.model = this.resource3.scene;
     this.model.name = "droneModel";
     this.scene2.add(this.model);
-    this.model.position.set(50, 0,20);
+    this.model.position.set(0, 0,0);
     this.model.rotation.set(0, 0, 0);
     this.model.scale.set(200,10,600)
-    this.model.scale.setScalar(10);
+    this.model.scale.setScalar(5);
     this.model.castShadow = true;
     this.model.receiveShadow = true;
 
@@ -118,8 +118,8 @@ export default class Walls extends EventEmitter {
     //this.model2.receiveShadow = true; 
    
     
-   
-
+    this.camera.instance.add(this.model)
+    this.model.translateZ(-10)
 
     this.meshes = [];
           this.model.traverse((object) => {
@@ -176,12 +176,13 @@ export default class Walls extends EventEmitter {
                 }
 
                 
-
-                 this.removedPointArray = [];
-                 this.removedPointArray.length = 0;
+                this.removedPointArray = [];
+                // this.removedPointArray.length = 0;
               
                this.removedPointArray.push(this.point);
-               console.log( this.removedPointArray)
+
+              
+
               label.textContent = `Index: ${this.label1} ${this.label2 }`;
               
             } else {
@@ -258,7 +259,7 @@ export default class Walls extends EventEmitter {
           progress: { value: 1.45 },
 					time: { value: null },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
-					uTexture: { value: this.texture },
+					uTexture: { value: this.resource2 },
 					uDots: { value: this.resource2 },
           azimuth: { value: null },
       
@@ -273,7 +274,7 @@ export default class Walls extends EventEmitter {
 
     this.resource1.wrapT = THREE.RepeatWrapping;
 
-    this.resource1.repeat.set(.5,.5) 
+    this.resource1.repeat.set(1.5,1.5) 
 
     //this.resource1.rotation = Math.PI / 2;
 
@@ -368,33 +369,33 @@ export default class Walls extends EventEmitter {
         
    
 
-          const sphere = new THREE.Mesh(
+          this.sphere = new THREE.Mesh(
 
            //put glass on top of each wall
 
-           new THREE.BoxGeometry(4.0,2.0,.25),
+           new THREE.BoxGeometry(8.0,10.0,.25),
 
            //new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(100)),
 
-               new THREE.MeshBasicMaterial({
+                new THREE.MeshBasicMaterial({
 
-             map: this.resource2,
+             map: this.resource1,
              side: THREE.DoubleSide,
-             transparent: true,
-             opacity: .5,
-             //transmission: .98,
-             //color: 'purple',
-                vertexColors: false,
-
-           })      
+           //matcap: this.resource2,
+                //vertexColors: true,
+   
            //this.shaderMaterial
-           )
+          }) )
 
-          sphere.scale.setScalar(5)
+
+
+
+
+
+
          
-          //sphere.geometry.computeBoundingBox();
 
-          
+          this.sphere.scale.setScalar(5)
          
         
          
@@ -419,12 +420,13 @@ export default class Walls extends EventEmitter {
             
           )
 
-          //this.sphere2.rotation.x += Math.PI/2
-          //this.sphere2.scale.setScalar(5)
+          this.sphere2.rotation.x += Math.PI/2
+          this.sphere2.scale.setScalar(5)
+
          
     const numObjects = 150; // Number of objects to place on each side
-    this.spacing = 33; // Adjust this value for spacing
-    this.scaleFactor = .55;
+    this.spacing = 30; // Adjust this value for spacing
+    this.scaleFactor = 1.0;
 
     this.objectsArray1 = [];
     this.objectsArray2 = [];
@@ -439,19 +441,21 @@ export default class Walls extends EventEmitter {
      
       this.sphere2Clone = this.sphere2.clone()
 
-     this.sphere2Clone.position.copy(positionOnCurve)
      
-     this.scene2.add(this.sphere2Clone)
   
-    const referenceVector = new THREE.Vector3(0, 1, 0); 
+    const referenceVector = new THREE.Vector3(0, 4, 0); 
     const normal = new THREE.Vector3();
     normal.crossVectors(referenceVector, this.tangent).normalize();
 
    
-    this.offset = normal.clone().multiplyScalar(this.spacing * (i % 2 === 0 ? 1 : -1));
+    this.offset = normal.clone().multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
 
     const angle = Math.atan2(this.tangent.x, this.tangent.z);
-   
+
+
+    this.sphere2Clone.position.copy(positionOnCurve).add(this.offset)
+     
+    this.scene2.add(this.sphere2Clone)
     
     this.positionLeft = positionOnCurve.clone().add(this.offset);
     this.positionRight = positionOnCurve.clone().sub(this.offset);
@@ -464,7 +468,7 @@ export default class Walls extends EventEmitter {
    
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
-    this.objectsArray1.push(this.sphereLeft)
+    this.objectsArray2.push(this.sphereLeft)
     this.scene2.add(this.sphereLeft);
 
    
@@ -473,7 +477,7 @@ export default class Walls extends EventEmitter {
     
 
 
-    this.sphereRight = sphere.clone();
+    this.sphereRight = this.sphere.clone();
     this.sphereRight.isWall = true
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
 
@@ -482,6 +486,17 @@ export default class Walls extends EventEmitter {
 
     this.objectsArray1.push(this.sphereRight)
     this.scene2.add(this.sphereRight);
+
+    this.scene2.remove(this.objectsArray1[223])
+    this.scene2.remove(this.objectsArray1[219])
+    this.scene2.remove(this.objectsArray1[226])
+    this.scene2.remove(this.objectsArray1[79])
+    this.scene2.remove(this.objectsArray1[75])
+    this.scene2.remove(this.objectsArray1[73])
+    this.scene2.remove(this.objectsArray1[69])
+    this.scene2.remove(this.objectsArray1[229])
+    this.scene2.remove(this.objectsArray1[225])
+    //this.scene2.remove(this.objectsArray1[219])
 
 
    
@@ -531,37 +546,45 @@ export default class Walls extends EventEmitter {
 
 
   update() {
+
+    
  
-     /* for(let i =0; i< this.objectsArray1.length; i+=5) {
-
-      this.objectsArray1[i].rotation.y += .1
-      //this.objectsArray1[i].rotation.z += .01
-      //this.objectsArray1[i].rotation.x += .01
-    }   */
+     
     
-    this.sphere2.rotation.y += this.time.elapsed * 2;
-
-     this.camera.instance.position.copy(this.model.position)
     
-     this.camera.instance.translateZ(15)
-     this.camera.instance.translateY(2)
  
   
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
 
     const looptime = 20 ;
-    const t = (this.time.elapsed  % looptime) / looptime;
-    const t2 = ((this.time.elapsed + .01) % looptime) / looptime;
+    const t = (this.time.elapsed % looptime) / looptime;
+    const t2 = ((this.time.elapsed + .0001) % looptime) / looptime;
 
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
 
     const tangent = this.spline.getTangentAt(t);
 
-    //AUTOPILOT
-    this.model.position.copy(pos)
+   
+     
+
+      
+const maxZ = 0
+    const spacing = 100;
+
+    /* this.objectsArray1.forEach((object) => {
+      
+        // Recycle the object by repositioning it just ahead of the last object
+        const lastObject = this.objectsArray1.pop(); // Remove the last object
+        this.objectsArray1.unshift(lastObject); // Add it to the front of the array
+        object.position.z = lastObject.position.z - spacing; // Adjust for spacing
+        lastObject.material.color.setHSL(Math.random(), 1, 0.5); // Randomize the color
+      
+    }); */
     
-   if( this.removedPointArray){
+
+
+      if( this.removedPointArray){
 
     this.objectsArray1.filter((object) => {
       const dist = 10.0;
@@ -574,40 +597,47 @@ export default class Walls extends EventEmitter {
   
       if (! this.removedPointArray.includes(object)) {
           while (this.model.position.distanceTo(object.position) < dist) {
-              const away = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.1);
+              const away = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.4);
               this.model.position.add(away);
+              this.model.rotation.y += Math.PI/2 * this.time.delta;
           }
           return true;
       }
   
-      return false;
+          return false;
   });
   
   this.objectsArray2.filter((object) => {
       const dist = 10.0;
 
         if ( this.removedPointArray.length === 0) {
-        return true; // No points removed yet, allow collision calculations
+        return true; 
     }
   
       if (! this.removedPointArray.includes(object)) {
           while (this.model.position.distanceTo(object.position) < dist) {
-              const away = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.1);
+              const away = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.4);
               this.model.position.add(away);
           }
           return true;
       }
   
-      return false;
+          return false;
   });
   
 }
 
+this.camera.instance.position.copy(pos)
+this.camera.instance.lookAt(pos2  )
+
+
     if (this.arrowLeftPressed) {
-    this.model.rotation.y += Math.PI/2 *.4 //this.rotationSpeed;
+    this.model.rotation.y += Math.PI/2 *.08 //this.rotationSpeed;
+    this.model.position.x -= Math.PI/2 *.4
     }
     if (this.arrowRightPressed) {
-    this.model.rotation.y -= Math.PI/2 *.4//this.rotationSpeed;
+    this.model.rotation.y -= Math.PI/2 *.08//this.rotationSpeed;
+    this.model.position.x += Math.PI/2 *.4
     }
 
 
@@ -615,20 +645,11 @@ export default class Walls extends EventEmitter {
       this.forwardVector = new THREE.Vector3(0, 0, 1);
       this.forwardDirection = this.forwardVector.clone();
       this.forwardDirection.applyQuaternion(this.model.quaternion);
-      this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
-      //console.log(this.forwardDirection)
-      this.camera.instance.lookAt(pos2)
+      //this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
+     
     } 
 
-     if(this.model.position.z > 150 || this.model.position.z < -100) {
-      this.model.position.z = 150
-      //this.model.rotation.y += Math.PI
-    }
-
-    if(this.model.position.x > 100 || this.model.position.x < -100) {
-      this.model.position.x = 100
-      //this.model.rotation.y += Math.PI
-    } 
+   
     this.meshes.forEach((mesh) => {
 
 

@@ -41,7 +41,7 @@ const fragmentShader = {
         //gl_FragColor = vec4(vUv,0.,1.);
         //float fade = smoothstep(0.15,0.86,abs(vUv.y));
         //gl_FragColor = vec4(vWorldPosition,c);
-        gl_FragColor = vec4(tt.rgb,alpha);
+        gl_FragColor = vec4(1.0);
         //gl_FragColor = mix(vec4(cir+tt.xyz,alpha) , vec4(cir,alpha),.9);
 
        

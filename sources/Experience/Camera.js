@@ -27,7 +27,7 @@ export default class Camera {
     //this.createOrthographicCamera()
     this.setInstance();
     this.setInstance2();
-    //this.setOrbitControls()
+    this.setOrbitControls()
     //this.setDragControls();
     //this.setModes()
     //this.setMapControls()
@@ -51,7 +51,7 @@ export default class Camera {
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    //this.instance.position.set(0,0,0);
+    this.instance.position.set(0,20,0);
     //this.instance.lookAt(0,0,0)
    
     this.scene2.add(this.instance);
