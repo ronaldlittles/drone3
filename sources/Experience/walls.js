@@ -105,7 +105,7 @@ export default class Walls extends EventEmitter {
     this.model.position.set(0, 0,0);
     this.model.rotation.set(0, 0, 0);
     this.model.scale.set(200,10,600)
-    this.model.scale.setScalar(5);
+    this.model.scale.setScalar(8);
     this.model.castShadow = true;
     this.model.receiveShadow = true;
 
@@ -119,7 +119,8 @@ export default class Walls extends EventEmitter {
    
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-10)
+    this.model.translateZ(-7)
+    this.model.translateY(-2)
 
     this.meshes = [];
           this.model.traverse((object) => {
@@ -373,14 +374,16 @@ export default class Walls extends EventEmitter {
 
            //put glass on top of each wall
 
-           new THREE.BoxGeometry(8.0,10.0,.25),
+           new THREE.BoxGeometry(7.0,10.0,.25),
 
            //new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(100)),
 
                 new THREE.MeshBasicMaterial({
 
-             map: this.resource1,
+             map: this.resource2,
              side: THREE.DoubleSide,
+             transparent: true,
+             opacity: .7,
            //matcap: this.resource2,
                 //vertexColors: true,
    
@@ -404,7 +407,7 @@ export default class Walls extends EventEmitter {
 
            
  
-            new THREE.BoxGeometry(4.0,2.0,.25),
+            new THREE.SphereGeometry(1,36,36),
  
           
  
@@ -413,15 +416,15 @@ export default class Walls extends EventEmitter {
               map: this.resource1,
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: 1.0,
+              opacity: .01,
              
  
             }) 
             
           )
 
-          this.sphere2.rotation.x += Math.PI/2
-          this.sphere2.scale.setScalar(5)
+          //this.sphere2.rotation.x += Math.PI/2
+          //this.sphere2.scale.setScalar(3)
 
          
     const numObjects = 150; // Number of objects to place on each side
@@ -453,7 +456,7 @@ export default class Walls extends EventEmitter {
     const angle = Math.atan2(this.tangent.x, this.tangent.z);
 
 
-    this.sphere2Clone.position.copy(positionOnCurve).add(this.offset)
+    this.sphere2Clone.position.copy(positionOnCurve)
      
     this.scene2.add(this.sphere2Clone)
     
@@ -509,7 +512,7 @@ export default class Walls extends EventEmitter {
 
 
 
-       if(this.debug){
+   /*     if(this.debug){
 
        this.debugFolder = this.debug.addFolder()
 
@@ -535,7 +538,7 @@ export default class Walls extends EventEmitter {
 
         
      
-    }
+    } */
 
         }
         
@@ -558,7 +561,7 @@ export default class Walls extends EventEmitter {
 
     const looptime = 20 ;
     const t = (this.time.elapsed % looptime) / looptime;
-    const t2 = ((this.time.elapsed + .0001) % looptime) / looptime;
+    const t2 = ((this.time.elapsed + .000001) % looptime) / looptime;
 
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
@@ -566,9 +569,10 @@ export default class Walls extends EventEmitter {
     const tangent = this.spline.getTangentAt(t);
 
    
-     
+     this.model.rotation.z =this.camera.azimuth * .5 + Math.PI/2
+     this.model.rotation.y =this.camera.azimuth * .005 + Math.PI
+     this.model.rotation.x =this.camera.azimuth * .00005 + Math.PI
 
-      
 const maxZ = 0
     const spacing = 100;
 
