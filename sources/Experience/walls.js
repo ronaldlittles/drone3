@@ -105,13 +105,13 @@ export default class Walls extends EventEmitter {
     this.model.position.set(0, 0,0);
     this.model.rotation.set(0, 0, 0);
     this.model.scale.set(200,10,600)
-    this.model.scale.setScalar(8);
+    this.model.scale.setScalar(10);
     this.model.castShadow = true;
     this.model.receiveShadow = true;
 
 
      this.model2 = this.resource4.scene;
-    this.model2.scale.setScalar(3)
+    this.model2.scale.setScalar(5)
     //this.scene2.add(this.model2);
     this.model2.castShadow = true;
     this.model2.position.y = -200;
@@ -119,8 +119,8 @@ export default class Walls extends EventEmitter {
    
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-7)
-    this.model.translateY(-2)
+    this.model.translateZ(-12)
+    this.model.translateY(-3)
 
     this.meshes = [];
           this.model.traverse((object) => {
@@ -374,7 +374,7 @@ export default class Walls extends EventEmitter {
 
            //put glass on top of each wall
 
-           new THREE.BoxGeometry(7.0,10.0,.25),
+           new THREE.BoxGeometry(7.0,8.0,.25),
 
            //new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(100)),
 
@@ -442,7 +442,7 @@ export default class Walls extends EventEmitter {
     this.tangent = this.spline.getTangentAt(t);
 
      
-      this.sphere2Clone = this.sphere2.clone()
+      //this.sphere2Clone = this.sphere2.clone()
 
      
   
@@ -456,9 +456,9 @@ export default class Walls extends EventEmitter {
     const angle = Math.atan2(this.tangent.x, this.tangent.z);
 
 
-    this.sphere2Clone.position.copy(positionOnCurve)
+    //this.sphere2Clone.position.copy(positionOnCurve)
      
-    this.scene2.add(this.sphere2Clone)
+    //his.scene2.add(this.sphere2Clone)
     
     this.positionLeft = positionOnCurve.clone().add(this.offset);
     this.positionRight = positionOnCurve.clone().sub(this.offset);
@@ -471,7 +471,7 @@ export default class Walls extends EventEmitter {
    
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
-    this.objectsArray2.push(this.sphereLeft)
+    this.objectsArray1.push(this.sphereLeft)
     this.scene2.add(this.sphereLeft);
 
    
@@ -512,33 +512,7 @@ export default class Walls extends EventEmitter {
 
 
 
-   /*     if(this.debug){
-
-       this.debugFolder = this.debug.addFolder()
-
-       this.debugFolder
-                .add(sphere.rotation, 'z', 0, 360, 1)
-
-      
-
-           this.debugFolder
-                .add(this, 'spacing', 0, 250, 1) // Adjust min, max, and step as needed
-                .name('spacing').onChange(() => {
-                  this.spacing += 5
-                })
-
- 
-          this.debugFolder
-              .add(this, 'scaleFactor', 0.1, 50.0, 0.1) // Adjust min, max, and step as needed
-              .name('Scale Factor').onChange(() => {
-                this.scaleFactor += 0.1
-              })
-
-
-
-        
-     
-    } */
+   
 
         }
         
@@ -569,22 +543,16 @@ export default class Walls extends EventEmitter {
     const tangent = this.spline.getTangentAt(t);
 
    
-     this.model.rotation.z =this.camera.azimuth * .5 + Math.PI/2
-     this.model.rotation.y =this.camera.azimuth * .005 + Math.PI
-     this.model.rotation.x =this.camera.azimuth * .00005 + Math.PI
+     this.model.rotation.z =this.camera.azimuth * .05 + Math.PI
+     this.model.rotation.y =this.camera.azimuth * .2 + Math.PI
+     //this.model.rotation.x =this.camera.azimuth * .05 
 
-const maxZ = 0
+     //this.camera.instance.rotation.z +=this.camera.azimuth * .5 + Math.PI
+
+    const maxZ = 0
     const spacing = 100;
 
-    /* this.objectsArray1.forEach((object) => {
-      
-        // Recycle the object by repositioning it just ahead of the last object
-        const lastObject = this.objectsArray1.pop(); // Remove the last object
-        this.objectsArray1.unshift(lastObject); // Add it to the front of the array
-        object.position.z = lastObject.position.z - spacing; // Adjust for spacing
-        lastObject.material.color.setHSL(Math.random(), 1, 0.5); // Randomize the color
-      
-    }); */
+    
     
 
 
