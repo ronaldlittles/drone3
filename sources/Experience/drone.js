@@ -200,7 +200,7 @@ function nextText() {
   }
 
 
-  setLights() {
+  setLights() {light
 
     const light3 = new THREE.DirectionalLight( 0xffffff, 2.5 );
     light3.position.set( 0, 0, 0 );
@@ -245,11 +245,11 @@ update() {
 
   //this.flow.moveAlongCurve( .9 );
  
-    this.camera.instance.position.copy(this.model2.position)
-  this.camera.instance.position.y += 10
+    //this.camera.instance.position.copy(this.model2.position)
+  /* this.camera.instance.position.y += 10
   this.camera.instance.position.z += 50
   this.camera.instance.lookAt(this.model2.position)     
-   
+    */
 
     if (this.arrowLeftPressed) {
     this.model2.rotation.y += Math.PI/2 //this.rotationSpeed;

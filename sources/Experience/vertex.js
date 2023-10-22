@@ -10,9 +10,9 @@ const vertexShader = {
 
   uniform float time;
   varying vec2 vUv;
-  //varying vec3 positions;
+  
   uniform vec2 pixels;
-  varying vec3 vWorldPosition;
+  
   varying vec3 vNormal;
   attribute vec3 positions;
   attribute vec3 aRandom;
@@ -56,7 +56,7 @@ const vertexShader = {
 
     float progress = fract(time*0.01 + aRandom.x );
 
-    vec3 pos = figure8(progress);
+    vec3 pos = position;
 
     progress += 1.5;
 
@@ -64,7 +64,7 @@ const vertexShader = {
   
 
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1. );
-    gl_PointSize = .5*(10. + 50.*size) ;
+    //gl_PointSize = .5*(10. + 50.*size) ;
     gl_Position = projectionMatrix * mvPosition;
 
   

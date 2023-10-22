@@ -68,6 +68,12 @@ export default [
         type: "gltfModel",
       },
 
+      {
+        name: "fenceModel",
+        source: "/assets/fence.glb",
+        type: "gltfModel",
+      },
+
       /*  {
         name: "video2",
         source: "/assets/swag.mp4",

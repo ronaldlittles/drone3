@@ -62,7 +62,7 @@ export default class Box {
       "/assets/DarkSeazpos.jpg",
     ]);
 
-    //this.scene2.background = this.cubeTexture
+    this.scene2.background = this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
@@ -100,12 +100,12 @@ export default class Box {
     });
 
    
-  this.resource1.wrapS =  THREE.RepeatWrapping;
-  this.resource1.wrapT =  THREE.RepeatWrapping;
-  this.resource1.repeat.set(1,1)
+  //this.resource2.wrapS =  THREE.RepeatWrapping;
+  //this.resource2.wrapT =  THREE.RepeatWrapping;
+  //this.resource2.repeat.set(10,10)
 
-  this.resource2.wrapS = THREE.RepeatWrapping;
-  this.resource2.wrapT =THREE.RepeatWrapping; 
+  //this.resource2.wrapS = THREE.RepeatWrapping;
+  //this.resource2.wrapT =THREE.RepeatWrapping; 
 
   this.resource1.colorSpace = THREE.SRGBColorSpace;
 

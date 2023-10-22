@@ -29,13 +29,13 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource2 = this.resources.items.smoke;
+    this.resource2 = this.resources.items.road;
     this.resource1 = this.resources.items.tacoBell;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
+    this.resource5 = this.resources.items.fenceModel;
 
-    /* this.mazeGroup = new THREE.Group();
-    this.scene2.add(this.mazeGroup); */
+   console.log(this.camera)
 
     this.setModel();
    
@@ -49,9 +49,9 @@ export default class Walls extends EventEmitter {
     /* this.CameraHelper = new ViewHelper(this.camera.instance);
     this.scene2.add(this.CameraHelper); */
 
-
+    this.depth = 50;
     this.rotationSpeed = .005;
-    this.movementSpeed = 5.0;
+    this.movementSpeed = .1;
   
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
@@ -102,13 +102,14 @@ export default class Walls extends EventEmitter {
     this.model = this.resource3.scene;
     this.model.name = "droneModel";
     this.scene2.add(this.model);
-    this.model.position.set(0, 0,0);
+    this.model.position.set(0, 2.5,0);
     this.model.rotation.set(0, 0, 0);
     this.model.scale.set(200,10,600)
-    this.model.scale.setScalar(10);
+    this.model.scale.setScalar(15);
     this.model.castShadow = true;
     this.model.receiveShadow = true;
-
+    this.model.upVector = new THREE.Vector3(0, 1, 0);
+//this.model.lookAt(new THREE.Vector3(0,0, 1))
 
      this.model2 = this.resource4.scene;
     this.model2.scale.setScalar(5)
@@ -116,6 +117,14 @@ export default class Walls extends EventEmitter {
     this.model2.castShadow = true;
     this.model2.position.y = -200;
     //this.model2.receiveShadow = true; 
+
+    this.model3 = this.resource5.scene;
+    
+    this.model3.scale.setScalar(10)
+    //this.scene3.add(this.model3);
+    this.model3.castShadow = true;
+    this.model3.position.y = -300;
+    //this.model3.receiveShadow = true; 
    
     
     this.camera.instance.add(this.model)
@@ -197,20 +206,21 @@ export default class Walls extends EventEmitter {
           });
         }
         
-        
+       
         
 
           getPointAt2(t) {
 
-           const radius = 150;
+            const elevation = 3.5;
+            const radius = 150;
             const vector = new THREE.Vector3();
            
             const PI2 = Math.PI * 2;
             t = t * PI2;
     
             
-            const x = Math.sin( t*2 ) *radius// Math.cos( t*2 ) * 100 ;
-						const y = 0//Math.cos( t * 30 )// * 2 + Math.cos( t * 57 ) * 2 + 5;
+            const x = Math.sin( t*2 ) *radius //+ Math.cos( t*2 ) * 100 ;
+						const y = Math.cos( t * 10 ) * 2  //* elevation //+ Math.cos( t * 57 ) * 2 + 5;
 						const z = Math.cos( t ) *radius //+ Math.sin( t  ) * 50; 
 
           
@@ -262,7 +272,7 @@ export default class Walls extends EventEmitter {
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
 					uTexture: { value: this.resource2 },
 					uDots: { value: this.resource2 },
-          azimuth: { value: null },
+          azimuth: { value: this.camera.azimuth},
       
       },
 
@@ -275,7 +285,7 @@ export default class Walls extends EventEmitter {
 
     this.resource1.wrapT = THREE.RepeatWrapping;
 
-    this.resource1.repeat.set(1.5,1.5) 
+    this.resource1.repeat.set(.08,.05) 
 
     //this.resource1.rotation = Math.PI / 2;
 
@@ -325,10 +335,10 @@ export default class Walls extends EventEmitter {
    
    
 
-    const numPoints = 2000; 
+    const numPoints = 200; 
 
    this.spline = new THREE.CatmullRomCurve3([]);
-
+  
    
 
      for (let i = 0; i < numPoints; i++) {
@@ -337,24 +347,69 @@ export default class Walls extends EventEmitter {
     }
     const pos3 = this.spline.getSpacedPoints(100)
 
-    console.log(this.spline) 
-  
-    /* this.spline.curveType = 'catmullrom';
-    this.spline.closed = true;
-    this.spline.uniform = true;
-       
-    this.spline.tension  = .9;
-    this.spline.needsUpdate = true
-    this.spline.updateArcLengths(); */
-
-    //console.log(this.spline.getPointAt())
  
-    this.tubeGeo = new THREE.TubeGeometry(this.spline, 100, 3.4, 100, true);
-    this.tube = new THREE.Points(this.tubeGeo, this.shaderMaterial);
-    //this.scene2.add(this.tube);
-    this.tube.scale.setScalar(100); 
-+ 
-      this.tubeGeo.setAttribute(
+  
+const racetrackShape = new THREE.Shape();
+
+
+racetrackShape.moveTo(-50, 0);
+racetrackShape.lineTo(-50, 20); 
+racetrackShape.lineTo(-40, 20);
+racetrackShape.lineTo(-40, 10);
+racetrackShape.lineTo(40, 10);
+racetrackShape.lineTo(40, 20);
+racetrackShape.lineTo(50, 20);
+racetrackShape.lineTo(50, 0);
+
+
+racetrackShape.lineTo(-50, 0);
+
+ 
+
+
+
+
+
+    
+
+    this.extrudeSettings = {
+      steps: 500,
+     depth: 20,
+      bevelEnabled: false,
+      bevelThickness: 1,
+      bevelSize: .5,
+      bevelOffset: 0,
+      bevelSegments: 1,
+      extrudePath: this.spline,
+
+    }
+    
+ 
+    this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
+    this.tube = new THREE.Mesh(this.tubeGeo,   new THREE.MeshBasicMaterial({
+
+      map: this.resource1,
+       //envMap: this.scene2.background,
+       side: THREE.DoubleSide,
+       transparent: true,
+       opacity: 1,
+    
+          //vertexColors: true,
+
+    
+    })  
+
+    //this.shaderMaterial
+    )
+    this.scene2.add(this.tube);
+    //this.tube.scale.set(1,0,0);
+    this.tube.position.y =-15  
+    //this.tube.position.x =25
+    //this.tube.material.wrapS =  THREE.RepeatWrapping;
+    //this.tube.material.wrapT =  THREE.RepeatWrapping;
+    //this.tube.material.repeat.set(2.5,2.5)
+    
+     /*  this.tubeGeo.setAttribute(
       "position",
       new THREE.BufferAttribute(this.positions, 3)
     );
@@ -365,30 +420,31 @@ export default class Walls extends EventEmitter {
     this.tubeGeo.setAttribute(
       "size",
       new THREE.BufferAttribute(this.sizes, 1)
-    ); 
+    );  */
 
         
-   
+   console.log(this.tube)
 
           this.sphere = new THREE.Mesh(
 
-           //put glass on top of each wall
+           
 
            new THREE.BoxGeometry(7.0,8.0,.25),
 
-           //new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(100)),
+           
 
-                new THREE.MeshBasicMaterial({
-
-             map: this.resource2,
+            /*     new THREE.MeshBasicMaterial({
+              //matcap: this.resource1,  
+             map: this.resource1, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .7,
-           //matcap: this.resource2,
-                //vertexColors: true,
+             opacity: .3,
+          
+                vertexColors: false, */
    
-           //this.shaderMaterial
-          }) )
+           this.shaderMaterial
+          //}) 
+          )
 
 
 
@@ -407,24 +463,24 @@ export default class Walls extends EventEmitter {
 
            
  
-            new THREE.SphereGeometry(1,36,36),
+            new THREE.PlaneGeometry(7,8,2),
  
           
  
             new THREE.MeshBasicMaterial({
  
-              map: this.resource1,
+              map: this.resource2,
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: .01,
+              opacity: .5,
              
  
             }) 
             
           )
 
-          //this.sphere2.rotation.x += Math.PI/2
-          //this.sphere2.scale.setScalar(3)
+          //this.sphere2.rotation.x = Math.PI/2*.01
+          this.sphere2.scale.setScalar(7)
 
          
     const numObjects = 150; // Number of objects to place on each side
@@ -438,27 +494,31 @@ export default class Walls extends EventEmitter {
 
     const t = i / (numObjects - 1); // Ranges from 0 to 1
 
+   
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
+   
+   
      
-      //this.sphere2Clone = this.sphere2.clone()
-
      
   
-    const referenceVector = new THREE.Vector3(0, 4, 0); 
-    const normal = new THREE.Vector3();
-    normal.crossVectors(referenceVector, this.tangent).normalize();
+    const referenceVector = new THREE.Vector3(0, 1, 0); 
+   this.normal = new THREE.Vector3();
+    this.normal.crossVectors(referenceVector, this.tangent).normalize();
+   this.binormal = new THREE.Vector3();
+    this.binormal.crossVectors(referenceVector, this.normal).normalize();
 
    
-    this.offset = normal.clone().multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
+    this.offset = this.normal.clone().multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
 
-    const angle = Math.atan2(this.tangent.x, this.tangent.z);
+    const angle = Math.atan2(this.tangent.x , this.tangent.z );
+    const angle2 = Math.atan2(this.model.position.x, this.camera.instance.position.x)
 
-
-    //this.sphere2Clone.position.copy(positionOnCurve)
+    /* this.sphere2Clone = this.sphere2.clone()
+    this.sphere2Clone.position.copy(positionOnCurve.clone() )
      
-    //his.scene2.add(this.sphere2Clone)
+    this.scene2.add(this.sphere2Clone) */
     
     this.positionLeft = positionOnCurve.clone().add(this.offset);
     this.positionRight = positionOnCurve.clone().sub(this.offset);
@@ -467,20 +527,14 @@ export default class Walls extends EventEmitter {
     this.sphereLeft.isWall = true
     this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
 
-    
    
-    this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
+    this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle+ Math.PI/2 );
 
     this.objectsArray1.push(this.sphereLeft)
     this.scene2.add(this.sphereLeft);
 
-   
-    
-    
-    
 
-
-    this.sphereRight = this.sphere.clone();
+    this.sphereRight = this.sphere2.clone();
     this.sphereRight.isWall = true
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
 
@@ -488,9 +542,9 @@ export default class Walls extends EventEmitter {
     this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
     this.objectsArray1.push(this.sphereRight)
-    this.scene2.add(this.sphereRight);
+    //this.scene2.add(this.sphereRight);
 
-    this.scene2.remove(this.objectsArray1[223])
+    /* this.scene2.remove(this.objectsArray1[223])
     this.scene2.remove(this.objectsArray1[219])
     this.scene2.remove(this.objectsArray1[226])
     this.scene2.remove(this.objectsArray1[79])
@@ -498,127 +552,128 @@ export default class Walls extends EventEmitter {
     this.scene2.remove(this.objectsArray1[73])
     this.scene2.remove(this.objectsArray1[69])
     this.scene2.remove(this.objectsArray1[229])
-    this.scene2.remove(this.objectsArray1[225])
+    this.scene2.remove(this.objectsArray1[225]) */
     //this.scene2.remove(this.objectsArray1[219])
 
 
-   
-
-
-
-}
-
-    
-
-
-
-   
+    } 
 
         }
-        
-
-
-
-
-
-
+      
   update() {
-
-    
- 
-     
-    
-    
- 
   
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
 
+    this.movementSpeed += .1;
+this.extrudeSettings.depth = this.movementSpeed
+
+
     const looptime = 20 ;
-    const t = (this.time.elapsed % looptime) / looptime;
-    const t2 = ((this.time.elapsed + .000001) % looptime) / looptime;
+    const t = ((this.time.elapsed ) % looptime) / looptime;
+    const t2 = ((this.time.elapsed + .01) % looptime) / looptime;
 
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
 
     const tangent = this.spline.getTangentAt(t);
 
-   
-     this.model.rotation.z =this.camera.azimuth * .05 + Math.PI
-     this.model.rotation.y =this.camera.azimuth * .2 + Math.PI
-     //this.model.rotation.x =this.camera.azimuth * .05 
-
-     //this.camera.instance.rotation.z +=this.camera.azimuth * .5 + Math.PI
-
+    //this.model.rotation.y = Math.PI + tangent.x -tangent.z
+  
     const maxZ = 0
     const spacing = 100;
 
-    
-    
-
-
-      if( this.removedPointArray){
-
-    this.objectsArray1.filter((object) => {
-      const dist = 10.0;
-
-      
-
-      if ( this.removedPointArray.length === 0) {
-        return true; 
-    }
+    if (this.removedPointArray) {
+      this.objectsArray1.forEach((object) => {
+          const dist = 200.0;
   
-      if (! this.removedPointArray.includes(object)) {
-          while (this.model.position.distanceTo(object.position) < dist) {
-              const away = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.4);
-              this.model.position.add(away);
-              this.model.rotation.y += Math.PI/2 * this.time.delta;
+          if (!this.removedPointArray.includes(object)) {
+              const distance = this.model.position.distanceTo(object.position);
+  
+              if (distance < dist) {
+                  // Calculate the displacement vectors for both objects
+                  const awayFromModel = this.model.position.clone().sub(object.position).normalize().multiplyScalar(1.4);
+                  const towardsModel = object.position.clone().sub(this.model.position).normalize().multiplyScalar(0.4);
+  
+                  // Move objects away from each other
+                  object.position.add(awayFromModel);
+                  this.model.position.add(towardsModel);
+              }
           }
-          return true;
-      }
+      });
   
-          return false;
-  });
+     /*  this.objectsArray2.forEach((object) => {
+          const dist = 10.0;
   
-  this.objectsArray2.filter((object) => {
-      const dist = 10.0;
-
-        if ( this.removedPointArray.length === 0) {
-        return true; 
-    }
+          if (!this.removedPointArray.includes(object)) {
+              const distance = this.model.position.distanceTo(object.position);
   
-      if (! this.removedPointArray.includes(object)) {
-          while (this.model.position.distanceTo(object.position) < dist) {
-              const away = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.4);
-              this.model.position.add(away);
+              if (distance < dist) {
+                  // Calculate the displacement vectors for both objects
+                  const awayFromModel = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.4);
+                  const towardsModel = object.position.clone().sub(this.model.position).normalize().multiplyScalar(0.4);
+  
+                  // Move objects away from each other
+                  object.position.add(awayFromModel);
+                  this.model.position.add(towardsModel);
+              }
           }
-          return true;
-      }
+      });*/
+  } 
   
-          return false;
-  });
-  
-}
 
 this.camera.instance.position.copy(pos)
-this.camera.instance.lookAt(pos2  )
+this.camera.instance.lookAt(pos2)
+//this.model.lookAt(this.normal)
 
+
+
+
+//const maxRotationAngle = THREE.MathUtils.degToRad(45);
+
+ const angleToRotate = THREE.MathUtils.degToRad(-45)
+ 
+   
+    const desiredRotation = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), angleToRotate);
+
+   
+    const maxRotation = new THREE.Quaternion().slerp(desiredRotation, 0.1); 
+ 
+   
+    //this.model.quaternion.copy(maxRotationAngle);
+
+this.model.rotation.y =  Math.PI +this.camera.azimuth * .2
+this.model.rotation.z = Math.PI + this.camera.azimuth * .2//this.rotationSpeed;
+this.model.rotation.x = Math.PI + pos.y *.002
+
+  this.forwardVector2 = new THREE.Vector3(1, 0, 0);
+    this.forwardDirection2 = this.forwardVector2.clone();
+    this.forwardDirection2.applyQuaternion(this.model.quaternion).add(maxRotation).normalize();
+    //this.model.rotation.add(this.forwardDirection2.multiplyScalar(this.movementSpeed));
+
+    this.forwardVector3 = new THREE.Vector3(-1,0, 0);
+    this.forwardDirection3 = this.forwardVector3.clone();
+    this.forwardDirection3.applyQuaternion(this.model.quaternion).add(maxRotation).normalize();
 
     if (this.arrowLeftPressed) {
-    this.model.rotation.y += Math.PI/2 *.08 //this.rotationSpeed;
-    this.model.position.x -= Math.PI/2 *.4
+    //this.model.rotation.z -= Math.PI/4 //* tangent.x //this.rotationSpeed;
+    
+    this.model.position.add(this.forwardDirection2.multiplyScalar(this.movementSpeed));
     }
     if (this.arrowRightPressed) {
-    this.model.rotation.y -= Math.PI/2 *.08//this.rotationSpeed;
-    this.model.position.x += Math.PI/2 *.4
-    }
+    //this.model.rotation.z +=   Math.PI/4 //* tangent.x//this.rotationSpeed;
+   
+    this.model.position.add(this.forwardDirection3.multiplyScalar(this.movementSpeed));
+    } 
 
 
     if (this.arrowUpPressed) {
-      this.forwardVector = new THREE.Vector3(0, 0, 1);
+
+      this.forwardVector = new THREE.Vector3(0, 0, -1);
       this.forwardDirection = this.forwardVector.clone();
       this.forwardDirection.applyQuaternion(this.model.quaternion);
-      //this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
-     
+      this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
+      //this.camera.instance.position.copy(pos)
+
     } 
 
    
@@ -629,7 +684,7 @@ this.camera.instance.lookAt(pos2  )
       if (mesh.name.startsWith('Plane') && mesh.name != 'Plane054')  {
   
        this.circles = mesh
-       this.circles.rotation.y += Math.PI/2 * this.time.delta;
+       this.circles.rotation.y += Math.PI/2 * this.time.delta * 5;
   
       
       }
