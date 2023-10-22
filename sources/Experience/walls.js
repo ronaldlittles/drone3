@@ -105,7 +105,7 @@ export default class Walls extends EventEmitter {
     this.model.position.set(0, 2.5,0);
     this.model.rotation.set(0, 0, 0);
     this.model.scale.set(200,10,600)
-    this.model.scale.setScalar(15);
+    this.model.scale.setScalar(10);
     this.model.castShadow = true;
     this.model.receiveShadow = true;
     this.model.upVector = new THREE.Vector3(0, 1, 0);
