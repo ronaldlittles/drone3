@@ -109,7 +109,7 @@ export default class Walls extends EventEmitter {
     this.model.castShadow = true;
     this.model.receiveShadow = true;
     this.model.upVector = new THREE.Vector3(0, 1, 0);
-//this.model.lookAt(new THREE.Vector3(0,0, 1))
+this.model.lookAt(new THREE.Vector3(0,0, -1))
 
      this.model2 = this.resource4.scene;
     this.model2.scale.setScalar(5)
@@ -211,7 +211,7 @@ export default class Walls extends EventEmitter {
 
           getPointAt2(t) {
 
-            const elevation = 3.5;
+            const elevation = 15.5;
             const radius = 150;
             const vector = new THREE.Vector3();
            
@@ -220,7 +220,7 @@ export default class Walls extends EventEmitter {
     
             
             const x = Math.sin( t*2 ) *radius //+ Math.cos( t*2 ) * 100 ;
-						const y = Math.cos( t * 10 ) * 2  //* elevation //+ Math.cos( t * 57 ) * 2 + 5;
+						const y = Math.cos( t * 10 ) //* 2  * elevation //+ Math.cos( t * 57 ) * 2 + 5;
 						const z = Math.cos( t ) *radius //+ Math.sin( t  ) * 50; 
 
           
@@ -352,17 +352,17 @@ export default class Walls extends EventEmitter {
 const racetrackShape = new THREE.Shape();
 
 
-racetrackShape.moveTo(-50, 0);
-racetrackShape.lineTo(-50, 20); 
-racetrackShape.lineTo(-40, 20);
-racetrackShape.lineTo(-40, 10);
-racetrackShape.lineTo(40, 10);
-racetrackShape.lineTo(40, 20);
-racetrackShape.lineTo(50, 20);
-racetrackShape.lineTo(50, 0);
+racetrackShape.moveTo(-30, 0);
+racetrackShape.lineTo(-30, 20); 
+racetrackShape.lineTo(-20, 20);
+racetrackShape.lineTo(-20, 10);
+racetrackShape.lineTo(20, 10);
+racetrackShape.lineTo(20, 20);
+racetrackShape.lineTo(30, 20);
+racetrackShape.lineTo(30, 0);
 
 
-racetrackShape.lineTo(-50, 0);
+racetrackShape.lineTo(-30, 0);
 
  
 
@@ -403,7 +403,7 @@ racetrackShape.lineTo(-50, 0);
     )
     this.scene2.add(this.tube);
     //this.tube.scale.set(1,0,0);
-    this.tube.position.y =-15  
+    this.tube.position.y =-30  
     //this.tube.position.x =25
     //this.tube.material.wrapS =  THREE.RepeatWrapping;
     //this.tube.material.wrapT =  THREE.RepeatWrapping;
