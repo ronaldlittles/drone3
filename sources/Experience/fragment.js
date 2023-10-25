@@ -24,9 +24,9 @@ const fragmentShader = {
 
        float angle = azimuth;
 
-       
+       vec2 newUV = fract(vUv *5.);
 
-        vec4 tt = texture2D(uTexture, fract(vUv*angle));
+        vec4 tt = texture2D(uTexture,newUV);
  
        
         

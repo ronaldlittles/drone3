@@ -30,7 +30,7 @@ export default class Walls extends EventEmitter {
     this.mouse = this.experience.mouse;
 
     this.resource2 = this.resources.items.road;
-    this.resource1 = this.resources.items.tacoBell;
+    this.resource1 = this.resources.items.road;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
     this.resource5 = this.resources.items.fenceModel;
@@ -101,15 +101,20 @@ export default class Walls extends EventEmitter {
 
     this.model = this.resource3.scene;
     this.model.name = "droneModel";
-    this.scene2.add(this.model);
-    this.model.position.set(0, 2.5,0);
+    //this.scene2.add(this.model);
+    this.model.position.set(0, 2.5,-10);
     this.model.rotation.set(0, 0, 0);
     this.model.scale.set(200,10,600)
     this.model.scale.setScalar(10);
     this.model.castShadow = true;
     this.model.receiveShadow = true;
-    this.model.upVector = new THREE.Vector3(0, 1, 0);
-this.model.lookAt(new THREE.Vector3(0,0, -1))
+    //this.model.upVector = new THREE.Vector3(0, 1, 0);
+
+
+    this.group = new THREE.Group();
+    this.scene2.add(this.group)
+    this.group.add(this.model)
+   
 
      this.model2 = this.resource4.scene;
     this.model2.scale.setScalar(5)
@@ -220,7 +225,7 @@ this.model.lookAt(new THREE.Vector3(0,0, -1))
     
             
             const x = Math.sin( t*2 ) *radius //+ Math.cos( t*2 ) * 100 ;
-						const y = Math.cos( t * 10 ) //* 2  * elevation //+ Math.cos( t * 57 ) * 2 + 5;
+						const y = 0//Math.cos( t * 10 ) //* 2  * elevation //+ Math.cos( t * 57 ) * 2 + 5;
 						const z = Math.cos( t ) *radius //+ Math.sin( t  ) * 50; 
 
           
@@ -352,17 +357,17 @@ this.model.lookAt(new THREE.Vector3(0,0, -1))
 const racetrackShape = new THREE.Shape();
 
 
-racetrackShape.moveTo(-30, 0);
-racetrackShape.lineTo(-30, 20); 
-racetrackShape.lineTo(-20, 20);
-racetrackShape.lineTo(-20, 10);
-racetrackShape.lineTo(20, 10);
+
+racetrackShape.moveTo(30, 30);
+racetrackShape.moveTo(30, 30);
+racetrackShape.lineTo(30, 20); 
 racetrackShape.lineTo(20, 20);
-racetrackShape.lineTo(30, 20);
-racetrackShape.lineTo(30, 0);
-
-
+racetrackShape.lineTo(20, 10);
+racetrackShape.lineTo(-20, 10);
+racetrackShape.lineTo(-20, 20);
+racetrackShape.lineTo(-30, 20);
 racetrackShape.lineTo(-30, 0);
+racetrackShape.lineTo(30, 0);
 
  
 
@@ -403,7 +408,7 @@ racetrackShape.lineTo(-30, 0);
     )
     this.scene2.add(this.tube);
     //this.tube.scale.set(1,0,0);
-    this.tube.position.y =-30  
+    this.tube.position.y =-10  
     //this.tube.position.x =25
     //this.tube.material.wrapS =  THREE.RepeatWrapping;
     //this.tube.material.wrapT =  THREE.RepeatWrapping;
@@ -446,15 +451,15 @@ racetrackShape.lineTo(-30, 0);
           //}) 
           )
 
+this.sphere.scale.setScalar(5)
 
+this.scene2.add(this.sphere)
 
-
-
-
+this.sphere.position.z = 0
 
          
 
-          this.sphere.scale.setScalar(5)
+         
          
         
          
@@ -467,14 +472,17 @@ racetrackShape.lineTo(-30, 0);
  
           
  
-            new THREE.MeshBasicMaterial({
+            new THREE.MeshStandardMaterial({
  
-              map: this.resource2,
+              //map: this.resource1,
               side: THREE.DoubleSide,
-              transparent: true,
-              opacity: .5,
-             
- 
+              transparent: false,
+              opacity: 1,
+              displacementMap: this.resource2,
+              
+              displacementScale: 1,
+              displacementBias: 0,
+
             }) 
             
           )
@@ -534,7 +542,7 @@ racetrackShape.lineTo(-30, 0);
     this.scene2.add(this.sphereLeft);
 
 
-    this.sphereRight = this.sphere2.clone();
+    this.sphereRight = this.sphere.clone();
     this.sphereRight.isWall = true
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
 
@@ -542,7 +550,7 @@ racetrackShape.lineTo(-30, 0);
     this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
     this.objectsArray1.push(this.sphereRight)
-    //this.scene2.add(this.sphereRight);
+    this.scene2.add(this.sphereRight);
 
     /* this.scene2.remove(this.objectsArray1[223])
     this.scene2.remove(this.objectsArray1[219])
@@ -621,9 +629,9 @@ this.extrudeSettings.depth = this.movementSpeed
   } 
   
 
-this.camera.instance.position.copy(pos)
-this.camera.instance.lookAt(pos2)
-//this.model.lookAt(this.normal)
+//this.camera.instance.position.copy(pos)
+//this.camera.instance.lookAt(pos2)
+this.group.lookAt(pos2)
 
 
 
@@ -641,7 +649,7 @@ this.camera.instance.lookAt(pos2)
    
     //this.model.quaternion.copy(maxRotationAngle);
 
-this.model.rotation.y =  Math.PI +this.camera.azimuth * .2
+//this.model.rotation.y =  -Math.PI +this.camera.azimuth * .2
 this.model.rotation.z = Math.PI + this.camera.azimuth * .2//this.rotationSpeed;
 this.model.rotation.x = Math.PI + pos.y *.002
 
@@ -668,7 +676,7 @@ this.model.rotation.x = Math.PI + pos.y *.002
 
     if (this.arrowUpPressed) {
 
-      this.forwardVector = new THREE.Vector3(0, 0, -1);
+      this.forwardVector = new THREE.Vector3(0, 0, 1);
       this.forwardDirection = this.forwardVector.clone();
       this.forwardDirection.applyQuaternion(this.model.quaternion);
       this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
