@@ -408,7 +408,7 @@ racetrackShape.lineTo(30, 0); */
     )
     this.scene2.add(this.tube);
     //this.tube.scale.set(1,0,0);
-    this.tube.position.y =-10  
+    this.tube.position.y =-20  
     //this.tube.position.x =25
     //this.tube.material.wrapS =  THREE.RepeatWrapping;
     //this.tube.material.wrapT =  THREE.RepeatWrapping;
