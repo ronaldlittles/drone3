@@ -30,7 +30,7 @@ export default class Walls extends EventEmitter {
     this.mouse = this.experience.mouse;
 
     this.resource2 = this.resources.items.road;
-    this.resource1 = this.resources.items.road;
+    this.resource1 = this.resources.items.forrest;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
     this.resource5 = this.resources.items.fenceModel;
@@ -358,16 +358,16 @@ const racetrackShape = new THREE.Shape();
 
 
 
-racetrackShape.moveTo(30, 30);
-racetrackShape.moveTo(30, 30);
-racetrackShape.lineTo(30, 20); 
-racetrackShape.lineTo(20, 20);
-racetrackShape.lineTo(20, 10);
-racetrackShape.lineTo(-20, 10);
+racetrackShape.moveTo(0, -40);
+
+racetrackShape.lineTo(2,-40); 
+racetrackShape.lineTo(0, 40);
+racetrackShape.lineTo(0, -40);
+/* racetrackShape.lineTo(-20, 10);
 racetrackShape.lineTo(-20, 20);
 racetrackShape.lineTo(-30, 20);
 racetrackShape.lineTo(-30, 0);
-racetrackShape.lineTo(30, 0);
+racetrackShape.lineTo(30, 0); */
 
  
 
@@ -391,7 +391,7 @@ racetrackShape.lineTo(30, 0);
     
  
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
-    this.tube = new THREE.Mesh(this.tubeGeo,   new THREE.MeshBasicMaterial({
+    this.tube = new THREE.Mesh(this.tubeGeo,  /*  new THREE.MeshBasicMaterial({
 
       map: this.resource1,
        //envMap: this.scene2.background,
@@ -402,9 +402,9 @@ racetrackShape.lineTo(30, 0);
           //vertexColors: true,
 
     
-    })  
+    })   */
 
-    //this.shaderMaterial
+    this.shaderMaterial
     )
     this.scene2.add(this.tube);
     //this.tube.scale.set(1,0,0);
@@ -438,17 +438,17 @@ racetrackShape.lineTo(30, 0);
 
            
 
-            /*     new THREE.MeshBasicMaterial({
+                 new THREE.MeshBasicMaterial({
               //matcap: this.resource1,  
              map: this.resource1, 
              side: THREE.DoubleSide,
              transparent: true,
              opacity: .3,
           
-                vertexColors: false, */
+                vertexColors: false, 
    
-           this.shaderMaterial
-          //}) 
+           //this.shaderMaterial
+          }) 
           )
 
 this.sphere.scale.setScalar(5)
@@ -629,8 +629,8 @@ this.extrudeSettings.depth = this.movementSpeed
   } 
   
 
-//this.camera.instance.position.copy(pos)
-//this.camera.instance.lookAt(pos2)
+this.camera.instance.position.copy(pos)
+this.camera.instance.lookAt(pos2)
 this.group.lookAt(pos2)
 
 
