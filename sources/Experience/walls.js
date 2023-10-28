@@ -217,16 +217,16 @@ export default class Walls extends EventEmitter {
           getPointAt2(t) {
 
             const elevation = 15.5;
-            const radius = 150;
+            const radius = 155;
             const vector = new THREE.Vector3();
            
             const PI2 = Math.PI * 2;
             t = t * PI2;
     
             
-            const x = Math.sin( t*2 ) *radius //+ Math.cos( t*2 ) * 100 ;
+            const x = Math.sin( t*2 ) *radius  //+ Math.cos( t*2 ) * 100 ;
 						const y = 0//Math.cos( t * 10 ) //* 2  * elevation //+ Math.cos( t * 57 ) * 2 + 5;
-						const z = Math.cos( t ) *radius //+ Math.sin( t  ) * 50; 
+						const z = Math.cos( t  ) *radius// *Math.cos( t  ) ; 
 
           
          
@@ -260,6 +260,8 @@ export default class Walls extends EventEmitter {
     
         this.texture = new THREE.VideoTexture(this.video);
 
+
+       
       this.shaderMaterial = new THREE.ShaderMaterial({
          extensions: {
           derivatives: "#extension GL_OES_standard_derivatives : enable"
@@ -269,22 +271,26 @@ export default class Walls extends EventEmitter {
       transparent: true,
       
     
+
       uniforms: {
 
-          resolution: { value: new THREE.Vector4() },
-          progress: { value: 1.45 },
+          
 					time: { value: null },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
 					uTexture: { value: this.resource2 },
-					uDots: { value: this.resource2 },
+					
           azimuth: { value: this.camera.azimuth},
-      
+         //tangent: { value: new THREE.Vector2(this.tangent) },
       },
 
       vertexShader: vertexShader.vertexShader,
       fragmentShader: fragmentShader.fragmentShader,
 
     });
+
+  
+    this.shaderMaterial.uniforms.needsUpdate = true 
+    
 
     this.resource1.wrapS = THREE.RepeatWrapping;
 
@@ -350,8 +356,8 @@ export default class Walls extends EventEmitter {
         const t = i / (numPoints - 1);
         this.spline.points.push(this.getPointAt2(t));
     }
-    const pos3 = this.spline.getSpacedPoints(100)
-
+   
+   
  
   
 const racetrackShape = new THREE.Shape();
@@ -434,25 +440,30 @@ racetrackShape.lineTo(30, 0); */
 
            
 
-           new THREE.BoxGeometry(7.0,8.0,.25),
+           new THREE.BoxGeometry(100,100,100),
 
            
 
-                 new THREE.MeshBasicMaterial({
+                 new THREE.MeshLambertMaterial({
               //matcap: this.resource1,  
-             map: this.resource1, 
+             map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .3,
-          
-                vertexColors: false, 
+             opacity: 1,
+             displacementMap:this.resource1,
+              
+             displacementScale: 10,
+             displacementBias: 0,
+                vertexColors: false,
+                normalMap:this.resource2,
+                normalScale: new THREE.Vector2(10, 10),
+                normalMapType: THREE.TangentSpaceNormalMap,
    
            //this.shaderMaterial
           }) 
           )
 
-this.sphere.scale.setScalar(5)
-
+this.sphere.scale.setScalar(45)
 this.scene2.add(this.sphere)
 
 this.sphere.position.z = 0
@@ -472,23 +483,23 @@ this.sphere.position.z = 0
  
           
  
-            new THREE.MeshStandardMaterial({
+            new THREE.MeshLambertMaterial({
  
-              //map: this.resource1,
+              map: this.resource1,
               side: THREE.DoubleSide,
-              transparent: false,
+              transparent: true,
               opacity: 1,
-              displacementMap: this.resource2,
+              /*  displacementMap: this.texture,
               
-              displacementScale: 1,
-              displacementBias: 0,
+              displacementScale: 2.3,
+              displacementBias: 0,  */
 
             }) 
             
           )
 
           //this.sphere2.rotation.x = Math.PI/2*.01
-          this.sphere2.scale.setScalar(7)
+          this.sphere2.scale.setScalar(6)
 
          
     const numObjects = 150; // Number of objects to place on each side
@@ -506,7 +517,7 @@ this.sphere.position.z = 0
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
-   
+    //this.shaderMaterial.uniforms.tangent = this.tangent
    
      
      
@@ -542,7 +553,7 @@ this.sphere.position.z = 0
     this.scene2.add(this.sphereLeft);
 
 
-    this.sphereRight = this.sphere.clone();
+    this.sphereRight = this.sphere2.clone();
     this.sphereRight.isWall = true
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
 
@@ -552,7 +563,7 @@ this.sphere.position.z = 0
     this.objectsArray1.push(this.sphereRight)
     this.scene2.add(this.sphereRight);
 
-    /* this.scene2.remove(this.objectsArray1[223])
+     this.scene2.remove(this.objectsArray1[223])
     this.scene2.remove(this.objectsArray1[219])
     this.scene2.remove(this.objectsArray1[226])
     this.scene2.remove(this.objectsArray1[79])
@@ -560,7 +571,7 @@ this.sphere.position.z = 0
     this.scene2.remove(this.objectsArray1[73])
     this.scene2.remove(this.objectsArray1[69])
     this.scene2.remove(this.objectsArray1[229])
-    this.scene2.remove(this.objectsArray1[225]) */
+    this.scene2.remove(this.objectsArray1[225]) 
     //this.scene2.remove(this.objectsArray1[219])
 
 
@@ -572,6 +583,10 @@ this.sphere.position.z = 0
   
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
 
+    //this.shaderMaterial.uniforms.tangent = this.tangent
+
+    
+
     this.movementSpeed += .1;
 this.extrudeSettings.depth = this.movementSpeed
 
@@ -582,7 +597,7 @@ this.extrudeSettings.depth = this.movementSpeed
 
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
-
+  
     const tangent = this.spline.getTangentAt(t);
 
     //this.model.rotation.y = Math.PI + tangent.x -tangent.z
@@ -628,10 +643,11 @@ this.extrudeSettings.depth = this.movementSpeed
       });*/
   } 
   
+//Camera Move
 
 this.camera.instance.position.copy(pos)
 this.camera.instance.lookAt(pos2)
-this.group.lookAt(pos2)
+
 
 
 
