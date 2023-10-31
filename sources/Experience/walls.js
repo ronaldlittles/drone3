@@ -267,7 +267,7 @@ export default class Walls extends EventEmitter {
           derivatives: "#extension GL_OES_standard_derivatives : enable"
         }, 
       side: THREE.DoubleSide,
-      //VertexColors: true,
+      VertexColors: true,
       //transparent: true,
       
     
@@ -288,8 +288,7 @@ export default class Walls extends EventEmitter {
 
     });
 
-  console.log(this.angle)
-    //this.shaderMaterial.uniforms.tangent.value.needsUpdate = true
+  
 
     this.resource1.wrapS = THREE.RepeatWrapping;
 
@@ -363,16 +362,12 @@ const racetrackShape = new THREE.Shape();
 
 
 
-racetrackShape.moveTo(0, -40);
+racetrackShape.moveTo(0, -60);
 
-racetrackShape.lineTo(2,-40); 
-racetrackShape.lineTo(0, 40);
-racetrackShape.lineTo(0, -40);
-/* racetrackShape.lineTo(-20, 10);
-racetrackShape.lineTo(-20, 20);
-racetrackShape.lineTo(-30, 20);
-racetrackShape.lineTo(-30, 0);
-racetrackShape.lineTo(30, 0); */
+racetrackShape.lineTo(2,-60); 
+racetrackShape.lineTo(0, 60);
+racetrackShape.lineTo(0, -60);
+
 
  
 
@@ -384,7 +379,7 @@ racetrackShape.lineTo(30, 0); */
 
     this.extrudeSettings = {
       steps: 500,
-     depth: 20,
+      depth: 20,
       bevelEnabled: false,
       bevelThickness: 1,
       bevelSize: .5,
@@ -396,9 +391,9 @@ racetrackShape.lineTo(30, 0); */
     
  
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
-    this.tube = new THREE.Mesh(this.tubeGeo,  /*  new THREE.MeshBasicMaterial({
+    this.tube = new THREE.Mesh(this.tubeGeo,   /* new THREE.MeshBasicMaterial({
 
-      map: this.resource1,
+      map: this.texture,
        //envMap: this.scene2.background,
        side: THREE.DoubleSide,
        transparent: true,
@@ -407,7 +402,7 @@ racetrackShape.lineTo(30, 0); */
           //vertexColors: true,
 
     
-    })   */
+    })    */
 
     this.shaderMaterial
     )
@@ -415,11 +410,11 @@ racetrackShape.lineTo(30, 0); */
     //this.tube.scale.set(1,0,0);
     this.tube.position.y =-20  
   //this.tube.rotation.x =-25
-    //this.tube.material.wrapS =  THREE.RepeatWrapping;
-    //this.tube.material.wrapT =  THREE.RepeatWrapping;
-    //this.tube.material.repeat.set(2.5,2.5)
+    /* this.tube.material.wrapS =  THREE.RepeatWrapping;
+    this.tube.material.wrapT =  THREE.RepeatWrapping;
+    this.tube.material.repeat.set(22.5,22.5) */
     
-     /*  this.tubeGeo.setAttribute(
+     /*    this.tubeGeo.setAttribute(
       "position",
       new THREE.BufferAttribute(this.positions, 3)
     );
@@ -430,10 +425,10 @@ racetrackShape.lineTo(30, 0); */
     this.tubeGeo.setAttribute(
       "size",
       new THREE.BufferAttribute(this.sizes, 1)
-    );  */
+    );    */
 
         
-   console.log(this.tube)
+   
 
           this.sphere = new THREE.Mesh(
 
@@ -443,20 +438,18 @@ racetrackShape.lineTo(30, 0); */
 
            
 
-                 new THREE.MeshMatcapMaterial({
-              //matcap: this.resource1,  
-             map: this.resource2, 
+                   new THREE.MeshStandardMaterial({
+               
+            map: this.texture, 
              side: THREE.DoubleSide,
              transparent: true,
              opacity: .2,
-            /*  displacementMap:this.resource2,
-              
-             displacementScale: 10,
-             displacementBias: 0, */
-                vertexColors: false,
+           
+            vertexColors: false, 
                
    
            //this.shaderMaterial
+
           }) 
           )
 
@@ -480,16 +473,17 @@ this.sphere.position.z = 0
  
           
  
-            new THREE.MeshStandardMaterial({
- 
-              map: this.resource1,
+            new THREE.MeshNormalMaterial({
+              //normalMap: this.resource1,
+              //normalScale: new THREE.Vector2( .001, .001 ),
+              bumpMap: this.resource1,
+              //bumpScale: new THREE.Vector2( 1, 1 ),
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: 1,
-              /*  displacementMap: this.texture,
-              
-              displacementScale: 2.3,
-              displacementBias: 0,  */
+              opacity: 1.0,
+              //color: 'purple',
+              //vertexColors: THREE.VertexColors,
+              //vertexColors: true
 
             }) 
             
