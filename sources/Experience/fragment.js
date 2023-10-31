@@ -15,7 +15,7 @@ const fragmentShader = {
      uniform float azimuth;
       uniform sampler2D uTexture;
       uniform float time;
-      uniform vec2 tangent;
+      uniform float tangent;
 
       void main() {
        
@@ -23,21 +23,25 @@ const fragmentShader = {
 
        
 
-        vec2 newTangent = vec2(tangent.x, tangent.y);
+        //vec2 newTangent = vec2(tangent.y+time, tangent.x+time);
 
-       float angle = azimuth;
+    float angle = azimuth;
 
-       vec2 newUV = vec2( fract(vUv.y *.03  ), 1.0 - vUv.x *.0006 );
+       vec2 newUV = vec2( fract(vUv.y *.03+tangent+angle) , 1.0 - fract(vUv.x*.0006+tangent ) );
 
-        vec4 tt = texture2D(uTexture,newUV+newTangent);
+       newUV.x +=  angle;
+       //newUV.y +=  newTangent.y*2.0 ;
+       vec2 center = vec2(0.5, 0.5);
+
+        vec4 tt = texture2D(uTexture, newUV); 
  
        
         
        
 
-       vec3 color = vec3(0.0);
+       vec3 color = vec3(.0);
         
-        gl_FragColor = mix( vec4(tt.xyz,1.0) , vec4(color,.5),.8);
+        gl_FragColor = mix( vec4(tt.xyz,angle) , vec4(color,1.0),.8);
       
        
       } 

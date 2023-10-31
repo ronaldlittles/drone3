@@ -35,7 +35,7 @@ export default class Walls extends EventEmitter {
     this.resource4 = this.resources.items.buildingModel;
     this.resource5 = this.resources.items.fenceModel;
 
-   console.log(this.camera)
+   console.log(this.tangent)
 
     this.setModel();
    
@@ -135,7 +135,7 @@ export default class Walls extends EventEmitter {
     this.camera.instance.add(this.model)
     this.model.translateZ(-12)
     this.model.translateY(-1)
-
+   
     this.meshes = [];
           this.model.traverse((object) => {
             if (object.isMesh) {
@@ -224,9 +224,9 @@ export default class Walls extends EventEmitter {
             t = t * PI2;
     
             
-            const x = Math.sin( t*2 ) *radius  //+ Math.cos( t*2 ) * 100 ;
-						const y = 0//Math.cos( t * 10 ) //* 2  * elevation //+ Math.cos( t * 57 ) * 2 + 5;
-						const z = Math.cos( t  ) *radius// *Math.cos( t  ) ; 
+            const x = Math.sin( t*2 ) *radius //+ Math.cos( t*2 ) * 100 ;
+						const y = Math.cos( t * 10 )//+10//  * elevation //+ Math.cos( t * 57 ) * 2 + 5;
+						const z = Math.cos( t  ) *radius// + Math.cos( t  ) ; 
 
           
          
@@ -268,7 +268,7 @@ export default class Walls extends EventEmitter {
         }, 
       side: THREE.DoubleSide,
       //VertexColors: true,
-      transparent: true,
+      //transparent: true,
       
     
 
@@ -280,7 +280,7 @@ export default class Walls extends EventEmitter {
 					uTexture: { value: this.resource2 },
 					
           azimuth: { value: this.camera.azimuth},
-         //tangent: { value: new THREE.Vector2(this.tangent) },
+         tangent: { value: this.angle },
       },
 
       vertexShader: vertexShader.vertexShader,
@@ -288,15 +288,14 @@ export default class Walls extends EventEmitter {
 
     });
 
-  
-    this.shaderMaterial.uniforms.needsUpdate = true 
-    
+  console.log(this.angle)
+    //this.shaderMaterial.uniforms.tangent.value.needsUpdate = true
 
     this.resource1.wrapS = THREE.RepeatWrapping;
 
     this.resource1.wrapT = THREE.RepeatWrapping;
 
-    this.resource1.repeat.set(.08,.05) 
+    this.resource1.repeat.set(1,1) 
 
     //this.resource1.rotation = Math.PI / 2;
 
@@ -415,7 +414,7 @@ racetrackShape.lineTo(30, 0); */
     this.scene2.add(this.tube);
     //this.tube.scale.set(1,0,0);
     this.tube.position.y =-20  
-    //this.tube.position.x =25
+  //this.tube.rotation.x =-25
     //this.tube.material.wrapS =  THREE.RepeatWrapping;
     //this.tube.material.wrapT =  THREE.RepeatWrapping;
     //this.tube.material.repeat.set(2.5,2.5)
@@ -444,26 +443,24 @@ racetrackShape.lineTo(30, 0); */
 
            
 
-                 new THREE.MeshLambertMaterial({
+                 new THREE.MeshMatcapMaterial({
               //matcap: this.resource1,  
              map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: 1,
-             displacementMap:this.resource1,
+             opacity: .2,
+            /*  displacementMap:this.resource2,
               
              displacementScale: 10,
-             displacementBias: 0,
+             displacementBias: 0, */
                 vertexColors: false,
-                normalMap:this.resource2,
-                normalScale: new THREE.Vector2(10, 10),
-                normalMapType: THREE.TangentSpaceNormalMap,
+               
    
            //this.shaderMaterial
           }) 
           )
 
-this.sphere.scale.setScalar(45)
+this.sphere.scale.setScalar(145)
 this.scene2.add(this.sphere)
 
 this.sphere.position.z = 0
@@ -483,7 +480,7 @@ this.sphere.position.z = 0
  
           
  
-            new THREE.MeshLambertMaterial({
+            new THREE.MeshStandardMaterial({
  
               map: this.resource1,
               side: THREE.DoubleSide,
@@ -517,7 +514,7 @@ this.sphere.position.z = 0
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
-    //this.shaderMaterial.uniforms.tangent = this.tangent
+    
    
      
      
@@ -552,11 +549,11 @@ this.sphere.position.z = 0
     this.objectsArray1.push(this.sphereLeft)
     this.scene2.add(this.sphereLeft);
 
-
+console.log(this.positionRight.y)
     this.sphereRight = this.sphere2.clone();
     this.sphereRight.isWall = true
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
-
+  //this.sphereRight.position.y = this.positionRight.y  + 10
 
     this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
@@ -583,7 +580,7 @@ this.sphere.position.z = 0
   
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
 
-    //this.shaderMaterial.uniforms.tangent = this.tangent
+   
 
     
 
@@ -599,6 +596,8 @@ this.extrudeSettings.depth = this.movementSpeed
     const pos2 = this.spline.getPointAt(t2);
   
     const tangent = this.spline.getTangentAt(t);
+
+    this.angle = Math.atan2(tangent.x , tangent.z );
 
     //this.model.rotation.y = Math.PI + tangent.x -tangent.z
   
@@ -644,14 +643,22 @@ this.extrudeSettings.depth = this.movementSpeed
   } 
   
 //Camera Move
-
-this.camera.instance.position.copy(pos)
+ this.camera.instance.position.copy(pos)
 this.camera.instance.lookAt(pos2)
+//this.camera.instance.rotation.set(tangent.x*.1,pos.y,tangent.z*.1)
+//this.camera.instance.position.y = 30.5
 
 
 
 
 
+
+
+
+this.shaderMaterial.uniforms.tangent.value = this.angle
+
+
+console.log(this.shaderMaterial.uniforms.tangent.value )
 //const maxRotationAngle = THREE.MathUtils.degToRad(45);
 
  const angleToRotate = THREE.MathUtils.degToRad(-45)
@@ -665,9 +672,9 @@ this.camera.instance.lookAt(pos2)
    
     //this.model.quaternion.copy(maxRotationAngle);
 
-//this.model.rotation.y =  -Math.PI +this.camera.azimuth * .2
+this.model.rotation.y =  -Math.PI +this.camera.azimuth * .2
 this.model.rotation.z = Math.PI + this.camera.azimuth * .2//this.rotationSpeed;
-this.model.rotation.x = Math.PI + pos.y *.002
+this.model.rotation.x = -Math.PI + pos.y *.019
 
   this.forwardVector2 = new THREE.Vector3(1, 0, 0);
     this.forwardDirection2 = this.forwardVector2.clone();
