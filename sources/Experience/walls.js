@@ -105,7 +105,7 @@ export default class Walls extends EventEmitter {
     this.model.position.set(0, 2.5,-10);
     this.model.rotation.set(0, 0, 0);
     this.model.scale.set(200,10,600)
-    this.model.scale.setScalar(10);
+    this.model.scale.setScalar(13);
     this.model.castShadow = true;
     this.model.receiveShadow = true;
     //this.model.upVector = new THREE.Vector3(0, 1, 0);
@@ -294,7 +294,8 @@ export default class Walls extends EventEmitter {
      
    side: THREE.DoubleSide,
    //VertexColors: true,
-   //transparent: true,
+   transparent: true,
+   opacity: .4,
    
  
 
@@ -491,19 +492,19 @@ racetrackShape3.lineTo(-16, 62);
 
            
 
-                   new THREE.MeshStandardMaterial({
+                   /*new THREE.MeshStandardMaterial({
                
-            map: this.texture, 
+            map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
              opacity: .2,
            
-            //vertexColors: false, 
+            //vertexColors: false, */
                
    
-           //this.shaderMaterial
+           this.shaderMaterial2
 
-          }) 
+          //}) 
           )
 
 this.sphere.scale.setScalar(145)
@@ -643,8 +644,8 @@ let speed = 2.0;
   
 
  
-  const t = speed * this.time.elapsed/100
-  const t2 = speed * this.time.elapsed/100  + .05;
+  const t =  this.time.elapsed/100
+  const t2 =  this.time.elapsed/100  + .05;
   
    
   

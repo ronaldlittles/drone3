@@ -33,7 +33,7 @@ const fragmentShader = {
 
         vec3 color = vec3(0.5,0.0,0.5) ;
         
-        gl_FragColor = mix( vec4(tt.xyz,angle) , vec4(color,1.0),.8);
+        gl_FragColor = mix( vec4(tt.xyz,.5) , vec4(color,.6),1.8);
       
        
       } 
