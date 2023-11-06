@@ -35,7 +35,7 @@ export default class Box {
     this.resource1 = this.resources.items.smoke;
     this.resource2 = this.resources.items.smoke;
     this.resource3 = this.resources.items.sceneModel
-    this.setLights()
+    //this.setLights()
     this.setCity() 
     this.setBox()
     //this.setFlower()
@@ -228,7 +228,7 @@ export default class Box {
 
     console.log(myText)
     this.myText = myText;
-    this.scene2.add(this.myText);
+    //this.scene2.add(this.myText);
 
     this.myText.text =
       "the brain is the strongest muscle of the body.";
@@ -271,7 +271,7 @@ export default class Box {
 
 
     this.myText4 = new Text();
-    this.scene2.add(this.myText4);
+    //this.scene2.add(this.myText4);
 
     this.myText4.text =
       "wherever you go there you are";

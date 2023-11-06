@@ -2,7 +2,7 @@ const fragmentShader = {
   fragmentShader: `
 
 
-      
+      varying vec3 newPosition;
       varying vec2 vUv;
       uniform float azimuth;
       uniform sampler2D uTexture;
@@ -31,7 +31,7 @@ const fragmentShader = {
         
        
 
-        vec3 color = vec3(0.5,0.0,0.5);
+        vec3 color = vec3(0.5,0.0,0.5) ;
         
         gl_FragColor = mix( vec4(tt.xyz,angle) , vec4(color,1.0),.8);
       

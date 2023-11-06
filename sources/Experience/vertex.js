@@ -4,9 +4,7 @@ const vertexShader = {
 
   vertexShader: `
 
-  vec3 sphere(vec3 p, float r) {
-    return normalize(p) * r;
-  }
+  
 
   uniform float time;
   varying vec2 vUv;
@@ -14,57 +12,43 @@ const vertexShader = {
   uniform vec2 pixels;
   
   varying vec3 vNormal;
-  attribute vec3 positions;
-  attribute vec3 aRandom;
-  attribute float size;
+  //attribute vec3 positions;
+  
+  varying vec3 newPosition;
 
   float PI = 3.141592653589793238;
 
-  vec3 figure8(float progress){
-
-    float angle = PI * 2.;
-
-    vec3 pos = vec3(0.);
-
-    pos.x = sin(angle * progress) * cos(angle * progress);
-
-    //pos.y = sin(angle * progress) * cos(angle * progress);
-
-    pos.z = sin(angle * progress);
-
-    return pos;
-
-  }
-
-  vec3 getPos(float progress){
-
-    float angle = PI * 2.;
   
-    vec3 pos = vec3(0.);
-    pos.x = sin(angle * progress);
-    //pos.y = cos(angle * progress);
-    pos.z = 1.0 - cos(angle *progress);
-   return pos;
-  }
   
  
 
   void main() {
-    
+
     vUv = uv;
-    vNormal = normal;
 
-    float progress = fract(time*0.01 + aRandom.x );
+    float radius = 2.0;
+      //float y;
 
-    vec3 pos = position;
+    float t =  position.x /(2.0 * PI * radius );
+     
+   /*  if( t >= 3.0 * PI / 2.0 ){
+      
+    y = radius * sin((t - PI / 2.0) / PI);
 
-    progress += 1.5;
+    } else {
 
+      y = 0.0;
+
+    } */
    
-  
 
-    vec4 mvPosition = modelViewMatrix * vec4(pos, 1. );
-    //gl_PointSize = .5*(10. + 50.*size) ;
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0 );
+
+    mvPosition.y += sin(t*2.0 ) * radius ;
+    
+    
+    
+
     gl_Position = projectionMatrix * mvPosition;
 
   
