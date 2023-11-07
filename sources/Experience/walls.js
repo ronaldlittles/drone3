@@ -403,19 +403,19 @@ racetrackShape.lineTo(-2, -60);
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -62);
-racetrackShape2.lineTo(16, -62);  
-racetrackShape2.lineTo(16, -68);   
-racetrackShape2.lineTo(-16, -68);  
-racetrackShape2.lineTo(-16, -62); 
+racetrackShape2.lineTo(6, -62);  
+racetrackShape2.lineTo(6, -68);   
+racetrackShape2.lineTo(-6, -68);  
+racetrackShape2.lineTo(-6, -62); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 62);
-racetrackShape3.lineTo(16, 62);  
-racetrackShape3.lineTo(16, 68);   
-racetrackShape3.lineTo(-16, 68);  
-racetrackShape3.lineTo(-16, 62); 
+racetrackShape3.lineTo(6, 62);  
+racetrackShape3.lineTo(6, 68);   
+racetrackShape3.lineTo(-6, 68);  
+racetrackShape3.lineTo(-6, 62); 
 
     
 
@@ -443,7 +443,7 @@ racetrackShape3.lineTo(-16, 62);
     )
     this.scene2.add(this.tube);
     
-    this.tube.position.y =-16  
+    this.tube.position.y =-4  
   
 
     
@@ -488,23 +488,27 @@ racetrackShape3.lineTo(-16, 62);
 
            
 
-           new THREE.BoxGeometry(64,64,64),
+           new THREE.BoxGeometry(128,128,128),
 
            
 
-                   /*new THREE.MeshStandardMaterial({
+                   new THREE.MeshNormalMaterial({
                
-            map: this.resource2, 
+            map: this.renderer.renderTarget.texture, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .2,
+             opacity: .5,
+             bumpMap: this.renderer.renderTarget.texture,
+             bumpmapScale: 1.0,
+
+
            
-            //vertexColors: false, */
+            //vertexColors: false, 
                
    
-           this.shaderMaterial2
+           //this.shaderMaterial2
 
-          //}) 
+          }) 
           )
 
 this.sphere.scale.setScalar(145)
@@ -626,7 +630,7 @@ this.sphere.position.z = 0
   update() {
   
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
-    this.shaderMaterial2.uniforms.time.value = this.time.elapsed * .5;
+    this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
    
 
     
@@ -712,7 +716,7 @@ let speed = 2.0;
  this.camera.instance.position.copy(pos)
 this.camera.instance.lookAt(pos2)
 //this.camera.instance.rotation.set(tangent.x*.1,pos.y,tangent.z*.1)
-//this.camera.instance.position.y = 30.5
+this.camera.instance.position.y = 10.5
 
 
 this.model.rotation.y =  -Math.PI +this.camera.azimuth * .2
