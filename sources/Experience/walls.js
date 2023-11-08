@@ -52,6 +52,7 @@ export default class Walls extends EventEmitter {
     this.depth = 50;
     this.rotationSpeed = .005;
     this.movementSpeed = .1;
+   
   
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
@@ -264,7 +265,9 @@ export default class Walls extends EventEmitter {
     
         this.texture = new THREE.VideoTexture(this.video);
 
+        this.aLength = []
 
+        
        
       this.shaderMaterial = new THREE.ShaderMaterial({
        
@@ -280,7 +283,7 @@ export default class Walls extends EventEmitter {
 					time: { value: null },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
 					uTexture: { value: this.resource2 },
-					
+					uLength: { value : this.aLength},
           azimuth: { value: this.camera.azimuth},
          tangent: { value: this.angle },
       },
@@ -304,7 +307,7 @@ export default class Walls extends EventEmitter {
        
        time: { value: null },
        uvScale: { value: new THREE.Vector2( 3.0, 3.0 ) },
-       uTexture: { value: this.resource1 },
+       uTexture: { value: this.renderer.renderTarget.texture },
        
        azimuth: { value: this.camera.azimuth},
       tangent: { value: this.angle },
@@ -376,10 +379,7 @@ export default class Walls extends EventEmitter {
 
    this.spline = new THREE.CatmullRomCurve3([]);
 
-   this.spline.bias = 1.0;
-   this.spline.tension = 1.0;
-  
-   
+
 
      for (let i = 0; i < numPoints; i++) {
         const t = i / (numPoints - 1);
@@ -387,7 +387,10 @@ export default class Walls extends EventEmitter {
     }
    
    
- this.curve = new FigureEightPolynomialKnot()
+ 
+ this.aLength.push(this.spline.points)
+
+ console.log(this.aLength)
   
 const racetrackShape = new THREE.Shape();
 
@@ -399,23 +402,24 @@ racetrackShape.lineTo(2,-60);
 racetrackShape.lineTo(0, 60);
 racetrackShape.lineTo(-2, -60);
 
+console.log(racetrackShape)
 
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -62);
-racetrackShape2.lineTo(6, -62);  
-racetrackShape2.lineTo(6, -68);   
-racetrackShape2.lineTo(-6, -68);  
-racetrackShape2.lineTo(-6, -62); 
+racetrackShape2.lineTo(30, -62);  
+racetrackShape2.lineTo(30, -68);   
+racetrackShape2.lineTo(-30, -68);  
+racetrackShape2.lineTo(-30, -62); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 62);
-racetrackShape3.lineTo(6, 62);  
-racetrackShape3.lineTo(6, 68);   
-racetrackShape3.lineTo(-6, 68);  
-racetrackShape3.lineTo(-6, 62); 
+racetrackShape3.lineTo(30, 62);  
+racetrackShape3.lineTo(30, 68);   
+racetrackShape3.lineTo(-30, 68);  
+racetrackShape3.lineTo(-30, 62); 
 
     
 
@@ -437,15 +441,17 @@ racetrackShape3.lineTo(-6, 62);
     this.tubeGeo2 = new THREE.ExtrudeGeometry(racetrackShape2, this.extrudeSettings);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
 
+   
+
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
     this.shaderMaterial
     )
     this.scene2.add(this.tube);
     
-    this.tube.position.y =-4  
+    this.tube.position.y =-14  
   
-
+   
     
     this.tube2 = new THREE.Mesh(this.tubeGeo2,   /*  new THREE.MeshBasicMaterial({
 
@@ -492,14 +498,16 @@ racetrackShape3.lineTo(-6, 62);
 
            
 
-                   new THREE.MeshNormalMaterial({
+                   new THREE.MeshStandardMaterial({
                
             map: this.renderer.renderTarget.texture, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .5,
-             bumpMap: this.renderer.renderTarget.texture,
-             bumpmapScale: 1.0,
+             opacity: .2,
+            /*  displacementMap: this.renderer.renderTarget.texture,
+             displacementScale: 1.0, */
+
+             
 
 
            
@@ -512,7 +520,7 @@ racetrackShape3.lineTo(-6, 62);
           )
 
 this.sphere.scale.setScalar(145)
-this.scene2.add(this.sphere)
+//this.scene2.add(this.sphere)
 
 this.sphere.position.z = 0
 
@@ -549,8 +557,15 @@ this.sphere.position.z = 0
           //this.sphere2.rotation.x = Math.PI/2*.01
           this.sphere2.scale.setScalar(6)
 
-         
-   /*  const numObjects = 150; // Number of objects to place on each side
+        
+
+
+
+
+
+
+
+     const numObjects = 150; // Number of objects to place on each side
     this.spacing = 30; // Adjust this value for spacing
     this.scaleFactor = 1.0;
 
@@ -580,14 +595,11 @@ this.sphere.position.z = 0
     this.offset = this.normal.clone().multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
 
     const angle = Math.atan2(this.tangent.x , this.tangent.z );
-    const angle2 = Math.atan2(this.model.position.x, this.camera.instance.position.x) */
+    const angle2 = Math.atan2(this.model.position.x, this.camera.instance.position.x) 
 
-    /* this.sphere2Clone = this.sphere2.clone()
-    this.sphere2Clone.position.copy(positionOnCurve.clone() )
-     
-    this.scene2.add(this.sphere2Clone) */
     
-   /*  this.positionLeft = positionOnCurve.clone().add(this.offset);
+    
+     this.positionLeft = positionOnCurve.clone().add(this.offset);
     this.positionRight = positionOnCurve.clone().sub(this.offset);
 
     this.sphereLeft = this.model2.clone();
@@ -608,8 +620,14 @@ this.sphere.position.z = 0
 
     this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
-    this.objectsArray1.push(this.sphereRight) */
+    this.objectsArray1.push(this.sphereRight) 
     //this.scene2.add(this.sphereRight);
+
+      /* this.sphere2Clone = this.sphere2.clone()
+      this.sphere2Clone.position.copy(positionOnCurve.clone() )
+           
+      this.scene2.add(this.sphere2Clone) */
+
 
     /*  this.scene2.remove(this.objectsArray1[223])
     this.scene2.remove(this.objectsArray1[219])
@@ -620,10 +638,10 @@ this.sphere.position.z = 0
     this.scene2.remove(this.objectsArray1[69])
     this.scene2.remove(this.objectsArray1[229])
     this.scene2.remove(this.objectsArray1[225])  */
-    //this.scene2.remove(this.objectsArray1[219])
+    
 
 
-    //} 
+    } 
 
         }
       
@@ -637,31 +655,14 @@ this.sphere.position.z = 0
 
  
 let currentPosition = 0; 
-let speed = 2.0; 
-
-
-  
-
-  
-  currentPosition = speed * this.time.elapsed/100;
-
-  
+let speed = 15.0; 
+let loopTime = 60;
 
  
-  const t =  this.time.elapsed/100
-  const t2 =  this.time.elapsed/100  + .05;
+  const t =  (speed + this.time.elapsed )/loopTime % 1;
+  const t2 =  (speed + this.time.elapsed + .05)/loopTime % 1;
   
    
-  
- 
-  
-
-
-
-    
-
-    
-
     
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
@@ -670,7 +671,11 @@ let speed = 2.0;
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    
+   
+    this.camera.instance.position.copy(pos).add(this.binormal)
+    this.camera.instance.lookAt(pos2)
+
+  //this.camera.instance.position.y = this.binormal.y * 10 + 10
   
    
 
@@ -712,11 +717,7 @@ let speed = 2.0;
       });*/
   //} 
   
-//Camera Move
- this.camera.instance.position.copy(pos)
-this.camera.instance.lookAt(pos2)
-//this.camera.instance.rotation.set(tangent.x*.1,pos.y,tangent.z*.1)
-this.camera.instance.position.y = 10.5
+
 
 
 this.model.rotation.y =  -Math.PI +this.camera.azimuth * .2
