@@ -265,6 +265,7 @@ export default class Walls extends EventEmitter {
     
         this.texture = new THREE.VideoTexture(this.video);
 
+       
         this.aLength = []
 
         
@@ -275,15 +276,14 @@ export default class Walls extends EventEmitter {
       //VertexColors: true,
       //transparent: true,
       
-    
-
+      
       uniforms: {
 
           
 					time: { value: null },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
 					uTexture: { value: this.resource2 },
-					uLength: { value : this.aLength},
+					uLength: { type: 'float', value : this.aLength},
           azimuth: { value: this.camera.azimuth},
          tangent: { value: this.angle },
       },
@@ -377,20 +377,21 @@ export default class Walls extends EventEmitter {
 
     const numPoints = 300; 
 
-   this.spline = new THREE.CatmullRomCurve3([]);
-
-
-
-     for (let i = 0; i < numPoints; i++) {
+  
+    this.spline = new THREE.CatmullRomCurve3([]);
+    
+    for (let i = 0; i < numPoints; i++) {
         const t = i / (numPoints - 1);
         this.spline.points.push(this.getPointAt2(t));
     }
+    
+  
    
+    
+    this.aLength.push(this.spline.points)
    
- 
- this.aLength.push(this.spline.points)
-
- console.log(this.aLength)
+    
+   
   
 const racetrackShape = new THREE.Shape();
 
@@ -407,19 +408,19 @@ console.log(racetrackShape)
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -62);
-racetrackShape2.lineTo(30, -62);  
-racetrackShape2.lineTo(30, -68);   
-racetrackShape2.lineTo(-30, -68);  
-racetrackShape2.lineTo(-30, -62); 
+racetrackShape2.lineTo(20, -62);  
+racetrackShape2.lineTo(20, -68);   
+racetrackShape2.lineTo(-20, -68);  
+racetrackShape2.lineTo(-20, -62); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 62);
-racetrackShape3.lineTo(30, 62);  
-racetrackShape3.lineTo(30, 68);   
-racetrackShape3.lineTo(-30, 68);  
-racetrackShape3.lineTo(-30, 62); 
+racetrackShape3.lineTo(20, 62);  
+racetrackShape3.lineTo(20, 68);   
+racetrackShape3.lineTo(-20, 68);  
+racetrackShape3.lineTo(-20, 62); 
 
     
 
@@ -442,7 +443,10 @@ racetrackShape3.lineTo(-30, 62);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
 
    
+   this.tubeGeo.computeVertexNormals()
 
+   console.log(this.tubeGeo)
+   
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
     this.shaderMaterial
@@ -659,8 +663,8 @@ let speed = 15.0;
 let loopTime = 60;
 
  
-  const t =  (speed + this.time.elapsed )/loopTime % 1;
-  const t2 =  (speed + this.time.elapsed + .05)/loopTime % 1;
+  const t =  (speed + this.time.elapsed + this.time.delta)/loopTime % 1;
+  const t2 =  (speed + this.time.elapsed + this.time.delta + .05)/loopTime % 1;
   
    
     
@@ -672,7 +676,7 @@ let loopTime = 60;
     this.angle = Math.atan2(tangent.x , tangent.y );
 
    
-    this.camera.instance.position.copy(pos).add(this.binormal)
+    this.camera.instance.position.copy(pos)
     this.camera.instance.lookAt(pos2)
 
   //this.camera.instance.position.y = this.binormal.y * 10 + 10
@@ -718,11 +722,13 @@ let loopTime = 60;
   //} 
   
 
+this.q1 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth)
+this.q2 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth)
+this.model.quaternion.slerpQuaternions(this.q1, this.q2, .5)
 
-
-this.model.rotation.y =  -Math.PI +this.camera.azimuth * .2
-this.model.rotation.z = Math.PI + this.camera.azimuth * .2//this.rotationSpeed;
-this.model.rotation.x = -Math.PI + pos.y *.019
+//this.model.rotation.y =  -Math.PI +this.camera.azimuth * .2
+//this.model.rotation.z = Math.PI + this.camera.azimuth * .2//this.rotationSpeed;
+//this.model.rotation.x = -Math.PI + pos.y *.019
 
 
 
@@ -790,7 +796,7 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
   
       
       }
-   */
+   
      /*  if(mesh.name.includes('Drone_Camera')){
   
         this.droneCamera = mesh
