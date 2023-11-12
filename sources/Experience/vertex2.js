@@ -24,7 +24,7 @@ const vertexShader = {
   
     void main() {
   
-      vUv = uv;
+      vUv = uv + uvScale;
   
       float radius = 2.0;
         //float y;

@@ -62,7 +62,7 @@ export default class Box {
       "/assets/DarkSeazpos.jpg",
     ]);
 
-   this.scene2.background = this.cubeTexture
+   //this.scene2.background = this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
@@ -400,7 +400,7 @@ function nextText() {
       this.videoTexture = this.video.setVideoTexture() */
 
 
-let length =20;
+let length =500;
 this.boxes = [];
 
 this.boxGeometry = new THREE.CylinderGeometry(1, 1, 10.1, 32, 1);
@@ -435,14 +435,14 @@ for (let i = 0; i < length; i++) {
   this.box.position.set(
     Math.random() * 1200 - 600,
     0,
-    Math.random() * 1200 - 600
+    Math.random() * 2400 - 1200
   );
 
-  this.box.scale.set(100, 1, 100);
+  this.box.scale.set(10, 1, 10);
 
   this.box.castShadow = true
 
-  //this.scene2.add(this.box);
+  this.scene2.add(this.box);
 
   this.boxes.push(this.box);
 }

@@ -71,9 +71,9 @@ export default class Walls extends EventEmitter {
   this.arrowRightPressed = false;
   
    
+  this.noise = new ImprovedNoise()
   
-  
-    
+    this.noise.noise(Math.random(),Math.random(),Math.random())
     }
   
   
@@ -134,19 +134,17 @@ export default class Walls extends EventEmitter {
    
     
      this.camera.instance.add(this.model)
-    this.model.translateZ(-10)
-    this.model.translateY(-1) 
+    this.model.translateZ(8)
+    this.model.translateY(-5) 
    
-   /*  this.meshes = [];
+     this.meshes = [];
           this.model.traverse((object) => {
             if (object.isMesh) {
               this.meshes.push(object);
             } 
-          }); */
+          }); 
 
-        /*  this.meshes[0].material.map = this.resource1
-         this.meshes[0].material.transparent = true
-         this.meshes[0].material.opacity = .2 */
+        
 
         
         }
@@ -219,7 +217,7 @@ export default class Walls extends EventEmitter {
 
         const vector = new THREE.Vector3()
         const PI2 = Math.PI*2
-        const radius = 175;
+        const radius = 1000;
          
         t = t * PI2;
 
@@ -227,7 +225,7 @@ export default class Walls extends EventEmitter {
        
 
         const x = Math.sin( t * 2 )  * radius;
-        const y = 0
+        const y =  0//Math.sin(t*3 );
         const z = Math.cos( t )* radius;
 
 
@@ -282,10 +280,11 @@ export default class Walls extends EventEmitter {
           
 					time: { value: null },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
-					uTexture: { value: this.resource2 },
-					uLength: { type: 'float', value : this.aLength},
+					uTexture: { value: null },
+					uLength: { type: 'v3', value : null},
           azimuth: { value: this.camera.azimuth},
          tangent: { value: this.angle },
+         noise: { value: null}
       },
 
       vertexShader: vertexShader.vertexShader,
@@ -310,7 +309,7 @@ export default class Walls extends EventEmitter {
        uTexture: { value: this.renderer.renderTarget.texture },
        
        azimuth: { value: this.camera.azimuth},
-      tangent: { value: this.angle },
+       tangent: { value: this.angle },
    },
 
    vertexShader: vertexShader.vertexShader,
@@ -324,11 +323,11 @@ export default class Walls extends EventEmitter {
 
     //this.resource1.wrapT = THREE.RepeatWrapping;
 
-    this.resource1.repeat.set(.005,.005) 
+    this.resource1.repeat.set(.05,.005) 
 
     
 
-    //this.resource1.rotation = Math.PI / 2;
+    
 
     let number = 50;
     //this.geometry = new THREE.PlaneGeometry(2,2, number, number);
@@ -375,22 +374,19 @@ export default class Walls extends EventEmitter {
    
    
 
-    const numPoints = 300; 
+    const numPoints = 600; 
 
   
     this.spline = new THREE.CatmullRomCurve3([]);
     
     for (let i = 0; i < numPoints; i++) {
+
         const t = i / (numPoints - 1);
         this.spline.points.push(this.getPointAt2(t));
+
     }
-    
-  
-   
-    
-    this.aLength.push(this.spline.points)
-   
-    
+
+
    
   
 const racetrackShape = new THREE.Shape();
@@ -408,19 +404,19 @@ console.log(racetrackShape)
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -62);
-racetrackShape2.lineTo(20, -62);  
-racetrackShape2.lineTo(20, -68);   
-racetrackShape2.lineTo(-20, -68);  
-racetrackShape2.lineTo(-20, -62); 
+racetrackShape2.lineTo(10, -62);  
+racetrackShape2.lineTo(10, -68);   
+racetrackShape2.lineTo(-10, -68);  
+racetrackShape2.lineTo(-10, -62); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 62);
-racetrackShape3.lineTo(20, 62);  
-racetrackShape3.lineTo(20, 68);   
-racetrackShape3.lineTo(-20, 68);  
-racetrackShape3.lineTo(-20, 62); 
+racetrackShape3.lineTo(10, 62);  
+racetrackShape3.lineTo(10, 68);   
+racetrackShape3.lineTo(-10, 68);  
+racetrackShape3.lineTo(-10, 62); 
 
     
 
@@ -444,6 +440,7 @@ racetrackShape3.lineTo(-20, 62);
 
    
    this.tubeGeo.computeVertexNormals()
+   //this.tubeGeo.computeFrennet
 
    console.log(this.tubeGeo)
    
@@ -526,14 +523,7 @@ racetrackShape3.lineTo(-20, 62);
 this.sphere.scale.setScalar(145)
 //this.scene2.add(this.sphere)
 
-this.sphere.position.z = 0
 
-         
-
-         
-         
-        
-         
        
           this.sphere2 = new THREE.Mesh(
 
@@ -570,7 +560,7 @@ this.sphere.position.z = 0
 
 
      const numObjects = 150; // Number of objects to place on each side
-    this.spacing = 30; // Adjust this value for spacing
+    this.spacing = 10; // Adjust this value for spacing
     this.scaleFactor = 1.0;
 
     this.objectsArray1 = [];
@@ -614,7 +604,7 @@ this.sphere.position.z = 0
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle+ Math.PI/2 );
 
     this.objectsArray1.push(this.sphereLeft)
-    //this.scene2.add(this.sphereLeft);
+    this.scene2.add(this.sphereLeft);
 
 
     this.sphereRight = this.sphere2.clone();
@@ -654,17 +644,30 @@ this.sphere.position.z = 0
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
     this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
    
+    for (let i = 0; i < 300; i++) {
 
+      const totalPoints = this.spline.points.length
+
+      const rangeStart = Math.floor(totalPoints / 2) - 50;
+      const rangeEnd = Math.floor(totalPoints / 2) + 50;
+      const currentPoint = this.spline.points[i];
+
+      
     
-
+  
+     if ( currentPoint.x > rangeStart && currentPoint.x < rangeEnd){
+      this.shaderMaterial2.uniforms.uTexture.value = this.resource2
+     }
+    
+    }
  
 let currentPosition = 0; 
-let speed = 15.0; 
+let speed = 2.0; 
 let loopTime = 60;
 
  
-  const t =  (speed + this.time.elapsed + this.time.delta)/loopTime % 1;
-  const t2 =  (speed + this.time.elapsed + this.time.delta + .05)/loopTime % 1;
+  const t =  (speed *this.time.elapsed )/loopTime % 1;
+  const t2 =  (speed * this.time.elapsed + .03)/loopTime % 1;
   
    
     
@@ -676,7 +679,7 @@ let loopTime = 60;
     this.angle = Math.atan2(tangent.x , tangent.y );
 
    
-    this.camera.instance.position.copy(pos)
+    //this.camera.instance.position.copy(pos)
     this.camera.instance.lookAt(pos2)
 
   //this.camera.instance.position.y = this.binormal.y * 10 + 10
@@ -722,13 +725,19 @@ let loopTime = 60;
   //} 
   
 
-this.q1 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth)
-this.q2 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth)
-this.model.quaternion.slerpQuaternions(this.q1, this.q2, .5)
+this.q1 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth*.5)
+//this.q2 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth)
 
-//this.model.rotation.y =  -Math.PI +this.camera.azimuth * .2
-//this.model.rotation.z = Math.PI + this.camera.azimuth * .2//this.rotationSpeed;
-//this.model.rotation.x = -Math.PI + pos.y *.019
+this.q3 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), this.camera.azimuth*.5)
+//this.q4 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI)
+
+this.q5 = new THREE.Quaternion().multiplyQuaternions(this.q1,this.q3)
+//this.q6 = new THREE.Quaternion().multiplyQuaternions(this.q2,this.q4)
+
+//this.q7 = new THREE.Quaternion().slerpQuaternions(this.q5, this.q6, .5)
+
+this.model.quaternion.slerp(this.q5, .5)
+
 
 
 
@@ -738,9 +747,9 @@ this.shaderMaterial.uniforms.tangent.value = this.angle
 
 this.shaderMaterial2.uniforms.tangent.value = this.angle
 
-//const maxRotationAngle = THREE.MathUtils.degToRad(45);
 
-/*   const angleToRotate = THREE.MathUtils.degToRad(-45)
+
+   const angleToRotate = THREE.MathUtils.degToRad(-45)
  
    
     const desiredRotation = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), angleToRotate);
@@ -749,7 +758,7 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
     const maxRotation = new THREE.Quaternion().slerp(desiredRotation, 0.1); 
  
    
-    //this.model.quaternion.copy(maxRotationAngle);
+    
 
 
 
@@ -763,12 +772,12 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
     this.forwardDirection3.applyQuaternion(this.model.quaternion).add(maxRotation).normalize(); 
 
     if (this.arrowLeftPressed) {
-    //this.model.rotation.z -= Math.PI/4 //* tangent.x //this.rotationSpeed;
+    this.model.rotation.z -= Math.PI/4 //* tangent.x //this.rotationSpeed;
     
     this.model.position.add(this.forwardDirection2.multiplyScalar(this.movementSpeed));
     }
     if (this.arrowRightPressed) {
-    //this.model.rotation.z +=   Math.PI/4 //* tangent.x//this.rotationSpeed;
+    this.model.rotation.z +=   Math.PI/4 //* tangent.x//this.rotationSpeed;
    
     this.model.position.add(this.forwardDirection3.multiplyScalar(this.movementSpeed));
     } 
@@ -780,12 +789,12 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
       this.forwardDirection = this.forwardVector.clone();
       this.forwardDirection.applyQuaternion(this.model.quaternion);
       this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
-      //this.camera.instance.position.copy(pos)
+      this.camera.instance.position.copy(pos)
 
-    }  */
+    }  
 
    
-  /*   this.meshes.forEach((mesh) => {
+      this.meshes.forEach((mesh) => {
 
 
 
@@ -796,18 +805,12 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
   
       
       }
-   
-     /*  if(mesh.name.includes('Drone_Camera')){
+    
+    
   
-        this.droneCamera = mesh
-  
-        this.droneCamera.scale.x = this.data
-  
-        //console.log(this.data)
-  
-       } */
-  
-    //});
+    });
+
+
 
     
       }

@@ -4,9 +4,9 @@ const vertexShader = {
 
   vertexShader: `
 
-  #define ARRAY_LENGTH 300
+  /* #define ARRAY_LENGTH 300
 
-  uniform float uLength[ARRAY_LENGTH];
+  uniform float uLength[ARRAY_LENGTH]; */
 
   uniform float time;
   varying vec2 vUv;
@@ -21,7 +21,7 @@ const vertexShader = {
 
   float PI = 3.141592653589793238;
 
-  
+  uniform vec3 noise;
   
  
 
@@ -37,37 +37,29 @@ const vertexShader = {
 
     float t =  position.x /(2.0 * PI * radius );
      
-   /*  for (int i = 0; i < ARRAY_LENGTH; i++) {
+  /*  for (int i = 0; i < ARRAY_LENGTH; i++) {
 
 
       currentLength = uLength[i];
 
      
 
-    } */
+    }  */
       gl_Position = projectionMatrix * mvPosition;
+
+     /*  if(currentLength > 50.0 && currentLength <150.0) {
   
-  
+  mvPosition.y += 20.0 * sin(t*3.0 ) * radius ;
+
+  }else {
+
+
+    mvPosition.y += sin(t*3.0 ) * radius ;
+
+  } */
    
-    float ttt = texture2D(uTexture, uv).r;
+ 
 
-
-    //if( currentLength > 50.0 && currentLength < 150.0){
-      
-    
-
-   // } 
-    
-    /* else {
-
-      mvPosition.y += sin(t*3.0 ) * radius ;
-
-    }   */
-
-
-   
-    mvPosition.y += 10.5 * radius * sin((t - PI / 4.0) / PI);
-    
   
   }
 
