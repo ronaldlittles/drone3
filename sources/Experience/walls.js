@@ -126,7 +126,7 @@ export default class Walls extends EventEmitter {
 
     this.model3 = this.resource5.scene;
     
-    this.model3.scale.setScalar(10)
+    this.model3.scale.setScalar(20)
     //this.scene3.add(this.model3);
     this.model3.castShadow = true;
     this.model3.position.y = -300;
@@ -134,8 +134,8 @@ export default class Walls extends EventEmitter {
    
     
      this.camera.instance.add(this.model)
-    this.model.translateZ(8)
-    this.model.translateY(-5) 
+    this.model.translateZ(-16)
+    this.model.translateY(15) 
    
      this.meshes = [];
           this.model.traverse((object) => {
@@ -386,6 +386,17 @@ export default class Walls extends EventEmitter {
 
     }
 
+    this.spacedPoints = this.spline.getSpacedPoints(99)
+
+   
+
+    this.range = this.spline.points.slice(0, 10)
+
+    
+
+
+    
+
 
    
   
@@ -404,19 +415,19 @@ console.log(racetrackShape)
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -62);
-racetrackShape2.lineTo(10, -62);  
-racetrackShape2.lineTo(10, -68);   
-racetrackShape2.lineTo(-10, -68);  
-racetrackShape2.lineTo(-10, -62); 
+racetrackShape2.lineTo(15, -62);  
+racetrackShape2.lineTo(15, -68);   
+racetrackShape2.lineTo(-15, -68);  
+racetrackShape2.lineTo(-15, -62); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 62);
-racetrackShape3.lineTo(10, 62);  
-racetrackShape3.lineTo(10, 68);   
-racetrackShape3.lineTo(-10, 68);  
-racetrackShape3.lineTo(-10, 62); 
+racetrackShape3.lineTo(15, 62);  
+racetrackShape3.lineTo(15, 68);   
+racetrackShape3.lineTo(-15, 68);  
+racetrackShape3.lineTo(-15, 62); 
 
     
 
@@ -560,7 +571,7 @@ this.sphere.scale.setScalar(145)
 
 
      const numObjects = 150; // Number of objects to place on each side
-    this.spacing = 10; // Adjust this value for spacing
+    this.spacing = 50; // Adjust this value for spacing
     this.scaleFactor = 1.0;
 
     this.objectsArray1 = [];
@@ -601,7 +612,7 @@ this.sphere.scale.setScalar(145)
     this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
 
    
-    this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle+ Math.PI/2 );
+    this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle2+ Math.PI/2 );
 
     this.objectsArray1.push(this.sphereLeft)
     this.scene2.add(this.sphereLeft);
@@ -643,6 +654,14 @@ this.sphere.scale.setScalar(145)
   
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
     this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
+
+
+
+    this.range.forEach((point) => {
+      this.shaderMaterial.uniforms.uTexture.value = this.texture
+
+    })
+
    
     for (let i = 0; i < 300; i++) {
 
@@ -679,7 +698,7 @@ let loopTime = 60;
     this.angle = Math.atan2(tangent.x , tangent.y );
 
    
-    //this.camera.instance.position.copy(pos)
+    this.camera.instance.position.copy(pos)
     this.camera.instance.lookAt(pos2)
 
   //this.camera.instance.position.y = this.binormal.y * 10 + 10

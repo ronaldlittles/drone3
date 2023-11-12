@@ -27,11 +27,11 @@ const vertexShader = {
       vUv = uv + uvScale;
   
       float radius = 2.0;
-        //float y;
+      float y;
   
       float t =  position.x /(2.0 * PI * radius );
        
-     /*  if( t >= 3.0 * PI / 2.0 ){
+       if( t >= 3.0 * PI / 2.0 ){
         
       y = radius * sin((t - PI / 2.0) / PI);
   
@@ -39,12 +39,12 @@ const vertexShader = {
   
         y = 0.0;
   
-      } */
+      } 
      
   
       vec4 mvPosition = modelViewMatrix * vec4(position, 1.0 );
   
-      //mvPosition.y += sin(t*2.0) * radius;
+      mvPosition.y += sin(t*2.0) * radius;
       
       
       

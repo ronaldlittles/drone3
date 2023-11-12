@@ -35,7 +35,7 @@ export default class Box {
     this.resource1 = this.resources.items.smoke;
     this.resource2 = this.resources.items.smoke;
     this.resource3 = this.resources.items.sceneModel
-    //this.setLights()
+    this.setLights()
     this.setCity() 
     this.setBox()
     //this.setFlower()
