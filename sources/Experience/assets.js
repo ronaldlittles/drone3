@@ -74,11 +74,11 @@ export default [
         type: "gltfModel",
       },
 
-      /*  {
-        name: "video2",
+       /*  {
+        name: "video",
         source: "/assets/swag.mp4",
         type: "video",
-      }, */
+      },  */
 
       {
         name: "pizzaFont",

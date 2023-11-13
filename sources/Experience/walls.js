@@ -216,7 +216,7 @@ export default class Walls extends EventEmitter {
    
 
      this.model2 = this.resource4.scene;
-    this.model2.scale.setScalar(8)
+    this.model2.scale.setScalar(10)
     //this.scene2.add(this.model2);
     this.model2.castShadow = true;
     this.model2.position.y = -200;
@@ -355,11 +355,11 @@ export default class Walls extends EventEmitter {
 
       createWall() {
 
-        this.video = document.querySelector(".video");
+     /*    this.video = document.querySelector(".video");
         
         this.video.play();
     
-        this.texture = new THREE.VideoTexture(this.video);
+        this.texture = new THREE.VideoTexture(this.video); */
 
        
         this.aLength = []
@@ -615,11 +615,11 @@ racetrackShape3.lineTo(-8, 60);
            
 
              new THREE.MeshStandardMaterial({
-             color: 'white', 
-             map: this.texture, 
+             color: 'yellow', 
+             map: this.renderer.renderTarget.texture, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .1,
+             opacity: 1,
               /* displacementMap: this.renderer.renderTarget.texture,
              displacementScale: .002,  */ 
 

@@ -89,7 +89,7 @@ export default class Resources extends EventEmitter
         // Video
 
         // Video
-/* const videoLoader = new THREE.VideoTexture();
+ /* const videoLoader = new  VideoTexture();
 
 this.loaders.push({
     extensions: ['mp4'],
@@ -100,7 +100,7 @@ this.loaders.push({
             this.fileLoadEnd(_resource, _data);
         });
     }
-}); */
+});  */
 
 
         // Draco
