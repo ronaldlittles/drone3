@@ -632,7 +632,7 @@ racetrackShape3.lineTo(-8, 60);
 
         this.sphere.scale.setScalar(100)
         this.scene2.add(this.sphere)
-        this.sphere.position.y = 150
+        //this.sphere.position.y = 100
         //this.sphere.rotation.y += Math.PI/2
 
        
@@ -800,7 +800,7 @@ let loopTime = 60;
    
   this.sphere2Clone.rotation.y += 5.0
   this.sphere2Clone.material.color.setHSL( Math.random(), 1, .5 );
-  this.sphere2Clone.position.y = 8.0 * Math.sin(t * 1.2) + 4.0
+  this.sphere2Clone.position.y = 8.0 * Math.sin(t * 2.2) + 4.0
     
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
