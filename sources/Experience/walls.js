@@ -619,7 +619,7 @@ racetrackShape3.lineTo(-8, 60);
              map: this.texture, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .01,
+             opacity: .1,
               /* displacementMap: this.renderer.renderTarget.texture,
              displacementScale: .002,  */ 
 
@@ -799,7 +799,7 @@ let loopTime = 60;
   
    
   this.sphere2Clone.rotation.y += 5.0
-  this.sphere2Clone.material.color.setHSL( Math.random()* 0xffffff, 1, .5 );
+  this.sphere2Clone.material.color.setHSL( Math.random(), 1, .5 );
   this.sphere2Clone.position.y = 8.0 * Math.sin(t * 1.2) + 4.0
     
     const pos = this.spline.getPointAt(t);
