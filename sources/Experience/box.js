@@ -62,6 +62,7 @@ export default class Box {
       "/assets/DarkSeazpos.jpg",
     ]);
 
+   
    //this.scene2.background = this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     

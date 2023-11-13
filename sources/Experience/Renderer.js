@@ -40,7 +40,7 @@ export default class Renderer {
   }
 
   setInstance() {
-    this.clearColor = "#000000";
+    this.clearColor = "#02010e";
 
     // Renderer
     this.instance = new THREE.WebGLRenderer({
@@ -108,16 +108,16 @@ export default class Renderer {
 
     const params = {
       exposure: 1,
-      bloomStrength: .1,
+      bloomStrength: .74,
       bloomThreshold: 0.1,
-      bloomRadius: 2.9,
+      bloomRadius: .49,
     };
 
     this.postProcess.unrealBloomPass = new UnrealBloomPass(
       new THREE.Vector2(this.sizes.width, this.sizes.height),
-      0.7,
-      0.3,
-      0.85
+      .1,
+      .74,
+      .49
     );
 
     this.postProcess.unrealBloomPass.threshold = params.bloomThreshold;

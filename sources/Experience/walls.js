@@ -232,8 +232,8 @@ export default class Walls extends EventEmitter {
    
     
      this.camera.instance.add(this.model)
-    this.model.translateZ(-20)
-    this.model.translateY(2) 
+    this.model.translateZ(-14)
+    //this.model.translateY(-5)
    
      this.meshes = [];
           this.model.traverse((object) => {
@@ -256,7 +256,7 @@ export default class Walls extends EventEmitter {
           const label = document.createElement("div");
           label.style.position = "absolute";
           label.style.top = "10px";
-          label.style.left = "10px";
+          label.style.right = "10px";
           label.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
           label.style.color = "white";
           label.style.padding = "5px";
@@ -323,7 +323,7 @@ export default class Walls extends EventEmitter {
        
 
         const x = Math.sin( t * 2 )  * radius;
-        const y =  0//Math.sin(t*3 );
+        const y =  0//3 *Math.sin(t*1.3 );
         const z = Math.cos( t )* radius;
 
 
@@ -371,7 +371,8 @@ export default class Walls extends EventEmitter {
       side: THREE.DoubleSide,
       //VertexColors: true,
       //transparent: true,
-      
+      transparent: true,
+      opacity: 1.0,
       
       uniforms: {
 
@@ -395,7 +396,7 @@ export default class Walls extends EventEmitter {
    side: THREE.DoubleSide,
    //VertexColors: true,
    transparent: true,
-   opacity: .4,
+   opacity: 1,
    
  
 
@@ -487,9 +488,11 @@ export default class Walls extends EventEmitter {
     this.spacedPoints = this.spline.getSpacedPoints(99)
 
    
+    this.spacedPoints.forEach((point) => {
 
-    this.range = this.spline.points.slice(0, 100)
- 
+      //this.sphere2.position.copy(point)
+
+    })
     
     //this.spline.computeFrenetFrames(600, true)
 
@@ -561,7 +564,7 @@ racetrackShape3.lineTo(-8, 60);
     )
     this.scene2.add(this.tube);
     
-    this.tube.position.y =-8  
+    this.tube.position.y =-12  
   
    
     
@@ -581,7 +584,7 @@ racetrackShape3.lineTo(-8, 60);
     this.shaderMaterial2
     )   
     this.scene2.add(this.tube2);
-    
+    this.tube2.position.y =-4
   
     this.tube3 = new THREE.Mesh(this.tubeGeo3,    /* new THREE.MeshBasicMaterial({
 
@@ -600,7 +603,8 @@ racetrackShape3.lineTo(-8, 60);
     )   
     this.scene2.add(this.tube3);
         
-   
+    this.tube3.position.y =-4
+
 
           this.sphere = new THREE.Mesh(
 
@@ -610,48 +614,45 @@ racetrackShape3.lineTo(-8, 60);
 
            
 
-                   new THREE.MeshStandardMaterial({
-               
-            map: this.renderer.renderTarget.texture, 
+             new THREE.MeshStandardMaterial({
+             color: 'white', 
+             map: this.texture, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .2,
-            /*  displacementMap: this.renderer.renderTarget.texture,
-             displacementScale: 1.0, */
-
-             
+             opacity: .01,
+              /* displacementMap: this.renderer.renderTarget.texture,
+             displacementScale: .002,  */ 
 
 
-           
-            //vertexColors: false, 
-               
    
            //this.shaderMaterial2
 
           }) 
           )
 
-this.sphere.scale.setScalar(145)
-//this.scene2.add(this.sphere)
-
+        this.sphere.scale.setScalar(100)
+        this.scene2.add(this.sphere)
+        this.sphere.position.y = 150
+        //this.sphere.rotation.y += Math.PI/2
 
        
           this.sphere2 = new THREE.Mesh(
 
            
  
-            new THREE.PlaneGeometry(6,8,2),
+            new THREE.BoxGeometry(1,1,1),
  
           
  
             new THREE.MeshStandardMaterial({
+              color: Math.random() * 0xffffff,
               //normalMap: this.resource1,
               //normalScale: new THREE.Vector2( .001, .001 ),
               //bumpMap: this.resource1,
               //bumpScale: new THREE.Vector2( 1, 1 ),
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: 1.0,
+              opacity: .5,
              
               
 
@@ -660,7 +661,7 @@ this.sphere.scale.setScalar(145)
           )
 
           //this.sphere2.rotation.x = Math.PI/2*.01
-          this.sphere2.scale.setScalar(6)
+          //this.sphere2.scale.setScalar(2)
 
         
 
@@ -713,7 +714,7 @@ this.sphere.scale.setScalar(145)
 
    
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle2+ Math.PI/2 );
-
+    
     this.objectsArray1.push(this.sphereLeft)
     this.scene2.add(this.sphereLeft);
 
@@ -728,10 +729,12 @@ this.sphere.scale.setScalar(145)
     this.objectsArray1.push(this.sphereRight)  */
     //this.scene2.add(this.sphereRight);
 
-      /* this.sphere2Clone = this.sphere2.clone()
-      this.sphere2Clone.position.copy(positionOnCurve.clone() )
-           
-      this.scene2.add(this.sphere2Clone) */
+      this.sphere2Clone = this.sphere2.clone()
+      this.sphere2Clone.position.copy(positionOnCurve.clone())
+      
+      
+      this.scene2.add(this.sphere2Clone) 
+     
 
 
     /*  this.scene2.remove(this.objectsArray1[223])
@@ -754,6 +757,11 @@ this.sphere.scale.setScalar(145)
   
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
     this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
+
+    this.sphere.rotation.y += .01;
+
+
+
 
     this.spline.needsUpdate = true;
 
@@ -787,9 +795,12 @@ let loopTime = 60;
 
  
   const t =  (speed *this.time.elapsed )/loopTime % 1;
-  const t2 =  (speed * this.time.elapsed + .03)/loopTime % 1;
+  const t2 =  (speed * this.time.elapsed + .04)/loopTime % 1;
   
    
+  this.sphere2Clone.rotation.y += 5.0
+  this.sphere2Clone.material.color.setHSL( Math.random()* 0xffffff, 1, .5 );
+  this.sphere2Clone.position.y = 8.0 * Math.sin(t * 1.2) + 4.0
     
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
@@ -799,11 +810,11 @@ let loopTime = 60;
     this.angle = Math.atan2(tangent.x , tangent.y );
 
    
-    this.camera.instance.position.copy(pos)
+    //this.camera.instance.position.copy(pos)
     this.camera.instance.lookAt(pos2)
 
-  this.camera.instance.position.y = this.binormal.y * 10 + 10
-  
+    //this.model.y += this.binormal.y 
+   
    
 
     /* if (this.removedPointArray) {
@@ -856,7 +867,7 @@ this.q5 = new THREE.Quaternion().multiplyQuaternions(this.q1,this.q3)
 
 //this.q7 = new THREE.Quaternion().slerpQuaternions(this.q5, this.q6, .5)
 
-this.model.quaternion.slerp(this.q5, .5)
+this.model.quaternion.slerp(this.q5, .9)
 
 
 
