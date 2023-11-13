@@ -40,6 +40,8 @@ export default class Walls extends EventEmitter {
     this.setModel();
    
     this.createWall();
+
+    this.setBoxes();
     
 
     //this.setRaycaster();
@@ -74,6 +76,8 @@ export default class Walls extends EventEmitter {
   this.noise = new ImprovedNoise()
   
     this.noise.noise(Math.random(),Math.random(),Math.random())
+
+    console.log(this.noise)
     }
   
   
@@ -98,6 +102,100 @@ export default class Walls extends EventEmitter {
     
   }
 
+  setBoxes(){
+
+
+    let length =100;
+    this.boxes = [];
+    
+    this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
+    
+    this.purpleMaterial = new THREE.MeshStandardMaterial({
+      color: 'yellow',
+      opacity: 1,
+      transparent: true,
+     
+    });
+    
+    this.yellowMaterial = new THREE.MeshPhongMaterial({ 
+      color: 'white', 
+      map: this.resources.items.meTexture,
+       
+        opacity: 1,
+        transparent: true,
+        
+    });
+    
+    for (let i = 0; i < length; i++) {
+
+      const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
+    
+      this.box1 = new THREE.Mesh(this.boxGeometry, material);
+  
+
+      this.box = this.box1.clone();
+    
+      this.box.position.set(
+        Math.random() * 200 - 100,
+        Math.random() * 200 - 100,
+        Math.random() * 2400 - 1200
+      );
+    
+      this.box.scale.set(5, 1, 5);
+    
+      this.box.castShadow = true
+    
+      this.scene2.add(this.box);
+    
+      this.boxes.push(this.box);
+
+
+       
+    }
+    
+    
+    
+    
+    this.boxes.name = 'cloudboxes';
+    
+        
+    
+    
+     
+    window.addEventListener('pointerdown', () => {
+    
+      
+      for (let i = 0; i < this.boxes.length; i++) {
+        const box = this.boxes[i];
+        const distance = 900;
+        
+        
+        GSAP.to(box.position, 2, {
+          x: box.position.x + Math.random() * distance - distance / 2,
+          y: box.position.y + Math.random() * distance - distance / 2,
+          z: box.rotation.z + Math.random() * distance - distance / 2,
+          ease: 'power2.easeOut',
+       
+        });
+    
+    
+      }
+    })
+    
+        return this.boxes
+       
+      }
+
+
+
+
+
+
+
+
+  
+
+
   setModel() {
 
     this.model = this.resource3.scene;
@@ -118,7 +216,7 @@ export default class Walls extends EventEmitter {
    
 
      this.model2 = this.resource4.scene;
-    this.model2.scale.setScalar(5)
+    this.model2.scale.setScalar(8)
     //this.scene2.add(this.model2);
     this.model2.castShadow = true;
     this.model2.position.y = -200;
@@ -134,8 +232,8 @@ export default class Walls extends EventEmitter {
    
     
      this.camera.instance.add(this.model)
-    this.model.translateZ(-16)
-    this.model.translateY(15) 
+    this.model.translateZ(-20)
+    this.model.translateY(2) 
    
      this.meshes = [];
           this.model.traverse((object) => {
@@ -390,15 +488,17 @@ export default class Walls extends EventEmitter {
 
    
 
-    this.range = this.spline.points.slice(0, 10)
-
+    this.range = this.spline.points.slice(0, 100)
+ 
     
-
-
-    
-
+    //this.spline.computeFrenetFrames(600, true)
 
    
+
+    
+
+    
+      
   
 const racetrackShape = new THREE.Shape();
 
@@ -414,20 +514,20 @@ console.log(racetrackShape)
 
 const racetrackShape2 = new THREE.Shape();
 
-racetrackShape2.moveTo(0, -62);
-racetrackShape2.lineTo(15, -62);  
-racetrackShape2.lineTo(15, -68);   
-racetrackShape2.lineTo(-15, -68);  
-racetrackShape2.lineTo(-15, -62); 
+racetrackShape2.moveTo(0, -60);
+racetrackShape2.lineTo(8, -60);  
+racetrackShape2.lineTo(8, -70);   
+racetrackShape2.lineTo(-8, -70);  
+racetrackShape2.lineTo(-8, -60); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
-racetrackShape3.moveTo(0, 62);
-racetrackShape3.lineTo(15, 62);  
-racetrackShape3.lineTo(15, 68);   
-racetrackShape3.lineTo(-15, 68);  
-racetrackShape3.lineTo(-15, 62); 
+racetrackShape3.moveTo(0, 60);
+racetrackShape3.lineTo(8, 60);  
+racetrackShape3.lineTo(8, 70);   
+racetrackShape3.lineTo(-8, 70);  
+racetrackShape3.lineTo(-8, 60); 
 
     
 
@@ -450,7 +550,7 @@ racetrackShape3.lineTo(-15, 62);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
 
    
-   this.tubeGeo.computeVertexNormals()
+   //this.tubeGeo.computeVertexNormals()
    //this.tubeGeo.computeFrennet
 
    console.log(this.tubeGeo)
@@ -461,7 +561,7 @@ racetrackShape3.lineTo(-15, 62);
     )
     this.scene2.add(this.tube);
     
-    this.tube.position.y =-14  
+    this.tube.position.y =-8  
   
    
     
@@ -618,14 +718,14 @@ this.sphere.scale.setScalar(145)
     this.scene2.add(this.sphereLeft);
 
 
-    this.sphereRight = this.sphere2.clone();
+   /*  this.sphereRight = this.sphere2.clone();
     this.sphereRight.isWall = true
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
   //this.sphereRight.position.y = this.positionRight.y  + 10
 
     this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
-    this.objectsArray1.push(this.sphereRight) 
+    this.objectsArray1.push(this.sphereRight)  */
     //this.scene2.add(this.sphereRight);
 
       /* this.sphere2Clone = this.sphere2.clone()
@@ -655,30 +755,31 @@ this.sphere.scale.setScalar(145)
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
     this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
 
+    this.spline.needsUpdate = true;
 
+      for( let i =0; i < 100; i++) {
 
-    this.range.forEach((point) => {
-      this.shaderMaterial.uniforms.uTexture.value = this.texture
+        
 
-    })
+        this.scene2.add(this.boxes[i])
 
-   
-    for (let i = 0; i < 300; i++) {
-
-      const totalPoints = this.spline.points.length
-
-      const rangeStart = Math.floor(totalPoints / 2) - 50;
-      const rangeEnd = Math.floor(totalPoints / 2) + 50;
-      const currentPoint = this.spline.points[i];
+        
+      } 
 
       
-    
-  
-     if ( currentPoint.x > rangeStart && currentPoint.x < rangeEnd){
-      this.shaderMaterial2.uniforms.uTexture.value = this.resource2
-     }
-    
-    }
+
+      this.spacedPoints.forEach((point) => {
+      
+      
+       // this.boxes[i].position =point
+   
+       })   
+   
+   
+
+   
+   
+   
  
 let currentPosition = 0; 
 let speed = 2.0; 
@@ -701,7 +802,7 @@ let loopTime = 60;
     this.camera.instance.position.copy(pos)
     this.camera.instance.lookAt(pos2)
 
-  //this.camera.instance.position.y = this.binormal.y * 10 + 10
+  this.camera.instance.position.y = this.binormal.y * 10 + 10
   
    
 
@@ -774,7 +875,7 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
     const desiredRotation = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), angleToRotate);
 
    
-    const maxRotation = new THREE.Quaternion().slerp(desiredRotation, 0.1); 
+    const maxRotation = new THREE.Quaternion().slerp(desiredRotation, 0.5); 
  
    
     

@@ -37,7 +37,7 @@ export default class Box {
     this.resource3 = this.resources.items.sceneModel
     this.setLights()
     this.setCity() 
-    this.setBox()
+    //this.setBox()
     //this.setFlower()
    
     
@@ -400,7 +400,7 @@ function nextText() {
       this.videoTexture = this.video.setVideoTexture() */
 
 
-let length =500;
+ let length =500;
 this.boxes = [];
 
 this.boxGeometry = new THREE.CylinderGeometry(1, 1, 10.1, 32, 1);
@@ -480,7 +480,7 @@ window.addEventListener('pointerdown', () => {
 
     return this.boxes
    
-  }
+  } 
 
   
 

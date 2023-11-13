@@ -29,19 +29,19 @@ const vertexShader = {
 
     vUv =  uv;
     Vnormal = normal;
-    float radius = 1.5;
-
-    float currentLength;
+    float radius = 10.0;
 
    
 
     float t =  position.x /(2.0 * PI * radius );
      
   
-  vec4 mvPosition = modelViewMatrix * vec4(position  , 1.0 );
- 
-  mvPosition.y += sin(t*2.0 ) * radius ;
-  gl_Position = projectionMatrix * mvPosition;
+    vec4 mvPosition = modelViewMatrix * vec4(position  , 1.0 );
+  
+    mvPosition.y += sin( t * .5 ) * radius ;
+
+    gl_Position = projectionMatrix * mvPosition;
+
   }
 
    
