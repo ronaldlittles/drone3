@@ -810,7 +810,7 @@ let loopTime = 60;
     this.angle = Math.atan2(tangent.x , tangent.y );
 
    
-    //this.camera.instance.position.copy(pos)
+    this.camera.instance.position.copy(pos)
     this.camera.instance.lookAt(pos2)
 
     //this.model.y += this.binormal.y 
