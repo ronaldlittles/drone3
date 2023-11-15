@@ -489,11 +489,25 @@ export default class Walls extends EventEmitter {
 
     this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,299)
 
-    
+    if(this.spline.points){
 
+    const tangents = []
+    const normals = []
+    const binormals = []
+   this.spline.computeFrenetFrames(600,closed, (tangent,normal,binormal)=>{
 
    
-    
+
+   tangents.push(tangent);
+   normals.push(normal);
+   binormals.push(binormal);
+   
+
+   })
+
+   console.log(tangents,normals,binormals)
+
+  } 
     
     
    
@@ -603,6 +617,15 @@ racetrackShape3.lineTo(-8, 60);
     this.tube3.position.y =-4
 
 
+
+
+   /* gui.add(parameters, 'sliderValue', -100, 100)
+    .name('Slider')
+    .step(0.1)
+    .onChange(updateValues); */
+
+
+
     
 
           this.sphere = new THREE.Mesh(
@@ -629,7 +652,7 @@ racetrackShape3.lineTo(-8, 60);
           )
 
         this.sphere.scale.setScalar(1350)
-       this.scene2.add(this.sphere)
+        this.scene2.add(this.sphere)
        
 
        
@@ -655,7 +678,7 @@ racetrackShape3.lineTo(-8, 60);
 
             this.sphere2Clone = this.sphere2.clone()
       
-            this.sphere2Clone.position.copy(point).add(this.offsetClone)
+            this.sphere2Clone.position.copy(point)//.add(this.offsetClone)
            
             //this.sphere2Clone.scale.setScalar(10)
 
@@ -683,8 +706,9 @@ racetrackShape3.lineTo(-8, 60);
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
-    
    
+
+   //console.log(tangents,normals,binormals)
      
      
   
@@ -785,11 +809,14 @@ let loopTime = 60;
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
+    const offset = new THREE.Vector3(0, 5,Math.PI/16)
+
+
    
-    this.camera.instance.position.copy(pos)
+    this.camera.instance.position.copy(pos).add(offset)
     this.camera.instance.lookAt(pos2)
 
-    //this.model.position.y = this.shaderMaterial.uniforms.yPosition.value 
+    //this.model.position.y = pos.y 
    
    
 
@@ -924,7 +951,6 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
     
   
     });
-
 
 
     
