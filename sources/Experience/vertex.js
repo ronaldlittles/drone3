@@ -21,7 +21,10 @@ const vertexShader = {
 
   float PI = 3.141592653589793238;
 
-  uniform vec3 noise;
+  uniform float noise;
+  uniform float yPosition;
+  uniform float radius;
+  uniform float t;
   
  
 
@@ -29,16 +32,16 @@ const vertexShader = {
 
     vUv =  uv;
     Vnormal = normal;
-    float radius = 10.0;
+    
 
    
 
-    float t =  position.x /(2.0 * PI * radius );
+   float t = position.x / (2.0 * PI * radius ) + noise;
      
   
     vec4 mvPosition = modelViewMatrix * vec4(position  , 1.0 );
   
-    mvPosition.y += sin( t * .5 ) * radius ;
+    mvPosition.y += sin( t * .5 + noise  ) * radius;
 
     gl_Position = projectionMatrix * mvPosition;
 

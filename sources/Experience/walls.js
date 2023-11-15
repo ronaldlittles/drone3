@@ -29,8 +29,8 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource2 = this.resources.items.road;
-    this.resource1 = this.resources.items.forrest;
+    this.resource1 = this.resources.items.smoke;
+    this.resource2 = this.resources.items.forrest;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
     this.resource5 = this.resources.items.fenceModel;
@@ -75,7 +75,7 @@ export default class Walls extends EventEmitter {
    
   this.noise = new ImprovedNoise()
   
-    this.noise.noise(Math.random(),Math.random(),Math.random())
+    this.iNoise = this.noise.noise(Math.random()*5.5,Math.random()*.3,Math.random()*.5)
 
     console.log(this.noise)
     }
@@ -363,8 +363,9 @@ export default class Walls extends EventEmitter {
 
        
         this.aLength = []
-
-        
+        this.radius = 10.0;
+        const t = (2.0 * Math.PI * this.radius ) + this.iNoise;
+        const yPosition = Math.sin( t * .5 + this.iNoise  ) * this.radius;
        
       this.shaderMaterial = new THREE.ShaderMaterial({
        
@@ -375,15 +376,16 @@ export default class Walls extends EventEmitter {
       opacity: 1.0,
       
       uniforms: {
-
-          
+          t: { value: t },
+          yPosition: { value: yPosition },
 					time: { value: null },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
 					uTexture: { value: null },
 					uLength: { type: 'v3', value : null},
           azimuth: { value: this.camera.azimuth},
          tangent: { value: this.angle },
-         noise: { value: null}
+         noise: { value: this.iNoise},
+         radius: { value: this.radius}
       },
 
       vertexShader: vertexShader.vertexShader,
@@ -485,20 +487,16 @@ export default class Walls extends EventEmitter {
 
     }
 
-    this.spacedPoints = this.spline.getSpacedPoints(99)
-
-   
-    this.spacedPoints.forEach((point) => {
-
-      //this.sphere2.position.copy(point)
-
-    })
-    
-    //this.spline.computeFrenetFrames(600, true)
-
-   
+    this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,299)
 
     
+
+
+   
+    
+    
+    
+   
 
     
       
@@ -553,10 +551,9 @@ racetrackShape3.lineTo(-8, 60);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
 
    
-   //this.tubeGeo.computeVertexNormals()
-   //this.tubeGeo.computeFrennet
+   
 
-   console.log(this.tubeGeo)
+   
    
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
@@ -606,68 +603,68 @@ racetrackShape3.lineTo(-8, 60);
     this.tube3.position.y =-4
 
 
+    
+
           this.sphere = new THREE.Mesh(
 
            
 
-           new THREE.BoxGeometry(128,128,128),
+           new THREE.BoxGeometry(4,4,4),
 
            
 
              new THREE.MeshStandardMaterial({
-             color: 'yellow', 
-             map: this.renderer.renderTarget.texture, 
+             //color: 'yellow', 
+             map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: 1,
-              /* displacementMap: this.renderer.renderTarget.texture,
-             displacementScale: .002,  */ 
-
+             opacity: .0052,
+            
 
    
            //this.shaderMaterial2
 
-          }) 
+          })
+
           )
 
-        this.sphere.scale.setScalar(100)
-        this.scene2.add(this.sphere)
-        //this.sphere.position.y = 100
-        //this.sphere.rotation.y += Math.PI/2
+        this.sphere.scale.setScalar(1350)
+       this.scene2.add(this.sphere)
+       
 
        
           this.sphere2 = new THREE.Mesh(
-
-           
  
             new THREE.BoxGeometry(1,1,1),
  
-          
- 
             new THREE.MeshStandardMaterial({
-              color: Math.random() * 0xffffff,
-              //normalMap: this.resource1,
-              //normalScale: new THREE.Vector2( .001, .001 ),
-              //bumpMap: this.resource1,
-              //bumpScale: new THREE.Vector2( 1, 1 ),
+
+              color: Math.random(),
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: .5,
-             
-              
+              opacity: .05,
+            
 
             }) 
             
           )
 
-          //this.sphere2.rotation.x = Math.PI/2*.01
-          //this.sphere2.scale.setScalar(2)
 
-        
+          this.offsetClone = new THREE.Vector3(Math.random()*2) 
+          this.spacedPoints.forEach((point) => {
 
+            this.sphere2Clone = this.sphere2.clone()
+      
+            this.sphere2Clone.position.copy(point).add(this.offsetClone)
+           
+            //this.sphere2Clone.scale.setScalar(10)
 
+            this.sphere2Clone.material.color.setHSL( Math.random(), 1, .5 );
 
+            this.scene2.add(this.sphere2Clone)
 
+          })
+          
 
 
 
@@ -692,13 +689,13 @@ racetrackShape3.lineTo(-8, 60);
      
   
     const referenceVector = new THREE.Vector3(0, 1, 0); 
-   this.normal = new THREE.Vector3();
+    this.normal = new THREE.Vector3();
     this.normal.crossVectors(referenceVector, this.tangent).normalize();
    this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(referenceVector, this.normal).normalize();
+    this.binormal.crossVectors(referenceVector, this.normal).normalize(); 
 
    
-    this.offset = this.normal.clone().multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
+    this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
 
     const angle = Math.atan2(this.tangent.x , this.tangent.z );
     const angle2 = Math.atan2(this.model.position.x, this.camera.instance.position.x) 
@@ -758,34 +755,13 @@ racetrackShape3.lineTo(-8, 60);
     this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
     this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
 
-    this.sphere.rotation.y += .01;
+    
 
 
 
 
-    this.spline.needsUpdate = true;
+    
 
-      for( let i =0; i < 100; i++) {
-
-        
-
-        this.scene2.add(this.boxes[i])
-
-        
-      } 
-
-      
-
-      this.spacedPoints.forEach((point) => {
-      
-      
-       // this.boxes[i].position =point
-   
-       })   
-   
-   
-
-   
    
    
  
@@ -813,7 +789,7 @@ let loopTime = 60;
     this.camera.instance.position.copy(pos)
     this.camera.instance.lookAt(pos2)
 
-    //this.model.y += this.binormal.y 
+    //this.model.position.y = this.shaderMaterial.uniforms.yPosition.value 
    
    
 
@@ -855,19 +831,25 @@ let loopTime = 60;
       });*/
   //} 
   
+  const maxAngle = Math.PI / 6; // Maximum allowed azimuth angle (45 degrees in radians)
+  const minAngle = -Math.PI / 6; // Minimum allowed azimuth angle (-45 degrees in radians)
+  
+  // Update the azimuth angle while keeping it within the limits
+  this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
 
-this.q1 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth*.5)
-//this.q2 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth)
+  
+this.q1 = new THREE.Quaternion()
+this.q2 = new THREE.Quaternion()
 
-this.q3 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), this.camera.azimuth*.5)
-//this.q4 = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI)
+this.q1.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth )
+this.q2.setFromAxisAngle(new THREE.Vector3(0, 0, 1), this.camera.azimuth)
 
-this.q5 = new THREE.Quaternion().multiplyQuaternions(this.q1,this.q3)
-//this.q6 = new THREE.Quaternion().multiplyQuaternions(this.q2,this.q4)
+this.q3 = new THREE.Quaternion()
+this.q3.multiplyQuaternions(this.q1,this.q2)
 
-//this.q7 = new THREE.Quaternion().slerpQuaternions(this.q5, this.q6, .5)
 
-this.model.quaternion.slerp(this.q5, .9)
+
+this.model.quaternion.copy(this.q3)
 
 
 
@@ -922,7 +904,9 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
       this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
       this.camera.instance.position.copy(pos)
 
-    }  
+    }
+    
+     
 
    
       this.meshes.forEach((mesh) => {

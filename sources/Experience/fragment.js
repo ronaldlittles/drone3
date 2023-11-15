@@ -8,7 +8,7 @@ const fragmentShader = {
       uniform sampler2D uTexture;
       uniform float time;
       uniform float tangent;
-      uniform vec3 noise;
+      uniform float noise;
 
 
       void main() {
@@ -21,7 +21,7 @@ const fragmentShader = {
 
        float angle = azimuth;
 
-       vec2 newUV = vec2( fract(vUv.y*.08 + tangent  ) , 1.0 - vUv.x  );
+       vec2 newUV = vec2( fract( vUv.y*.08 + tangent*noise ) , 1.0 - vUv.x*noise );
 
        //newUV.x +=  angle;
        
