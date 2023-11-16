@@ -6,6 +6,7 @@ import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 //import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
+import { fragmentShader2 } from "./fragment2.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 //import { Flow } from 'three/examples/jsm/modifiers/CurveModifier.js';
 //import RollerCoasterGeometry from './track1.js'
@@ -531,8 +532,8 @@ const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -60);
 racetrackShape2.lineTo(8, -60);  
-racetrackShape2.lineTo(8, -70);   
-racetrackShape2.lineTo(-8, -70);  
+racetrackShape2.lineTo(8, -75);  //70 
+racetrackShape2.lineTo(-8, -75); //60 
 racetrackShape2.lineTo(-8, -60); 
 
 
@@ -540,9 +541,9 @@ const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 60);
 racetrackShape3.lineTo(8, 60);  
-racetrackShape3.lineTo(8, 70);   
-racetrackShape3.lineTo(-8, 70);  
-racetrackShape3.lineTo(-8, 60); 
+racetrackShape3.lineTo(8, 75); //70  
+racetrackShape3.lineTo(-8, 75);  //60
+racetrackShape3.lineTo(-8, 60);  
 
     
 
@@ -571,7 +572,7 @@ racetrackShape3.lineTo(-8, 60);
    
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
-    this.shaderMaterial
+    this.shaderMaterial2
     )
     this.scene2.add(this.tube);
     
@@ -592,7 +593,7 @@ racetrackShape3.lineTo(-8, 60);
     
     })   */
 
-    this.shaderMaterial2
+    this.shaderMaterial
     )   
     this.scene2.add(this.tube2);
     this.tube2.position.y =-4
@@ -610,7 +611,7 @@ racetrackShape3.lineTo(-8, 60);
     
     })   */
 
-    this.shaderMaterial2
+    this.shaderMaterial
     )   
     this.scene2.add(this.tube3);
         

@@ -79,7 +79,7 @@ export default class Camera {
       60,
       this.sizes.aspect,
       .1,
-      1000
+      10000
     );
     this.instance2.rotation.reorder("YXZ");
     this.instance2.matrixAutoUpdate = true;
@@ -124,7 +124,7 @@ export default class Camera {
     this.orbitControls.zoomSpeed = 1.5;
     this.orbitControls.enableDamping = true;
     this.orbitControls.autoRotate = false;
-    this.orbitControls.autoRotateSpeed = 15
+    //this.orbitControls.autoRotateSpeed = 15
     //this.orbitControls.maxPolarAngle = Math.PI/2;
     //this.orbitControls.minPolarAngle = Math.PI/2;
 
