@@ -12,34 +12,16 @@ const fragmentShader = {
 
 
       void main() {
-       
-        
-      float PI = 3.1415926535897932384626433832795;
-       
-
-       
-
-       float angle = azimuth;
-
-       vec2 newUV = vec2( fract( vUv.y*.08 + tangent*noise ) , 1.0 - vUv.x*noise );
-
-       //newUV.x +=  angle;
-       
-       vec2 center = vec2(0.5, 0.5);
-
-       vec4 tt = texture2D(uTexture, newUV); 
- 
-       float ttt = texture2D(uTexture, newUV).r;
-        
-       
-
-        vec3 color = vec3(0.1, 0.0,0.7) ;
-        
-        gl_FragColor = mix( vec4(tt.rgb,1.0) , vec4(color,.8),.3);
-
-        //gl_FragColor.y += 0.2 * sin( 2.0 *  (ttt + time) );
-       
-      } 
+        float squareSize = 3.0; // Change this value to adjust the size of the squares
+    
+        vec2 position = floor(vUv / squareSize);
+    
+        if (mod(position.x + position.y, 2.0) < 1.0) {
+          gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0); // Color 1 (e.g., white)
+        } else {
+          gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); // Color 2 (e.g., black)
+        }
+      }
 
 `,
 };

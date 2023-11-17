@@ -31,7 +31,7 @@ export default class Renderer {
       this.debugFolder = this.debug.addFolder("renderer");
     } 
 
-    this.usePostprocess = true;
+    this.usePostprocess = false;
 
     this.setInstance();
     this.setPostProcess();
@@ -108,9 +108,9 @@ export default class Renderer {
 
     const params = {
       exposure: 1,
-      bloomStrength: .74,
+      bloomStrength:0,// .74,
       bloomThreshold: 0.1,
-      bloomRadius: .49,
+      bloomRadius: 0,//.49,
     };
 
     this.postProcess.unrealBloomPass = new UnrealBloomPass(
