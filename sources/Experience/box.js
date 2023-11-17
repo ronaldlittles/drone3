@@ -92,13 +92,13 @@ export default class Box {
 					time: { value: 1.0 },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
 					texture1: { value: this.resource2 },
-					texture2: { value: this.resource1 },
+					texture2: { value: this.resource2 },
           azimuth: { value: null },
       
       },
 
       vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader.fragmentShader,
+      fragmentShader: fragmentShader.fragmentShader2,
 
     });
 
@@ -121,14 +121,14 @@ export default class Box {
       
       this.mesh1.name ='road'
      
-      this.mesh1.scale.set(600,0,0)
+      this.mesh1.scale.set(0,0,0)
 
-      this.mesh1.scale.setScalar(1500)
+      this.mesh1.scale.setScalar(500)
       
-      //this.scene2.add(this.mesh1);
+      this.scene2.add(this.mesh1);
 
-      this.mesh1.position.z = 600;
-      this.mesh1.rotation.x += Math.PI/2;
+      //this.mesh1.position.z = 600;
+      //this.mesh1.rotation.x += Math.PI/2;
       this.mesh1.position.y = -10; 
     
 

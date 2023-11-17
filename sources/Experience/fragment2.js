@@ -1,5 +1,5 @@
 const fragmentShader2 = {
-  fragmentShader: `
+  fragmentShader2: `
   
         varying vec3 Vnormal;
         varying vec3 newPosition;

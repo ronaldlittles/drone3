@@ -6,7 +6,7 @@ import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 //import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
-import { fragmentShader2 } from "./fragment2.js";
+//import { fragmentShader2 } from "./fragment2.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 //import { Flow } from 'three/examples/jsm/modifiers/CurveModifier.js';
 //import RollerCoasterGeometry from './track1.js'
@@ -45,7 +45,7 @@ export default class Walls extends EventEmitter {
     this.setBoxes();
     
 
-    //this.setRaycaster();
+    this.setRaycaster();
 
     
 
@@ -131,7 +131,7 @@ export default class Walls extends EventEmitter {
 
       const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
     
-      this.box1 = new THREE.Mesh(this.boxGeometry, material);
+      this.box1 = new THREE.Mesh(this.boxGeometry,this.shaderMaterial2);
   
 
       this.box = this.box1.clone();
@@ -189,23 +189,15 @@ export default class Walls extends EventEmitter {
 
 
 
-
-
-
-
-
-  
-
-
   setModel() {
 
     this.model = this.resource3.scene;
     this.model.name = "droneModel";
     this.scene2.add(this.model);
     this.model.position.set(0, 2.5,-10);
-    this.model.rotation.set(0, 0, 0);
+    this.model.rotation.set(-Math.PI/8, 0, 0);
     this.model.scale.set(200,10,600)
-    this.model.scale.setScalar(13);
+    this.model.scale.setScalar(15);
     this.model.castShadow = true;
     this.model.receiveShadow = true;
     //this.model.upVector = new THREE.Vector3(0, 1, 0);
@@ -307,35 +299,63 @@ export default class Walls extends EventEmitter {
 
 
           });
-        }
+
+          const mat2 = 
+
+            `
+
+            ;
+            varying vec2 vUv;
+          
+      
+      
+            void main() {
+              float squareSize = 5.0; // Change this value to adjust the size of the squares
+          
+              vec2 position = floor(vUv / squareSize);
+          
+              if (mod(position.x + position.y, 2.0) < 1.0) {
+                gl_FragColor = vec4(0.65, 0.0, .95, 1.0); 
+              } else {
+                gl_FragColor = vec4(1.0,1.0, 0.0, 1.0); 
+              }
+            }
+      
+      `;
+
+
+
+
+            
+          
+        
         
        
-        
-
-       getPointAt2(t) {
-
-        const vector = new THREE.Vector3()
-        const PI2 = Math.PI*2
-        const radius = 1000;
-         
-        t = t * PI2;
-
+        this.shaderMaterial2 = new THREE.ShaderMaterial({
+     
+          side: THREE.DoubleSide,
+          //VertexColors: true,
+          transparent: true,
+          opacity: 1,
+          
         
        
+          uniforms: {
+       
+              
+             
+          },
+       
+          vertexShader: vertexShader.vertexShader2,
+          fragmentShader: mat2,
+       
+        });
+       
 
-        const x = Math.sin( t * 2 )  * radius;
-        const y =  0//3 *Math.sin(t*1.3 );
-        const z = Math.cos( t )* radius;
-
-
-        
-
-        return vector.set( x, y, z ).multiplyScalar( 2 );;
-
-        }
+      
         
      
-          getTangentAt2(t) {
+        /*   getTangentAt2(t) {
             const vector2 = new THREE.Vector2();
             const delta = 0.0001;
             const t1 = Math.max(0, t - delta);
@@ -346,10 +366,10 @@ export default class Walls extends EventEmitter {
               .sub(this.getPointAt2(t1))
               .normalize();
 
-          } 
+          }  */
      
 
-         
+        }   
           
         
          
@@ -364,7 +384,7 @@ export default class Walls extends EventEmitter {
 
        
         this.aLength = []
-        this.radius = 10.0;
+        this.radius = 12.0;
         const t = (2.0 * Math.PI * this.radius ) + this.iNoise;
         const yPosition = Math.sin( t * .5 + this.iNoise  ) * this.radius;
        
@@ -384,41 +404,17 @@ export default class Walls extends EventEmitter {
 					uTexture: { value: null },
 					uLength: { type: 'v3', value : null},
           azimuth: { value: this.camera.azimuth},
-         tangent: { value: this.angle },
-         noise: { value: this.iNoise},
-         radius: { value: this.radius}
+          tangent: { value: this.angle },
+          noise: { value: this.iNoise},
+          radius: { value: this.radius}
       },
 
       vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader.fragmentShader,
+      fragmentShader: fragmentShader.fragmentShader2,
 
     });
 
-    this.shaderMaterial2 = new THREE.ShaderMaterial({
-     
-   side: THREE.DoubleSide,
-   //VertexColors: true,
-   transparent: true,
-   opacity: 1,
    
- 
-
-   uniforms: {
-
-       
-       time: { value: null },
-       uvScale: { value: new THREE.Vector2( 3.0, 3.0 ) },
-       uTexture: { value: this.renderer.renderTarget.texture },
-       
-       azimuth: { value: this.camera.azimuth},
-       tangent: { value: this.angle },
-   },
-
-   vertexShader: vertexShader.vertexShader,
-   fragmentShader: fragmentShader.fragmentShader,
-
- });
-
   
 
     this.resource1.wrapS = THREE.RepeatWrapping;
@@ -472,30 +468,63 @@ export default class Walls extends EventEmitter {
     this.plane.scale.setScalar(250)
    
 
-   
-   
-   
 
     const numPoints = 600; 
 
-  
-    this.spline = new THREE.CatmullRomCurve3([]);
+   /*  for (let i = 0; i < numPoints; i++) {
+
+        const t = i / (numPoints - 1); */
+
+
+        this.points = [];
+        let radius = 1000;
+        
+        for (let t = 0; t <= Math.PI * 4; t += 0.1) {
+
+            var x = Math.sin(t * 2) * radius;
+            var z = Math.cos(t) * radius;
+            var y = 0;
+        
+            this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
+
+
+
+
+            /* const vector2 = new THREE.Vector2();
+            const delta = 0.0001;
+            const t1 = Math.max(0, t - delta);
+            const t2 = Math.min(1, t + delta);
     
-    for (let i = 0; i < numPoints; i++) {
+            return vector2
+              .copy(this.getPointAt2(t2))
+              .sub(this.getPointAt2(t1))
+              .normalize(); */
 
-        const t = i / (numPoints - 1);
-        this.spline.points.push(this.getPointAt2(t));
 
-    }
+
+
+
+        }
+
+
+
+    this.spline = new THREE.CatmullRomCurve3(this.points);
+
+    //this.splineReverse =   this.points.reverse()
+
+   
+    
 
     this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,299)
 
-    if(this.spline.points){
+    
 
     const tangents = []
     const normals = []
     const binormals = []
-   this.spline.computeFrenetFrames(600,closed, (tangent,normal,binormal)=>{
+   this.spline.computeFrenetFrames(600,closed), 
+   
+   (tangent,normal,binormal)=>{
 
    
 
@@ -504,16 +533,16 @@ export default class Walls extends EventEmitter {
    binormals.push(binormal);
    
 
-   })
+   }
 
    console.log(tangents,normals,binormals)
 
-  } 
+  
     
     
-   
+ 
 
-    
+    //console.log(this.spline, this.splineReverse)
       
   
 const racetrackShape = new THREE.Shape();
@@ -549,7 +578,7 @@ racetrackShape3.lineTo(-8, 60);
 
     this.extrudeSettings = {
 
-      steps: 1000,
+      steps: 1500,
       depth: 100,
       bevelEnabled: false,
       bevelThickness: 1,
@@ -572,15 +601,28 @@ racetrackShape3.lineTo(-8, 60);
    
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
-    this.shaderMaterial2
+    this.shaderMaterial
+    /* new THREE.MeshBasicMaterial({
+
+      map: this.resource2,
+       //envMap: this.scene2.background,
+       side: THREE.DoubleSide,
+       transparent: true,
+       opacity: 1,
+    
+          //vertexColors: true,
+
+    
+    })    */
+
     )
     this.scene2.add(this.tube);
     
     this.tube.position.y =-12  
   
-   
+   console.log(this.tube)
     
-    this.tube2 = new THREE.Mesh(this.tubeGeo2,   /*  new THREE.MeshBasicMaterial({
+    this.tube2 = new THREE.Mesh(this.tubeGeo2,     /* new THREE.MeshBasicMaterial({
 
       map: this.resource1,
        //envMap: this.scene2.background,
@@ -591,7 +633,7 @@ racetrackShape3.lineTo(-8, 60);
           //vertexColors: true,
 
     
-    })   */
+    })    */
 
     this.shaderMaterial
     )   
@@ -653,7 +695,7 @@ racetrackShape3.lineTo(-8, 60);
           )
 
         this.sphere.scale.setScalar(1350)
-        this.scene2.add(this.sphere)
+        //this.scene2.add(this.sphere)
        
 
        
@@ -666,7 +708,7 @@ racetrackShape3.lineTo(-8, 60);
               color: Math.random(),
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: .05,
+              opacity: .1,
             
 
             }) 
@@ -716,7 +758,7 @@ racetrackShape3.lineTo(-8, 60);
     const referenceVector = new THREE.Vector3(0, 1, 0); 
     this.normal = new THREE.Vector3();
     this.normal.crossVectors(referenceVector, this.tangent).normalize();
-   this.binormal = new THREE.Vector3();
+    this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(referenceVector, this.normal).normalize(); 
 
    
@@ -777,8 +819,8 @@ racetrackShape3.lineTo(-8, 60);
       
   update() {
   
-    this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
-    this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
+    //this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
+    //this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
 
     
 
@@ -805,17 +847,22 @@ let loopTime = 60;
     
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
+    //const pos3 = this.splineReverse.getPointAt(t); 
+
+    //this.sphere2Clone.position.copy(pos3)
+
+    
   
     const tangent = this.spline.getTangentAt(t);
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 5,Math.PI/16)
-
+    const offset = new THREE.Vector3(0, 6,Math.PI/12)
 
    
-    this.camera.instance.position.copy(pos).add(offset)
-    this.camera.instance.lookAt(pos2)
+   
+    //this.camera.instance.position.copy(pos)//.add(offset)
+    //this.camera.instance.lookAt(pos2)
 
     //this.model.position.y = pos.y 
    
@@ -884,9 +931,9 @@ this.model.quaternion.copy(this.q3)
 
 
 
-this.shaderMaterial.uniforms.tangent.value = this.angle
+//this.shaderMaterial.uniforms.tangent.value = this.angle
 
-this.shaderMaterial2.uniforms.tangent.value = this.angle
+//this.shaderMaterial2.uniforms.tangent.value = this.angle
 
 
 
@@ -903,7 +950,7 @@ this.shaderMaterial2.uniforms.tangent.value = this.angle
 
 
 
-  this.forwardVector2 = new THREE.Vector3(1, 0, 0);
+   this.forwardVector2 = new THREE.Vector3(1, 0, 0);
     this.forwardDirection2 = this.forwardVector2.clone();
     this.forwardDirection2.applyQuaternion(this.model.quaternion).add(maxRotation).normalize();
     //this.model.rotation.add(this.forwardDirection2.multiplyScalar(this.movementSpeed));

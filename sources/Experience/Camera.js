@@ -45,7 +45,7 @@ export default class Camera {
       60,
       this.sizes.aspect,
       .1,
-     10000
+     100000
     );
     this.instance.rotation.reorder("YXZ");
     //this.instance.matrixAutoUpdate = true;
