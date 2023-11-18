@@ -5,7 +5,7 @@ import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 //import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { vertexShader } from "./vertex.js";
-import { fragmentShader } from "./fragment.js";
+import { fragmentShader, fragmentShader2 } from "./fragment.js";
 //import { fragmentShader2 } from "./fragment2.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 //import { Flow } from 'three/examples/jsm/modifiers/CurveModifier.js';
@@ -350,7 +350,7 @@ export default class Walls extends EventEmitter {
       },
 
       vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader.fragmentShader2,
+      fragmentShader: fragmentShader2.fragmentShader2,
 
     });
 

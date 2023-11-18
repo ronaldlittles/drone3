@@ -20,8 +20,10 @@ const fragmentShader = {
         }
       }
 
-`,
+`
+    }
 
+   const fragmentShader2 = { 
   fragmentShader2: `
 
 
@@ -43,9 +45,10 @@ void main() {
 
 }
 
-`,
-};
+`
+   }
 
 
 
-export { fragmentShader };
+
+export { fragmentShader, fragmentShader2 };
