@@ -5,7 +5,7 @@ import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 //import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { vertexShader } from "./vertex.js";
-import { fragmentShader, fragmentShader2 } from "./fragment.js";
+import { fragmentShader } from "./fragment.js";
 //import { fragmentShader2 } from "./fragment2.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 //import { Flow } from 'three/examples/jsm/modifiers/CurveModifier.js';
@@ -331,9 +331,9 @@ export default class Walls extends EventEmitter {
         this.texture = new THREE.VideoTexture(this.video); */
 
        
-        this.aLength = []
+        //this.aLength = []
         this.radius = 12.0;
-        const t = (2.0 * Math.PI * this.radius ) + this.iNoise;
+      /*   const t = (2.0 * Math.PI * this.radius ) + this.iNoise;
         const yPosition = Math.sin( t * .5 + this.iNoise  ) * this.radius;
        
       this.shaderMaterial2 = new THREE.ShaderMaterial({
@@ -352,7 +352,7 @@ export default class Walls extends EventEmitter {
       vertexShader: vertexShader.vertexShader,
       fragmentShader: fragmentShader2.fragmentShader2,
 
-    });
+    }); */
 
 
     this.shaderMaterial = new THREE.ShaderMaterial({
