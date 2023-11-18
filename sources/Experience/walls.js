@@ -131,7 +131,7 @@ export default class Walls extends EventEmitter {
 
       const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
     
-      this.box1 = new THREE.Mesh(this.boxGeometry,this.shaderMaterial2);
+      this.box1 = new THREE.Mesh(this.boxGeometry, material);
   
 
       this.box = this.box1.clone();
@@ -212,7 +212,7 @@ export default class Walls extends EventEmitter {
     this.model2.scale.setScalar(10)
     //this.scene2.add(this.model2);
     this.model2.castShadow = true;
-    this.model2.position.y = -180;
+    this.model2.position.y = -200;
     //this.model2.receiveShadow = true; 
 
     this.model3 = this.resource5.scene;
@@ -301,42 +301,7 @@ export default class Walls extends EventEmitter {
 
           });
 
-          const mat2 = 
-
-            `
-
-            ;
-            varying vec2 vUv;
-          
-      
-      
-            void main() {
-              float squareSize = 5.0; // Change this value to adjust the size of the squares
-          
-              vec2 position = floor(vUv / squareSize);
-          
-              if (mod(position.x + position.y, 2.0) < 1.0) {
-                gl_FragColor = vec4(0.65, 0.0, .95, 1.0); 
-              } else {
-                gl_FragColor = vec4(1.0,1.0, 0.0, 1.0); 
-              }
-            }
-      
-      `;
-
-
-
-
-            
-          
-        
-        
-       
-       
-       
-
-      
-        
+         
      
         /*   getTangentAt2(t) {
             const vector2 = new THREE.Vector2();
