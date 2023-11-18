@@ -195,7 +195,7 @@ export default class Walls extends EventEmitter {
     this.model.name = "droneModel";
     this.scene2.add(this.model);
     this.model.position.set(0, 2.5,-10);
-    this.model.rotation.set(-Math.PI/8, 0, 0);
+    this.model.rotation.set(0, 0, 0);
     this.model.scale.set(200,10,600)
     this.model.scale.setScalar(15);
     this.model.castShadow = true;
@@ -225,8 +225,8 @@ export default class Walls extends EventEmitter {
    
     
      this.camera.instance.add(this.model)
-    this.model.translateZ(-14)
-    //this.model.translateY(-5)
+    this.model.translateZ(-10)
+    this.model.translateY(3)
    
      this.meshes = [];
           this.model.traverse((object) => {
@@ -331,25 +331,7 @@ export default class Walls extends EventEmitter {
         
         
        
-        this.shaderMaterial2 = new THREE.ShaderMaterial({
-     
-          side: THREE.DoubleSide,
-          //VertexColors: true,
-          transparent: true,
-          opacity: 1,
-          
-        
        
-          uniforms: {
-       
-              
-             
-          },
-       
-          vertexShader: vertexShader.vertexShader2,
-          fragmentShader: mat2,
-       
-        });
        
 
       
@@ -388,7 +370,7 @@ export default class Walls extends EventEmitter {
         const t = (2.0 * Math.PI * this.radius ) + this.iNoise;
         const yPosition = Math.sin( t * .5 + this.iNoise  ) * this.radius;
        
-      this.shaderMaterial = new THREE.ShaderMaterial({
+      this.shaderMaterial2 = new THREE.ShaderMaterial({
        
       side: THREE.DoubleSide,
       //VertexColors: true,
@@ -414,7 +396,33 @@ export default class Walls extends EventEmitter {
 
     });
 
+    this.shaderMaterial = new THREE.ShaderMaterial({
+     
+      side: THREE.DoubleSide,
+      //VertexColors: true,
+      transparent: true,
+      opacity: 1,
+      
+    
    
+      uniforms: {
+   
+        t: { value: t },
+        yPosition: { value: yPosition },
+        time: { value: null },
+        uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
+        uTexture: { value: null },
+        uLength: { type: 'v3', value : null},
+        azimuth: { value: this.camera.azimuth},
+        tangent: { value: this.angle },
+        noise: { value: this.iNoise},
+        radius: { value: this.radius}
+      },
+   
+      vertexShader: vertexShader.vertexShader,
+      fragmentShader: fragmentShader.fragmentShader,
+   
+    });
   
 
     this.resource1.wrapS = THREE.RepeatWrapping;
@@ -510,8 +518,7 @@ export default class Walls extends EventEmitter {
 
     this.spline = new THREE.CatmullRomCurve3(this.points);
 
-    //this.splineReverse =   this.points.reverse()
-
+    this.spline.curveType = 'catmullrom';
    
     
 
@@ -537,13 +544,12 @@ export default class Walls extends EventEmitter {
 
    console.log(tangents,normals,binormals)
 
-  
-    
+    this.splineReverse = this.spline.points
+    this.rev = this.splineReverse.toReversed()
+    this.spline2 = new THREE.CatmullRomCurve3(this.rev);
+   console.log(this.spline2, this.spline)
     
  
-
-    //console.log(this.spline, this.splineReverse)
-      
   
 const racetrackShape = new THREE.Shape();
 
@@ -601,7 +607,7 @@ racetrackShape3.lineTo(-8, 60);
    
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
-    this.shaderMaterial
+    this.shaderMaterial2
     /* new THREE.MeshBasicMaterial({
 
       map: this.resource2,
@@ -701,14 +707,14 @@ racetrackShape3.lineTo(-8, 60);
        
           this.sphere2 = new THREE.Mesh(
  
-            new THREE.BoxGeometry(1,1,1),
+            new THREE.BoxGeometry(3,1,1),
  
             new THREE.MeshStandardMaterial({
 
               color: Math.random(),
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: .1,
+              opacity: .5,
             
 
             }) 
@@ -723,11 +729,11 @@ racetrackShape3.lineTo(-8, 60);
       
             this.sphere2Clone.position.copy(point)//.add(this.offsetClone)
            
-            //this.sphere2Clone.scale.setScalar(10)
+           //this.sphere2Clone.scale.setScalar(10)
 
             this.sphere2Clone.material.color.setHSL( Math.random(), 1, .5 );
 
-            this.scene2.add(this.sphere2Clone)
+            //this.scene2.add(this.sphere2Clone)
 
           })
           
@@ -749,9 +755,7 @@ racetrackShape3.lineTo(-8, 60);
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
-   
 
-   //console.log(tangents,normals,binormals)
      
      
   
@@ -794,7 +798,7 @@ racetrackShape3.lineTo(-8, 60);
     //this.scene2.add(this.sphereRight);
 
       this.sphere2Clone = this.sphere2.clone()
-      this.sphere2Clone.position.copy(positionOnCurve.clone())
+      //this.sphere2Clone.position.copy(positionOnCurve.clone())
       
       
       this.scene2.add(this.sphere2Clone) 
@@ -843,13 +847,14 @@ let loopTime = 60;
    
   this.sphere2Clone.rotation.y += 5.0
   this.sphere2Clone.material.color.setHSL( Math.random(), 1, .5 );
-  this.sphere2Clone.position.y = 8.0 * Math.sin(t * 2.2) + 4.0
+  this.sphere2Clone.position.y = 4.0 * Math.sin(t * 2.2) + 4.0
     
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
-    //const pos3 = this.splineReverse.getPointAt(t); 
 
-    //this.sphere2Clone.position.copy(pos3)
+     const pos3 =  this.spline2.getPointAt(t); 
+
+//this.sphere2Clone.position.copy(pos3) 
 
     
   
@@ -861,8 +866,8 @@ let loopTime = 60;
 
    
    
-    //this.camera.instance.position.copy(pos)//.add(offset)
-    //this.camera.instance.lookAt(pos2)
+    this.camera.instance.position.copy(pos)//.add(offset)
+   this.camera.instance.lookAt(pos2)
 
     //this.model.position.y = pos.y 
    

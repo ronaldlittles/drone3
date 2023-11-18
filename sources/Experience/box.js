@@ -63,7 +63,7 @@ export default class Box {
     ]);
 
    
-   //this.scene2.background = this.cubeTexture
+   this.scene2.background = this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
@@ -125,7 +125,7 @@ export default class Box {
 
       this.mesh1.scale.setScalar(500)
       
-      this.scene2.add(this.mesh1);
+      //this.scene2.add(this.mesh1);
 
       //this.mesh1.position.z = 600;
       //this.mesh1.rotation.x += Math.PI/2;
@@ -443,7 +443,7 @@ for (let i = 0; i < length; i++) {
 
   this.box.castShadow = true
 
-  this.scene2.add(this.box);
+  //this.scene2.add(this.box);
 
   this.boxes.push(this.box);
 }

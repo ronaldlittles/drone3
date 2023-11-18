@@ -30,7 +30,7 @@ const vertexShader = {
 
   void main() {
 
-    vUv =  floor(uv);
+    vUv =  uv;
     Vnormal = normal;
     
 
@@ -78,7 +78,7 @@ const vertexShader = {
     
       void main() {
     
-        vUv =  floor(uv);
+        vUv =  uv;
         Vnormal = normal;
         
     

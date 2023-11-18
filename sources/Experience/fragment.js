@@ -38,7 +38,7 @@ uniform float noise;
 
 
 void main() {
-  float squareSize = .01; // Change this value to adjust the size of the squares
+  float squareSize = 5.0; // Change this value to adjust the size of the squares
 
   vec2 position = floor(vUv / squareSize);
 
