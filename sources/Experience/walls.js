@@ -559,7 +559,7 @@ racetrackShape3.lineTo(-8, 60);
    
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
-    this.shaderMaterial2
+    this.shaderMaterial
     /* new THREE.MeshBasicMaterial({
 
       map: this.resource2,
