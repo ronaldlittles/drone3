@@ -212,7 +212,7 @@ export default class Walls extends EventEmitter {
     this.model2.scale.setScalar(10)
     //this.scene2.add(this.model2);
     this.model2.castShadow = true;
-    this.model2.position.y = -200;
+    this.model2.position.y = -180;
     //this.model2.receiveShadow = true; 
 
     this.model3 = this.resource5.scene;
@@ -227,6 +227,7 @@ export default class Walls extends EventEmitter {
      this.camera.instance.add(this.model)
     this.model.translateZ(-10)
     this.model.translateY(3)
+    this.model.rotateX(-Math.PI/6)
    
      this.meshes = [];
           this.model.traverse((object) => {
@@ -373,20 +374,12 @@ export default class Walls extends EventEmitter {
       this.shaderMaterial2 = new THREE.ShaderMaterial({
        
       side: THREE.DoubleSide,
-      //VertexColors: true,
-      //transparent: true,
+      
       transparent: true,
       opacity: 1.0,
       
       uniforms: {
-          t: { value: t },
-          yPosition: { value: yPosition },
-					time: { value: null },
-					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
-					uTexture: { value: null },
-					uLength: { type: 'v3', value : null},
-          azimuth: { value: this.camera.azimuth},
-          tangent: { value: this.angle },
+         
           noise: { value: this.iNoise},
           radius: { value: this.radius}
       },
@@ -396,10 +389,11 @@ export default class Walls extends EventEmitter {
 
     });
 
+
     this.shaderMaterial = new THREE.ShaderMaterial({
      
       side: THREE.DoubleSide,
-      //VertexColors: true,
+    
       transparent: true,
       opacity: 1,
       
@@ -407,14 +401,7 @@ export default class Walls extends EventEmitter {
    
       uniforms: {
    
-        t: { value: t },
-        yPosition: { value: yPosition },
-        time: { value: null },
-        uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
-        uTexture: { value: null },
-        uLength: { type: 'v3', value : null},
-        azimuth: { value: this.camera.azimuth},
-        tangent: { value: this.angle },
+       
         noise: { value: this.iNoise},
         radius: { value: this.radius}
       },
@@ -624,7 +611,7 @@ racetrackShape3.lineTo(-8, 60);
     )
     this.scene2.add(this.tube);
     
-    this.tube.position.y =-12  
+    this.tube.position.y =-16  
   
    console.log(this.tube)
     
@@ -644,7 +631,7 @@ racetrackShape3.lineTo(-8, 60);
     this.shaderMaterial
     )   
     this.scene2.add(this.tube2);
-    this.tube2.position.y =-4
+    this.tube2.position.y =-8
   
     this.tube3 = new THREE.Mesh(this.tubeGeo3,    /* new THREE.MeshBasicMaterial({
 
@@ -663,7 +650,7 @@ racetrackShape3.lineTo(-8, 60);
     )   
     this.scene2.add(this.tube3);
         
-    this.tube3.position.y =-4
+    this.tube3.position.y =-8
 
 
 
@@ -868,6 +855,8 @@ let loopTime = 60;
    
     this.camera.instance.position.copy(pos)//.add(offset)
    this.camera.instance.lookAt(pos2)
+    this.camera.instance.rotateX( -Math.PI/16 )
+
 
     //this.model.position.y = pos.y 
    
