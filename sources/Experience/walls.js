@@ -45,7 +45,7 @@ export default class Walls extends EventEmitter {
     this.setBoxes();
     
 
-    this.setRaycaster();
+    //this.setRaycaster();
 
     
 
