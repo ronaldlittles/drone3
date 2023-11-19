@@ -229,7 +229,7 @@ export default class Walls extends EventEmitter {
      this.camera.instance.add(this.model)
     this.model.translateZ(-10)
     this.model.translateY(3)
-    this.model.rotateX(-Math.PI/6)
+    //this.model.rotateX(-Math.PI/6)
    
      this.meshes = [];
           this.model.traverse((object) => {
@@ -542,7 +542,7 @@ const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -60);
 racetrackShape2.lineTo(8, -60);  
-racetrackShape2.lineTo(8, -55);  //70 
+racetrackShape2.lineTo(8, -60);  //70 
 racetrackShape2.lineTo(-8, -60); //60 
 racetrackShape2.lineTo(-8, -60); 
 
@@ -551,7 +551,7 @@ const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 60);
 racetrackShape3.lineTo(8, 60);  
-racetrackShape3.lineTo(8, 50); //70  
+racetrackShape3.lineTo(8, 60); //70  
 racetrackShape3.lineTo(-8, 60);  //60
 racetrackShape3.lineTo(-8, 60);  
 
