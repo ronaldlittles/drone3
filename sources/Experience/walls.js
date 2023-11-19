@@ -820,7 +820,7 @@ let loopTime = 60;
    
     this.camera.instance.position.copy(pos)//.add(offset)
    this.camera.instance.lookAt(pos2)
-    this.camera.instance.rotateX( -Math.PI/16 )
+    //this.camera.instance.rotateX( -Math.PI/16 )
 
 
     //this.model.position.y = pos.y 
