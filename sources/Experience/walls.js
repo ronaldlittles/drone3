@@ -5,7 +5,7 @@ import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 //import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { vertexShader } from "./vertex.js";
-import { fragmentShader, fragmentShader2 } from "./fragment.js";
+import { fragmentShader, fragmentShader2,  fragmentShader3  } from "./fragment.js";
 //import { fragmentShader2 } from "./fragment2.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 //import { Flow } from 'three/examples/jsm/modifiers/CurveModifier.js';
@@ -131,7 +131,7 @@ export default class Walls extends EventEmitter {
 
       const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
     
-      this.box1 = new THREE.Mesh(this.boxGeometry, material);
+      this.box1 = new THREE.Mesh(this.boxGeometry, this.shaderMaterial);
   
 
       this.box = this.box1.clone();
@@ -183,7 +183,7 @@ export default class Walls extends EventEmitter {
       }
     })
     
-        return this.boxes
+       
        
       }
 
@@ -213,7 +213,9 @@ export default class Walls extends EventEmitter {
     //this.scene2.add(this.model2);
     this.model2.castShadow = true;
     this.model2.position.y = -200;
-    //this.model2.receiveShadow = true; 
+    //this.model2.receiveShadow = true;
+
+    //this.model2.material = this.shaderMaterial3
 
     this.model3 = this.resource5.scene;
     
@@ -335,6 +337,27 @@ export default class Walls extends EventEmitter {
         this.radius = 12.0;
       /*   const t = (2.0 * Math.PI * this.radius ) + this.iNoise;
         const yPosition = Math.sin( t * .5 + this.iNoise  ) * this.radius;*/
+
+        this.shaderMaterial3 = new THREE.ShaderMaterial({
+       
+          side: THREE.DoubleSide,
+          
+          transparent: true,
+          opacity: 1.0,
+          
+          uniforms: {
+
+              //time: { value: this.time},
+              noise: { value: this.iNoise},
+              radius: { value: this.radius}
+          },
+    
+          vertexShader: vertexShader.vertexShader,
+          fragmentShader: fragmentShader3.fragmentShader3,
+    
+        }); 
+    
+
        
       this.shaderMaterial2 = new THREE.ShaderMaterial({
        
@@ -519,8 +542,8 @@ const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -60);
 racetrackShape2.lineTo(8, -60);  
-racetrackShape2.lineTo(8, -75);  //70 
-racetrackShape2.lineTo(-8, -75); //60 
+racetrackShape2.lineTo(8, -55);  //70 
+racetrackShape2.lineTo(-8, -60); //60 
 racetrackShape2.lineTo(-8, -60); 
 
 
@@ -528,8 +551,8 @@ const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 60);
 racetrackShape3.lineTo(8, 60);  
-racetrackShape3.lineTo(8, 75); //70  
-racetrackShape3.lineTo(-8, 75);  //60
+racetrackShape3.lineTo(8, 50); //70  
+racetrackShape3.lineTo(-8, 60);  //60
 racetrackShape3.lineTo(-8, 60);  
 
     
@@ -559,7 +582,7 @@ racetrackShape3.lineTo(-8, 60);
    
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
-    this.shaderMaterial2
+    this.shaderMaterial
     /* new THREE.MeshBasicMaterial({
 
       map: this.resource2,
@@ -593,7 +616,7 @@ racetrackShape3.lineTo(-8, 60);
     
     })    */
 
-    this.shaderMaterial
+    this.shaderMaterial2
     )   
     this.scene2.add(this.tube2);
     this.tube2.position.y =-8
@@ -611,7 +634,7 @@ racetrackShape3.lineTo(-8, 60);
     
     })   */
 
-    this.shaderMaterial
+    this.shaderMaterial2
     )   
     this.scene2.add(this.tube3);
         
@@ -732,6 +755,7 @@ racetrackShape3.lineTo(-8, 60);
     this.sphereLeft.isWall = true
     this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
 
+    this.sphereLeft.position.add(new THREE.Vector3(0,-10,0))
    
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle2+ Math.PI/2 );
     
