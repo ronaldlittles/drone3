@@ -496,11 +496,11 @@ export default class Walls extends EventEmitter {
 
    console.log(tangents,normals,binormals) */
 
-    this.splineReverse = this.spline.points
+   /*  this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
     this.spline2 = new THREE.CatmullRomCurve3(this.rev);
    console.log(this.spline2, this.spline)
-    
+     */
  
   
 const racetrackShape = new THREE.Shape();
@@ -804,7 +804,7 @@ let loopTime = 60;
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
 
-     const pos3 =  this.spline2.getPointAt(t); 
+     //const pos3 =  this.spline2.getPointAt(t); 
 
 //this.sphere2Clone.position.copy(pos3) 
 
