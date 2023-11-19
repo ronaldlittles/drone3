@@ -522,9 +522,9 @@ window.addEventListener('pointerdown', () => {
 
 
   update(){
-    this.shaderMaterial.uniforms.time.value += this.time.delta * 10;
+    //this.shaderMaterial.uniforms.time.value += this.time.delta * 10;
     
-    this.shaderMaterial.uniforms.azimuth.value = this.camera.azimuth * 2.5 + Math.PI;
+    //this.shaderMaterial.uniforms.azimuth.value = this.camera.azimuth * 2.5 + Math.PI;
     //this.myText.curveRadius -= 10.0;
 
   /*   const time = this.time.elapsed * 0.001;

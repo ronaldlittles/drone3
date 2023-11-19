@@ -481,9 +481,9 @@ export default class Walls extends EventEmitter {
     const tangents = []
     const normals = []
     const binormals = []
-   this.spline.computeFrenetFrames(600,closed), 
+   //this.spline.computeFrenetFrames(600,closed), 
    
-   (tangent,normal,binormal)=>{
+  /*  (tangent,normal,binormal)=>{
 
    
 
@@ -494,7 +494,7 @@ export default class Walls extends EventEmitter {
 
    }
 
-   console.log(tangents,normals,binormals)
+   console.log(tangents,normals,binormals) */
 
     this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
@@ -797,9 +797,9 @@ let loopTime = 60;
   const t2 =  (speed * this.time.elapsed + .04)/loopTime % 1;
   
    
-  this.sphere2Clone.rotation.y += 5.0
+  /* this.sphere2Clone.rotation.y += 5.0
   this.sphere2Clone.material.color.setHSL( Math.random(), 1, .5 );
-  this.sphere2Clone.position.y = 4.0 * Math.sin(t * 2.2) + 4.0
+  this.sphere2Clone.position.y = 4.0 * Math.sin(t * 2.2) + 4.0 */
     
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
