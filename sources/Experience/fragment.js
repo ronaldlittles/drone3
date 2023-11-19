@@ -28,4 +28,4 @@ const fragmentShader = {
 
 
 
-export { fragmentShader, fragmentShader2 };
+export { fragmentShader };
