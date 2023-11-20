@@ -42,10 +42,10 @@ export default class Camera {
   setInstance() {
     // Set up
     this.instance = new THREE.PerspectiveCamera(
-      60,
+      90,
       this.sizes.aspect,
       .1,
-     100000
+     1000
     );
     this.instance.rotation.reorder("YXZ");
     //this.instance.matrixAutoUpdate = true;
