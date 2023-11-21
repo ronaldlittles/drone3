@@ -27,7 +27,7 @@ const vertexShader = {
 
    
 
-   float t = position.x / (2.0 * PI * radius ) + noise;
+   //float t = position.x / (2.0 * PI * radius ) + noise;
      
   
     vec4 mvPosition = modelViewMatrix * vec4(position  , 1.0 );

@@ -45,13 +45,13 @@ export default class Camera {
       60,
       this.sizes.aspect,
       .1,
-     1000
+     10000
     );
     this.instance.rotation.reorder("YXZ");
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    this.instance.position.set(0,50,550);
+    this.instance.position.set(0,150,550);
     //this.instance.lookAt(0,0,0)
    
     this.scene2.add(this.instance);

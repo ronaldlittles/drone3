@@ -199,7 +199,7 @@ export default class Walls extends EventEmitter {
     this.model.scale.set(200,10,600)
     this.model.scale.setScalar(15);
     this.model.castShadow = true;
-    this.model.receiveShadow = true;
+    this.model.visible = false;
     //this.model.upVector = new THREE.Vector3(0, 1, 0);
 
 
@@ -226,9 +226,9 @@ export default class Walls extends EventEmitter {
     //this.model3.receiveShadow = true; 
    
     
-     this.camera.instance.add(this.model)
+   /*   this.camera.instance.add(this.model)
     this.model.translateZ(-10)
-    this.model.translateY(5)
+    this.model.translateY(5) */
     //this.model.rotation.setFromAxisAngle(x,Math.PI/16)
      this.meshes = [];
           this.model.traverse((object) => {
@@ -478,7 +478,7 @@ export default class Walls extends EventEmitter {
 
             var x = Math.sin(t * 2) * radius;
             var z = Math.cos(t) * radius;
-            var y = Math.sin(t*Math.PI*5) * 2;
+            var y = 0// Math.sin(t*10*Math.PI);
         
             this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
 
@@ -507,9 +507,9 @@ export default class Walls extends EventEmitter {
 
     this.spline.curveType = 'catmullrom';
    
-    //this.spline.closed = true;
+    this.spline.closed = true;
 
-    //this.spline.tension = .00001;
+    this.spline.tension = .001;
 
     this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,299)
 
@@ -797,7 +797,7 @@ racetrackShape3.lineTo(-4, 80);
    
  
 let currentPosition = 0; 
-let speed = 2.0; 
+let speed = 1.5; 
 let loopTime = 60;
 
  
@@ -822,11 +822,11 @@ let loopTime = 60;
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 6,Math.PI/12)
+    const offset = new THREE.Vector3(0, 5,0)
 
    
    
-    this.camera.instance.position.copy(pos)//.add(offset)
+    this.camera.instance.position.copy(pos).add(offset)
     this.camera.instance.lookAt(pos2)
     //this.camera.instance.rotation.x = -Math.PI/16
 
