@@ -227,8 +227,8 @@ export default class Walls extends EventEmitter {
    
     
      this.camera.instance.add(this.model)
-    this.model.translateZ(4)
-    this.model.translateY(1.5)
+    this.model.translateZ(-10)
+    this.model.translateY(5)
     //this.model.rotation.setFromAxisAngle(x,Math.PI/16)
      this.meshes = [];
           this.model.traverse((object) => {
