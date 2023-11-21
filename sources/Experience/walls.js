@@ -228,7 +228,7 @@ export default class Walls extends EventEmitter {
     
      this.camera.instance.add(this.model)
     this.model.translateZ(4)
-    //this.model.translateY(-1.5)
+    this.model.translateY(1.5)
     //this.model.rotation.setFromAxisAngle(x,Math.PI/16)
      this.meshes = [];
           this.model.traverse((object) => {
@@ -358,7 +358,7 @@ export default class Walls extends EventEmitter {
               radius: { value: this.radius}
           },
     
-          vertexShader: vertexShader.vertexShader3,
+          vertexShader: vertexShader.vertexShader,
           fragmentShader: fragmentShader2.fragmentShader2,
     
         });
@@ -402,7 +402,7 @@ export default class Walls extends EventEmitter {
         radius: { value: this.radius}
       },
    
-      vertexShader: vertexShader.vertexShader3,
+      vertexShader: vertexShader.vertexShader,
       fragmentShader: fragmentShader.fragmentShader,
    
     });
@@ -468,17 +468,17 @@ export default class Walls extends EventEmitter {
 
    /*  for (let i = 0; i < numPoints; i++) {
 
-        const t = i / (numPoints - 1); */
+        const t = i / (numPoints - 1);  */
 
 
         this.points = [];
         let radius = 1000;
         
-        for (let t = 0; t <= Math.PI * 4; t += 1.1) {
+        for (let t = 0; t <= Math.PI * 4; t += .1) {
 
             var x = Math.sin(t * 2) * radius;
             var z = Math.cos(t) * radius;
-            var y = Math.sin(t*4) * 10;
+            var y = Math.sin(t*Math.PI*5) * 2;
         
             this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
 
@@ -507,7 +507,9 @@ export default class Walls extends EventEmitter {
 
     this.spline.curveType = 'catmullrom';
    
-    
+    //this.spline.closed = true;
+
+    //this.spline.tension = .00001;
 
     this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,299)
 
@@ -554,8 +556,8 @@ const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -80);
 racetrackShape2.lineTo(4, -80);  
-racetrackShape2.lineTo(4, -80);  //70 
-racetrackShape2.lineTo(-4, -80); //80 
+racetrackShape2.lineTo(4, -70);  //70 
+racetrackShape2.lineTo(-4, -70); //80 
 racetrackShape2.lineTo(-4, -80); 
 
 
@@ -563,8 +565,8 @@ const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 80);
 racetrackShape3.lineTo(4, 80);  
-racetrackShape3.lineTo(4, 80); //70  
-racetrackShape3.lineTo(-4, 80);  //80
+racetrackShape3.lineTo(4, 70); //70  
+racetrackShape3.lineTo(-4, 70);  //80
 racetrackShape3.lineTo(-4, 80);  
 
     
@@ -825,11 +827,11 @@ let loopTime = 60;
    
    
     this.camera.instance.position.copy(pos)//.add(offset)
-   this.camera.instance.lookAt(pos2)
-this.camera.instance.rotation.x = -Math.PI/16
+    this.camera.instance.lookAt(pos2)
+    //this.camera.instance.rotation.x = -Math.PI/16
 
 
-    //this.model.position.y = pos.y 
+    //this.model.position.y = pos.y +5
    
    
 
@@ -881,8 +883,8 @@ this.camera.instance.rotation.x = -Math.PI/16
 this.q1 = new THREE.Quaternion()
 this.q2 = new THREE.Quaternion()
 
-this.q1.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth )
-this.q2.setFromAxisAngle(new THREE.Vector3(0, 0, 1), this.camera.azimuth)
+this.q1.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth%1 )
+this.q2.setFromAxisAngle(new THREE.Vector3(0, 0, 1), this.camera.azimuth%1)
 
 this.q3 = new THREE.Quaternion()
 this.q3.multiplyQuaternions(this.q1,this.q2)

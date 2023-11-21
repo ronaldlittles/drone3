@@ -32,7 +32,7 @@ const vertexShader = {
   
     vec4 mvPosition = modelViewMatrix * vec4(position  , 1.0 );
   
-    mvPosition.y += sin( t * .5 + noise  ) * radius;
+   // mvPosition.y += sin( t * .5 + noise  ) * radius;
 
     gl_Position = projectionMatrix * mvPosition;
 
