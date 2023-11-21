@@ -32,7 +32,7 @@ varying vec2 vUv;
 
 
 void main() {
-  float squareSize = 5.0; 
+  float squareSize = 25.0; 
 
   vec2 position = floor(vUv / squareSize);
 

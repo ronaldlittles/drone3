@@ -63,7 +63,7 @@ export default class Box {
     ]);
 
    
-   //this.scene2.background = this.cubeTexture
+   this.scene2.background = this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
@@ -98,7 +98,7 @@ export default class Box {
       },
 
       vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader.fragmentShader2,
+      fragmentShader: fragmentShader.fragmentShader,
 
     });
 
@@ -229,7 +229,7 @@ export default class Box {
 
     console.log(myText)
     this.myText = myText;
-    //this.scene2.add(this.myText);
+    this.scene2.add(this.myText);
 
     this.myText.text =
       "the brain is the strongest muscle of the body.";
@@ -272,7 +272,7 @@ export default class Box {
 
 
     this.myText4 = new Text();
-    //this.scene2.add(this.myText4);
+    this.scene2.add(this.myText4);
 
     this.myText4.text =
       "wherever you go there you are";

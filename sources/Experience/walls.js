@@ -131,7 +131,7 @@ export default class Walls extends EventEmitter {
 
       const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
     
-      this.box1 = new THREE.Mesh(this.boxGeometry, this.shaderMaterial);
+      this.box1 = new THREE.Mesh(this.boxGeometry, material);
   
 
       this.box = this.box1.clone();
@@ -195,7 +195,7 @@ export default class Walls extends EventEmitter {
     this.model.name = "droneModel";
     this.scene2.add(this.model);
     this.model.position.set(0, 2.5,-10);
-    this.model.rotation.set(0, 0, 0);
+    this.model.rotation.set(Math.PI/4, 0, 0);
     this.model.scale.set(200,10,600)
     this.model.scale.setScalar(15);
     this.model.castShadow = true;
@@ -227,10 +227,9 @@ export default class Walls extends EventEmitter {
    
     
      this.camera.instance.add(this.model)
-    this.model.translateZ(-10)
-    this.model.translateY(3)
-    //this.model.rotateX(-Math.PI/6)
-   
+    this.model.translateZ(4)
+    //this.model.translateY(-1.5)
+    //this.model.rotation.setFromAxisAngle(x,Math.PI/16)
      this.meshes = [];
           this.model.traverse((object) => {
             if (object.isMesh) {
@@ -331,12 +330,16 @@ export default class Walls extends EventEmitter {
         this.video.play();
     
         this.texture = new THREE.VideoTexture(this.video); */
-
+        let time = 0;
+        
+        const customPositions = new Float32Array(this.numVertices*3);
        
-        //this.aLength = []
         this.radius = 12.0;
-      /*   const t = (2.0 * Math.PI * this.radius ) + this.iNoise;
-        const yPosition = Math.sin( t * .5 + this.iNoise  ) * this.radius;*/
+
+        //just need position.x in t function
+
+        const t = customPositions / (2.0 * Math.PI * this.radius);
+        const yPosition = Math.sin(t * .5+ this.iNoise  )* this.radius ;
 
         this.shaderMaterial3 = new THREE.ShaderMaterial({
        
@@ -347,15 +350,20 @@ export default class Walls extends EventEmitter {
           
           uniforms: {
 
-              //time: { value: this.time},
+              time: { value: this.time.elapsed * 5.0 },
+              customPositions: {value: customPositions},
+              t: { value: t },
+              yPosition: { value: yPosition},
               noise: { value: this.iNoise},
               radius: { value: this.radius}
           },
     
-          vertexShader: vertexShader.vertexShader,
-          fragmentShader: fragmentShader3.fragmentShader3,
+          vertexShader: vertexShader.vertexShader3,
+          fragmentShader: fragmentShader2.fragmentShader2,
     
-        }); 
+        });
+        
+        
     
 
        
@@ -394,7 +402,7 @@ export default class Walls extends EventEmitter {
         radius: { value: this.radius}
       },
    
-      vertexShader: vertexShader.vertexShader,
+      vertexShader: vertexShader.vertexShader3,
       fragmentShader: fragmentShader.fragmentShader,
    
     });
@@ -414,6 +422,8 @@ export default class Walls extends EventEmitter {
     //this.geometry = new THREE.PlaneGeometry(2,2, number, number);
 
     //this.geometry = new THREE.BufferGeometry()
+
+  
     //this.positions = new Float32Array(number * 3);
     //this.randoms = new Float32Array(number * 3);
     //this.sizes = new Float32Array(number * 1);
@@ -431,11 +441,13 @@ export default class Walls extends EventEmitter {
       
     //}
 
-    /*this.tubeGeo.setAttribute(
-      "position",
+    /* this.tubeGeo.setAttribute(
+      "uPosition",
       new THREE.BufferAttribute(this.positions, 3)
-    );
-      "aRandom",
+    ); */
+
+
+     /* "aRandom",
       new THREE.BufferAttribute(this.randoms, 3)
     );
     this.geometry.setAttribute(
@@ -462,11 +474,11 @@ export default class Walls extends EventEmitter {
         this.points = [];
         let radius = 1000;
         
-        for (let t = 0; t <= Math.PI * 4; t += 0.1) {
+        for (let t = 0; t <= Math.PI * 4; t += 1.1) {
 
             var x = Math.sin(t * 2) * radius;
             var z = Math.cos(t) * radius;
-            var y = 0;
+            var y = Math.sin(t*4) * 10;
         
             this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
 
@@ -530,30 +542,30 @@ const racetrackShape = new THREE.Shape();
 
 
 
-racetrackShape.moveTo(0, -60);
+racetrackShape.moveTo(0, -80);
 
-racetrackShape.lineTo(2,-60); 
-racetrackShape.lineTo(0, 60);
-racetrackShape.lineTo(-2, -60);
+racetrackShape.lineTo(2,-80); 
+racetrackShape.lineTo(0, 80);
+racetrackShape.lineTo(-2, -80);
 
 console.log(racetrackShape)
 
 const racetrackShape2 = new THREE.Shape();
 
-racetrackShape2.moveTo(0, -60);
-racetrackShape2.lineTo(8, -60);  
-racetrackShape2.lineTo(8, -60);  //70 
-racetrackShape2.lineTo(-8, -60); //60 
-racetrackShape2.lineTo(-8, -60); 
+racetrackShape2.moveTo(0, -80);
+racetrackShape2.lineTo(4, -80);  
+racetrackShape2.lineTo(4, -80);  //70 
+racetrackShape2.lineTo(-4, -80); //80 
+racetrackShape2.lineTo(-4, -80); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
-racetrackShape3.moveTo(0, 60);
-racetrackShape3.lineTo(8, 60);  
-racetrackShape3.lineTo(8, 60); //70  
-racetrackShape3.lineTo(-8, 60);  //60
-racetrackShape3.lineTo(-8, 60);  
+racetrackShape3.moveTo(0, 80);
+racetrackShape3.lineTo(4, 80);  
+racetrackShape3.lineTo(4, 80); //70  
+racetrackShape3.lineTo(-4, 80);  //80
+racetrackShape3.lineTo(-4, 80);  
 
     
 
@@ -576,69 +588,39 @@ racetrackShape3.lineTo(-8, 60);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
 
    
-   
+    this.numVertices = this.tubeGeo.getAttribute('position').count;
 
    
    
     this.tube = new THREE.Mesh(this.tubeGeo,   
 
-    this.shaderMaterial
-    /* new THREE.MeshBasicMaterial({
-
-      map: this.resource2,
-       //envMap: this.scene2.background,
-       side: THREE.DoubleSide,
-       transparent: true,
-       opacity: 1,
-    
-          //vertexColors: true,
-
-    
-    })    */
-
+    this.shaderMaterial3
+  
     )
     this.scene2.add(this.tube);
     
     this.tube.position.y =-16  
   
    console.log(this.tube)
-    
-    this.tube2 = new THREE.Mesh(this.tubeGeo2,     /* new THREE.MeshBasicMaterial({
 
-      map: this.resource1,
-       //envMap: this.scene2.background,
-       side: THREE.DoubleSide,
-       transparent: true,
-       opacity: 1,
-    
-          //vertexColors: true,
+
 
     
-    })    */
+    this.tube2 = new THREE.Mesh(this.tubeGeo2,  
 
-    this.shaderMaterial2
+    this.shaderMaterial
+
     )   
     this.scene2.add(this.tube2);
-    this.tube2.position.y =-8
+    this.tube2.position.y =-12
   
-    this.tube3 = new THREE.Mesh(this.tubeGeo3,    /* new THREE.MeshBasicMaterial({
+    this.tube3 = new THREE.Mesh(this.tubeGeo3,    
 
-      map: this.resource1,
-       //envMap: this.scene2.background,
-       side: THREE.DoubleSide,
-       transparent: true,
-       opacity: 1,
-    
-          //vertexColors: true,
-
-    
-    })   */
-
-    this.shaderMaterial2
+    this.shaderMaterial
     )   
     this.scene2.add(this.tube3);
         
-    this.tube3.position.y =-8
+    this.tube3.position.y =-12
 
 
 
@@ -804,7 +786,7 @@ racetrackShape3.lineTo(-8, 60);
 
     
 
-
+    this.shaderMaterial3.uniforms.needsUpdate = true;
 
 
     
@@ -844,8 +826,7 @@ let loopTime = 60;
    
     this.camera.instance.position.copy(pos)//.add(offset)
    this.camera.instance.lookAt(pos2)
-
-    //this.camera.instance.rotateX( -Math.PI/16 )
+this.camera.instance.rotation.x = -Math.PI/16
 
 
     //this.model.position.y = pos.y 
