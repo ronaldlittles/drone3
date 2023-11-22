@@ -12,9 +12,9 @@ const vertexShader = {
 
   float PI = 3.141592653589793238;
 
-  uniform float noise;
+  //uniform float noise;
   
-  uniform float radius;
+  //uniform float radius;
  
   
  

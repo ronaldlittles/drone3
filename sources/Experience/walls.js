@@ -341,6 +341,7 @@ export default class Walls extends EventEmitter {
         const t = customPositions / (2.0 * Math.PI * this.radius);
         const yPosition = Math.sin(t * .5+ this.iNoise  )* this.radius ;
 
+
         this.shaderMaterial3 = new THREE.ShaderMaterial({
        
           side: THREE.DoubleSide,
@@ -398,8 +399,8 @@ export default class Walls extends EventEmitter {
       uniforms: {
    
        
-        noise: { value: this.iNoise},
-        radius: { value: this.radius}
+        //noise: { value: this.iNoise},
+        //radius: { value: this.radius}
       },
    
       vertexShader: vertexShader.vertexShader,
@@ -478,7 +479,7 @@ export default class Walls extends EventEmitter {
 
             var x = Math.sin(t * 2) * radius;
             var z = Math.cos(t) * radius;
-            var y = 0// Math.sin(t*10*Math.PI);
+            var y = t* 50 + Math.sin(z*3*Math.PI)*10;
         
             this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
 
@@ -507,9 +508,9 @@ export default class Walls extends EventEmitter {
 
     this.spline.curveType = 'catmullrom';
    
-    this.spline.closed = true;
+    //this.spline.closed = true;
 
-    this.spline.tension = .001;
+    //this.spline.tension = .001;
 
     this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,299)
 
