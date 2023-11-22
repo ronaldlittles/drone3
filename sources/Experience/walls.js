@@ -409,11 +409,7 @@ export default class Walls extends EventEmitter {
     });
   
 
-    this.resource1.wrapS = THREE.RepeatWrapping;
-
-    //this.resource1.wrapT = THREE.RepeatWrapping;
-
-    this.resource1.repeat.set(.05,.005) 
+    
 
     
 
@@ -512,9 +508,9 @@ export default class Walls extends EventEmitter {
 
     //this.spline.tension = .001;
 
-    this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,299)
+    this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,125)
 
-    
+    this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
 
     const tangents = []
     const normals = []
@@ -565,10 +561,32 @@ racetrackShape2.lineTo(-4, -80);
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 80);
-racetrackShape3.lineTo(4, 80);  
+racetrackShape3.lineTo(54, 80);  
 racetrackShape3.lineTo(4, 70); //70  
 racetrackShape3.lineTo(-4, 70);  //80
-racetrackShape3.lineTo(-4, 80);  
+racetrackShape3.lineTo(-4, 80); 
+
+
+
+const racetrackShape4 = new THREE.Shape();
+
+racetrackShape4.moveTo(0, -580);
+racetrackShape4.lineTo(354, -580);  
+racetrackShape4.lineTo(354, -570); //70  
+racetrackShape4.lineTo(-354, -570);  //80
+racetrackShape4.lineTo(-354, -580); 
+
+
+const racetrackShape5 = new THREE.Shape();
+
+racetrackShape5.moveTo(0, 580);
+racetrackShape5.lineTo(354, 580);  
+racetrackShape5.lineTo(354, 570); //70  
+racetrackShape5.lineTo(-354, 570);  //80
+racetrackShape5.lineTo(-354, 580); 
+
+
+
 
     
 
@@ -576,12 +594,17 @@ racetrackShape3.lineTo(-4, 80);
 
       steps: 1500,
       depth: 100,
-      bevelEnabled: false,
-      bevelThickness: 1,
-      bevelSize: .5,
-      bevelOffset: 0,
-      bevelSegments: 1,
+      
       extrudePath: this.spline,
+
+    }
+
+    this.extrudeSettings2 = {
+
+      steps: 1500,
+      depth: 100,
+      
+      extrudePath: this.spline2,
 
     }
     
@@ -589,8 +612,10 @@ racetrackShape3.lineTo(-4, 80);
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
     this.tubeGeo2 = new THREE.ExtrudeGeometry(racetrackShape2, this.extrudeSettings);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
+    this.tubeGeo4 = new THREE.ExtrudeGeometry(racetrackShape4, this.extrudeSettings2);
+    this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings2);
 
-   
+
     this.numVertices = this.tubeGeo.getAttribute('position').count;
 
    
@@ -626,6 +651,39 @@ racetrackShape3.lineTo(-4, 80);
     this.tube3.position.y =-12
 
 
+    this.tube4 = new THREE.Mesh(this.tubeGeo4,    
+
+      this.purpl1Material = new THREE.MeshStandardMaterial({
+        //color: 'yellow',
+        opacity: 1,
+        transparent: true,
+        map: this.resource2
+      })
+      )   
+      this.scene2.add(this.tube4);
+          
+      //this.tube4.rotation.z +=-Math.PI/6
+
+
+
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,    
+
+        this.purpl2Material = new THREE.MeshStandardMaterial({
+          //color: 'yellow',
+          opacity: 1,
+          transparent: true,
+          map: this.resource2
+        })
+        )   
+        this.scene2.add(this.tube5);
+            
+        //this.tube5.position.y =-12
+
+        this.resource2.wrapS = THREE.RepeatWrapping;
+
+        this.resource1.wrapT = THREE.RepeatWrapping;
+    
+        this.resource2.repeat.set(.000000064,.000000000128)
 
 
    /* gui.add(parameters, 'sliderValue', -100, 100)
@@ -827,8 +885,8 @@ let loopTime = 60;
 
    
    
-    this.camera.instance.position.copy(pos).add(offset)
-    this.camera.instance.lookAt(pos2)
+    //this.camera.instance.position.copy(pos).add(offset)
+    //this.camera.instance.lookAt(pos2)
     //this.camera.instance.rotation.x = -Math.PI/16
 
 
