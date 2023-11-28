@@ -34,7 +34,7 @@ export default [
 
       {
         name: "forrest",
-        source: "/assets/forrest.jpg",
+        source: "/assets/fire.jpg",
         type: "texture",
       },
 

@@ -20,33 +20,64 @@ const fragmentShader = {
         }
       }
 
-`
-    }
+`,
+    
 
-   const fragmentShader2 = { 
-  fragmentShader2: `
+    
+      fragmentShader1: `
+    
+          
+          varying vec2 vUv;
+          
+    
+    
+          void main() {
+            float squareSize = 5.0; 
+        
+            vec2 position = floor(vUv / squareSize);
+        
+            if (mod(position.x + position.y, 2.0) < 1.0) {
+    
+              gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); 
 
+            } else {
 
-varying vec2 vUv;
+              gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); 
+    
+            }
 
-
-
-void main() {
-  float squareSize = 25.0; 
-
-  vec2 position = floor(vUv / squareSize);
-
-  if (mod(position.x + position.y, 2.0) < 1.0) {
-
-    gl_FragColor = vec4(0.6, 1.0, 0.9, 1.0); 
-  } else {
-    gl_FragColor = vec4(0.0,0.0, 0.0, 1.0); 
+          }
+    
+    `,
+    
   }
+    const fragmentShader2 = {
+      fragmentShader2: `
 
-}
 
-`
-   }
+      varying vec2 vUv;
+      varying vec3 newPosition;
+
+      uniform vec2 uScale;
+      uniform sampler2D texture1; 
+
+
+      void main() { 
+        
+
+      
+      vec2 newUV = vUv * uScale;
+      vec4 tex = texture2D( texture1, newUV);
+
+      
+
+          gl_FragColor = vec4(tex); 
+        
+
+      }
+
+`,
+    };
 
    const fragmentShader3 = {
 

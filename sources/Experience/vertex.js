@@ -6,33 +6,32 @@ const vertexShader = {
 
   varying vec2 vUv;
   
-  
+  varying vec3 newPosition;
 
-  
+  uniform sampler2D texture1;
 
   float PI = 3.141592653589793238;
 
-  //uniform float noise;
-  
-  //uniform float radius;
  
+  uniform vec2 uScale;
   
  
 
   void main() {
 
-    vUv =  uv;
-   
-    
+    vUv =  uv+uScale;
 
+    newPosition = position;
+     
+    float tex = texture2D( texture1, vUv).r;
    
-
-   //float t = position.x / (2.0 * PI * radius ) + noise;
+    newPosition.y = tex* .05;
+  
      
   
-    vec4 mvPosition = modelViewMatrix * vec4(position  , 1.0 );
+    vec4 mvPosition = modelViewMatrix * vec4(newPosition  , 1.0 );
   
-   // mvPosition.y += sin( t * .5 + noise  ) * radius;
+  
 
     gl_Position = projectionMatrix * mvPosition;
 

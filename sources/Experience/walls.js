@@ -30,7 +30,7 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource1 = this.resources.items.smoke;
+    this.resource1 = this.resources.items.forrest;
     this.resource2 = this.resources.items.forrest;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
@@ -45,7 +45,7 @@ export default class Walls extends EventEmitter {
     this.setBoxes();
     
 
-    //this.setRaycaster();
+    this.setRaycaster();
 
     
 
@@ -109,7 +109,7 @@ export default class Walls extends EventEmitter {
     let length =100;
     this.boxes = [];
     
-    this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
+    this.boxGeometry = new THREE.CylinderGeometry(1, 1, 25, 32, 1);
     
     this.purpleMaterial = new THREE.MeshStandardMaterial({
       color: 'yellow',
@@ -261,35 +261,20 @@ export default class Walls extends EventEmitter {
           document.body.appendChild(label);
 
           window.addEventListener("pointerdown", (event) => {
+
             const raycaster = new THREE.Raycaster();
+
             raycaster.setFromCamera(this.mouse, this.camera.instance);
-        
-            if (this.objectsArray1 && this.objectsArray2) {
-              const intersects = raycaster.intersectObjects([...this.objectsArray1, ...this.objectsArray2]);
+         
+              const intersects = raycaster.intersectObjects(this.scene2.children, true);
         
               if (intersects.length > 0) {
-                this.point = intersects[0].object;
 
-              this.label1 = this.objectsArray1.indexOf(this.point)
-               this.label2 = this.objectsArray2.indexOf(this.point)
-                
-                this.scene2.remove(this.point);
-        
-             
-                if (this.objectsArray1.includes(this.point)) {
-                  this.objectsArray1.splice(this.objectsArray1.indexOf(this.point), 1);
-                } else if (this.objectsArray2.includes(this.point)) {
-                  this.objectsArray2.splice(this.objectsArray2.indexOf(this.point), 1);
-                }
+               this.point = intersects[0].point;
 
-                
-                this.removedPointArray = [];
-                // this.removedPointArray.length = 0;
-              
-               this.removedPointArray.push(this.point);
-
-              
-
+               this.label1 = this.point
+               this.label2 = this.point
+            
               label.textContent = `Index: ${this.label1} ${this.label2 }`;
               
             } else {
@@ -297,39 +282,26 @@ export default class Walls extends EventEmitter {
               label.textContent = "";
             }
           
-            }
+           
 
+          })
 
-          });
-
-         
-     
-        /*   getTangentAt2(t) {
-            const vector2 = new THREE.Vector2();
-            const delta = 0.0001;
-            const t1 = Math.max(0, t - delta);
-            const t2 = Math.min(1, t + delta);
-    
-            return vector2
-              .copy(this.getPointAt2(t2))
-              .sub(this.getPointAt2(t1))
-              .normalize();
-
-          }  */
      
 
-        }   
+        }
+          
           
         
          
 
       createWall() {
 
-     /*    this.video = document.querySelector(".video");
+     /* this.video = document.querySelector(".video");
         
         this.video.play();
     
         this.texture = new THREE.VideoTexture(this.video); */
+
         let time = 0;
         
         const customPositions = new Float32Array(this.numVertices*3);
@@ -351,16 +323,11 @@ export default class Walls extends EventEmitter {
           
           uniforms: {
 
-              time: { value: this.time.elapsed * 5.0 },
-              customPositions: {value: customPositions},
-              t: { value: t },
-              yPosition: { value: yPosition},
-              noise: { value: this.iNoise},
-              radius: { value: this.radius}
+              
           },
     
           vertexShader: vertexShader.vertexShader,
-          fragmentShader: fragmentShader2.fragmentShader2,
+          fragmentShader: fragmentShader.fragmentShader1,
     
         });
         
@@ -377,14 +344,18 @@ export default class Walls extends EventEmitter {
       
       uniforms: {
          
-          noise: { value: this.iNoise},
-          radius: { value: this.radius}
+          
+          texture1: { value: this.resource1},
+          uScale: { value: new THREE.Vector2(10.,.5)}
       },
 
       vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader2.fragmentShader2,
+      fragmentShader: fragmentShader3.fragmentShader3,
 
     }); 
+
+
+
 
 
     this.shaderMaterial = new THREE.ShaderMaterial({
@@ -461,13 +432,9 @@ export default class Walls extends EventEmitter {
    
 
 
-    const numPoints = 600; 
+        const numPoints = 1000; 
 
-   /*  for (let i = 0; i < numPoints; i++) {
-
-        const t = i / (numPoints - 1);  */
-
-
+ 
         this.points = [];
         let radius = 1000;
         
@@ -475,22 +442,20 @@ export default class Walls extends EventEmitter {
 
             var x = Math.sin(t * 2) * radius;
             var z = Math.cos(t) * radius;
-            var y = t* 50 + Math.sin(z*3*Math.PI)*10;
-        
+            var y = 0//Math.sin(z*3*Math.PI)*10;
+
+
+           
+          
             this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
 
+           /*  if(t>Math.PI*2 && t<Math.PI*4){
+           
+              y= Math.sin(z*Math.PI*.9)*10
+
+           } */
 
 
-
-            /* const vector2 = new THREE.Vector2();
-            const delta = 0.0001;
-            const t1 = Math.max(0, t - delta);
-            const t2 = Math.min(1, t + delta);
-    
-            return vector2
-              .copy(this.getPointAt2(t2))
-              .sub(this.getPointAt2(t1))
-              .normalize(); */
 
 
 
@@ -508,33 +473,18 @@ export default class Walls extends EventEmitter {
 
     //this.spline.tension = .001;
 
-    this.spacedPoints = this.spline.getSpacedPoints(299).slice(100,125)
+    this.spacedPoints = this.spline.getSpacedPoints(299).slice(0,150)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
 
-    const tangents = []
-    const normals = []
-    const binormals = []
-   //this.spline.computeFrenetFrames(600,closed), 
-   
-  /*  (tangent,normal,binormal)=>{
+    
 
-   
 
-   tangents.push(tangent);
-   normals.push(normal);
-   binormals.push(binormal);
-   
-
-   }
-
-   console.log(tangents,normals,binormals) */
-
-   /*  this.splineReverse = this.spline.points
+    this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
-    this.spline2 = new THREE.CatmullRomCurve3(this.rev);
-   console.log(this.spline2, this.spline)
-     */
+    this.spline3 = new THREE.CatmullRomCurve3(this.rev);
+  
+     
  
   
 const racetrackShape = new THREE.Shape();
@@ -552,48 +502,47 @@ console.log(racetrackShape)
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -80);
-racetrackShape2.lineTo(4, -80);  
-racetrackShape2.lineTo(4, -70);  //70 
-racetrackShape2.lineTo(-4, -70); //80 
-racetrackShape2.lineTo(-4, -80); 
+racetrackShape2.lineTo(8, -80);  
+racetrackShape2.lineTo(8, -70);  //70 
+racetrackShape2.lineTo(-8, -70); //80 
+racetrackShape2.lineTo(-8, -80); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 80);
-racetrackShape3.lineTo(54, 80);  
-racetrackShape3.lineTo(4, 70); //70  
-racetrackShape3.lineTo(-4, 70);  //80
-racetrackShape3.lineTo(-4, 80); 
+racetrackShape3.lineTo(8, 80);  
+racetrackShape3.lineTo(8, 70); //70  
+racetrackShape3.lineTo(-8, 70);  //80
+racetrackShape3.lineTo(-8, 80); 
 
 
 
 const racetrackShape4 = new THREE.Shape();
 
-racetrackShape4.moveTo(0, -580);
-racetrackShape4.lineTo(354, -580);  
-racetrackShape4.lineTo(354, -570); //70  
-racetrackShape4.lineTo(-354, -570);  //80
-racetrackShape4.lineTo(-354, -580); 
+/* racetrackShape4.moveTo(0, -82);
+racetrackShape4.lineTo(0,-284); 
+racetrackShape4.lineTo(4,-284);
+racetrackShape4.lineTo(4, -82); */
 
+racetrackShape4.absarc(-85, -80, 25, Math.PI, Math.PI/2, true)
 
 const racetrackShape5 = new THREE.Shape();
 
-racetrackShape5.moveTo(0, 580);
-racetrackShape5.lineTo(354, 580);  
-racetrackShape5.lineTo(354, 570); //70  
-racetrackShape5.lineTo(-354, 570);  //80
-racetrackShape5.lineTo(-354, 580); 
+/* racetrackShape5.moveTo(0, 82);
+racetrackShape5.lineTo(0,284); 
+racetrackShape5.lineTo(4,284); 
+racetrackShape5.lineTo(4,82);*/
+
+racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
 
-
-
-    
+ 
 
     this.extrudeSettings = {
 
       steps: 1500,
-      depth: 100,
+      depth: 50,
       
       extrudePath: this.spline,
 
@@ -620,16 +569,16 @@ racetrackShape5.lineTo(-354, 580);
 
    
    
-    this.tube = new THREE.Mesh(this.tubeGeo,   
-
-    this.shaderMaterial3
+    this.tube = new THREE.Mesh(this.tubeGeo,   this.shaderMaterial3
   
-    )
+      ) 
+
+   
     this.scene2.add(this.tube);
     
     this.tube.position.y =-16  
   
-   console.log(this.tube)
+   
 
 
 
@@ -639,57 +588,76 @@ racetrackShape5.lineTo(-354, 580);
     this.shaderMaterial
 
     )   
+
     this.scene2.add(this.tube2);
+
     this.tube2.position.y =-12
+
+
   
-    this.tube3 = new THREE.Mesh(this.tubeGeo3,    
+    this.tube3 = new THREE.Mesh( this.tubeGeo3,    
 
     this.shaderMaterial
-    )   
+
+    )  
+
     this.scene2.add(this.tube3);
         
     this.tube3.position.y =-12
 
 
-    this.tube4 = new THREE.Mesh(this.tubeGeo4,    
+    this.tube4 = new THREE.Mesh(this.tubeGeo4,    // this.shaderMaterial2
 
-      this.purpl1Material = new THREE.MeshStandardMaterial({
-        //color: 'yellow',
+       this.purpl1Material = new THREE.MeshStandardMaterial({
+        
         opacity: 1,
         transparent: true,
-        map: this.resource2
-      })
-      )   
+        map: this.resource1
+
+      }) 
+
+      ) 
+
       this.scene2.add(this.tube4);
           
-      //this.tube4.rotation.z +=-Math.PI/6
+      
 
 
 
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,    
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,    //this.shaderMaterial2
 
-        this.purpl2Material = new THREE.MeshStandardMaterial({
-          //color: 'yellow',
+         this.purpl2Material = new THREE.MeshStandardMaterial({
+         
           opacity: 1,
-          transparent: true,
-          map: this.resource2
-        })
-        )   
+          transparent: false,
+          map: this.resource1
+
+        })  
+
+
+        )  
+
         this.scene2.add(this.tube5);
             
-        //this.tube5.position.y =-12
+        
 
-        this.resource2.wrapS = THREE.RepeatWrapping;
+        this.resource1.wrapS = THREE.RepeatWrapping;
 
-        this.resource1.wrapT = THREE.RepeatWrapping;
+        //this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource2.repeat.set(.000000064,.000000000128)
+        this.resource1.repeat.set(.064,.2)
 
 
    /* gui.add(parameters, 'sliderValue', -100, 100)
     .name('Slider')
     .step(0.1)
     .onChange(updateValues); */
+
+    this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 1, 1, 1000, 36,36,true ), this.shaderMaterial2)
+
+    this.scene2.add(this.cylinderMesh)
+
+   this.cylinderMesh.scale.setScalar(100)
 
 
 
@@ -740,25 +708,25 @@ racetrackShape5.lineTo(-354, 580);
           )
 
 
-          this.offsetClone = new THREE.Vector3(Math.random()*2) 
+        /*   this.offsetClone = new THREE.Vector3(Math.random()*2) 
           this.spacedPoints.forEach((point) => {
 
             this.sphere2Clone = this.sphere2.clone()
       
             this.sphere2Clone.position.copy(point)//.add(this.offsetClone)
            
-           //this.sphere2Clone.scale.setScalar(10)
+           this.sphere2Clone.scale.setScalar(100)
 
             this.sphere2Clone.material.color.setHSL( Math.random(), 1, .5 );
 
-            //this.scene2.add(this.sphere2Clone)
+            this.scene2.add(this.sphere2Clone)
 
-          })
+          }) */
           
 
 
 
-     const numObjects = 150; // Number of objects to place on each side
+    const numObjects = 150; // Number of objects to place on each side
     this.spacing = 50; // Adjust this value for spacing
     this.scaleFactor = 1.0;
 
@@ -772,6 +740,7 @@ racetrackShape5.lineTo(-354, 580);
    
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
+
 
 
      
@@ -817,7 +786,7 @@ racetrackShape5.lineTo(-354, 580);
     //this.scene2.add(this.sphereRight);
 
       this.sphere2Clone = this.sphere2.clone()
-      //this.sphere2Clone.position.copy(positionOnCurve.clone())
+      this.sphere2Clone.position.copy(positionOnCurve.clone())
       
       
       this.scene2.add(this.sphere2Clone) 
@@ -886,7 +855,7 @@ let loopTime = 60;
    
    
     //this.camera.instance.position.copy(pos).add(offset)
-    //this.camera.instance.lookAt(pos2)
+    this.camera.instance.lookAt(pos2)
     //this.camera.instance.rotation.x = -Math.PI/16
 
 
@@ -1010,7 +979,7 @@ this.model.quaternion.copy(this.q3)
      
 
    
-      this.meshes.forEach((mesh) => {
+    /*   this.meshes.forEach((mesh) => {
 
 
 
@@ -1024,7 +993,7 @@ this.model.quaternion.copy(this.q3)
     
     
   
-    });
+    }); */
 
 
     
