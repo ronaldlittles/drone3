@@ -30,7 +30,7 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource1 = this.resources.items.forrest;
+    this.resource1 = this.resources.items.smoke;
     this.resource2 = this.resources.items.forrest;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
@@ -382,84 +382,83 @@ export default class Walls extends EventEmitter {
 
     
 
-    
+    this.displacementMaterial = new THREE.MeshStandardMaterial({
+
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 1,
+      map: this.resource2,
+       displacementMap: this.resource1,
+      displacementScale: 2,
+      displacementBias: 0, 
+      //roughness: 3,
+      //metalness: 0,
+
+    });
+
+
 
     
 
-    let number = 50;
-    //this.geometry = new THREE.PlaneGeometry(2,2, number, number);
+    let number = 15;
 
-    //this.geometry = new THREE.BufferGeometry()
+    const geometry = new THREE.PlaneGeometry(500,500, number, number);
+
+    geometry.rotateX( - Math.PI / 2 );
+
+    const positions = geometry.attributes.position.array;
+    const vertex = new THREE.Vector3();
+
+    for ( let i = 0; i < positions.length; i += 3 ) {
+
+      vertex.fromArray( positions, i );
+
+      vertex.x += Math.random() * 100 - 50;
+      vertex.z += Math.random() * 100 - 50;
+
+      const distance = ( vertex.distanceTo( this.scene2.position ) / 5 ) - 25;
+      vertex.y = Math.random() * Math.max( 0, distance );
+
+      vertex.toArray( positions, i );
+
+    }
+
+    geometry.computeVertexNormals();
 
   
-    //this.positions = new Float32Array(number * 3);
-    //this.randoms = new Float32Array(number * 3);
-    //this.sizes = new Float32Array(number * 1);
-
-   /*   for (let i = 0; i < number*3; i++) {
-     this.positions[i + 0] = (Math.random() - 0.5);
-     this.positions[i + 1] = (Math.random() - 0.5);
-     this.positions[i + 2] = (Math.random() - 0.5);  */
-
-     /*  this.randoms[i + 0] = Math.random();
-      this.randoms[i + 1] = Math.random();
-      this.randoms[i + 2] = Math.random();
-
-      this.sizes[i + 0] = 0.5 + 0.5*Math.random(); */ 
-      
-    //}
-
-    /* this.tubeGeo.setAttribute(
-      "uPosition",
-      new THREE.BufferAttribute(this.positions, 3)
-    ); */
-
-
-     /* "aRandom",
-      new THREE.BufferAttribute(this.randoms, 3)
-    );
-    this.geometry.setAttribute(
-      "size",
-      new THREE.BufferAttribute(this.sizes, 1)
-    );  */
 
 
 
 
-    this.plane = new THREE.Points(this.geometry, this.shaderMaterial)
-    //this.scene2.add(this.plane);
-    this.plane.scale.setScalar(250)
-   
+   /*  this.plane = new THREE.Mesh(geometry, this.displacementMaterial)
+    this.scene2.add(this.plane);
+    this.plane.scale.setScalar(400)
+    //this.plane.rotation.x = Math.PI/2
+    this.plane.position.y = -40 */
 
 
         const numPoints = 1000; 
 
  
         this.points = [];
+
         let radius = 1000;
         
         for (let t = 0; t <= Math.PI * 4; t += .1) {
 
-            var x = Math.sin(t * 2) * radius;
+             var x = Math.sin(t * 2) * radius;
             var z = Math.cos(t) * radius;
-            var y = 0//Math.sin(z*3*Math.PI)*10;
+            var y = Math.sin(z*3*Math.PI)*2; 
+
+           /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
+						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
+						const z = Math.sin( t ) * Math.sin( t * 4 ) * 50; */
 
 
-           
           
             this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
 
-           /*  if(t>Math.PI*2 && t<Math.PI*4){
-           
-              y= Math.sin(z*Math.PI*.9)*10
-
-           } */
-
-
-
-
-
-
+        
 
         }
 
@@ -502,19 +501,19 @@ console.log(racetrackShape)
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -80);
-racetrackShape2.lineTo(8, -80);  
-racetrackShape2.lineTo(8, -70);  //70 
-racetrackShape2.lineTo(-8, -70); //80 
-racetrackShape2.lineTo(-8, -80); 
+racetrackShape2.lineTo(18, -80);  
+racetrackShape2.lineTo(18, -70);  //70 
+racetrackShape2.lineTo(-18, -70); //80 
+racetrackShape2.lineTo(-18, -80); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 80);
-racetrackShape3.lineTo(8, 80);  
-racetrackShape3.lineTo(8, 70); //70  
-racetrackShape3.lineTo(-8, 70);  //80
-racetrackShape3.lineTo(-8, 80); 
+racetrackShape3.lineTo(18, 80);  
+racetrackShape3.lineTo(18, 70); //70  
+racetrackShape3.lineTo(-18, 70);  //80
+racetrackShape3.lineTo(-18, 80); 
 
 
 
@@ -609,7 +608,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     this.tube4 = new THREE.Mesh(this.tubeGeo4,    // this.shaderMaterial2
 
        this.purpl1Material = new THREE.MeshStandardMaterial({
-        
+        side: THREE.DoubleSide,
         opacity: 1,
         transparent: true,
         map: this.resource1
@@ -627,7 +626,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
       this.tube5 = new THREE.Mesh(this.tubeGeo5,    //this.shaderMaterial2
 
          this.purpl2Material = new THREE.MeshStandardMaterial({
-         
+          side: THREE.DoubleSide,
           opacity: 1,
           transparent: false,
           map: this.resource1
@@ -653,15 +652,20 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     .step(0.1)
     .onChange(updateValues); */
 
-    this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 1, 1, 1000, 36,36,true ), this.shaderMaterial2)
+    this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 50, 50, 500, 36,36,true,0,Math.PI ), this.purpl1Material)
 
     this.scene2.add(this.cylinderMesh)
 
-   this.cylinderMesh.scale.setScalar(100)
+    //this.cylinderMesh.scale.setScalar(10)
+
+    this.cylinderMesh.position.copy(this.tube.position)
+
+    this.cylinderMesh.rotation.x = Math.PI/2
+
+    this.cylinderMesh.rotation.y = Math.PI/3
 
 
 
-    
 
           this.sphere = new THREE.Mesh(
 
@@ -825,7 +829,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
    
  
 let currentPosition = 0; 
-let speed = 1.5; 
+let speed = .9; 
 let loopTime = 60;
 
  
@@ -852,9 +856,11 @@ let loopTime = 60;
 
     const offset = new THREE.Vector3(0, 5,0)
 
+    const lerpedPos = this.camera.instance.position.lerp( pos2, this.time.delta * speed);
+
    
    
-    //this.camera.instance.position.copy(pos).add(offset)
+    this.camera.instance.position.copy(lerpedPos).add(offset)
     this.camera.instance.lookAt(pos2)
     //this.camera.instance.rotation.x = -Math.PI/16
 
