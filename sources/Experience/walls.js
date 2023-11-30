@@ -45,7 +45,7 @@ export default class Walls extends EventEmitter {
     this.setBoxes();
     
 
-    this.setRaycaster();
+    //this.setRaycaster();
 
     
 
@@ -858,8 +858,8 @@ let loopTime = 60;
 
    
    
-    //this.camera.instance.position.copy(pos).add(offset)
-    //this.camera.instance.lookAt(pos2)
+    this.camera.instance.position.copy(lerpedPos).add(offset)
+    this.camera.instance.lookAt(pos3)
   
 
 
