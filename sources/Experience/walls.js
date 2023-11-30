@@ -270,7 +270,7 @@ export default class Walls extends EventEmitter {
         
               if (intersects.length > 0) {
 
-               this.point = intersects[0].point;
+               this.point = intersects[0].position;
 
                this.label1 = this.point
                this.label2 = this.point
@@ -354,7 +354,10 @@ export default class Walls extends EventEmitter {
 
     }); 
 
-
+    gui.add(this.shaderMaterial2, 'uScale', -100, 100)
+    .name('Slider')
+    .step(0.1)
+    .onChange(values=>(this.shaderMaterial2.uniforms.uScale.value = values))
 
 
 
@@ -380,6 +383,7 @@ export default class Walls extends EventEmitter {
     });
   
 
+   
     
 
     this.displacementMaterial = new THREE.MeshStandardMaterial({
@@ -647,10 +651,6 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
         this.resource1.repeat.set(.064,.2)
 
 
-   /* gui.add(parameters, 'sliderValue', -100, 100)
-    .name('Slider')
-    .step(0.1)
-    .onChange(updateValues); */
 
     this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 50, 50, 500, 36,36,true,0,Math.PI ), this.purpl1Material)
 
@@ -829,24 +829,22 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
    
  
 let currentPosition = 0; 
-let speed = .9; 
+let speed = .8; 
 let loopTime = 60;
 
  
   const t =  (speed *this.time.elapsed )/loopTime % 1;
   const t2 =  (speed * this.time.elapsed + .04)/loopTime % 1;
-  
+  const t3 =  (speed * this.time.elapsed + .08)/loopTime % 1;
    
-  /* this.sphere2Clone.rotation.y += 5.0
-  this.sphere2Clone.material.color.setHSL( Math.random(), 1, .5 );
-  this.sphere2Clone.position.y = 4.0 * Math.sin(t * 2.2) + 4.0 */
+ 
     
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
+    const pos3 =  this.spline.getPointAt(t3);
+     
 
-     //const pos3 =  this.spline2.getPointAt(t); 
 
-//this.sphere2Clone.position.copy(pos3) 
 
     
   
@@ -856,16 +854,16 @@ let loopTime = 60;
 
     const offset = new THREE.Vector3(0, 5,0)
 
-    const lerpedPos = this.camera.instance.position.lerp( pos2, this.time.delta * speed);
+    const lerpedPos = pos.lerp( pos2, this.time.delta * speed);
 
    
    
     this.camera.instance.position.copy(lerpedPos).add(offset)
-    this.camera.instance.lookAt(pos2)
-    //this.camera.instance.rotation.x = -Math.PI/16
+    this.camera.instance.lookAt(pos3)
+  
 
 
-    //this.model.position.y = pos.y +5
+    
    
    
 
