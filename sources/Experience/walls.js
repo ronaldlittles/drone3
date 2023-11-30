@@ -354,11 +354,11 @@ export default class Walls extends EventEmitter {
 
     }); 
 
-    gui.add(this.shaderMaterial2, 'uScale', -100, 100)
+    /* gui.add(this.shaderMaterial2, 'uScale', -100, 100)
     .name('Slider')
     .step(0.1)
     .onChange(values=>(this.shaderMaterial2.uniforms.uScale.value = values))
-
+ */
 
 
     this.shaderMaterial = new THREE.ShaderMaterial({
