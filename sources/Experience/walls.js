@@ -860,7 +860,7 @@ let loopTime = 60;
 
    
    
-    this.camera.instance.position.copy(lerpedPos).add(offset)
+    this.camera.instance.position.copy(lerpedPos)//.add(offset)
     this.camera.instance.lookAt(pos3)
   
 
