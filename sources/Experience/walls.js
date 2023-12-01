@@ -564,8 +564,8 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
     this.tubeGeo2 = new THREE.ExtrudeGeometry(racetrackShape2, this.extrudeSettings);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
-    this.tubeGeo4 = new THREE.ExtrudeGeometry(racetrackShape4, this.extrudeSettings2);
-    this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings2);
+    this.tubeGeo4 = new THREE.ExtrudeGeometry(racetrackShape4, this.extrudeSettings);
+    this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings);
 
 
     this.numVertices = this.tubeGeo.getAttribute('position').count;
@@ -654,7 +654,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
     this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 50, 50, 500, 36,36,true,0,Math.PI ), this.shaderMaterial)
 
-    this.scene2.add(this.cylinderMesh)
+    //this.scene2.add(this.cylinderMesh)
 
     //this.cylinderMesh.scale.setScalar(10)
 
@@ -822,7 +822,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
     
 
-    this.shaderMaterial3.uniforms.needsUpdate = true;
+    //this.shaderMaterial3.uniforms.needsUpdate = true;
 
 
     
