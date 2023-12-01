@@ -609,15 +609,15 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     this.tube3.position.y =-12
 
 
-    this.tube4 = new THREE.Mesh(this.tubeGeo4,    // this.shaderMaterial2
+    this.tube4 = new THREE.Mesh(this.tubeGeo4,     this.shaderMaterial3
 
-       this.purpl1Material = new THREE.MeshStandardMaterial({
+      /*  this.purpl1Material = new THREE.MeshStandardMaterial({
         side: THREE.DoubleSide,
         opacity: 1,
         transparent: true,
         map: this.resource1
 
-      }) 
+      })  */
 
       ) 
 
@@ -627,16 +627,16 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
 
 
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,    //this.shaderMaterial2
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,    this.shaderMaterial3
 
-         this.purpl2Material = new THREE.MeshStandardMaterial({
+         /* this.purpl2Material = new THREE.MeshStandardMaterial({
           side: THREE.DoubleSide,
           opacity: 1,
           transparent: false,
           map: this.resource1
 
         })  
-
+ */
 
         )  
 
@@ -652,7 +652,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
 
 
-    this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 50, 50, 500, 36,36,true,0,Math.PI ), this.purpl1Material)
+    this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 50, 50, 500, 36,36,true,0,Math.PI ), this.shaderMaterial)
 
     this.scene2.add(this.cylinderMesh)
 
