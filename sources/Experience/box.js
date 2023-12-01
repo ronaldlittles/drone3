@@ -429,7 +429,7 @@ this.yellowMaterial = new THREE.MeshPhongMaterial({
 for (let i = 0; i < length; i++) {
   const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
 
-  this.box1 = new THREE.Mesh(this.boxGeometry, this.shaderMaterial);
+  this.box1 = new THREE.Mesh(this.boxGeometry, material);
 
   this.box = this.box1.clone();
 
