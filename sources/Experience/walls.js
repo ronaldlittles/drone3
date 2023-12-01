@@ -45,7 +45,7 @@ export default class Walls extends EventEmitter {
     this.setBoxes();
     
 
-    this.setRaycaster();
+    //this.setRaycaster();
 
     
 
@@ -109,7 +109,7 @@ export default class Walls extends EventEmitter {
     let length =100;
     this.boxes = [];
     
-    this.boxGeometry = new THREE.CylinderGeometry(1, 1, 25, 32, 1);
+    this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
     
     this.purpleMaterial = new THREE.MeshStandardMaterial({
       color: 'yellow',
