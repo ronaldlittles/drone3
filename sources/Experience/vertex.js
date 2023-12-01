@@ -19,7 +19,7 @@ const vertexShader = {
 
   void main() {
 
-    vUv =  uv+uScale;
+    vUv =  uv;
 
     newPosition = position;
      

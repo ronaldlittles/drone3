@@ -304,14 +304,14 @@ export default class Walls extends EventEmitter {
 
         let time = 0;
         
-        const customPositions = new Float32Array(this.numVertices*3);
+        //const customPositions = new Float32Array(this.numVertices*3);
        
         this.radius = 12.0;
 
         //just need position.x in t function
 
-        const t = customPositions / (2.0 * Math.PI * this.radius);
-        const yPosition = Math.sin(t * .5+ this.iNoise  )* this.radius ;
+       /*  const t = customPositions / (2.0 * Math.PI * this.radius);
+        const yPosition = Math.sin(t * .5+ this.iNoise  )* this.radius ; */
 
 
         this.shaderMaterial3 = new THREE.ShaderMaterial({
@@ -327,7 +327,7 @@ export default class Walls extends EventEmitter {
           },
     
           vertexShader: vertexShader.vertexShader,
-          fragmentShader: fragmentShader.fragmentShader1,
+          fragmentShader: fragmentShader.fragmentShader,
     
         });
         
@@ -350,7 +350,7 @@ export default class Walls extends EventEmitter {
       },
 
       vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader3.fragmentShader3,
+      fragmentShader: fragmentShader.fragmentShader,
 
     }); 
 
@@ -572,7 +572,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
    
    
-    this.tube = new THREE.Mesh(this.tubeGeo,   this.shaderMaterial3
+    this.tube = new THREE.Mesh(this.tubeGeo,   this.shaderMaterial
   
       ) 
 
