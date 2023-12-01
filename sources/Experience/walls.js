@@ -856,7 +856,7 @@ let loopTime = 60;
 
     const offset = new THREE.Vector3(0, 5, 0)
 
-    const lerpedPos = pos.lerp( pos2, this.time.delta * speed);
+    //const lerpedPos = pos.lerp( pos2, this.time.delta * speed);
 
    
    
