@@ -652,7 +652,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
 
 
-    this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 50, 50, 500, 36,36,true,0,Math.PI ), this.shaderMaterial)
+   /*  this.cylinderMesh = new THREE.Mesh( new THREE.CylinderGeometry( 50, 50, 500, 36,36,true,0,Math.PI ), this.shaderMaterial)
 
     //this.scene2.add(this.cylinderMesh)
 
@@ -662,7 +662,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
     this.cylinderMesh.rotation.x = Math.PI/2
 
-    this.cylinderMesh.rotation.y = Math.PI/2
+    this.cylinderMesh.rotation.y = Math.PI/2 */
 
 
 
@@ -856,7 +856,7 @@ let loopTime = 60;
 
     const offset = new THREE.Vector3(0, 5, 0)
 
-    //const lerpedPos = pos.lerp( pos2, this.time.delta * speed);
+    const lerpedPos = pos.lerp( pos2, this.time.delta * speed);
 
    
    
