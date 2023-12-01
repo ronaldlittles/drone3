@@ -118,7 +118,7 @@ export default class Camera {
 
 
     this.orbitControls = new OrbitControls(this.instance, this.targetElement);
-    this.orbitControls.enabled = false;
+    this.orbitControls.enabled = true;
     //this.orbitControls.screenSpacePanning = true;
     this.orbitControls.enableKeys = false;
     this.orbitControls.zoomSpeed = 1.5;
@@ -239,9 +239,9 @@ export default class Camera {
 
   update() {
    
-//this.orbitControls.update()
+this.orbitControls.update()
 
-//this.azimuth = this.orbitControls.getAzimuthalAngle()
+this.azimuth = this.orbitControls.getAzimuthalAngle()
 
 
 
