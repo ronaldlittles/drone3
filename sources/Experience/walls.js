@@ -452,7 +452,7 @@ export default class Walls extends EventEmitter {
 
              var x = Math.sin(t * 2) * radius;
             var z = Math.cos(t) * radius;
-            var y = Math.sin(z*3*Math.PI)*2; 
+            var y = 0//Math.sin(z*3*Math.PI)*2; 
 
            /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
 						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
@@ -545,7 +545,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     this.extrudeSettings = {
 
       steps: 1500,
-      depth: 50,
+      depth: 100,
       
       extrudePath: this.spline,
 
@@ -568,7 +568,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings);
 
 
-    this.numVertices = this.tubeGeo.getAttribute('position').count;
+    
 
    
    
