@@ -662,7 +662,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
     this.cylinderMesh.rotation.x = Math.PI/2
 
-    this.cylinderMesh.rotation.y = Math.PI/3
+    this.cylinderMesh.rotation.y = Math.PI/2
 
 
 
@@ -700,11 +700,11 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
             new THREE.BoxGeometry(3,1,1),
  
             new THREE.MeshStandardMaterial({
-
+              map: this.resource2,
               color: Math.random(),
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: .5,
+              opacity: .8,
             
 
             }) 
@@ -789,8 +789,10 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     this.objectsArray1.push(this.sphereRight)  */
     //this.scene2.add(this.sphereRight);
 
+    this.randomOffset = new THREE.Vector3(Math.random()*2,Math.random()*2,Math.random()*2)
+
       this.sphere2Clone = this.sphere2.clone()
-      this.sphere2Clone.position.copy(positionOnCurve.clone())
+      this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
       
       
       this.scene2.add(this.sphere2Clone) 
@@ -852,7 +854,7 @@ let loopTime = 60;
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 5,0)
+    const offset = new THREE.Vector3(0, 5, 0)
 
     const lerpedPos = pos.lerp( pos2, this.time.delta * speed);
 
