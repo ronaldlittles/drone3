@@ -110,7 +110,7 @@ export default class Box {
   //this.resource2.wrapS = THREE.RepeatWrapping;
   //this.resource2.wrapT =THREE.RepeatWrapping; 
 
-  this.resource1.colorSpace = THREE.SRGBColorSpace;
+  //this.resource1.colorSpace = THREE.SRGBColorSpace;
 
 
     
