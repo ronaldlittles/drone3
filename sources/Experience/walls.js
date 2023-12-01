@@ -45,7 +45,7 @@ export default class Walls extends EventEmitter {
     this.setBoxes();
     
 
-    //this.setRaycaster();
+    this.setRaycaster();
 
     
 
@@ -266,7 +266,7 @@ export default class Walls extends EventEmitter {
 
             raycaster.setFromCamera(this.mouse, this.camera.instance);
          
-              const intersects = raycaster.intersectObjects(this.scene2.children, true);
+              const intersects = raycaster.intersectObjects([this.objectsArray2], true);
         
               if (intersects.length > 0) {
 
@@ -404,7 +404,7 @@ export default class Walls extends EventEmitter {
 
     
 
-    let number = 15;
+    /* let number = 15;
 
     const geometry = new THREE.PlaneGeometry(500,500, number, number);
 
@@ -427,7 +427,7 @@ export default class Walls extends EventEmitter {
 
     }
 
-    geometry.computeVertexNormals();
+    geometry.computeVertexNormals(); */
 
   
 
@@ -860,8 +860,8 @@ let loopTime = 60;
 
    
    
-    //this.camera.instance.position.copy(lerpedPos)//.add(offset)
-    //this.camera.instance.lookAt(pos3)
+    this.camera.instance.position.copy(pos)//.add(offset)
+    this.camera.instance.lookAt(pos2)
   
 
 
