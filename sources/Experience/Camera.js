@@ -51,7 +51,7 @@ export default class Camera {
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    this.instance.position.set(0,0,600);
+    this.instance.position.set(0,0,1200);
     //this.instance.lookAt(0,0,0)
    
     this.scene2.add(this.instance);
@@ -118,7 +118,7 @@ export default class Camera {
 
 
     this.orbitControls = new OrbitControls(this.instance, this.targetElement);
-    this.orbitControls.enabled = true;
+    this.orbitControls.enabled = false;
     //this.orbitControls.screenSpacePanning = true;
     this.orbitControls.enableKeys = false;
     this.orbitControls.zoomSpeed = 1.5;
@@ -239,9 +239,9 @@ export default class Camera {
 
   update() {
    
-this.orbitControls.update()
+//this.orbitControls.update()
 
-this.azimuth = this.orbitControls.getAzimuthalAngle()
+//this.azimuth = this.orbitControls.getAzimuthalAngle()
 
 
 
