@@ -604,7 +604,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
     )  
 
-    this.scene2.add(this.tube3);
+    //this.scene2.add(this.tube3);
         
     this.tube3.position.y =-12
 
@@ -621,7 +621,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
       ) 
 
-      this.scene2.add(this.tube4);
+      //this.scene2.add(this.tube4);
           
       
 
@@ -640,7 +640,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
         )  
 
-        this.scene2.add(this.tube5);
+        //this.scene2.add(this.tube5);
             
         
 
@@ -837,13 +837,13 @@ let loopTime = 60;
  
   const t =  (speed *this.time.elapsed )/loopTime % 1;
   const t2 =  (speed * this.time.elapsed + .04)/loopTime % 1;
-  const t3 =  (speed * this.time.elapsed + .08)/loopTime % 1;
+  //const t3 =  (speed * this.time.elapsed + .08)/loopTime % 1;
    
  
     
     const pos = this.spline.getPointAt(t);
     const pos2 = this.spline.getPointAt(t2);
-    const pos3 =  this.spline.getPointAt(t3);
+    //const pos3 =  this.spline.getPointAt(t3);
      
 
 
