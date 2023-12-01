@@ -63,7 +63,7 @@ export default class Box {
     ]);
 
    
-   //this.scene2.background = this.cubeTexture
+   this.scene2.background = this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
