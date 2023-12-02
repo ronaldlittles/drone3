@@ -40,7 +40,7 @@ export default class Camera {
 
 
   setInstance() {
-    // Set up
+    // Set up correct
     this.instance = new THREE.PerspectiveCamera(
       60,
       this.sizes.aspect,
