@@ -572,14 +572,14 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
    
    
-    this.tube = new THREE.Mesh(this.tubeGeo,   this.shaderMaterial
+    this.tube = new THREE.Mesh(this.tubeGeo,   this.displacementMaterial
   
       ) 
 
    
     this.scene2.add(this.tube);
     
-    this.tube.position.y =-16  
+    //this.tube.position.y =-16  
   
    
 
@@ -594,7 +594,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
     this.scene2.add(this.tube2);
 
-    this.tube2.position.y =-12
+    //this.tube2.position.y =-12
 
 
   
@@ -606,7 +606,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
     //this.scene2.add(this.tube3);
         
-    this.tube3.position.y =-12
+    //this.tube3.position.y =-12
 
 
     this.tube4 = new THREE.Mesh(this.tubeGeo4,     this.shaderMaterial3
