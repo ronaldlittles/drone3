@@ -40,7 +40,7 @@ export default class Camera {
 
 
   setInstance() {
-    // Set up correctly
+    // Set up
     this.instance = new THREE.PerspectiveCamera(
       60,
       this.sizes.aspect,
@@ -51,8 +51,8 @@ export default class Camera {
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    this.instance.position.set(0,0,600);
-    this.instance.lookAt(this.scene2.position)
+    this.instance.position.set(0,0,1200);
+    //this.instance.lookAt(0,0,0)
    
     this.scene2.add(this.instance);
    
@@ -124,7 +124,7 @@ export default class Camera {
     this.orbitControls.zoomSpeed = 1.5;
     this.orbitControls.enableDamping = true;
     this.orbitControls.autoRotate = false;
-    this.orbitControls.autoRotateSpeed = 15
+    //this.orbitControls.autoRotateSpeed = 15
     //this.orbitControls.maxPolarAngle = Math.PI/2;
     //this.orbitControls.minPolarAngle = Math.PI/2;
 
@@ -134,6 +134,9 @@ export default class Camera {
   
    
   }
+
+
+  
 
   setMapControls(){
 
@@ -239,9 +242,9 @@ export default class Camera {
 
   update() {
    
-this.orbitControls.update()
+//this.orbitControls.update()
 
-this.azimuth = this.orbitControls.getAzimuthalAngle()
+//this.azimuth = this.orbitControls.getAzimuthalAngle()
 
 
 
