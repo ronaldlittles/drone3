@@ -437,7 +437,7 @@ export default class Walls extends EventEmitter {
    /*  this.plane = new THREE.Mesh(geometry, this.displacementMaterial)
     this.scene2.add(this.plane);
     this.plane.scale.setScalar(400)
-    //this.plane.rotation.x = Math.PI/2
+    this.plane.rotation.x = Math.PI/2
     this.plane.position.y = -40 */
 
 
@@ -690,7 +690,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
 
           )
 
-        this.sphere.scale.setScalar(1350)
+        //this.sphere.scale.setScalar(1350)
         //this.scene2.add(this.sphere)
        
 
