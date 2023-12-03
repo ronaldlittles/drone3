@@ -25,7 +25,7 @@ const vertexShader = {
      
     float tex = texture2D( texture1, vUv).r;
    
-    newPosition.y = tex* .05;
+    //newPosition.y = tex* .05;
   
      
   
