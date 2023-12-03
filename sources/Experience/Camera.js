@@ -52,7 +52,7 @@ export default class Camera {
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
     this.instance.position.set(0,0,200);
-    this.instance.lookAt(this.scene2)
+    this.instance.lookAt(this.scene2.position)
    
     this.scene2.add(this.instance);
    
