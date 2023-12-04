@@ -27,7 +27,7 @@ export default class Camera {
     //this.createOrthographicCamera()
     this.setInstance();
     this.setInstance2();
-    this.setOrbitControls()
+    //this.setOrbitControls()
     //this.setDragControls();
     //this.setModes()
     //this.setMapControls()
@@ -51,8 +51,8 @@ export default class Camera {
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    this.instance.position.set(0,0,200);
-    this.instance.lookAt(this.scene2.position)
+    this.instance.position.set(0,100,600);
+    //this.instance.lookAt(this.scene2.position)
    
     this.scene2.add(this.instance);
    
@@ -85,7 +85,7 @@ export default class Camera {
     this.instance2.matrixAutoUpdate = true;
     this.instance2.updateProjectionMatrix();
     this.instance2.matrixWorldNeedsUpdate = true;
-    this.instance2.position.set(0, 0, 300);
+    this.instance2.position.set(0, 510,1200);
 
     this.scene.add(this.instance2);
 
@@ -121,17 +121,14 @@ export default class Camera {
     this.orbitControls.enabled = true;
     //this.orbitControls.screenSpacePanning = true;
     this.orbitControls.enableKeys = false;
-    this.orbitControls.zoomSpeed = 1.5;
+    this.orbitControls.zoomSpeed = 3.5;
     this.orbitControls.enableDamping = true;
     this.orbitControls.autoRotate = false;
-    //this.orbitControls.autoRotateSpeed = 15
+    this.orbitControls.autoRotateSpeed = 25
     //this.orbitControls.maxPolarAngle = Math.PI/2;
     //this.orbitControls.minPolarAngle = Math.PI/2;
 
-    console.log(this.orbitControls)
-
-    
-  
+   
    
   }
 
@@ -242,9 +239,9 @@ export default class Camera {
 
   update() {
    
-this.orbitControls.update()
+//this.orbitControls.update()
 
-this.azimuth = this.orbitControls.getAzimuthalAngle()
+//this.azimuth = this.orbitControls.getAzimuthalAngle()
 
 
 

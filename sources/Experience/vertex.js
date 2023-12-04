@@ -11,7 +11,7 @@ const vertexShader = {
   uniform sampler2D texture1;
 
   float PI = 3.141592653589793238;
-
+  uniform float uNoise;
  
   uniform vec2 uScale;
   

@@ -15,6 +15,7 @@ import { FigureEightPolynomialKnot } from "three/examples/jsm/curves/CurveExtras
 //import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
 export default class Walls extends EventEmitter {
   constructor() {
+
     super();
 
     this.experience = new Experience();
@@ -42,15 +43,14 @@ export default class Walls extends EventEmitter {
    
     this.createWall();
 
-    //this.setBoxes();
-    
+    this.setBoxes();
 
     //this.setRaycaster();
 
     
 
-    /* this.CameraHelper = new ViewHelper(this.camera.instance);
-    this.scene2.add(this.CameraHelper); */
+   /*  this.CameraHelper = new ViewHelper(this.camera.instance);
+    this.scene2.add(this.CameraHelper); */ 
 
     this.depth = 50;
     this.rotationSpeed = .005;
@@ -69,17 +69,18 @@ export default class Walls extends EventEmitter {
    
   
   
-  this.arrowUpPressed = false;
-  this.arrowLeftPressed = false;
-  this.arrowRightPressed = false;
-  
+      this.arrowUpPressed = false;
+      this.arrowLeftPressed = false;
+      this.arrowRightPressed = false;
+      
    
-  this.noise = new ImprovedNoise()
+    this.noise = new ImprovedNoise()
   
     this.iNoise = this.noise.noise(Math.random()*5.5,Math.random()*.3,Math.random()*.5)
 
-    console.log(this.noise)
+    
     }
+
   
   
     handleKeyDown(event) {
@@ -106,7 +107,7 @@ export default class Walls extends EventEmitter {
   setBoxes(){
 
 
-    let length =100;
+    let length = 500;
     this.boxes = [];
     
     this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
@@ -153,16 +154,9 @@ export default class Walls extends EventEmitter {
 
        
     }
-    
-    
-    
-    
+   
     this.boxes.name = 'cloudboxes';
     
-        
-    
-    
-     
     window.addEventListener('pointerdown', () => {
     
       
@@ -181,6 +175,7 @@ export default class Walls extends EventEmitter {
     
     
       }
+
     })
     
        
@@ -354,12 +349,7 @@ export default class Walls extends EventEmitter {
 
     }); 
 
-    /* gui.add(this.shaderMaterial2, 'uScale', -100, 100)
-    .name('Slider')
-    .step(0.1)
-    .onChange(values=>(this.shaderMaterial2.uniforms.uScale.value = values))
- */
-
+   
 
     this.shaderMaterial = new THREE.ShaderMaterial({
      
@@ -373,30 +363,37 @@ export default class Walls extends EventEmitter {
       uniforms: {
    
        
-        //noise: { value: this.iNoise},
-        //radius: { value: this.radius}
+        uNoise: { value: this.iNoise},
+        uvScale: { value: new THREE.Vector2()}
+
       },
    
       vertexShader: vertexShader.vertexShader,
       fragmentShader: fragmentShader.fragmentShader,
    
     });
-  
 
-   
-    
+   /*  if(this.debug){
+
+       this.debug.add(this.shaderMaterial.uniforms.uvScale.value, 'uvScale', -100, 100)
+    .name('Slider')
+    .step(0.1)
+    .onChange(values=>(this.shaderMaterial.uniforms.uvScale.value = values))
+ 
+
+    } */
+
+
 
     this.displacementMaterial = new THREE.MeshStandardMaterial({
 
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 1,
-      map: this.resource2,
-       displacementMap: this.resource1,
-      displacementScale: 2,
-      displacementBias: 0, 
-      //roughness: 3,
-      //metalness: 0,
+      map: this.resource1,
+      displacementMap: this.resource2,
+      displacementScale: 1,
+     
 
     });
 
@@ -476,7 +473,7 @@ export default class Walls extends EventEmitter {
 
     //this.spline.tension = .001;
 
-    this.spacedPoints = this.spline.getSpacedPoints(299).slice(0,150)
+    this.spacedPoints = this.spline.getSpacedPoints(299).slice(0,100)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
 
@@ -505,19 +502,19 @@ console.log(racetrackShape)
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -80);
-racetrackShape2.lineTo(18, -80);  
-racetrackShape2.lineTo(18, -70);  //70 
-racetrackShape2.lineTo(-18, -70); //80 
-racetrackShape2.lineTo(-18, -80); 
+racetrackShape2.lineTo(8, -80);  
+racetrackShape2.lineTo(8, -70);  //70 
+racetrackShape2.lineTo(-8, -70); //80 
+racetrackShape2.lineTo(-8, -80); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 80);
-racetrackShape3.lineTo(18, 80);  
-racetrackShape3.lineTo(18, 70); //70  
-racetrackShape3.lineTo(-18, 70);  //80
-racetrackShape3.lineTo(-18, 80); 
+racetrackShape3.lineTo(8, 80);  
+racetrackShape3.lineTo(8, 70); //70  
+racetrackShape3.lineTo(-8, 70);  //80
+racetrackShape3.lineTo(-8, 80); 
 
 
 
@@ -528,7 +525,7 @@ racetrackShape4.lineTo(0,-284);
 racetrackShape4.lineTo(4,-284);
 racetrackShape4.lineTo(4, -82); */
 
-racetrackShape4.absarc(-85, -80, 25, Math.PI, Math.PI/2, true)
+racetrackShape4.absarc(0, 0, 70, Math.PI/2, Math.PI, true)
 
 const racetrackShape5 = new THREE.Shape();
 
@@ -537,7 +534,7 @@ racetrackShape5.lineTo(0,284);
 racetrackShape5.lineTo(4,284); 
 racetrackShape5.lineTo(4,82);*/
 
-racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
+//racetrackShape5.absarc(-85, 80, 5,  Math.PI/2, Math.PI, true)
 
 
  
@@ -564,81 +561,42 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
     this.tubeGeo2 = new THREE.ExtrudeGeometry(racetrackShape2, this.extrudeSettings);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
-    this.tubeGeo4 = new THREE.ExtrudeGeometry(racetrackShape4, this.extrudeSettings);
-    this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings);
+    this.tubeGeo4 = new THREE.ExtrudeGeometry(racetrackShape4, this.extrudeSettings2);
+    this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings2);
 
 
-    
-
-   
-   
-    this.tube = new THREE.Mesh(this.tubeGeo,   this.displacementMaterial
-  
-      ) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.displacementMaterial) 
 
    
     this.scene2.add(this.tube);
     
-    //this.tube.position.y =-16  
+    this.tube.position.y =-16  
   
-   
+ 
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
 
-
-
-    
-    this.tube2 = new THREE.Mesh(this.tubeGeo2,  
-
-    this.shaderMaterial
-
-    )   
 
     this.scene2.add(this.tube2);
 
     //this.tube2.position.y =-12
 
-
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3,    
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
 
-    this.shaderMaterial
-
-    )  
-
-    //this.scene2.add(this.tube3);
+    this.scene2.add(this.tube3);
         
     //this.tube3.position.y =-12
 
 
-    this.tube4 = new THREE.Mesh(this.tubeGeo4,     this.shaderMaterial3
+    this.tube4 = new THREE.Mesh(this.tubeGeo4, this.shaderMaterial) 
 
-      /*  this.purpl1Material = new THREE.MeshStandardMaterial({
-        side: THREE.DoubleSide,
-        opacity: 1,
-        transparent: true,
-        map: this.resource1
-
-      })  */
-
-      ) 
-
-      //this.scene2.add(this.tube4);
+      this.scene2.add(this.tube4);
           
       
 
 
 
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,    this.shaderMaterial3
-
-         /* this.purpl2Material = new THREE.MeshStandardMaterial({
-          side: THREE.DoubleSide,
-          opacity: 1,
-          transparent: false,
-          map: this.resource1
-
-        })  
- */
-
-        )  
+      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.shaderMaterial3)  
 
         //this.scene2.add(this.tube5);
             
@@ -701,7 +659,7 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
  
             new THREE.MeshStandardMaterial({
               map: this.resource2,
-              color: Math.random(),
+              color: Math.random() * 0xffffff,
               side: THREE.DoubleSide,
               transparent: true,
               opacity: .8,
@@ -789,7 +747,13 @@ racetrackShape5.absarc(-85, 80, 25,  Math.PI, Math.PI/2, true)
     this.objectsArray1.push(this.sphereRight)  */
     //this.scene2.add(this.sphereRight);
 
-    this.randomOffset = new THREE.Vector3(Math.random()*2,Math.random()*2,Math.random()*2)
+    this.randomOffset = new THREE.Vector3(
+      
+      ( Math.random() * 2 - 1) + this.iNoise,
+        Math.random(),
+        (Math.random()* 2 - 1) + this.iNoise, 
+      
+      )
 
       this.sphere2Clone = this.sphere2.clone()
       this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
@@ -856,12 +820,12 @@ let loopTime = 60;
 
     const offset = new THREE.Vector3(0, 5, 0)
 
-    //const lerpedPos = pos.lerp( pos2, this.time.delta * speed);
+    //const lerpedPos = pos.lerp( pos2, this.time.elapsed * speed);
 
    
    
-    //this.camera.instance.position.copy(pos)//.add(offset)
-    //this.camera.instance.lookAt(pos2)
+    this.camera.instance.position.copy(pos)//.add(offset)
+    this.camera.instance.lookAt(pos2)
   
 
 
