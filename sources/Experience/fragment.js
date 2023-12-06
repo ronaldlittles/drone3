@@ -1,22 +1,29 @@
 const fragmentShader = {
   fragmentShader: `
 
-      
+      uniform sampler2D texture1;
+
       varying vec2 vUv;
       
       uniform vec2 uvScale;
       
       uniform float uNoise;
 
+
       void main() {
 
-        float squareSize = 16.0; 
+
+       vec4 tex = texture2D( texture1, vUv);
+   
+       
+
+        float squareSize = 10.0; 
     
         vec2 position = floor(vUv  / squareSize  );
     
         if (mod(position.y , 2.0) < 1.0) { 
-9,
-          gl_FragColor = vec4(.0, .0, .0, 1.0);
+
+          gl_FragColor = vec4( 0.0,0.0, 0.0,1.0 );
 
         } else {
 
@@ -39,7 +46,7 @@ const fragmentShader = {
       varying vec2 vUv;
       varying vec3 newPosition;
 
-      uniform vec2 uScale;
+      uniform vec2 uvScale;
       uniform sampler2D texture1; 
 
 
@@ -47,8 +54,8 @@ const fragmentShader = {
         
 
       
-      vec2 newUV = vUv * uScale;
-      vec4 tex = texture2D( texture1, newUV);
+      vec2 newUV = vUv;
+      vec4 tex = texture2D( texture1, fract(newUV+uvScale)*6.0);
 
       
 

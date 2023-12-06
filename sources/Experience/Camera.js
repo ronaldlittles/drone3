@@ -27,7 +27,7 @@ export default class Camera {
     //this.createOrthographicCamera()
     this.setInstance();
     this.setInstance2();
-    //this.setOrbitControls()
+    this.setOrbitControls()
     //this.setDragControls();
     //this.setModes()
     //this.setMapControls()
@@ -42,7 +42,7 @@ export default class Camera {
   setInstance() {
     // Set up correct
     this.instance = new THREE.PerspectiveCamera(
-      60,
+      90,
       this.sizes.aspect,
       .1,
      10000
@@ -239,9 +239,9 @@ export default class Camera {
 
   update() {
    
-//this.orbitControls.update()
+this.orbitControls.update()
 
-//this.azimuth = this.orbitControls.getAzimuthalAngle()
+this.azimuth = this.orbitControls.getAzimuthalAngle()
 
 
 

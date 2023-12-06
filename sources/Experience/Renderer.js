@@ -31,7 +31,7 @@ export default class Renderer {
       this.debugFolder = this.debug.addFolder("renderer");
     } 
 
-    this.usePostprocess = false;
+    this.usePostprocess = true;
 
     this.setInstance();
     this.setPostProcess();
@@ -339,7 +339,7 @@ export default class Renderer {
 
       this.instance.setRenderTarget(null);
 
-      //this.postProcess.renderToScreen = false;
+      this.postProcess.renderToScreen = true;
 
       this.postProcess.composer.render();
 

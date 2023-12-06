@@ -58,7 +58,7 @@ export default [
 
        {
         name: "droneModel",
-        source: "/assets/drone2.glb",
+        source: "/assets/spacetaxi.glb",
         type: "gltfModel",
       }, 
 
