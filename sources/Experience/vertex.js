@@ -6,7 +6,7 @@ const vertexShader = {
 
     varying vec2 vUv;
     
-   varying vec3 newPosition;
+    varying vec3 newPosition;
 
     
 
@@ -28,7 +28,7 @@ const vertexShader = {
   
      
   
-    vec4 mvPosition = modelViewMatrix * vec4(newPosition  , 1.0 );
+    vec4 mvPosition = modelViewMatrix * vec4(position  , 1.0 );
   
   
 
