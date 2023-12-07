@@ -5,7 +5,7 @@ import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 //import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { vertexShader } from "./vertex.js";
-import { fragmentShader, fragmentShader2,  fragmentShader3  } from "./fragment.js";
+import { fragmentShader } from "./fragment.js";
 //import { fragmentShader2 } from "./fragment2.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 //import { Flow } from 'three/examples/jsm/modifiers/CurveModifier.js';
@@ -186,21 +186,19 @@ export default class Walls extends EventEmitter {
 
   setModel() {
 
-    /* this.model = this.resource3.scene;
+    this.model = this.resource3.scene;
     this.model.name = "droneModel";
     this.scene2.add(this.model);
-    this.model.position.set(0, 2.5,-10);
-    this.model.rotation.set(0, 0, 0);
-    this.model.scale.set(200,10,600)
-    this.model.scale.setScalar(5);
+    this.model.position.set(0, 1.0, 0);
+    //this.model.rotation.set(-Math.PI*2.5, 0, 0);
+    //this.model.scale.set(2,0,0)
+    this.model.upVector = new THREE.Vector3(0, 1, 0);
+    
     this.model.castShadow = true;
     this.model.visible = true;
-    //this.model.upVector = new THREE.Vector3(0, 1, 0); */
+  
 
 
-  /*   this.group = new THREE.Group();
-    this.scene2.add(this.group)
-    this.group.add(this.model) */
    
 
      this.model2 = this.resource4.scene;
@@ -221,9 +219,10 @@ export default class Walls extends EventEmitter {
     //this.model3.receiveShadow = true; 
    
     
-   /*   this.camera.instance.add(this.model)
-    this.model.translateZ(-10)
-    this.model.translateY(5) */
+    this.camera.instance.add(this.model)
+    this.model.translateZ(-200)
+    this.model.translateY(25)
+
     //this.model.rotation.setFromAxisAngle(x,Math.PI/16)
      /* this.meshes = [];
           this.model.traverse((object) => {
@@ -251,7 +250,7 @@ export default class Walls extends EventEmitter {
           label.style.color = "white";
           label.style.padding = "5px";
           label.style.fontFamily = "Arial";
-          label.style.fontSize = "12px";
+          label.style.fontSize = "14px";
           label.style.pointerEvents = "none"; // Make sure the label doesn't interfere with mouse events
           document.body.appendChild(label);
 
@@ -265,10 +264,11 @@ export default class Walls extends EventEmitter {
         
               if (intersects.length > 0) {
 
-               this.point = intersects[0].point.x;
-               console.log(this.point)
-               this.label1 = this.point
-               this.label2 = this.point
+               this.pointY = intersects[0].point.y;
+               this.pointZ = intersects[0].point.z;
+               
+               this.label1 = this.pointY.toFixed(4)
+               this.label2 = this.pointZ.toFixed(4)
             
               label.textContent = `Index: ${this.label1} ${this.label2 }`;
               
@@ -306,7 +306,7 @@ export default class Walls extends EventEmitter {
       
 
 
-        this.shaderMaterial3 = new THREE.ShaderMaterial({
+      /*   this.shaderMaterial3 = new THREE.ShaderMaterial({
        
           side: THREE.DoubleSide,
           
@@ -344,7 +344,7 @@ export default class Walls extends EventEmitter {
       vertexShader: vertexShader.vertexShader,
       fragmentShader: fragmentShader2.fragmentShader2,
 
-    }); 
+    });  */
 
    
 
@@ -404,19 +404,20 @@ export default class Walls extends EventEmitter {
 
 
         
-this.numPoints = 500
+        this.numPoints = 500
        
         this.points = [];
 
         let radius = 1000;
         
-        for (let t = 0; t <= Math.PI* 4; t += .1) {
+        for (let i = 0; i <= this.numPoints; i++) {
 
-            //t = t * 2 
+            let t = (i / this.numPoints) * Math.PI * 4
 
-            var x = Math.sin(t * 2) * radius;
-            var z = Math.cos(t* Math.PI) * radius;
-            var y = Math.sin( z * 3 * Math.PI ) * 48; 
+            var x = Math.sin(t*2) * radius;
+           
+            var z = Math.cos( t ) * radius; 
+            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 33;
 
            /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
 						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
@@ -490,13 +491,13 @@ racetrackShape4.lineTo(4,-284);
 racetrackShape4.lineTo(4, -82); */
 
 const outerRadius = 250;
-const innerRadius = 220;
+const innerRadius = 140;
 
-racetrackShape4.absarc(0, 0, outerRadius ,Math.PI,0, true)
+//racetrackShape4.absarc(0, 0, outerRadius , Math.PI , 0, true)
 
 const holePath = new THREE.Path();
 
-holePath.absarc(0, 0, innerRadius, 0, Math.PI, true);
+holePath.absarc(-80, 80, innerRadius, 0, Math.PI, true);
 
 racetrackShape4.holes.push(holePath);
 
@@ -710,9 +711,9 @@ racetrackShape5.lineTo(4,82);*/
 
     this.randomOffset = new THREE.Vector3(
       
-      (Math.random() * .2 - .1 ) * .10,
-      //(Math.random() * .2 - .1 ) * .10,
-      (Math.random() * .2 - .1 ) * .10,
+      (Math.random() * 2 - 1 ) * 5,
+      (Math.random() * 2 - 1 ) * 2,
+      (Math.random() * 2 - 1 ) * 10,
       
       )
 
@@ -724,21 +725,14 @@ racetrackShape5.lineTo(4,82);*/
      this.objectsArray2.push(this.sphere2Clone) 
      //console.log(this.objectsArray2)
 
-    /*  this.scene2.remove(this.objectsArray1[223])
-    this.scene2.remove(this.objectsArray1[219])
-    this.scene2.remove(this.objectsArray1[226])
-    this.scene2.remove(this.objectsArray1[79])
-    this.scene2.remove(this.objectsArray1[75])
-    this.scene2.remove(this.objectsArray1[73])
-    this.scene2.remove(this.objectsArray1[69])
-    this.scene2.remove(this.objectsArray1[229])
-    this.scene2.remove(this.objectsArray1[225])  */
+  
     
 
 
     } 
 
         }
+        
       
   update() {
   
@@ -786,7 +780,11 @@ racetrackShape5.lineTo(4,82);*/
     this.camera.instance.lookAt( pos2.add(offset) )
   
 
+  /* for(let i =0; i <= this.boxes.length -1; i++){
 
+this.boxes[i] = pos3.add(new THREE.Vector3(0,0,-50))
+
+  } */
     
    
    
@@ -833,10 +831,10 @@ racetrackShape5.lineTo(4,82);*/
   const minAngle = -Math.PI / 6; // Minimum allowed azimuth angle (-45 degrees in radians)
   
   // Update the azimuth angle while keeping it within the limits
- // this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
+  this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
 
   
-/* this.q1 = new THREE.Quaternion()
+ this.q1 = new THREE.Quaternion()
 this.q2 = new THREE.Quaternion()
 
 this.q1.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth%1 )
@@ -848,7 +846,7 @@ this.q3.multiplyQuaternions(this.q1,this.q2)
 
 
 this.model.quaternion.copy(this.q3)
- */
+ 
 
 
 
@@ -873,16 +871,16 @@ this.model.quaternion.copy(this.q3)
 
 
 
-   /* this.forwardVector2 = new THREE.Vector3(1, 0, 0);
+    this.forwardVector2 = new THREE.Vector3(1, 0, 0);
     this.forwardDirection2 = this.forwardVector2.clone();
     this.forwardDirection2.applyQuaternion(this.model.quaternion).add(maxRotation).normalize();
     //this.model.rotation.add(this.forwardDirection2.multiplyScalar(this.movementSpeed));
 
     this.forwardVector3 = new THREE.Vector3(-1,0, 0);
     this.forwardDirection3 = this.forwardVector3.clone();
-    this.forwardDirection3.applyQuaternion(this.model.quaternion).add(maxRotation).normalize(); */ 
+    this.forwardDirection3.applyQuaternion(this.model.quaternion).add(maxRotation).normalize();  
 
-    /* if (this.arrowLeftPressed) {
+     if (this.arrowLeftPressed) {
     this.model.rotation.z -= Math.PI/4 //* tangent.x //this.rotationSpeed;
     
     this.model.position.add(this.forwardDirection2.multiplyScalar(this.movementSpeed));
@@ -902,7 +900,7 @@ this.model.quaternion.copy(this.q3)
       this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
       this.camera.instance.position.copy(pos)
 
-    } */
+    } 
     
      
 
