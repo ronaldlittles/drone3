@@ -120,7 +120,7 @@ export default class Walls extends EventEmitter {
     });
     
     this.yellowMaterial = new THREE.MeshPhongMaterial({ 
-      color: 'white', 
+      //color: 'white', 
       map: this.resources.items.meTexture,
        
         opacity: 1,
@@ -550,7 +550,7 @@ racetrackShape5.lineTo(4,82);*/
     this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings3);
 
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.yellowMaterial) 
 
    
     this.scene2.add(this.tube);
@@ -558,7 +558,7 @@ racetrackShape5.lineTo(4,82);*/
     //this.tube.position.y =-16  
   
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.yellowMaterial)   
 
 
     this.scene2.add(this.tube2);
@@ -566,14 +566,14 @@ racetrackShape5.lineTo(4,82);*/
     //this.tube2.position.y =-12
 
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.yellowMaterial)  
 
     this.scene2.add(this.tube3);
         
     //this.tube3.position.y =-12
 
 
-    this.tube4 = new THREE.Mesh(this.tubeGeo4, this.shaderMaterial) 
+    this.tube4 = new THREE.Mesh(this.tubeGeo4, this.yellowMaterial) 
 
       this.scene2.add(this.tube4);
           
@@ -581,7 +581,7 @@ racetrackShape5.lineTo(4,82);*/
 
 
 
-      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.shaderMaterial)  
+      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.yellowMaterial)  
 
         //this.scene2.add(this.tube5);
             
@@ -591,7 +591,7 @@ racetrackShape5.lineTo(4,82);*/
 
         //this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource1.repeat.set(.064,.2)
+        //this.resource1.repeat.set(.064,.2)
 
 
 
