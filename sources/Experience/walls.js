@@ -119,9 +119,9 @@ export default class Walls extends EventEmitter {
      
     });
     
-    this.yellowMaterial = new THREE.MeshPhongMaterial({ 
+    this.yellowMaterial = new THREE.MeshBasicMaterial({ 
       //color: 'white', 
-      map: this.resources.items.meTexture,
+      map: this.resource2,
        
         opacity: 1,
         transparent: true,
@@ -394,7 +394,14 @@ export default class Walls extends EventEmitter {
 
     });
 
-
+ this.yellowMaterial2 = new THREE.MeshBasicMaterial({ 
+      //color: 'white', 
+      map: this.resource2,
+       
+        opacity: 1,
+        transparent: true,
+        
+    });
 
    /*  this.plane = new THREE.Mesh(geometry, this.displacementMaterial)
     this.scene2.add(this.plane);
@@ -524,7 +531,7 @@ racetrackShape5.lineTo(4,82);*/
 
     }
 
-    this.extrudeSettings2 = {
+   /*  this.extrudeSettings2 = {
 
       steps: 1500,
       depth: 100,
@@ -540,17 +547,17 @@ racetrackShape5.lineTo(4,82);*/
       
       extrudePath: this.spline3,
 
-    }
+    } */
     
  
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
     this.tubeGeo2 = new THREE.ExtrudeGeometry(racetrackShape2, this.extrudeSettings);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
-    this.tubeGeo4 = new THREE.ExtrudeGeometry(racetrackShape4, this.extrudeSettings2);
-    this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings3);
+    //this.tubeGeo4 = new THREE.ExtrudeGeometry(racetrackShape4, this.extrudeSettings2);
+    //this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings3);
 
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.yellowMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.yellowMaterial2) 
 
    
     this.scene2.add(this.tube);
@@ -558,7 +565,7 @@ racetrackShape5.lineTo(4,82);*/
     //this.tube.position.y =-16  
   
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.yellowMaterial)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.yellowMaterial2)   
 
 
     this.scene2.add(this.tube2);
@@ -566,14 +573,14 @@ racetrackShape5.lineTo(4,82);*/
     //this.tube2.position.y =-12
 
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.yellowMaterial)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.yellowMaterial2)  
 
     this.scene2.add(this.tube3);
         
     //this.tube3.position.y =-12
 
 
-    this.tube4 = new THREE.Mesh(this.tubeGeo4, this.yellowMaterial) 
+   /*  this.tube4 = new THREE.Mesh(this.tubeGeo4, this.yellowMaterial2) 
 
       this.scene2.add(this.tube4);
           
@@ -581,9 +588,9 @@ racetrackShape5.lineTo(4,82);*/
 
 
 
-      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.yellowMaterial)  
+      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.yellowMaterial2)  
 
-        //this.scene2.add(this.tube5);
+        //this.scene2.add(this.tube5); */
             
         
 

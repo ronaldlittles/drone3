@@ -33,7 +33,7 @@ export default class Box {
    
     this.setCubeTexture()
     this.resource1 = this.resources.items.smoke;
-    this.resource2 = this.resources.items.smoke;
+    //this.resource2 = this.resources.items.forrest;
     this.resource3 = this.resources.items.sceneModel
     this.setLights()
     //this.setCity() 
@@ -77,7 +77,7 @@ export default class Box {
   
   setCity() {
 
-    this.shaderMaterial = new THREE.ShaderMaterial({
+   /*  this.shaderMaterial = new THREE.ShaderMaterial({
 
       side: THREE.DoubleSide,
       //transparent: true,
@@ -100,7 +100,7 @@ export default class Box {
       vertexShader: vertexShader.vertexShader,
       fragmentShader: fragmentShader.fragmentShader,
 
-    });
+    }); */
 
    
   //this.resource2.wrapS =  THREE.RepeatWrapping;
@@ -133,7 +133,7 @@ export default class Box {
     
 
     
-     if(this.debug){
+     /* if(this.debug){
 
       this.debugFolder = this.debug.addFolder()
 
@@ -171,7 +171,7 @@ export default class Box {
 
 
 
-    } 
+    }  */
       
     
 
