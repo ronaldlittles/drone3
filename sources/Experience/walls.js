@@ -741,7 +741,7 @@ racetrackShape5.lineTo(4,82);*/
 
     
 
-    //this.shaderMaterial3.uniforms.needsUpdate = true;
+    this.shaderMaterial.uniforms.needsUpdate = true;
 
 
     
