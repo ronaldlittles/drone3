@@ -452,10 +452,10 @@ export default class Walls extends EventEmitter {
 
 
 
-    this.splineReverse = this.spline.points
+   /*  this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
     this.spline3 = new THREE.CatmullRomCurve3(this.rev);
-  
+   */
      
  
   
@@ -525,7 +525,7 @@ racetrackShape5.lineTo(4,82);*/
     this.extrudeSettings = {
 
       steps: 1500,
-      depth: 10,
+      depth: 100,
       
       extrudePath: this.spline,
 
