@@ -7,7 +7,7 @@ const fragmentShader = {
       
       uniform vec2 uvScale;
       
-      uniform float uNoise;
+      //uniform float uNoise;
 
 
       void main() {
@@ -39,7 +39,7 @@ const fragmentShader = {
   }
 
 
-    const fragmentShader2 = {
+   /*  const fragmentShader2 = {
       fragmentShader2: `
 
 
@@ -65,11 +65,11 @@ const fragmentShader = {
       }
 
 `
-    };
+    }; */
 
 
 
-   const fragmentShader3 = {
+  /*  const fragmentShader3 = {
 
     fragmentShader3: `
         varying vec2 vUv;
@@ -84,9 +84,9 @@ const fragmentShader = {
             gl_FragColor = vec4(c * f, c * f * 0.5, c * f * 0.5, 1.0);
         }
     `
-   }
+   } */
 
 
 
 
-export { fragmentShader, fragmentShader2, fragmentShader3   };
+export { fragmentShader  };

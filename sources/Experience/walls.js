@@ -352,15 +352,15 @@ export default class Walls extends EventEmitter {
      
       side: THREE.DoubleSide,
     
-      transparent: true,
-      opacity: 1,
+      //transparent: true,
+     // opacity: 1,
       
     
    
       uniforms: {
    
         texture1: { value: this.resource2},
-        uNoise: { value: this.iNoise},
+        //uNoise: { value: this.iNoise},
         uvScale: { value: new THREE.Vector2()}
 
       },
@@ -550,7 +550,7 @@ racetrackShape5.lineTo(4,82);*/
     this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings3);
 
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial2) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial) 
 
    
     this.scene2.add(this.tube);
@@ -581,7 +581,7 @@ racetrackShape5.lineTo(4,82);*/
 
 
 
-      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.shaderMaterial3)  
+      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.shaderMaterial)  
 
         //this.scene2.add(this.tube5);
             
