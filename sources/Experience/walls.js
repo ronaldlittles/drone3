@@ -565,7 +565,7 @@ racetrackShape5.lineTo(4,82);*/
     //this.tube.position.y =-16  
   
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.yellowMaterial2)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
 
 
     this.scene2.add(this.tube2);
@@ -573,7 +573,7 @@ racetrackShape5.lineTo(4,82);*/
     //this.tube2.position.y =-12
 
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.yellowMaterial2)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
 
     this.scene2.add(this.tube3);
         
