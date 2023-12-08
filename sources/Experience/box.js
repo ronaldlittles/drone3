@@ -53,17 +53,10 @@ export default class Box {
 
   setCubeTexture() {
 
-    this.cubeTexture = new THREE.CubeTextureLoader().load([
-      "/assets/DarkSeaxneg.jpg",
-      "/assets/DarkSeaxpos.jpg",
-      "/assets/DarkSeayneg.jpg",
-      "/assets/DarkSeaypos.jpg",
-      "/assets/DarkSeazneg.jpg",
-      "/assets/DarkSeazpos.jpg",
-    ]);
+    this.cubeTexture = new THREE.CubeTextureLoader().load(this.resources.items.hdr);
 
    
-   //this.scene2.background = this.cubeTexture
+   this.scene2.background =  this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
