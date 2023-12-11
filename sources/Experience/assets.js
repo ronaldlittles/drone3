@@ -69,8 +69,8 @@ export default [
       },
 
       {
-        name: "fenceModel",
-        source: "/assets/fence.glb",
+        name: "baloonsModel",
+        source: "/assets/baloons.glb",
         type: "gltfModel",
       },
 

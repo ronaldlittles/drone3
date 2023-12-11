@@ -7,7 +7,7 @@ const fragmentShader = {
       
       uniform vec2 uvScale;
       
-      //uniform float uNoise;
+      uniform float uNoise;
 
 
       void main() {
@@ -17,9 +17,9 @@ const fragmentShader = {
    
        
 
-        float squareSize = 10.0; 
+        float squareSize = 10.0 ; 
     
-        vec2 position = floor(vUv  / squareSize  );
+        vec2 position = floor(vUv  / squareSize );
     
         if (mod(position.y , 2.0) < 1.0) { 
 
@@ -27,7 +27,7 @@ const fragmentShader = {
 
         } else {
 
-          gl_FragColor = vec4(1.0,1.0, 0.0, 1.0); 
+          gl_FragColor = vec4(1.0,1.0, .5 + uNoise, 1.0); 
 
         }
 

@@ -35,6 +35,7 @@ export default class Box {
     this.resource1 = this.resources.items.smoke;
     //this.resource2 = this.resources.items.forrest;
     this.resource3 = this.resources.items.sceneModel
+    this.resource6 =  this.resources.items.hdr
     this.setLights()
     //this.setCity() 
     //this.setBox()
@@ -53,10 +54,26 @@ export default class Box {
 
   setCubeTexture() {
 
-    this.cubeTexture = new THREE.CubeTextureLoader().load(this.resources.items.hdr);
+    this.cubeTexture = new THREE.CubeTextureLoader().load([
+
+      "/assets/nx.png",
+
+      "/assets/ny.png",
+
+      "/assets/nz.png",
+
+      "/assets/px.png",
+
+      "/assets/py.png",
+
+      "/assets/pz.png"
+      
+
+      
+    ]);
 
    
-   this.scene2.background =  this.cubeTexture
+   //this.scene2.background =  this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
@@ -73,7 +90,7 @@ export default class Box {
    /*  this.shaderMaterial = new THREE.ShaderMaterial({
 
       side: THREE.DoubleSide,
-      //transparent: true,
+            //transparent: true,
       //opacity: 1.0,
      
     

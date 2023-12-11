@@ -35,7 +35,7 @@ export default class Walls extends EventEmitter {
     this.resource2 = this.resources.items.forrest;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
-    this.resource5 = this.resources.items.fenceModel;
+    this.resource5 = this.resources.items.baloonsModel;
     this.resource6 = this.resources.items.hdr;
 
   
@@ -49,9 +49,6 @@ export default class Walls extends EventEmitter {
     this.setRaycaster();
 
     
-
-   /*  this.CameraHelper = new ViewHelper(this.camera.instance);
-    this.scene2.add(this.CameraHelper); */ 
 
     this.depth = 50;
     this.rotationSpeed = .005;
@@ -79,6 +76,7 @@ export default class Walls extends EventEmitter {
   
     this.iNoise = this.noise.noise(Math.random()*5.5,Math.random()*.3,Math.random()*.5)
 
+      console.log(this.iNoise)
     
     }
 
@@ -128,15 +126,29 @@ export default class Walls extends EventEmitter {
         transparent: true,
         
     });
+
+
+    this.model3 = this.resource5.scene;
+
+    this.model3.scale.setScalar(750)
+    //this.model3.castShadow = true;
+    this.model3.position.y = -300;
+    //this.model3.receiveShadow = true; 
+
+    this.scene2.add(this.model3);
+
+    console.log(this.model3)
+
+      
     
-    for (let i = 0; i < length; i++) {
+   /*  for (let i = 0; i < length; i++) {
 
       const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
     
-      this.box1 = new THREE.Mesh(this.boxGeometry, material);
+      this.box = new THREE.Mesh(this.model3, material);
   
 
-      this.box = this.box1.clone();
+      //this.box = this.box1.clone();
     
       this.box.position.set(
         Math.random() * 200 - 100,
@@ -178,6 +190,7 @@ export default class Walls extends EventEmitter {
       }
 
     })
+     */
     
        
        
@@ -189,51 +202,45 @@ export default class Walls extends EventEmitter {
 
     this.model = this.resource3.scene;
     this.model.name = "droneModel";
-    this.scene2.add(this.model);
-    this.model.position.set(0, 1.0, 0);
-    //this.model.rotation.set(-Math.PI*2.5, 0, 0);
-    //this.model.scale.set(2,0,0)
     this.model.upVector = new THREE.Vector3(0, 1, 0);
-    
     this.model.castShadow = true;
     this.model.visible = true;
-  
+    this.model.scale.set(1,.5,.5)
 
+    this.scene2.add(this.model);
 
    
 
-     this.model2 = this.resource4.scene;
-    this.model2.scale.setScalar(10)
-    //this.scene2.add(this.model2);
+    this.model2 = this.resource4.scene;
+    this.model2.scale.setScalar(3)
     this.model2.castShadow = true;
     this.model2.position.y = -200;
-    //this.model2.receiveShadow = true;
+    this.model2.receiveShadow = true;
 
-    //this.model2.material = this.shaderMaterial3
-
-    this.model3 = this.resource5.scene;
+    //this.scene2.add(this.model2);
     
-    this.model3.scale.setScalar(20)
-    //this.scene3.add(this.model3);
-    this.model3.castShadow = true;
-    this.model3.position.y = -300;
-    //this.model3.receiveShadow = true; 
+
    
+
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-200)
-    this.model.translateY(25)
+    this.model.translateZ(-139)
+    //this.model.translateY(15)
 
-    //this.model.rotation.setFromAxisAngle(x,Math.PI/16)
-     /* this.meshes = [];
-          this.model.traverse((object) => {
-            if (object.isMesh) {
-              this.meshes.push(object);
-            } 
-          }); 
- */
+
+
+   
+      //USE THE FOLLOWING TO TRAVERSE ANY OF THE MODELS PROPERTIES
+
+                /* this.meshes = [];
+                      this.model.traverse((object) => {
+                        if (object.isMesh) {
+                          this.meshes.push(object);
+                        } 
+                      });  */
+
+
         
-
         
         }
 
@@ -299,13 +306,7 @@ export default class Walls extends EventEmitter {
         this.texture = new THREE.VideoTexture(this.video); */
 
         
-        
-       
-       
-       
-
-      
-
+     
 
       /*   this.shaderMaterial3 = new THREE.ShaderMaterial({
        
@@ -324,9 +325,7 @@ export default class Walls extends EventEmitter {
     
         });
         
-        
-    
-
+       
        
       this.shaderMaterial2 = new THREE.ShaderMaterial({
        
@@ -361,7 +360,7 @@ export default class Walls extends EventEmitter {
       uniforms: {
    
         texture1: { value: this.resource2},
-        //uNoise: { value: this.iNoise},
+        uNoise: { value: this.iNoise},
         uvScale: { value: new THREE.Vector2()}
 
       },
@@ -370,6 +369,8 @@ export default class Walls extends EventEmitter {
       fragmentShader: fragmentShader.fragmentShader,
    
     });
+
+
 
    /*  if(this.debug){
 
@@ -388,31 +389,33 @@ export default class Walls extends EventEmitter {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 1,
-      map: this.resource1,
-      displacementMap: this.resource2,
-      displacementScale: 1,
+      map: this.resource2,
+      displacementMap: this.resource1,
+      displacementScale: 5,
      
 
     });
 
- this.yellowMaterial2 = new THREE.MeshBasicMaterial({ 
-      //color: 'white', 
-      map: this.resource6,
-       
-        opacity: 1,
-        transparent: true,
+
+    this.yellowMaterial2 = new THREE.MeshBasicMaterial({ 
+          //color: 'white', 
+          map: this.resource6,
+          
+            opacity: 1,
+            transparent: true,
+            
+        });
+
+
+        /*this.plane = new THREE.Mesh(geometry, this.displacementMaterial)
+          this.scene2.add(this.plane);
+          this.plane.scale.setScalar(400)
+          this.plane.rotation.x = Math.PI/2
+          this.plane.position.y = -40 */
+
+
         
-    });
-
-   /*  this.plane = new THREE.Mesh(geometry, this.displacementMaterial)
-    this.scene2.add(this.plane);
-    this.plane.scale.setScalar(400)
-    this.plane.rotation.x = Math.PI/2
-    this.plane.position.y = -40  */
-
-
-        
-        this.numPoints = 500
+        this.numPoints = 2500
        
         this.points = [];
 
@@ -425,7 +428,7 @@ export default class Walls extends EventEmitter {
             var x = Math.sin(t*2) * radius;
            
             var z = Math.cos( t ) * radius; 
-            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 33;
+            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 23;
 
            /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
 						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
@@ -441,19 +444,19 @@ export default class Walls extends EventEmitter {
 
     this.spline.curveType = 'catmullrom';
    
-    //this.spline.closed = true;
+  
 
-    //this.spline.tension = .001;
-
-    this.spacedPoints = this.spline.getSpacedPoints(299).slice(200,210)
-    this.spacedPoints2 = this.spline.getSpacedPoints(299).slice(200,210)
+    this.spacedPoints = this.spline.getSpacedPoints(299).slice(250,310)
+    this.spacedPoints2 = this.spline.getSpacedPoints(299).slice(250,310)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
     this.spline3 = new THREE.CatmullRomCurve3(this.spacedPoints2);
 
+    console.log(this.spline2)
 
+   
 
-     this.splineReverse = this.spline.points
+    this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
     this.spline3 = new THREE.CatmullRomCurve3(this.rev);
    
@@ -466,37 +469,34 @@ const racetrackShape = new THREE.Shape();
 
 racetrackShape.moveTo(0, -80);
 
-racetrackShape.lineTo(2,-80); 
+racetrackShape.lineTo(2 ,-80); 
 racetrackShape.lineTo(0, 80);
 racetrackShape.lineTo(-2, -80);
 
-console.log(racetrackShape)
+
 
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -80);
-racetrackShape2.lineTo(8, -80);  
-racetrackShape2.lineTo(8, -70);  //70 
-racetrackShape2.lineTo(-8, -70); //80 
-racetrackShape2.lineTo(-8, -80); 
+racetrackShape2.lineTo(18, -80);  
+racetrackShape2.lineTo(18, -70);  //70 
+racetrackShape2.lineTo(-18, -70); //80 
+racetrackShape2.lineTo(-18, -80); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
 racetrackShape3.moveTo(0, 80);
-racetrackShape3.lineTo(8, 80);  
-racetrackShape3.lineTo(8, 70); //70  
-racetrackShape3.lineTo(-8, 70);  //80
-racetrackShape3.lineTo(-8, 80); 
+racetrackShape3.lineTo(18, 80);  
+racetrackShape3.lineTo(18, 70); //70  
+racetrackShape3.lineTo(-18, 70);  //80
+racetrackShape3.lineTo(-18, 80); 
 
 
 
 const racetrackShape4 = new THREE.Shape();
 
-/* racetrackShape4.moveTo(0, -82);
-racetrackShape4.lineTo(0,-284); 
-racetrackShape4.lineTo(4,-284);
-racetrackShape4.lineTo(4, -82); */
+
 
 const outerRadius = 250;
 const innerRadius = 140;
@@ -511,14 +511,7 @@ racetrackShape4.holes.push(holePath);
 
 
 
-const racetrackShape5 = new THREE.Shape();
 
-/* racetrackShape5.moveTo(0, 82);
-racetrackShape5.lineTo(0,284); 
-racetrackShape5.lineTo(4,284); 
-racetrackShape5.lineTo(4,82);*/
-
-//racetrackShape5.absarc(-85, 80, 5,  Math.PI/2, Math.PI, true)
 
 
  
@@ -554,8 +547,9 @@ racetrackShape5.lineTo(4,82);*/
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
     this.tubeGeo2 = new THREE.ExtrudeGeometry(racetrackShape2, this.extrudeSettings);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
-    this.tubeGeo4 = new THREE.ExtrudeGeometry(racetrackShape4, this.extrudeSettings2);
-    //this.tubeGeo5 = new THREE.ExtrudeGeometry(racetrackShape5, this.extrudeSettings3);
+
+    this.tubeGeo4 = new THREE.TubeGeometry(this.spline2, 100, 250, 100, false);
+   
 
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.yellowMaterial2) 
@@ -581,7 +575,7 @@ racetrackShape5.lineTo(4,82);*/
     //this.tube3.position.y =-12
 
 
-     this.tube4 = new THREE.Mesh(this.tubeGeo4, this.yellowMaterial2) 
+     this.tube4 = new THREE.Mesh(this.tubeGeo4, this.displacementMaterial) 
 
       this.scene2.add(this.tube4);
           
@@ -589,10 +583,7 @@ racetrackShape5.lineTo(4,82);*/
 
 
 
-      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.displacementMaterial)  
-
-        //this.scene2.add(this.tube5); 
-            
+     
         
 
         this.resource6.wrapS = THREE.RepeatWrapping;
@@ -602,37 +593,35 @@ racetrackShape5.lineTo(4,82);*/
         this.resource6.repeat.set(.08,.05)
 
 
+        this.resource2.wrapS = THREE.RepeatWrapping;
 
-  
+        this.resource2.wrapT = THREE.RepeatWrapping;
+    
+        this.resource2.repeat.set(2.5,2.5)
 
 
+ 
 
+          //Gonna be the skybox
 
           this.sphere = new THREE.Mesh(
 
-           
+          new THREE.BoxGeometry(4,4,4),
 
-           new THREE.BoxGeometry(4,4,4),
-
-           
-
-             new THREE.MeshStandardMaterial({
-             //color: 'yellow', 
+          new THREE.MeshStandardMaterial({
+             color: 'purple',
              map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .0052,
-            
-
-   
-           //this.shaderMaterial2
+             opacity: .5,
+           
 
           })
 
           )
 
-        //this.sphere.scale.setScalar(1350)
-        //this.scene2.add(this.sphere)
+        this.sphere.scale.setScalar(1350)
+        this.scene2.add(this.sphere)
        
 
        
@@ -652,12 +641,9 @@ racetrackShape5.lineTo(4,82);*/
             
           )
 
-    this.sphere2.scale.setScalar(10)
+    //this.sphere2.scale.setScalar(10)
        
-          
-
-
-
+   
     const numObjects = 150; // Number of objects to place on each side
     this.spacing = 50; // Adjust this value for spacing
     this.scaleFactor = 1.0;
@@ -719,9 +705,9 @@ racetrackShape5.lineTo(4,82);*/
 
     this.randomOffset = new THREE.Vector3(
       
-      (Math.random() * 2 - 1 ) * 5,
-      (Math.random() * 2 - 1 ) * 2,
       (Math.random() * 2 - 1 ) * 10,
+      (Math.random() * 2 - 1 ) * 7,
+      (Math.random() * 2 - 1 ) * 30,
       
       )
 
@@ -731,11 +717,7 @@ racetrackShape5.lineTo(4,82);*/
       
       this.scene2.add(this.sphere2Clone) 
      this.objectsArray2.push(this.sphere2Clone) 
-     //console.log(this.objectsArray2)
-
-  
-    
-
+     
 
     } 
 
@@ -744,21 +726,10 @@ racetrackShape5.lineTo(4,82);*/
       
   update() {
   
-    //this.shaderMaterial.uniforms.time.value = this.time.elapsed * 5.0;
-    //this.shaderMaterial2.uniforms.time.value = this.time.elapsed * 5.0;
-
-    
-
-    this.shaderMaterial.uniforms.needsUpdate = true;
-
-
-    
-
-   
-   
+    //this.iNoise += .0001 * this.time.delta;
  
       let currentPosition = 0; 
-      let speed = 1.0; 
+      let speed = 1.5; 
       let loopTime = 60;
 
       
@@ -768,9 +739,9 @@ racetrackShape5.lineTo(4,82);*/
    
  
     
-        const pos = this.spline3.getPointAt(t);
-        const pos2 = this.spline3.getPointAt(t2);
-        const pos3 =  this.spline.getPointAt(t3);
+        const pos = this.spline.getPointAt(t);
+        const pos2 = this.spline.getPointAt(t2);
+        const pos3 =  this.spline3.getPointAt(t3);
      
 
   
@@ -778,63 +749,20 @@ racetrackShape5.lineTo(4,82);*/
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 12, 2)
+    const offset = new THREE.Vector3(0, 5, .4)
 
     const lerpedPos = pos.lerp( pos2, this.time.elapsed * speed);
 
+
+
+    //CAMERA MOVEMENT
    
-   
-    this.camera.instance.position.copy( pos.add(offset) )
-    this.camera.instance.lookAt( pos2.add(offset) )
+    //this.camera.instance.position.copy( pos2.add( tangent ).add( offset ) )
+    //this.camera.instance.lookAt( pos.add( tangent ).add( offset ) )
   
-
-  /* for(let i =0; i <= this.boxes.length -1; i++){
-
-this.boxes[i] = pos3.add(new THREE.Vector3(0,0,-50))
-
-  } */
+//this.model.translateY(pos2.y / offset.y)
+//this.model.translateZ(pos2.z / offset.z)
     
-   
-   
-
-    /* if (this.removedPointArray) {
-      this.objectsArray1.forEach((object) => {
-          const dist = 200.0;
-  
-          if (!this.removedPointArray.includes(object)) {
-              const distance = this.model.position.distanceTo(object.position);
-  
-              if (distance < dist) {
-                  // Calculate the displacement vectors for both objects
-                  const awayFromModel = this.model.position.clone().sub(object.position).normalize().multiplyScalar(1.4);
-                  const towardsModel = object.position.clone().sub(this.model.position).normalize().multiplyScalar(0.4);
-  
-                  // Move objects away from each other
-                  object.position.add(awayFromModel);
-                  this.model.position.add(towardsModel);
-              }
-          }
-      }); */
-  
-     /*  this.objectsArray2.forEach((object) => {
-          const dist = 10.0;
-  
-          if (!this.removedPointArray.includes(object)) {
-              const distance = this.model.position.distanceTo(object.position);
-  
-              if (distance < dist) {
-                  // Calculate the displacement vectors for both objects
-                  const awayFromModel = this.model.position.clone().sub(object.position).normalize().multiplyScalar(0.4);
-                  const towardsModel = object.position.clone().sub(this.model.position).normalize().multiplyScalar(0.4);
-  
-                  // Move objects away from each other
-                  object.position.add(awayFromModel);
-                  this.model.position.add(towardsModel);
-              }
-          }
-      });*/
-  //} 
-  
   const maxAngle = Math.PI / 6; // Maximum allowed azimuth angle (45 degrees in radians)
   const minAngle = -Math.PI / 6; // Minimum allowed azimuth angle (-45 degrees in radians)
   
@@ -842,11 +770,11 @@ this.boxes[i] = pos3.add(new THREE.Vector3(0,0,-50))
   this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
 
   
- this.q1 = new THREE.Quaternion()
+this.q1 = new THREE.Quaternion()
 this.q2 = new THREE.Quaternion()
 
-this.q1.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.camera.azimuth%1 )
-this.q2.setFromAxisAngle(new THREE.Vector3(0, 0, 1), this.camera.azimuth%1)
+this.q1.setFromAxisAngle(new THREE.Vector3(.2, 0, 0), pos.x )
+this.q2.setFromAxisAngle(new THREE.Vector3(.4, 0, 0), pos.x)
 
 this.q3 = new THREE.Quaternion()
 this.q3.multiplyQuaternions(this.q1,this.q2)
@@ -857,16 +785,7 @@ this.model.quaternion.copy(this.q3)
  
 
 
-
-
-
-//this.shaderMaterial.uniforms.tangent.value = this.angle
-
-//this.shaderMaterial2.uniforms.tangent.value = this.angle
-
-
-
-   const angleToRotate = THREE.MathUtils.degToRad(-45)
+    const angleToRotate = THREE.MathUtils.degToRad(-45)
  
    
     const desiredRotation = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), angleToRotate);
@@ -875,10 +794,7 @@ this.model.quaternion.copy(this.q3)
     const maxRotation = new THREE.Quaternion().slerp(desiredRotation, 0.5); 
  
    
-    
-
-
-
+   
     this.forwardVector2 = new THREE.Vector3(1, 0, 0);
     this.forwardDirection2 = this.forwardVector2.clone();
     this.forwardDirection2.applyQuaternion(this.model.quaternion).add(maxRotation).normalize();
@@ -910,27 +826,7 @@ this.model.quaternion.copy(this.q3)
 
     } 
     
-     
-
-   
-    /*   this.meshes.forEach((mesh) => {
-
-
-
-      if (mesh.name.startsWith('Plane') && mesh.name != 'Plane054')  {
   
-       this.circles = mesh
-       this.circles.rotation.y += Math.PI/2 * this.time.delta * 5;
-  
-      
-      }
-    
-    
-  
-    }); */
-
-
-    
       }
 
     }
