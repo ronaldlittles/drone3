@@ -27,7 +27,7 @@ const fragmentShader = {
 
         } else {
 
-          gl_FragColor = vec4(1.0,1.0, .5 + uNoise, 1.0); 
+          gl_FragColor = vec4(1.0,1.0,0.5, 1.0); 
 
         }
 

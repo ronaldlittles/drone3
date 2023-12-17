@@ -128,16 +128,7 @@ export default class Walls extends EventEmitter {
     });
 
 
-    this.model3 = this.resource5.scene;
-
-    this.model3.scale.setScalar(750)
-    //this.model3.castShadow = true;
-    this.model3.position.y = -300;
-    //this.model3.receiveShadow = true; 
-
-    this.scene2.add(this.model3);
-
-    console.log(this.model3)
+   
 
       
     
@@ -219,13 +210,23 @@ export default class Walls extends EventEmitter {
 
     //this.scene2.add(this.model2);
     
+    this.model3 = this.resource5.scene;
 
+    this.model3.scale.setScalar(750)
+    //this.model3.castShadow = true;
+    this.model3.position.y = -300;
+    //this.model3.receiveShadow = true; 
+    
+
+    //this.scene2.add(this.model3);
+
+    console.log(this.model3)
    
 
     
     this.camera.instance.add(this.model)
     this.model.translateZ(-139)
-    //this.model.translateY(15)
+    this.model.translateY(15)
 
 
 
@@ -389,19 +390,19 @@ export default class Walls extends EventEmitter {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 1,
-      map: this.resource2,
-      displacementMap: this.resource1,
-      displacementScale: 5,
+      map: this.resource1,
+      //displacementMap: this.resource1,
+      //displacementScale: 5,
      
 
     });
 
 
-    this.yellowMaterial2 = new THREE.MeshBasicMaterial({ 
-          //color: 'white', 
-          map: this.resource6,
-          
-            opacity: 1,
+    this.yellowMaterial2 = new THREE.MeshStandardMaterial({ 
+         emissive: 0xff0000,
+          emissiveIntensity:.1, 
+          map: this.resource2,
+            opacity: .5,
             transparent: true,
             
         });
@@ -518,8 +519,8 @@ racetrackShape4.holes.push(holePath);
 
     this.extrudeSettings = {
 
-      steps: 1500,
-      depth: 100,
+      steps: 500,
+      depth: 50,
       
       extrudePath: this.spline,
 
@@ -548,9 +549,9 @@ racetrackShape4.holes.push(holePath);
     this.tubeGeo2 = new THREE.ExtrudeGeometry(racetrackShape2, this.extrudeSettings);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
 
-    this.tubeGeo4 = new THREE.TubeGeometry(this.spline2, 100, 250, 100, false);
+    this.tubeGeo4 = new THREE.TubeGeometry(this.spline2, 100, 200, 100, false);
    
-
+    
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.yellowMaterial2) 
 
@@ -597,7 +598,7 @@ racetrackShape4.holes.push(holePath);
 
         this.resource2.wrapT = THREE.RepeatWrapping;
     
-        this.resource2.repeat.set(2.5,2.5)
+        this.resource2.repeat.set(2.5, 5)
 
 
  
@@ -613,7 +614,7 @@ racetrackShape4.holes.push(holePath);
              map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .5,
+             opacity: 1,
            
 
           })
@@ -621,7 +622,7 @@ racetrackShape4.holes.push(holePath);
           )
 
         this.sphere.scale.setScalar(1350)
-        this.scene2.add(this.sphere)
+        //this.scene2.add(this.sphere)
        
 
        
@@ -642,9 +643,15 @@ racetrackShape4.holes.push(holePath);
           )
 
     //this.sphere2.scale.setScalar(10)
-       
+
+    
+    this.sphere2.rotation.z += Math.PI/2
+  
+
+    
+    
    
-    const numObjects = 150; // Number of objects to place on each side
+  /*   const numObjects = 150; // Number of objects to place on each side
     this.spacing = 50; // Adjust this value for spacing
     this.scaleFactor = 1.0;
 
@@ -659,26 +666,27 @@ racetrackShape4.holes.push(holePath);
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
-
+ */
 
      
      
   
-    const referenceVector = new THREE.Vector3(0, 1, 0); 
+   /*  this.referenceVector = new THREE.Vector3(0, 0, 1); 
     this.normal = new THREE.Vector3();
-    this.normal.crossVectors(referenceVector, this.tangent).normalize();
+    this.normal.crossVectors(this.referenceVector, this.tangent).normalize();
     this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(referenceVector, this.normal).normalize(); 
+    this.binormal.crossVectors(this.referenceVector, this.normal).normalize(); 
 
    
-    this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
+    this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); */ 
 
-    const angle = Math.atan2(this.tangent.x , this.tangent.z );
+   /*  const angle = Math.atan2(this.tangent.x , this.tangent.z );
     //const angle2 = Math.atan2(this.model.position.x, this.camera.instance.position.x) 
 
     
     
-     this.positionLeft = positionOnCurve.clone().add(this.offset);
+
+    this.positionLeft = positionOnCurve.clone().add(this.offset);
     this.positionRight = positionOnCurve.clone().sub(this.offset);
 
     this.sphereLeft = this.model2.clone();
@@ -716,10 +724,10 @@ racetrackShape4.holes.push(holePath);
       
       
       this.scene2.add(this.sphere2Clone) 
-     this.objectsArray2.push(this.sphere2Clone) 
+      this.objectsArray2.push(this.sphere2Clone) 
      
 
-    } 
+    }  */
 
         }
         
@@ -727,7 +735,9 @@ racetrackShape4.holes.push(holePath);
   update() {
   
     //this.iNoise += .0001 * this.time.delta;
- 
+    //console.log( this.tubeGeo.attributes.normal.array[i] )
+
+
       let currentPosition = 0; 
       let speed = 1.5; 
       let loopTime = 60;
@@ -743,7 +753,12 @@ racetrackShape4.holes.push(holePath);
         const pos2 = this.spline.getPointAt(t2);
         const pos3 =  this.spline3.getPointAt(t3);
      
+        
 
+     const posWorld = pos//.localToWorld(this.scene2.position)
+     const pos2World = pos2//.localToWorld(this.scene2.position)
+
+   
   
     const tangent = this.spline.getTangentAt(t);
 
@@ -751,17 +766,33 @@ racetrackShape4.holes.push(holePath);
 
     const offset = new THREE.Vector3(0, 5, .4)
 
-    const lerpedPos = pos.lerp( pos2, this.time.elapsed * speed);
+    const lerpedPos = pos.lerp( posWorld, this.time.elapsed * speed);
 
 
+    this.spacing = 10;
+
+    this.referenceVector = new THREE.Vector3(pos2World.x, pos2World.y, 0).normalize(); 
+    this.normal = new THREE.Vector3().normalize();
+    this.normal.crossVectors(pos2World, tangent ).normalize();
+    this.binormal = new THREE.Vector3();
+    this.binormal.crossVectors(this.referenceVector, this.normal).normalize(); 
+
+    //to modulate here i have to loop for i first
+    //this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
 
     //CAMERA MOVEMENT
    
-    //this.camera.instance.position.copy( pos2.add( tangent ).add( offset ) )
-    //this.camera.instance.lookAt( pos.add( tangent ).add( offset ) )
+    this.camera.instance.position.copy( pos2World.add( tangent ).add( offset ) )
+    this.camera.instance.lookAt( posWorld.add( tangent ).add( offset ) )
+
+    this.positiveNormal = this.binormal.clone().normalize()
+
+    //this.model.position.add( (this.positiveNormal.multiplyScalar(7)).normalize())
+
+    console.log('normal: this.normal', pos2World, this.positiveNormal,  this.referenceVector)
   
-//this.model.translateY(pos2.y / offset.y)
-//this.model.translateZ(pos2.z / offset.z)
+    //this.model.translateY( this.normal.y)
+    //this.model.translateZ(pos2.z / offset.z)
     
   const maxAngle = Math.PI / 6; // Maximum allowed azimuth angle (45 degrees in radians)
   const minAngle = -Math.PI / 6; // Minimum allowed azimuth angle (-45 degrees in radians)
