@@ -749,14 +749,14 @@ racetrackShape4.holes.push(holePath);
    
  
     
-        const pos = this.spline.getPointAt(t);
-        const pos2 = this.spline.getPointAt(t2);
+        const pos = this.spline.getPointAt(t2);
+        const pos2 = this.spline.getPointAt(t);
         const pos3 =  this.spline3.getPointAt(t3);
      
         
 
-     const posWorld = pos2//.localToWorld(this.scene2.position)
-     const pos2World = pos//.localToWorld(this.scene2.position)
+     const posWorld = pos//.localToWorld(this.scene2.position)
+     const pos2World = pos2//.localToWorld(this.scene2.position)
 
    
   
