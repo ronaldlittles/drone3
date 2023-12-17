@@ -755,8 +755,8 @@ racetrackShape4.holes.push(holePath);
      
         
 
-     const posWorld = pos//.localToWorld(this.scene2.position)
-     const pos2World = pos2//.localToWorld(this.scene2.position)
+     const posWorld = pos2//.localToWorld(this.scene2.position)
+     const pos2World = pos//.localToWorld(this.scene2.position)
 
    
   
