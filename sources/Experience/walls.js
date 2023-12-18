@@ -645,7 +645,7 @@ racetrackShape4.holes.push(holePath);
     //this.sphere2.scale.setScalar(10)
 
     
-    this.sphere2.rotation.z += Math.PI/2
+   
   
 
     
@@ -736,7 +736,7 @@ racetrackShape4.holes.push(holePath);
   
     //this.iNoise += .0001 * this.time.delta;
     //console.log( this.tubeGeo.attributes.normal.array[i] )
-
+   
 
       let currentPosition = 0; 
       let speed = 1.5; 
