@@ -3,16 +3,10 @@ import Experience from "./Experience.js";
 import EventEmitter from "./Utils/EventEmitter.js";
 import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
-//import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
-//import { fragmentShader2 } from "./fragment2.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
-//import { Flow } from 'three/examples/jsm/modifiers/CurveModifier.js';
-//import RollerCoasterGeometry from './track1.js'
-//import { ViewHelper } from "three/examples/jsm/helpers/ViewHelper.js";
 import { FigureEightPolynomialKnot } from "three/examples/jsm/curves/CurveExtras.js";
-//import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
 export default class Walls extends EventEmitter {
   constructor() {
 
@@ -31,8 +25,8 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource1 = this.resources.items.smoke;
-    this.resource2 = this.resources.items.forrest;
+    this.resource1 = this.resources.items.me;
+    this.resource2 = this.resources.items.wallTexture;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
     this.resource5 = this.resources.items.baloonsModel;
@@ -76,7 +70,7 @@ export default class Walls extends EventEmitter {
   
     this.iNoise = this.noise.noise(Math.random()*5.5,Math.random()*.3,Math.random()*.5)
 
-      console.log(this.iNoise)
+     
     
     }
 
@@ -119,9 +113,8 @@ export default class Walls extends EventEmitter {
     });
     
     this.yellowMaterial = new THREE.MeshBasicMaterial({ 
-      //color: 'white', 
-      map: this.resource2,
-       
+
+        map: this.resource2,
         opacity: 1,
         transparent: true,
         
@@ -132,14 +125,14 @@ export default class Walls extends EventEmitter {
 
       
     
-   /*  for (let i = 0; i < length; i++) {
+      for (let i = 0; i < length; i++) {
 
       const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
     
-      this.box = new THREE.Mesh(this.model3, material);
+      this.box1 = new THREE.Mesh( this.boxGeometry, material);
   
 
-      //this.box = this.box1.clone();
+      this.box = this.box1.clone();
     
       this.box.position.set(
         Math.random() * 200 - 100,
@@ -181,8 +174,7 @@ export default class Walls extends EventEmitter {
       }
 
     })
-     */
-    
+     
        
        
       }
@@ -352,12 +344,9 @@ export default class Walls extends EventEmitter {
     this.shaderMaterial = new THREE.ShaderMaterial({
      
       side: THREE.DoubleSide,
-    
       //transparent: true,
-     // opacity: 1,
-      
+      // opacity: 1,
     
-   
       uniforms: {
    
         texture1: { value: this.resource2},
@@ -373,46 +362,34 @@ export default class Walls extends EventEmitter {
 
 
 
-   /*  if(this.debug){
-
-       this.debug.add(this.shaderMaterial.uniforms.uvScale.value, 'uvScale', -100, 100)
-    .name('Slider')
-    .step(0.1)
-    .onChange(values=>(this.shaderMaterial.uniforms.uvScale.value = values))
- 
-
-    } */
 
 
 
     this.displacementMaterial = new THREE.MeshStandardMaterial({
 
+      color: 'yellow',
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 1,
+      opacity: .5,
       map: this.resource1,
       //displacementMap: this.resource1,
       //displacementScale: 5,
-     
 
     });
 
 
     this.yellowMaterial2 = new THREE.MeshStandardMaterial({ 
-         emissive: 0xff0000,
-          emissiveIntensity:.1, 
-          map: this.resource2,
+
+            //emissive: 0xff0000,
+            //emissiveIntensity:.1, 
+            map: this.resource2,
             opacity: .5,
             transparent: true,
             
         });
 
 
-        /*this.plane = new THREE.Mesh(geometry, this.displacementMaterial)
-          this.scene2.add(this.plane);
-          this.plane.scale.setScalar(400)
-          this.plane.rotation.x = Math.PI/2
-          this.plane.position.y = -40 */
+      
 
 
         
@@ -429,7 +406,7 @@ export default class Walls extends EventEmitter {
             var x = Math.sin(t*2) * radius;
            
             var z = Math.cos( t ) * radius; 
-            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 23;
+            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 30;
 
            /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
 						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
@@ -447,26 +424,19 @@ export default class Walls extends EventEmitter {
    
   
 
-    this.spacedPoints = this.spline.getSpacedPoints(299).slice(250,310)
+    this.spacedPoints = this.spline.getSpacedPoints(299).slice(200,300)
     this.spacedPoints2 = this.spline.getSpacedPoints(299).slice(250,310)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
     this.spline3 = new THREE.CatmullRomCurve3(this.spacedPoints2);
 
-    console.log(this.spline2)
-
-   
 
     this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
     this.spline3 = new THREE.CatmullRomCurve3(this.rev);
    
-     
- 
   
 const racetrackShape = new THREE.Shape();
-
-
 
 racetrackShape.moveTo(0, -80);
 
@@ -478,20 +448,20 @@ racetrackShape.lineTo(-2, -80);
 
 const racetrackShape2 = new THREE.Shape();
 
-racetrackShape2.moveTo(0, -80);
-racetrackShape2.lineTo(18, -80);  
-racetrackShape2.lineTo(18, -70);  //70 
-racetrackShape2.lineTo(-18, -70); //80 
-racetrackShape2.lineTo(-18, -80); 
+racetrackShape2.moveTo(0, -90);
+racetrackShape2.lineTo(10, -90);  
+racetrackShape2.lineTo(10, -70);   
+racetrackShape2.lineTo(-5, -70); 
+racetrackShape2.lineTo(-5, -90); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
-racetrackShape3.moveTo(0, 80);
-racetrackShape3.lineTo(18, 80);  
-racetrackShape3.lineTo(18, 70); //70  
-racetrackShape3.lineTo(-18, 70);  //80
-racetrackShape3.lineTo(-18, 80); 
+racetrackShape3.moveTo(0, 90);
+racetrackShape3.lineTo(10, 90);  
+racetrackShape3.lineTo(10, 70);  
+racetrackShape3.lineTo(-5, 70);  
+racetrackShape3.lineTo(-5, 90); 
 
 
 
@@ -520,7 +490,7 @@ racetrackShape4.holes.push(holePath);
     this.extrudeSettings = {
 
       steps: 500,
-      depth: 50,
+      depth: 100,
       
       extrudePath: this.spline,
 
@@ -558,7 +528,7 @@ racetrackShape4.holes.push(holePath);
    
     this.scene2.add(this.tube);
     
-    //this.tube.position.y =-16  
+    this.tube.position.y =-10 
   
  
     this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
@@ -594,11 +564,11 @@ racetrackShape4.holes.push(holePath);
         this.resource6.repeat.set(.08,.05)
 
 
-        this.resource2.wrapS = THREE.RepeatWrapping;
+        this.resource1.wrapS = THREE.RepeatWrapping;
 
-        this.resource2.wrapT = THREE.RepeatWrapping;
+        this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource2.repeat.set(2.5, 5)
+        this.resource1.repeat.set(32,4)
 
 
  
@@ -607,9 +577,11 @@ racetrackShape4.holes.push(holePath);
 
           this.sphere = new THREE.Mesh(
 
-          new THREE.BoxGeometry(4,4,4),
+          new THREE.SphereGeometry(1,32,32),
 
           new THREE.MeshStandardMaterial({
+
+             wireframe: true,
              color: 'purple',
              map: this.resource2, 
              side: THREE.DoubleSide,
@@ -628,21 +600,22 @@ racetrackShape4.holes.push(holePath);
        
           this.sphere2 = new THREE.Mesh(
  
-            new THREE.BoxGeometry(3,1,1),
+           new THREE.SphereGeometry(1,32,32),
  
             new THREE.MeshStandardMaterial({
-              map: this.resource2,
+
+              wireframe: true,
+              map: this.resource1,
               color: Math.random() * 0xffffff,
               side: THREE.DoubleSide,
               transparent: true,
               opacity: .8,
             
-
             }) 
             
           )
 
-    //this.sphere2.scale.setScalar(10)
+          this.sphere2.scale.setScalar(5)
 
     
    
@@ -651,7 +624,7 @@ racetrackShape4.holes.push(holePath);
     
     
    
-  /*   const numObjects = 150; // Number of objects to place on each side
+    const numObjects = 150; // Number of objects to place on each side
     this.spacing = 50; // Adjust this value for spacing
     this.scaleFactor = 1.0;
 
@@ -666,21 +639,21 @@ racetrackShape4.holes.push(holePath);
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
- */
+ 
 
      
      
   
-   /*  this.referenceVector = new THREE.Vector3(0, 0, 1); 
+     this.referenceVector = new THREE.Vector3(0, 0, 1); 
     this.normal = new THREE.Vector3();
     this.normal.crossVectors(this.referenceVector, this.tangent).normalize();
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(this.referenceVector, this.normal).normalize(); 
 
    
-    this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); */ 
+    this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
 
-   /*  const angle = Math.atan2(this.tangent.x , this.tangent.z );
+    const angle = Math.atan2(this.tangent.x , this.tangent.z );
     //const angle2 = Math.atan2(this.model.position.x, this.camera.instance.position.x) 
 
     
@@ -704,17 +677,15 @@ racetrackShape4.holes.push(holePath);
     this.sphereRight = this.sphere2.clone();
     
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
-  
 
     this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
-     
-    //this.scene2.add(this.sphereRight);
+    
 
     this.randomOffset = new THREE.Vector3(
       
       (Math.random() * 2 - 1 ) * 10,
-      (Math.random() * 2 - 1 ) * 7,
+      (Math.random() * 2 - 1 ) * 100,
       (Math.random() * 2 - 1 ) * 30,
       
       )
@@ -727,7 +698,7 @@ racetrackShape4.holes.push(holePath);
       this.objectsArray2.push(this.sphere2Clone) 
      
 
-    }  */
+    }  
 
         }
         

@@ -22,8 +22,8 @@ export default [
       },
 
       {
-        name: "smoke",
-        source: "/assets/smoke512.png",
+        name: "me",
+        source: "/assets/me.jpg",
         type: "texture",
       },
       {
