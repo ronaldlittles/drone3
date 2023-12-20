@@ -114,10 +114,11 @@ export default class Walls extends EventEmitter {
     
     this.yellowMaterial = new THREE.MeshBasicMaterial({ 
 
-        map: this.resource2,
+        map: this.resource1,
         opacity: 1,
         transparent: true,
-        
+        side: THREE.DoubleSide,
+
     });
 
 
@@ -188,16 +189,16 @@ export default class Walls extends EventEmitter {
     this.model.upVector = new THREE.Vector3(0, 1, 0);
     this.model.castShadow = true;
     this.model.visible = true;
-    this.model.scale.set(1,.5,.5)
-
+    this.model.scale.set(1,.5,1)
+    //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
 
    
 
     this.model2 = this.resource4.scene;
-    this.model2.scale.setScalar(3)
+    this.model2.scale.setScalar(6)
     this.model2.castShadow = true;
-    this.model2.position.y = -200;
+    this.model2.position.y = -250;
     this.model2.receiveShadow = true;
 
     //this.scene2.add(this.model2);
@@ -217,8 +218,8 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-139)
-    this.model.translateY(15)
+    this.model.translateZ(-100)
+    this.model.translateY(5)
 
 
 
@@ -292,11 +293,11 @@ export default class Walls extends EventEmitter {
 
       createWall() {
 
-     /* this.video = document.querySelector(".video");
+      this.video = document.querySelector(".video");
         
         this.video.play();
     
-        this.texture = new THREE.VideoTexture(this.video); */
+        this.texture = new THREE.VideoTexture(this.video); 
 
         
      
@@ -316,7 +317,7 @@ export default class Walls extends EventEmitter {
           vertexShader: vertexShader.vertexShader,
           fragmentShader: fragmentShader3.fragmentShader3,
     
-        });
+        }); */
         
        
        
@@ -325,7 +326,7 @@ export default class Walls extends EventEmitter {
       side: THREE.DoubleSide,
       
       transparent: true,
-      opacity: 1.0,
+      opacity: .5,
       
       uniforms: {
          
@@ -334,10 +335,10 @@ export default class Walls extends EventEmitter {
           uvScale: { value: new THREE.Vector2(100,10)}
       },
 
-      vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader2.fragmentShader2,
+      vertexShader: vertexShader.vertexShader2,
+      fragmentShader: fragmentShader.fragmentShader,
 
-    });  */
+    });  
 
    
 
@@ -367,7 +368,7 @@ export default class Walls extends EventEmitter {
 
     this.displacementMaterial = new THREE.MeshStandardMaterial({
 
-      color: 'yellow',
+      //color: 'blue',
       side: THREE.DoubleSide,
       transparent: true,
       opacity: .5,
@@ -383,7 +384,7 @@ export default class Walls extends EventEmitter {
             //emissive: 0xff0000,
             //emissiveIntensity:.1, 
             map: this.resource2,
-            opacity: .5,
+            opacity: 1,
             transparent: true,
             
         });
@@ -424,8 +425,8 @@ export default class Walls extends EventEmitter {
    
   
 
-    this.spacedPoints = this.spline.getSpacedPoints(299).slice(200,300)
-    this.spacedPoints2 = this.spline.getSpacedPoints(299).slice(250,310)
+    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(500,1000)
+    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(100,200)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
     this.spline3 = new THREE.CatmullRomCurve3(this.spacedPoints2);
@@ -433,7 +434,7 @@ export default class Walls extends EventEmitter {
 
     this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
-    this.spline3 = new THREE.CatmullRomCurve3(this.rev);
+    this.spline4 = new THREE.CatmullRomCurve3(this.rev);
    
   
 const racetrackShape = new THREE.Shape();
@@ -499,7 +500,7 @@ racetrackShape4.holes.push(holePath);
      this.extrudeSettings2 = {
 
       steps: 150,
-      depth: 50,
+      depth: 100,
       
       extrudePath: this.spline2,
 
@@ -507,7 +508,7 @@ racetrackShape4.holes.push(holePath);
 
     this.extrudeSettings3 = {
 
-      steps: 1500,
+      steps: 150,
       depth: 100,
       
       extrudePath: this.spline3,
@@ -520,7 +521,7 @@ racetrackShape4.holes.push(holePath);
     this.tubeGeo3 = new THREE.ExtrudeGeometry(racetrackShape3, this.extrudeSettings);
 
     this.tubeGeo4 = new THREE.TubeGeometry(this.spline2, 100, 200, 100, false);
-   
+    this.tubeGeo5 = new THREE.TubeGeometry(this.spline3, 100, 200, 100, false);
     
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.yellowMaterial2) 
@@ -529,6 +530,8 @@ racetrackShape4.holes.push(holePath);
     this.scene2.add(this.tube);
     
     this.tube.position.y =-10 
+
+    //this.tube.visible = false;
   
  
     this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
@@ -551,7 +554,9 @@ racetrackShape4.holes.push(holePath);
       this.scene2.add(this.tube4);
           
       
+      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.displacementMaterial) 
 
+      //this.scene2.add(this.tube5);
 
 
      
@@ -561,14 +566,20 @@ racetrackShape4.holes.push(holePath);
 
         this.resource6.wrapT = THREE.RepeatWrapping;
     
-        this.resource6.repeat.set(.08,.05)
-
+        this.resource6.repeat.set(.8,.5)
 
         this.resource1.wrapS = THREE.RepeatWrapping;
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
         this.resource1.repeat.set(32,4)
+
+
+        this.resource2.wrapS = THREE.RepeatWrapping;
+
+        this.resource2.wrapT = THREE.RepeatWrapping;
+    
+        this.resource2.repeat.set(.05,.01)
 
 
  
@@ -582,8 +593,8 @@ racetrackShape4.holes.push(holePath);
           new THREE.MeshStandardMaterial({
 
              wireframe: true,
-             color: 'purple',
-             map: this.resource2, 
+             color: Math.random() * 0xffffff,
+             //map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
              opacity: 1,
@@ -601,17 +612,19 @@ racetrackShape4.holes.push(holePath);
           this.sphere2 = new THREE.Mesh(
  
            new THREE.SphereGeometry(1,32,32),
+
+           //this.shaderMaterial2 
  
-            new THREE.MeshStandardMaterial({
+             new THREE.MeshStandardMaterial({
 
               wireframe: true,
               map: this.resource1,
               color: Math.random() * 0xffffff,
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: .8,
+              opacity: 1,
             
-            }) 
+            })  
             
           )
 
@@ -624,9 +637,9 @@ racetrackShape4.holes.push(holePath);
     
     
    
-    const numObjects = 150; // Number of objects to place on each side
+    const numObjects = 750; // Number of objects to place on each side
     this.spacing = 50; // Adjust this value for spacing
-    this.scaleFactor = 1.0;
+    this.scaleFactor = 2.0;
 
     this.objectsArray1 = [];
     this.objectsArray2 = [];
@@ -666,7 +679,7 @@ racetrackShape4.holes.push(holePath);
     this.sphereLeft.isWall = true
     this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
 
-    this.sphereLeft.position.add(new THREE.Vector3(0,-10,0))
+    this.sphereLeft.position.add(new THREE.Vector3(0,-50,0))
    
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle+ Math.PI/2 );
     
@@ -710,7 +723,7 @@ racetrackShape4.holes.push(holePath);
    
 
       let currentPosition = 0; 
-      let speed = 1.5; 
+      let speed = 1.2; 
       let loopTime = 60;
 
       
@@ -740,7 +753,7 @@ racetrackShape4.holes.push(holePath);
     const lerpedPos = pos.lerp( posWorld, this.time.elapsed * speed);
 
 
-    this.spacing = 10;
+    
 
     this.referenceVector = new THREE.Vector3(pos2World.x, pos2World.y, 0).normalize(); 
     this.normal = new THREE.Vector3().normalize();
@@ -754,67 +767,76 @@ racetrackShape4.holes.push(holePath);
     //CAMERA MOVEMENT
    
     this.camera.instance.position.copy( pos2World.add( tangent ).add( offset ) )
+
     this.camera.instance.lookAt( posWorld.add( tangent ).add( offset ) )
 
-    this.positiveNormal = this.binormal.clone().normalize()
-
-    //this.model.position.add( (this.positiveNormal.multiplyScalar(7)).normalize())
-
-    console.log('normal: this.normal', pos2World, this.positiveNormal,  this.referenceVector)
-  
-    //this.model.translateY( this.normal.y)
-    //this.model.translateZ(pos2.z / offset.z)
     
-  const maxAngle = Math.PI / 6; // Maximum allowed azimuth angle (45 degrees in radians)
-  const minAngle = -Math.PI / 6; // Minimum allowed azimuth angle (-45 degrees in radians)
+
+    //this.model.position.copy(pos2)
+
+    this.model.position.add( (this.normal.multiplyScalar(25)).add( tangent.multiplyScalar(25) ).normalize())
+    
+
+    console.log(this.normal,  this.camera.instance)
+
+    //this.model.translateX( this.normal.x )
+    //this.model.translateY( Math.abs(this.normal.y) )
+    //this.model.translateZ( this.normal.z )
+
+    
+    const maxAngle = Math.PI / 6; 
+    const minAngle = -Math.PI / 6; 
+    
+    this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
   
-  // Update the azimuth angle while keeping it within the limits
-  this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
+    this.q1 = new THREE.Quaternion()
+    this.q2 = new THREE.Quaternion()
 
-  
-this.q1 = new THREE.Quaternion()
-this.q2 = new THREE.Quaternion()
+    this.q1.setFromAxisAngle(new THREE.Vector3(.02, 0, 0), pos.x )
+    this.q2.setFromAxisAngle(new THREE.Vector3(.04, 0, 0), pos.x)
 
-this.q1.setFromAxisAngle(new THREE.Vector3(.2, 0, 0), pos.x )
-this.q2.setFromAxisAngle(new THREE.Vector3(.4, 0, 0), pos.x)
-
-this.q3 = new THREE.Quaternion()
-this.q3.multiplyQuaternions(this.q1,this.q2)
+    this.q3 = new THREE.Quaternion()
+    this.q3.multiplyQuaternions(this.q1,this.q2)
 
 
 
-this.model.quaternion.copy(this.q3)
+    this.model.quaternion.copy(this.q3)
  
 
 
     const angleToRotate = THREE.MathUtils.degToRad(-45)
  
-   
     const desiredRotation = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), angleToRotate);
-
    
     const maxRotation = new THREE.Quaternion().slerp(desiredRotation, 0.5); 
  
    
-   
     this.forwardVector2 = new THREE.Vector3(1, 0, 0);
     this.forwardDirection2 = this.forwardVector2.clone();
     this.forwardDirection2.applyQuaternion(this.model.quaternion).add(maxRotation).normalize();
-    //this.model.rotation.add(this.forwardDirection2.multiplyScalar(this.movementSpeed));
+    
 
     this.forwardVector3 = new THREE.Vector3(-1,0, 0);
     this.forwardDirection3 = this.forwardVector3.clone();
-    this.forwardDirection3.applyQuaternion(this.model.quaternion).add(maxRotation).normalize();  
+    this.forwardDirection3.applyQuaternion(this.model.quaternion).add(maxRotation).normalize(); 
+
+   
 
      if (this.arrowLeftPressed) {
-    this.model.rotation.z -= Math.PI/4 //* tangent.x //this.rotationSpeed;
-    
-    this.model.position.add(this.forwardDirection2.multiplyScalar(this.movementSpeed));
-    }
-    if (this.arrowRightPressed) {
-    this.model.rotation.z +=   Math.PI/4 //* tangent.x//this.rotationSpeed;
+
+    this.model.rotation.z += Math.PI/4;
    
-    this.model.position.add(this.forwardDirection3.multiplyScalar(this.movementSpeed));
+    this.model.rotation.y +=  Math.abs(this.normal.y)//Math.PI/6;
+
+    }
+
+
+    if (this.arrowRightPressed) {
+
+    this.model.rotation.z -= Math.PI/4;
+    
+    this.model.rotation.y -=  Math.PI/6;
+
     } 
 
 

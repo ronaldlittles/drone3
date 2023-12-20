@@ -23,12 +23,12 @@ export default [
 
       {
         name: "me",
-        source: "/assets/me.jpg",
+        source: "/assets/michelleskids.jpg",
         type: "texture",
       },
       {
         name: "wallTexture",
-        source: "/assets/DarkSeaxpos.jpg",
+        source: "/assets/shelly.jpg",
         type: "texture",
       },
 
