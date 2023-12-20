@@ -366,15 +366,17 @@ export default class Walls extends EventEmitter {
 
 
 
-    this.displacementMaterial = new THREE.MeshStandardMaterial({
+    this.displacementMaterial = new THREE.MeshMatcapMaterial({
 
-      //color: 'blue',
+      //color: 'black',
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: .5,
-      map: this.resource1,
-      //displacementMap: this.resource1,
-      //displacementScale: 5,
+      opacity: 1,
+      //map: this.resource1,
+      bumpMap: this.resource1,
+      bumpMapScale: 1,
+      //displacementMap: this.resource2,
+      //displacementScale: 1,
 
     });
 
@@ -406,8 +408,9 @@ export default class Walls extends EventEmitter {
 
             var x = Math.sin(t*2) * radius;
            
-            var z = Math.cos( t ) * radius; 
-            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 30;
+            var z = Math.cos( t ) * radius;
+
+            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 20;
 
            /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
 						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
@@ -425,7 +428,7 @@ export default class Walls extends EventEmitter {
    
   
 
-    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(500,1000)
+    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(500,1200)
     this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(100,200)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
@@ -556,7 +559,7 @@ racetrackShape4.holes.push(holePath);
       
       this.tube5 = new THREE.Mesh(this.tubeGeo5, this.displacementMaterial) 
 
-      //this.scene2.add(this.tube5);
+      this.scene2.add(this.tube5);
 
 
      
@@ -566,13 +569,13 @@ racetrackShape4.holes.push(holePath);
 
         this.resource6.wrapT = THREE.RepeatWrapping;
     
-        this.resource6.repeat.set(.8,.5)
+        this.resource6.repeat.set(.9,.5)
 
         this.resource1.wrapS = THREE.RepeatWrapping;
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource1.repeat.set(32,4)
+        this.resource1.repeat.set(64,10)
 
 
         this.resource2.wrapS = THREE.RepeatWrapping;
@@ -597,7 +600,7 @@ racetrackShape4.holes.push(holePath);
              //map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: 1,
+             opacity: .3,
            
 
           })
@@ -622,7 +625,7 @@ racetrackShape4.holes.push(holePath);
               color: Math.random() * 0xffffff,
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: 1,
+              opacity: .1,
             
             })  
             
@@ -652,14 +655,12 @@ racetrackShape4.holes.push(holePath);
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
- 
-
-     
-     
   
-     this.referenceVector = new THREE.Vector3(0, 0, 1); 
+    this.referenceVector = new THREE.Vector3(0, 0, 1);
+
     this.normal = new THREE.Vector3();
     this.normal.crossVectors(this.referenceVector, this.tangent).normalize();
+
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(this.referenceVector, this.normal).normalize(); 
 
@@ -667,9 +668,7 @@ racetrackShape4.holes.push(holePath);
     this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
 
     const angle = Math.atan2(this.tangent.x , this.tangent.z );
-    //const angle2 = Math.atan2(this.model.position.x, this.camera.instance.position.x) 
 
-    
     
 
     this.positionLeft = positionOnCurve.clone().add(this.offset);
