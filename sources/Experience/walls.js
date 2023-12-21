@@ -218,7 +218,7 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-110)
+    this.model.translateZ(-120)
     this.model.translateY(6)
 
 
@@ -795,7 +795,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.camera.instance.lookAt( posWorld.add( tangent ).add( offset ) )
 
 
-    this.model.position.add((this.normal.multiplyScalar(40)).add( tangent.multiplyScalar(5) ).normalize())
+    this.model.position.add((this.normal.multiplyScalar(30)).add( tangent.multiplyScalar(5) ).normalize())
 
     //this.model.position.y = this.model.position.y + (this.distance/100);
     
