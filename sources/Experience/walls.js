@@ -723,7 +723,7 @@ racetrackShape4.holes.push(holePath);
    
 
       let currentPosition = 0; 
-      let speed = .9; 
+      let speed = .5; 
       let loopTime = 60;
 
       
