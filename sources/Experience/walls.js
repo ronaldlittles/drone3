@@ -397,7 +397,7 @@ export default class Walls extends EventEmitter {
 
       linewidth: 1,
       dashed: true,
-      color: 0xffffff,
+      color: 0x0000ff,
     
     } );
       
