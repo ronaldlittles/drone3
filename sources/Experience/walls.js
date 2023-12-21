@@ -756,7 +756,7 @@ racetrackShape4.holes.push(holePath);
     
 
     this.referenceVector = new THREE.Vector3(pos2World.x, pos2World.y, 0).normalize(); 
-    this.normal = new THREE.Vector3(0, this.distance, 0).normalize();
+    this.normal = new THREE.Vector3(0, this.normal.y, 0).normalize();
     this.normal.crossVectors(pos2World, tangent ).normalize();
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(this.referenceVector, this.normal).normalize(); 
@@ -777,7 +777,7 @@ racetrackShape4.holes.push(holePath);
 
     
     
-    const positions = this.tubeGeo.attributes.position.array;
+    /* const positions = this.tubeGeo.attributes.position.array;
     const vertex = new THREE.Vector3();
 
     for ( let i = 0; i < positions.length; i += 3 ) {
@@ -793,13 +793,13 @@ racetrackShape4.holes.push(holePath);
       vertex.toArray( positions, i );
 
     }
+ */
+    
 
     
 
-    console.log(this.distance, this.model.position.y)
-
     
-    //this.model.translateY( this.distance )
+   
    
 
     this.label.textContent = this.newNormalY;
