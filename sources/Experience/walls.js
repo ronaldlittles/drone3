@@ -246,13 +246,14 @@ export default class Walls extends EventEmitter {
 
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
-          this.label.style.top = "10px";
-          this.label.style.right = "10px";
-          this.label.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+          this.label.style.top = "40px";
+          this.label.style.right = "-620px";
+          this.label.style.backgroundColor = 'transparent';
           this.label.style.color = "white";
           this.label.style.padding = "5px";
-          this.label.style.fontFamily = "Arial";
-          this.label.style.fontSize = "14px";
+          this.label.style.fontFamily = "sans-serif";
+          this.label.style.fontSize = "48px";
+          this.label.style.textShadow = "1px 1px #ff0000";
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
 
@@ -795,7 +796,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.camera.instance.lookAt( posWorld.add( tangent ).add( offset ) )
 
 
-    this.model.position.add((this.normal.multiplyScalar(20)).add( tangent.multiplyScalar(15) ).normalize())
+   // this.model.position.add((this.normal.multiplyScalar(20)).add( tangent.multiplyScalar(15) ).normalize())
 
     //this.model.position.y = this.model.position.y + (this.distance/100);
     
