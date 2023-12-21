@@ -218,8 +218,8 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-100)
-    this.model.translateY(5)
+    this.model.translateZ(-90)
+    this.model.translateY(3)
 
 
 
@@ -244,17 +244,17 @@ export default class Walls extends EventEmitter {
   
         setRaycaster() {
 
-          const label = document.createElement("div");
-          label.style.position = "absolute";
-          label.style.top = "10px";
-          label.style.right = "10px";
-          label.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-          label.style.color = "white";
-          label.style.padding = "5px";
-          label.style.fontFamily = "Arial";
-          label.style.fontSize = "14px";
-          label.style.pointerEvents = "none"; // Make sure the label doesn't interfere with mouse events
-          document.body.appendChild(label);
+          this.label = document.createElement("div");
+          this.label.style.position = "absolute";
+          this.label.style.top = "10px";
+          this.label.style.right = "10px";
+          this.label.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+          this.label.style.color = "white";
+          this.label.style.padding = "5px";
+          this.label.style.fontFamily = "Arial";
+          this.label.style.fontSize = "14px";
+          this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
+          document.body.appendChild(this.label);
 
           window.addEventListener("pointerdown", (event) => {
 
@@ -272,18 +272,18 @@ export default class Walls extends EventEmitter {
                this.label1 = this.pointY.toFixed(4)
                this.label2 = this.pointZ.toFixed(4)
             
-              label.textContent = `Index: ${this.label1} ${this.label2 }`;
+              this.label.textContent = `Index: ${this.label1} ${this.label2 }`;
               
             } else {
              
-              label.textContent = "";
+              this.label.textContent = this.newNormalY;
             }
           
            
 
           })
 
-     
+          
 
         }
           
@@ -367,14 +367,15 @@ export default class Walls extends EventEmitter {
 
 
     this.displacementMaterial = new THREE.MeshMatcapMaterial({
-
+      
+      //wireframe: true,
       //color: 'black',
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 1,
       //map: this.resource1,
       bumpMap: this.resource1,
-      bumpMapScale: 1,
+      bumpScale: 1,
       //displacementMap: this.resource2,
       //displacementScale: 1,
 
@@ -527,7 +528,7 @@ racetrackShape4.holes.push(holePath);
     this.tubeGeo5 = new THREE.TubeGeometry(this.spline3, 100, 200, 100, false);
     
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.yellowMaterial2) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.displacementMaterial) 
 
    
     this.scene2.add(this.tube);
@@ -575,7 +576,7 @@ racetrackShape4.holes.push(holePath);
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource1.repeat.set(64,10)
+        this.resource1.repeat.set(52,10)
 
 
         this.resource2.wrapS = THREE.RepeatWrapping;
@@ -755,13 +756,12 @@ racetrackShape4.holes.push(holePath);
     
 
     this.referenceVector = new THREE.Vector3(pos2World.x, pos2World.y, 0).normalize(); 
-    this.normal = new THREE.Vector3().normalize();
+    this.normal = new THREE.Vector3(0, this.distance, 0).normalize();
     this.normal.crossVectors(pos2World, tangent ).normalize();
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(this.referenceVector, this.normal).normalize(); 
 
-    //to modulate here i have to loop for i first
-    //this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5));
+    this.newNormalY = this.normal.y
 
     //CAMERA MOVEMENT
    
@@ -769,19 +769,40 @@ racetrackShape4.holes.push(holePath);
 
     this.camera.instance.lookAt( posWorld.add( tangent ).add( offset ) )
 
+
+    this.model.position.add((this.normal.multiplyScalar(40)).add( tangent.multiplyScalar(5) ).normalize())
+
+    //this.model.position.y = this.model.position.y + (this.distance/100);
     
 
-    //this.model.position.copy(pos2)
+    
+    
+    const positions = this.tubeGeo.attributes.position.array;
+    const vertex = new THREE.Vector3();
 
-    this.model.position.add( (this.normal.multiplyScalar(25)).add( tangent.multiplyScalar(25) ).normalize())
+    for ( let i = 0; i < positions.length; i += 3 ) {
+
+      vertex.fromArray( positions, i );
+
+      //vertex.x += Math.random() * 10 - 5;
+      //vertex.z += Math.random() * 10 - 5;
+
+      this.distance = ( vertex.distanceTo( this.model.position ) / 100  ) - 25;
+      //vertex.y = Math.random() * Math.max( 0, this.distance );
+
+      vertex.toArray( positions, i );
+
+    }
+
     
 
-    console.log(this.normal,  this.camera.instance)
+    console.log(this.distance, this.model.position.y)
 
-    //this.model.translateX( this.normal.x )
-    //this.model.translateY( Math.abs(this.normal.y) )
-    //this.model.translateZ( this.normal.z )
+    
+    //this.model.translateY( this.distance )
+   
 
+    this.label.textContent = this.newNormalY;
     
     const maxAngle = Math.PI / 6; 
     const minAngle = -Math.PI / 6; 
