@@ -397,7 +397,7 @@ export default class Walls extends EventEmitter {
 
       linewidth: 1,
       dashed: true,
-      color: 0x0000ff,
+      color: 0xff0000,
     
     } );
       
@@ -595,7 +595,7 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource1.repeat.set(52,10)
+        this.resource1.repeat.set(36,10)
 
 
         this.resource2.wrapS = THREE.RepeatWrapping;
