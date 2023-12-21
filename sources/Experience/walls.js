@@ -247,7 +247,7 @@ export default class Walls extends EventEmitter {
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "40px";
-          this.label.style.right = "-620px";
+          this.label.style.right = "-630px";
           this.label.style.backgroundColor = 'transparent';
           this.label.style.color = "white";
           this.label.style.padding = "5px";
