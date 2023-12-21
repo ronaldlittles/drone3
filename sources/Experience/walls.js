@@ -795,7 +795,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.camera.instance.lookAt( posWorld.add( tangent ).add( offset ) )
 
 
-    this.model.position.add((this.normal.multiplyScalar(20)).add( tangent.multiplyScalar(5) ).normalize())
+    this.model.position.add((this.normal.multiplyScalar(20)).add( tangent.multiplyScalar(15) ).normalize())
 
     //this.model.position.y = this.model.position.y + (this.distance/100);
     
