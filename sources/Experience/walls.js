@@ -429,7 +429,7 @@ export default class Walls extends EventEmitter {
    
   
 
-    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(700,1200)
+    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(900,1200)
     this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(100,200)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
@@ -723,7 +723,7 @@ racetrackShape4.holes.push(holePath);
    
 
       let currentPosition = 0; 
-      let speed = 1.2; 
+      let speed = .9; 
       let loopTime = 60;
 
       
