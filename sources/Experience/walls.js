@@ -723,12 +723,12 @@ racetrackShape4.holes.push(holePath);
    
 
       let currentPosition = 0; 
-      let speed = .5; 
+      let speed = .8; 
       let loopTime = 60;
 
       
-        const t =  (speed *this.time.elapsed+this.time.delta )/loopTime % 1;
-        const t2 =  (speed * this.time.elapsed+this.time.delta + .0004)/loopTime % 1;
+        const t =  (speed *this.time.elapsed )/loopTime % 1;
+        const t2 =  (speed * this.time.elapsed + .0004)/loopTime % 1;
         const t3 =  (speed * this.time.elapsed + .06)/loopTime % 1;
    
  
