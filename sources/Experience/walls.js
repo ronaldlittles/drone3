@@ -418,7 +418,7 @@ export default class Walls extends EventEmitter {
            
             var z = Math.cos( t ) * radius;
 
-            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 20;
+            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 10;
 
            /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
 						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
