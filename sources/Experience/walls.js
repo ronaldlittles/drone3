@@ -430,7 +430,7 @@ export default class Walls extends EventEmitter {
   
 
     this.spacedPoints = this.spline.getSpacedPoints(1500).slice(900,1200)
-    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(100,200)
+    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(200,400)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
     this.spline3 = new THREE.CatmullRomCurve3(this.spacedPoints2);
