@@ -77,7 +77,7 @@ html,
 /*toggle this and make square transparent  id of small text is linked to this*/
 
 .textbox {
-  position: relative;
+  position: absolute;
   height: 15rem;
   width: 25rem;
   opacity: .8;
