@@ -257,6 +257,37 @@ export default class Walls extends EventEmitter {
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
 
+
+         this.label3 = document.createElement("div");
+         this.label3.style.position = "relative";
+         this.label3.style.bottom = "700px";
+         this.label3.style.left = "50px";
+         this.label3.style.backgroundColor = 'transparent';
+         this.label3.style.color = "red";
+         this.label3.style.padding = "5px";
+         this.label3.style.fontFamily = "sans-serif";
+         this.label3.style.fontSize = "48px";
+         this.label3.style.textShadow = "3px 3px #ff0000";
+         this.label3.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
+          document.body.appendChild(this.label3);
+          this.label3.textContent = 'this.oldNormalY';
+
+
+          this.label4 = document.createElement("div");
+          this.label4.style.position = "relative";
+          this.label4.style.bottom = "700px";
+          this.label4.style.right = "-700px";
+          this.label4.style.backgroundColor = 'transparent';
+          this.label4.style.color = "red";
+          this.label4.style.padding = "5px";
+          this.label4.style.fontFamily = "sans-serif";
+          this.label4.style.fontSize = "48px";
+          this.label4.style.textShadow = "2px 2px #000000";
+          this.label4.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
+          document.body.appendChild(this.label4);
+          this.label4.textContent = 'this.newNormalY';
+
+
           window.addEventListener("pointerdown", (event) => {
 
             const raycaster = new THREE.Raycaster();
