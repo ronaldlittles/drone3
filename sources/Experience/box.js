@@ -73,12 +73,12 @@ export default class Box {
     ]);
 
    
-  //this.scene2.background =  this.cubeTexture
+    //this.scene2.background =  this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
     this.cubeTexture.mapping = THREE.CubeReflectionMapping;
-    //this.scene2.environment = this.cubeTexture
+    this.scene2.environment = this.cubeTexture
 
    
    
@@ -500,13 +500,13 @@ window.addEventListener('pointerdown', () => {
   setLights() {
 
 
-    const lights = new THREE.HemisphereLight(0xffffff,0x0000ff, 1.0);
+    const lights = new THREE.HemisphereLight(0xff0000,0xff0000, 1.0);
     lights.position.set(0, 25, 0);
     this.scene2.add(lights);
     //this.camera.instance.add(lights)
 
-    const light1 = new THREE.AmbientLight( 0xffffff, 2.5 );
-    light1.position.set( 0, 50, 0 );
+    const light1 = new THREE.AmbientLight( 0xff0000, 2.5 );
+    light1.position.set( 0, 5, 0 );
     this.scene2.add( light1 );
     //this.camera.instance.add( light1 );
 /* 
@@ -523,11 +523,11 @@ window.addEventListener('pointerdown', () => {
     const light4 = new THREE.SpotLight( 0x0000ff, 2.5 );
     light4.position.set( 0, 100, 0 );
     this.camera.instance.add( light4 );
-    this.scene2.add( light4 );
+    this.scene2.add( light4 );*/
 
-    var pointLight = new THREE.PointLight( 0xffffff, 1.0, 100 );
-    pointLight.position.set( 0, 500, 50 );
-    this.scene2.add( pointLight ); */
+    var pointLight = new THREE.PointLight( 0xff0000, 1.0, 100 );
+    pointLight.position.set( 0, 0, -50 );
+    this.scene2.add( pointLight ); 
   }
 
 

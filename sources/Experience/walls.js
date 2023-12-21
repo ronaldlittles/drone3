@@ -571,11 +571,15 @@ racetrackShape6.lineTo(-.2, -1);
       this.tube4 = new THREE.Mesh(this.tubeGeo4, this.displacementMaterial) 
 
       this.scene2.add(this.tube4);
-          
+
+      this.tube4.position.y = -10; 
+
       
       this.tube5 = new THREE.Mesh(this.tubeGeo5, this.displacementMaterial) 
 
       this.scene2.add(this.tube5);
+
+      this.tube5.position.y = -10;
 
 
       this.tube6 = new THREE.Mesh(this.tubeGeo6, this.lineMaterial) 
@@ -615,7 +619,6 @@ racetrackShape6.lineTo(-.2, -1);
 
           new THREE.MeshStandardMaterial({
 
-             wireframe: true,
              color: Math.random() * 0xffffff,
              //map: this.resource2, 
              side: THREE.DoubleSide,
@@ -638,21 +641,23 @@ racetrackShape6.lineTo(-.2, -1);
 
            //this.shaderMaterial2 
  
-             new THREE.MeshStandardMaterial({
+             new THREE.MeshPhysicalMaterial({
 
               wireframe: true,
-              map: this.resource1,
+              //map: this.resource2,
               color: Math.random() * 0xffffff,
               side: THREE.DoubleSide,
               transparent: true,
               opacity: .1,
+              emissive: 0x00ff00,
+              emissiveIntensity: 1, 
             
             })  
             
           )
 
           this.sphere2.scale.setScalar(5)
-
+          this.sphere2.rotation.y += Math.PI/3
     
    
   
@@ -739,7 +744,8 @@ racetrackShape6.lineTo(-.2, -1);
   
     //this.iNoise += .0001 * this.time.delta;
     //console.log( this.tubeGeo.attributes.normal.array[i] )
-   
+
+      this.sphere2.rotation.x += Math.PI * this.time.elapsed * .1;
 
       let currentPosition = 0; 
       let speed = .8; 
