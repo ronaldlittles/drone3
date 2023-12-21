@@ -393,6 +393,13 @@ export default class Walls extends EventEmitter {
         });
 
 
+    this.lineMaterial = new THREE.LineBasicMaterial( { 
+
+      linewidth: 1,
+      dashed: true,
+      color: 0xffffff 
+    
+    } );
       
 
 
@@ -486,7 +493,13 @@ holePath.absarc(-80, 80, innerRadius, 0, Math.PI, true);
 racetrackShape4.holes.push(holePath);
 
 
+const racetrackShape6 = new THREE.Shape();
 
+racetrackShape6.moveTo(-.2, -1);
+
+racetrackShape6.lineTo(.2 ,-1); 
+racetrackShape6.lineTo(-.2, 1);
+racetrackShape6.lineTo(-.2, -1);
 
 
 
@@ -526,6 +539,8 @@ racetrackShape4.holes.push(holePath);
 
     this.tubeGeo4 = new THREE.TubeGeometry(this.spline2, 100, 200, 100, false);
     this.tubeGeo5 = new THREE.TubeGeometry(this.spline3, 100, 200, 100, false);
+
+    this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings);
     
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.displacementMaterial) 
@@ -553,7 +568,7 @@ racetrackShape4.holes.push(holePath);
     //this.tube3.position.y =-12
 
 
-     this.tube4 = new THREE.Mesh(this.tubeGeo4, this.displacementMaterial) 
+      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.displacementMaterial) 
 
       this.scene2.add(this.tube4);
           
@@ -563,8 +578,12 @@ racetrackShape4.holes.push(holePath);
       this.scene2.add(this.tube5);
 
 
+      this.tube6 = new THREE.Mesh(this.tubeGeo6, this.lineMaterial) 
+
+      this.scene2.add(this.tube6);
      
-        
+      this.tube6.position.y = -8;
+
 
         this.resource6.wrapS = THREE.RepeatWrapping;
 
