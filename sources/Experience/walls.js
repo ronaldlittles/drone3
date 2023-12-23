@@ -282,7 +282,7 @@ export default class Walls extends EventEmitter {
           this.label4.style.fontFamily = "sans-serif";
           this.label4.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label4);
-          this.label4.textContent = 'this.newNormalY';
+          
           
 
 
