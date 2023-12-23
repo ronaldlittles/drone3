@@ -549,6 +549,15 @@ window.addEventListener('pointerdown', () => {
    
   } 
 
+  resize() {
+
+    // Instance
+    this.camera.instance.setSize(this.config.width, this.config.height);
+    this.camera.instance.setPixelRatio(this.config.pixelRatio);
+
+   
+  }
+
   destroy(){
 
 }

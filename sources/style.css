@@ -1,23 +1,4 @@
-/* *
-{
-    margin: 0;
-    padding: 0;
 
-    box-sizing: border-box;
-}
-
-html,
-body
-{
-    overflow: hidden;
-   
-     display:flex;
-    justify-content: center;
-    flex-direction: column; 
-    height:100vh;
-    
-
-} */
 
  .experience
 {
@@ -39,13 +20,13 @@ body
    
 }
 
-html,
-/* body
+/*html,
+ body
 {
     overflow: hidden;
 } */
 
-.position-label{
+/* .position-label{
   position: absolute;
     height: 100px;
     width: 250px;
@@ -74,7 +55,7 @@ html,
     
 }
  
-/*toggle this and make square transparent  id of small text is linked to this*/
+
 
 .textbox {
   position: absolute;
@@ -100,13 +81,11 @@ html,
   background-color: #3b0f51;
   
 
-} 
+}  
 
 .textbox p {
   margin: 0; 
- /*  font-size: 16em;
-  color:yellow; */
-}
+ }*/
 
 
   /* @keyframes spring{
@@ -146,7 +125,7 @@ html,
     75% { transform: translateX(-5px) rotate(-1.5deg); }
     90% { transform: translateX(5px) rotate(1.5deg); }
     100% { transform: translateX(0); }
-  } */
+  } 
  
 
 
@@ -424,7 +403,7 @@ html,
   } 
 
   
-      /* Define a grid container that takes up the entire screen */
+     
       body {
         
         height: 100vh;
@@ -460,7 +439,7 @@ html,
         grid-row: 2 / span 1;
       }
 
-      /* Style the grid items */
+      
       .corner {
         display: flex;
         justify-content: center;
@@ -484,7 +463,4 @@ html,
 
       .bottom-right {
         background-color: purple;
-      }
-
-  
- 
+      }*/

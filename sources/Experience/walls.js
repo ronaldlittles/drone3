@@ -100,7 +100,7 @@ export default class Walls extends EventEmitter {
   setBoxes(){
 
 
-    let length = 500;
+    let length = 250;
     this.boxes = [];
     
     this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
@@ -113,8 +113,8 @@ export default class Walls extends EventEmitter {
     });
     
     this.yellowMaterial = new THREE.MeshBasicMaterial({ 
-
-        map: this.resource1,
+      color: 'purple',
+        //map: this.resource1,
         opacity: 1,
         transparent: true,
         side: THREE.DoubleSide,
@@ -189,7 +189,7 @@ export default class Walls extends EventEmitter {
     this.model.upVector = new THREE.Vector3(0, 1, 0);
     this.model.castShadow = true;
     this.model.visible = true;
-    this.model.scale.set(1,.5,1)
+    this.model.scale.set(1.3,.7,1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
 
@@ -213,13 +213,13 @@ export default class Walls extends EventEmitter {
 
     //this.scene2.add(this.model3);
 
-    console.log(this.model3)
+    
    
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-120)
-    this.model.translateY(3)
+    this.model.translateZ(-100)
+    this.model.translateY(15)
 
 
 
@@ -246,46 +246,34 @@ export default class Walls extends EventEmitter {
 
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
-          this.label.style.top = "100px";
-          this.label.style.right = "-700px";
+          this.label.style.top = "0px";
+          this.label.style.right = "center";
           this.label.style.backgroundColor = 'transparent';
           this.label.style.color = "white";
           this.label.style.padding = "5px";
           this.label.style.fontFamily = "sans-serif";
-          this.label.style.fontSize = "84px";
+          this.label.style.fontSize = "64px";
           this.label.style.textShadow = "2px 2px #ff0000";
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
+          this.label.textContent = 'this.normal.y';
 
-
-         this.label3 = document.createElement("div");
-         this.label3.style.position = "relative";
-         this.label3.style.bottom = "700px";
-         this.label3.style.left = "50px";
-         this.label3.style.backgroundColor = 'transparent';
-         this.label3.style.color = "red";
-         this.label3.style.padding = "5px";
-         this.label3.style.fontFamily = "sans-serif";
-         this.label3.style.fontSize = "48px";
-         this.label3.style.textShadow = "3px 3px #ff0000";
-         this.label3.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
+          this.label3 = document.createElement("div");
+          this.label3.style.position = "absolute"; // Change to absolute positioning
+          this.label3.style.bottom = "0"; // Align to the bottom
+          this.label3.style.left = "0"; // Align to the left
+          this.label3.style.fontSize = "36px";
           document.body.appendChild(this.label3);
           this.label3.textContent = 'this.oldNormalY';
-
-
+          
           this.label4 = document.createElement("div");
-          this.label4.style.position = "relative";
-          this.label4.style.bottom = "700px";
-          this.label4.style.right = "-700px";
-          this.label4.style.backgroundColor = 'transparent';
-          this.label4.style.color = "red";
-          this.label4.style.padding = "5px";
-          this.label4.style.fontFamily = "sans-serif";
-          this.label4.style.fontSize = "48px";
-          this.label4.style.textShadow = "2px 2px #000000";
-          this.label4.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
+          this.label4.style.position = "absolute"; // Change to absolute positioning
+          this.label4.style.bottom = "0"; // Align to the bottom
+          this.label4.style.right = "0"; // Align to the right
+          this.label4.style.fontSize = "36px";
           document.body.appendChild(this.label4);
           this.label4.textContent = 'this.newNormalY';
+          
 
 
           window.addEventListener("pointerdown", (event) => {
@@ -394,7 +382,9 @@ export default class Walls extends EventEmitter {
     });
 
 
-
+this.shaderMaterial.envMap = this.scene2.environment
+this.shaderMaterial.envMapIntensity = 1
+this.shaderMaterial.reflectivity = 1
 
 
 
@@ -425,10 +415,10 @@ export default class Walls extends EventEmitter {
         });
 
 
-    this.lineMaterial = new THREE.LineBasicMaterial( { 
+    this.lineMaterial = new THREE.MeshBasicMaterial( { 
 
-      linewidth: 1,
-      dashed: true,
+      //linewidth: 1,
+      //dashed: true,
       color: 0xff0000,
     
     } );
@@ -436,7 +426,7 @@ export default class Walls extends EventEmitter {
 
 
         
-        this.numPoints = 2500
+        this.numPoints = 1500
        
         this.points = [];
 
@@ -450,34 +440,36 @@ export default class Walls extends EventEmitter {
            
             var z = Math.cos( t ) * radius;
 
-            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 10;
+            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 25;
 
            /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
 						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
 						const z = Math.sin( t ) * Math.sin( t * 4 ) * 50; */
+
+
           
             this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
 
         }
 
-
+       
 
     this.spline = new THREE.CatmullRomCurve3(this.points);
 
     this.spline.curveType = 'catmullrom';
    
-  
+    
 
-    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(900,1200)
-    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(200,400)
+    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(800,1200)
+    this.spacedPoints2 = this.spline.clone().getSpacedPoints(1500).slice(200,400)
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
     this.spline3 = new THREE.CatmullRomCurve3(this.spacedPoints2);
 
 
-    this.splineReverse = this.spline.points
+    /* this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
-    this.spline4 = new THREE.CatmullRomCurve3(this.rev);
+    this.spline4 = new THREE.CatmullRomCurve3(this.rev); */
    
   
 const racetrackShape = new THREE.Shape();
@@ -548,7 +540,7 @@ racetrackShape6.lineTo(-.2, -1);
 
      this.extrudeSettings2 = {
 
-      steps: 150,
+      steps: 1000,
       depth: 100,
       
       extrudePath: this.spline2,
@@ -572,7 +564,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.tubeGeo4 = new THREE.TubeGeometry(this.spline2, 100, 200, 100, false);
     this.tubeGeo5 = new THREE.TubeGeometry(this.spline3, 100, 200, 100, false);
 
-    this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings);
+    this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
     
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.displacementMaterial) 
@@ -671,9 +663,7 @@ racetrackShape6.lineTo(-.2, -1);
  
            new THREE.SphereGeometry(1,32,32),
 
-           //this.shaderMaterial2 
- 
-             new THREE.MeshPhysicalMaterial({
+            new THREE.MeshPhysicalMaterial({
 
               wireframe: true,
               //map: this.resource2,
@@ -682,9 +672,9 @@ racetrackShape6.lineTo(-.2, -1);
               transparent: true,
               opacity: .1,
               emissive: 0x00ff00,
-              emissiveIntensity: 1, 
+              emissiveIntensity: .5, 
             
-            })  
+            })   
             
           )
 
@@ -713,13 +703,13 @@ racetrackShape6.lineTo(-.2, -1);
     this.tangent = this.spline.getTangentAt(t);
 
   
-    this.referenceVector = new THREE.Vector3(0, 0, 1);
+    const referenceVector = new THREE.Vector3(1,0, 0);
 
     this.normal = new THREE.Vector3();
-    this.normal.crossVectors(this.referenceVector, this.tangent).normalize();
+    this.normal.crossVectors(referenceVector, this.tangent).normalize();
 
     this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(this.referenceVector, this.normal).normalize(); 
+    this.binormal.crossVectors(this.tangent, this.normal).normalize(); 
 
    
     this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
@@ -782,6 +772,7 @@ racetrackShape6.lineTo(-.2, -1);
       let currentPosition = 0; 
       let speed = .8; 
       let loopTime = 60;
+      const lookAt = new THREE.Vector3();
 
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
@@ -796,70 +787,41 @@ racetrackShape6.lineTo(-.2, -1);
      
         
 
-     const posWorld = pos//.localToWorld(this.scene2.position)
-     const pos2World = pos2//.localToWorld(this.scene2.position)
+    
 
    
   
-    const tangent = this.spline.getTangentAt(t);
+    const tangent = this.spline.getTangentAt(t).normalize();
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 5, .4)
-
-    const lerpedPos = pos.lerp( posWorld, this.time.elapsed * speed);
-
+    const offset = new THREE.Vector3(0, 5, 0)
 
     
 
-    this.referenceVector = new THREE.Vector3(pos2World.x, pos2World.y, 0).normalize(); 
-    this.normal = new THREE.Vector3(0, this.normal.y, 0).normalize();
-    this.normal.crossVectors(pos2World, tangent ).normalize();
-    this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(this.referenceVector, this.normal).normalize(); 
+    this.referenceVector = new THREE.Vector3(0,1,0); 
 
-    this.newNormalY = this.normal.y
+    this.normal = new THREE.Vector3().normalize();
+    this.normal.crossVectors( this.referenceVector, tangent ).normalize();
+
+    this.binormal = new THREE.Vector3();
+    this.binormal.crossVectors(tangent, this.normal).normalize(); 
+
+   
 
     //CAMERA MOVEMENT
    
-    this.camera.instance.position.copy( pos2World.add( tangent ).add( offset ) )
+    this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
 
-    this.camera.instance.lookAt( posWorld.add( tangent ).add( offset ) )
+    this.camera.instance.lookAt( pos2.add(tangent).add( offset ) ) 
 
+    this.model.rotation.y = tangent.y
+    this.model.rotation.z = tangent.z * .05 + this.binormal.z
+    this.model.rotation.x = Math.sin(pos2.x  * .005) * .1
 
-   // this.model.position.add((this.normal.multiplyScalar(20)).add( tangent.multiplyScalar(15) ).normalize())
+    //this.camera.instance.rotation.z = tangent.z * .05 + this.binormal.z
 
-    //this.model.position.y = this.model.position.y + (this.distance/100);
-    
-
-    
-    
-    /* const positions = this.tubeGeo.attributes.position.array;
-    const vertex = new THREE.Vector3();
-
-    for ( let i = 0; i < positions.length; i += 3 ) {
-
-      vertex.fromArray( positions, i );
-
-      //vertex.x += Math.random() * 10 - 5;
-      //vertex.z += Math.random() * 10 - 5;
-
-      this.distance = ( vertex.distanceTo( this.model.position ) / 100  ) - 25;
-      //vertex.y = Math.random() * Math.max( 0, this.distance );
-
-      vertex.toArray( positions, i );
-
-    }
- */
-    
-
-    
-
-    
    
-   
-
-    this.label.textContent = this.newNormalY;
     
     const maxAngle = Math.PI / 6; 
     const minAngle = -Math.PI / 6; 
@@ -877,7 +839,7 @@ racetrackShape6.lineTo(-.2, -1);
 
 
 
-    this.model.quaternion.copy(this.q3)
+    //this.model.quaternion.copy(this.q3)
  
 
 
@@ -928,6 +890,14 @@ racetrackShape6.lineTo(-.2, -1);
     } 
     
   
+      }
+
+      resize() {
+        // Instance
+        this.camera.instance.setSize(this.config.width, this.config.height);
+        this.camera.instance.setPixelRatio(this.config.pixelRatio);
+    
+       
       }
 
     }
