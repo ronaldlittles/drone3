@@ -247,7 +247,7 @@ export default class Walls extends EventEmitter {
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "0px";
-          this.label.style.right = "center";
+          this.label.style.right = "calc(50% - 100px)";
           this.label.style.backgroundColor = 'transparent';
           this.label.style.color = "white";
           this.label.style.padding = "5px";
@@ -256,13 +256,18 @@ export default class Walls extends EventEmitter {
           this.label.style.textShadow = "2px 2px #ff0000";
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
-          this.label.textContent = 'this.normal.y';
+          
 
           this.label3 = document.createElement("div");
           this.label3.style.position = "absolute"; // Change to absolute positioning
           this.label3.style.bottom = "0"; // Align to the bottom
           this.label3.style.left = "0"; // Align to the left
           this.label3.style.fontSize = "36px";
+          this.label3.style.backgroundColor = 'transparent';
+          this.label3.style.color = "red";
+          this.label3.style.padding = "5px";
+          this.label3.style.fontFamily = "sans-serif";
+          this.label3.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label3);
           this.label3.textContent = 'this.oldNormalY';
           
@@ -271,6 +276,11 @@ export default class Walls extends EventEmitter {
           this.label4.style.bottom = "0"; // Align to the bottom
           this.label4.style.right = "0"; // Align to the right
           this.label4.style.fontSize = "36px";
+          this.label4.style.backgroundColor = 'transparent';
+          this.label4.style.color = "red";
+          this.label4.style.padding = "5px";
+          this.label4.style.fontFamily = "sans-serif";
+          this.label4.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label4);
           this.label4.textContent = 'this.newNormalY';
           
@@ -767,6 +777,8 @@ racetrackShape6.lineTo(-.2, -1);
     //this.iNoise += .0001 * this.time.delta;
     //console.log( this.tubeGeo.attributes.normal.array[i] )
 
+    
+
       this.sphere2.rotation.x += Math.PI * this.time.elapsed * .1;
 
       let currentPosition = 0; 
@@ -781,8 +793,8 @@ racetrackShape6.lineTo(-.2, -1);
    
  
     
-        const pos = this.spline.getPointAt(t2);
-        const pos2 = this.spline.getPointAt(t);
+        const pos = this.spline.getPointAt(t);
+        const pos2 = this.spline.getPointAt(t2);
         const pos3 =  this.spline3.getPointAt(t3);
      
         
@@ -807,13 +819,13 @@ racetrackShape6.lineTo(-.2, -1);
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(tangent, this.normal).normalize(); 
 
-   
+    this.label.textContent = this.binormal.y;
 
     //CAMERA MOVEMENT
    
     this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
 
-    this.camera.instance.lookAt( pos2.add(tangent).add( offset ) ) 
+    this.camera.instance.lookAt( pos2.add(tangent).add( offset )  ) + (pos2.y/10)
 
     this.model.rotation.y = tangent.y
     this.model.rotation.z = tangent.z * .05 + this.binormal.z
