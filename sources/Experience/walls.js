@@ -246,13 +246,13 @@ export default class Walls extends EventEmitter {
 
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
-          this.label.style.top = "0px";
-          this.label.style.right = "calc(50% - 100px)";
+          this.label.style.top = "5px";
+          this.label.style.right = "calc(50% - 50px)";
           this.label.style.backgroundColor = 'transparent';
           this.label.style.color = "white";
           this.label.style.padding = "5px";
           this.label.style.fontFamily = "sans-serif";
-          this.label.style.fontSize = "64px";
+          this.label.style.fontSize = "48px";
           this.label.style.textShadow = "2px 2px #ff0000";
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
@@ -262,23 +262,23 @@ export default class Walls extends EventEmitter {
           this.label3.style.position = "absolute"; // Change to absolute positioning
           this.label3.style.bottom = "0"; // Align to the bottom
           this.label3.style.left = "0"; // Align to the left
-          this.label3.style.fontSize = "36px";
+          this.label3.style.fontSize = "24px";
           this.label3.style.backgroundColor = 'transparent';
           this.label3.style.color = "red";
-          this.label3.style.padding = "5px";
+          this.label3.style.padding = "10px";
           this.label3.style.fontFamily = "sans-serif";
           this.label3.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label3);
-          this.label3.textContent = 'this.oldNormalY';
+         
           
           this.label4 = document.createElement("div");
           this.label4.style.position = "absolute"; // Change to absolute positioning
           this.label4.style.bottom = "0"; // Align to the bottom
           this.label4.style.right = "0"; // Align to the right
-          this.label4.style.fontSize = "36px";
+          this.label4.style.fontSize = "24px";
           this.label4.style.backgroundColor = 'transparent';
           this.label4.style.color = "red";
-          this.label4.style.padding = "5px";
+          this.label4.style.padding = "10px";
           this.label4.style.fontFamily = "sans-serif";
           this.label4.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label4);
@@ -811,7 +811,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
 
-    this.referenceVector = new THREE.Vector3(0,1,0); 
+    this.referenceVector = new THREE.Vector3(0,1,1); 
 
     this.normal = new THREE.Vector3().normalize();
     this.normal.crossVectors( this.referenceVector, tangent ).normalize();
@@ -820,6 +820,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.binormal.crossVectors(tangent, this.normal).normalize(); 
 
     this.label.textContent = this.binormal.y;
+    this.label3.textContent = this.binormal.x;
+    this.label4.textContent = this.binormal.z;
 
     //CAMERA MOVEMENT
    
