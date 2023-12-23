@@ -828,7 +828,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.camera.instance.lookAt( pos2.add(tangent).add( offset )  ) + (pos2.y/10)
 
     this.model.rotation.y = tangent.y
-    this.model.rotation.z = tangent.z 
+    this.model.rotation.z = -tangent.z 
     this.model.rotation.x = Math.sin(pos2.x  * .005) * .1
 
     //this.camera.instance.rotation.z = tangent.z * .05 + this.binormal.z
