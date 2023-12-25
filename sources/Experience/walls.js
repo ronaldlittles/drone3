@@ -7,6 +7,7 @@ import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 import { FigureEightPolynomialKnot } from "three/examples/jsm/curves/CurveExtras.js";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 export default class Walls extends EventEmitter {
   constructor() {
 
@@ -66,9 +67,7 @@ export default class Walls extends EventEmitter {
       this.arrowRightPressed = false;
       
    
-    this.noise = new ImprovedNoise()
-  
-    this.iNoise = this.noise.noise(Math.random()*5.5,Math.random()*.3,Math.random()*.5)
+   
 
      
     
@@ -104,8 +103,11 @@ export default class Walls extends EventEmitter {
     this.boxes = [];
     
     this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
+
+    
     
     this.purpleMaterial = new THREE.MeshStandardMaterial({
+
       color: 'yellow',
       opacity: 1,
       transparent: true,
@@ -113,7 +115,8 @@ export default class Walls extends EventEmitter {
     });
     
     this.yellowMaterial = new THREE.MeshBasicMaterial({ 
-      color: 'purple',
+
+        color: 'purple',
         //map: this.resource1,
         opacity: 1,
         transparent: true,
@@ -323,11 +326,11 @@ export default class Walls extends EventEmitter {
 
       createWall() {
 
-      this.video = document.querySelector(".video");
+     /*  this.video = document.querySelector(".video");
         
         this.video.play();
     
-        this.texture = new THREE.VideoTexture(this.video); 
+        this.texture = new THREE.VideoTexture(this.video);  */
 
         
      
@@ -380,7 +383,7 @@ export default class Walls extends EventEmitter {
     
       uniforms: {
    
-        texture1: { value: this.resource2},
+        //texture1: { value: this.resource2},
         uNoise: { value: this.iNoise},
         uvScale: { value: new THREE.Vector2()}
 
@@ -404,11 +407,11 @@ this.shaderMaterial.reflectivity = 1
       //color: 'black',
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 1,
+      opacity: .5,
       //map: this.resource1,
       bumpMap: this.resource1,
       bumpScale: 1,
-      //displacementMap: this.resource2,
+      //displacementMap: this.resource1,
       //displacementScale: 1,
 
     });
@@ -419,7 +422,7 @@ this.shaderMaterial.reflectivity = 1
             //emissive: 0xff0000,
             //emissiveIntensity:.1, 
             map: this.resource2,
-            opacity: 1,
+            opacity: .3,
             transparent: true,
             
         });
@@ -444,21 +447,33 @@ this.shaderMaterial.reflectivity = 1
         
         for (let i = 0; i <= this.numPoints; i++) {
 
-            let t = (i / this.numPoints) * Math.PI * 4
+            let t = (i / this.numPoints) * Math.PI * 2
 
-            var x = Math.sin(t*2) * radius;
+              var x = Math.sin(t*2) * radius;
            
-            var z = Math.cos( t ) * radius;
+              var z = Math.cos( t ) * radius;
+            
+              var y = Math.sin(Math.cos(t * 3) * Math.PI) * 15; 
 
-            var y = Math.sin(Math.cos(t * 2) * Math.PI) * 25;
-
-           /*  const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
+            /*const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
 						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
-						const z = Math.sin( t ) * Math.sin( t * 4 ) * 50; */
+						const z = Math.sin( t ) * Math.sin( t * 4 ) * 50;  */
 
+              if( t<Math.PI/1.5 && t>Math.PI/2.5){
+              
+              y = Math.sin(t * 1.5 * Math.PI) * 125;
+            
+            }
+            else {
+             
+              y =  Math.sin(Math.cos(t * 3) * Math.PI) * 15;
+          }  
+            
+           
 
-          
             this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
+
+           
 
         }
 
@@ -468,18 +483,34 @@ this.shaderMaterial.reflectivity = 1
 
     this.spline.curveType = 'catmullrom';
    
+
+    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1000,1300)
+
+    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(500,800)
+
+    
+   
+    /* const sectionSize = 10;
+    const skipSize = 50;
+
+    for(let i = 0; i <sectionSize; i++)  { 
+    
+     this.slicedPoints = this.spacedPoints3.slice(i, i + sectionSize);
+
     
 
-    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(800,1200)
-    this.spacedPoints2 = this.spline.clone().getSpacedPoints(1500).slice(200,400)
+    }
+ */
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
+    
+
     this.spline3 = new THREE.CatmullRomCurve3(this.spacedPoints2);
 
 
-    /* this.splineReverse = this.spline.points
+    this.splineReverse = this.spline.points
     this.rev = this.splineReverse.toReversed()
-    this.spline4 = new THREE.CatmullRomCurve3(this.rev); */
+    this.spline4 = new THREE.CatmullRomCurve3(this.rev); 
    
   
 const racetrackShape = new THREE.Shape();
@@ -541,7 +572,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.extrudeSettings = {
 
-      steps: 500,
+      steps: 1000,
       depth: 100,
       
       extrudePath: this.spline,
@@ -559,7 +590,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.extrudeSettings3 = {
 
-      steps: 150,
+      steps: 1000,
       depth: 100,
       
       extrudePath: this.spline3,
@@ -606,21 +637,24 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.scene2.add(this.tube4);
 
-      this.tube4.position.y = -10; 
-
+      this.tube4.position.y = -10;
+      
+      
       
       this.tube5 = new THREE.Mesh(this.tubeGeo5, this.displacementMaterial) 
 
       this.scene2.add(this.tube5);
 
-      this.tube5.position.y = -10;
+      //this.tube5.position.y = -10;
+
+      //this.tube4.position = this.spline2.getPointAt(800);
 
 
-      this.tube6 = new THREE.Mesh(this.tubeGeo6, this.lineMaterial) 
+      this.tube6 = new THREE.Mesh(this.tubeGeo6, this.shaderMaterial) 
 
       this.scene2.add(this.tube6);
      
-      this.tube6.position.y = -8;
+      this.tube6.position.y = -9;
 
 
         this.resource6.wrapS = THREE.RepeatWrapping;
@@ -629,11 +663,12 @@ racetrackShape6.lineTo(-.2, -1);
     
         this.resource6.repeat.set(.9,.5)
 
+
         this.resource1.wrapS = THREE.RepeatWrapping;
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource1.repeat.set(36,10)
+        this.resource1.repeat.set(4,4)
 
 
         this.resource2.wrapS = THREE.RepeatWrapping;
@@ -645,11 +680,11 @@ racetrackShape6.lineTo(-.2, -1);
 
  
 
-          //Gonna be the skybox
+          //SKYBOX
 
           this.sphere = new THREE.Mesh(
 
-          new THREE.SphereGeometry(1,32,32),
+          new THREE.SphereGeometry(1,36,36 ),
 
           new THREE.MeshStandardMaterial({
 
@@ -664,42 +699,43 @@ racetrackShape6.lineTo(-.2, -1);
 
           )
 
-        this.sphere.scale.setScalar(1350)
-        //this.scene2.add(this.sphere)
+        this.sphere.scale.setScalar(10)
+        this.scene2.add(this.sphere)
+
+        this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.1 );
        
 
        
           this.sphere2 = new THREE.Mesh(
+
+          this.roundedBox,
  
-           new THREE.SphereGeometry(1,32,32),
 
             new THREE.MeshPhysicalMaterial({
 
-              wireframe: true,
-              //map: this.resource2,
+              //wireframe: true,
+              map: this.resource1,
               color: Math.random() * 0xffffff,
               side: THREE.DoubleSide,
               transparent: true,
-              opacity: .1,
-              emissive: 0x00ff00,
-              emissiveIntensity: .5, 
+              opacity:.7,
+              //emissive: 0x00ff00,
+              //emissiveIntensity: .5, 
             
             })   
             
           )
 
-          this.sphere2.scale.setScalar(5)
-          this.sphere2.rotation.y += Math.PI/3
-    
-   
+          this.sphere2.scale.setScalar(2)
+          this.sphere2.castShadow = true;
   
 
     
     
    
-    const numObjects = 750; // Number of objects to place on each side
-    this.spacing = 50; // Adjust this value for spacing
-    this.scaleFactor = 2.0;
+    const numObjects = 350; // Number of objects to place on each side
+    this.spacing = 30; // Adjust this value for spacing
+    this.scaleFactor = 5.0;
 
     this.objectsArray1 = [];
     this.objectsArray2 = [];
@@ -713,7 +749,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.tangent = this.spline.getTangentAt(t);
 
   
-    const referenceVector = new THREE.Vector3(1,0, 0);
+    const referenceVector = new THREE.Vector3(0,1, 0);
 
     this.normal = new THREE.Vector3();
     this.normal.crossVectors(referenceVector, this.tangent).normalize();
@@ -749,13 +785,19 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
 
+
+
+     this.noise = new ImprovedNoise()
+  
+    this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
+
     
 
     this.randomOffset = new THREE.Vector3(
       
-      (Math.random() * 2 - 1 ) * 10,
-      (Math.random() * 2 - 1 ) * 100,
+      (Math.random() * 2 - 1 ) * 100 * this.iNoise,
       (Math.random() * 2 - 1 ) * 30,
+      (Math.random() * 2 - 1 ) * 100 * this.iNoise,
       
       )
 
@@ -774,12 +816,12 @@ racetrackShape6.lineTo(-.2, -1);
       
   update() {
   
-    //this.iNoise += .0001 * this.time.delta;
-    //console.log( this.tubeGeo.attributes.normal.array[i] )
+      this.iNoise +=  this.time.elapsed;
+      
+      
+      //this.sphere2.rotation.y += Math.PI/3 *5
 
-    
-
-      this.sphere2.rotation.x += Math.PI * this.time.elapsed * .1;
+      //this.sphere2.rotation.x += Math.PI * this.time.elapsed * .1;
 
       let currentPosition = 0; 
       let speed = .8; 
@@ -795,13 +837,9 @@ racetrackShape6.lineTo(-.2, -1);
     
         const pos = this.spline.getPointAt(t);
         const pos2 = this.spline.getPointAt(t2);
-        const pos3 =  this.spline3.getPointAt(t3);
+        const pos3 =  this.spline4.getPointAt(t3);
      
-        
-
-    
-
-   
+      
   
     const tangent = this.spline.getTangentAt(t).normalize();
 
@@ -809,6 +847,8 @@ racetrackShape6.lineTo(-.2, -1);
 
     const offset = new THREE.Vector3(0, 5, 0)
 
+
+       
     
 
     this.referenceVector = new THREE.Vector3(0,1,1); 
@@ -817,17 +857,22 @@ racetrackShape6.lineTo(-.2, -1);
     this.normal.crossVectors( this.referenceVector, tangent ).normalize();
 
     this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(tangent, this.normal).normalize(); 
+    this.binormal.crossVectors(tangent, this.tubeGeo.attributes.normal).normalize(); 
 
-    this.label.textContent = this.binormal.y;
+    this.label.textContent = this.tubeGeo.attributes.normal.y;
     this.label3.textContent = this.binormal.x;
     this.label4.textContent = this.binormal.z;
 
-    //CAMERA MOVEMENT
+    ///CAMERA MOVEMENT
    
     this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
 
-    this.camera.instance.lookAt( pos2.add(tangent).add( offset )  ) + (pos2.y/10)
+    this.camera.instance.lookAt( pos2.add(tangent).add( offset )  )// + (pos2.y/10)
+
+     //POINTS ALONG THE CURVE
+
+     //this.sphere.position.copy(pos2).add(tangent).add(this.randomOffset)
+     //this.sphere2.clone().position.copy(pos2)
 
     this.model.rotation.y = tangent.y
     this.model.rotation.z = -tangent.z 
@@ -835,7 +880,6 @@ racetrackShape6.lineTo(-.2, -1);
 
     //this.camera.instance.rotation.z = tangent.z * .05 + this.binormal.z
 
-   
     
     const maxAngle = Math.PI / 6; 
     const minAngle = -Math.PI / 6; 

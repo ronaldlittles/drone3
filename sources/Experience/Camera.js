@@ -28,11 +28,10 @@ export default class Camera {
     this.setInstance();
     this.setInstance2();
     this.setOrbitControls()
-    //this.setDragControls();
-    //this.setModes()
+    this.setModes()
     //this.setMapControls()
     //this.setDebug()
-
+    //this.setDragControls();
      
       
            
@@ -40,37 +39,26 @@ export default class Camera {
 
 
   setInstance() {
-    // Set up correct
+
+   
     this.instance = new THREE.PerspectiveCamera(
       60,
       this.sizes.aspect,
       .1,
      10000
     );
+
     this.instance.rotation.reorder("YXZ");
     //this.instance.matrixAutoUpdate = true;
     this.instance.updateProjectionMatrix();
     this.instance.matrixWorldNeedsUpdate = true;
-    this.instance.position.set(0,100,600);
+    this.instance.position.set(0,100,1200);
     //this.instance.lookAt(this.scene2.position)
    
     this.scene2.add(this.instance);
    
 
-   /*  window.addEventListener('pointerdown', ()=>{
-      this.instance.position.z -= 50;
-    }) */
-
-    //this.helper = new THREE.CameraHelper(this.instance);
-    //this.scene.add(this.helper);
-    //const size = 20;
-    //const divisions = 20;
-
-    //const gridHelper = new THREE.GridHelper(size, divisions);
-    //this.scene.add(gridHelper);
-
-    //const axesHelper = new THREE.AxesHelper(10);
-    //this.scene.add(axesHelper);
+   
   }
 
   setInstance2() {
@@ -239,9 +227,9 @@ export default class Camera {
 
   update() {
    
-this.orbitControls.update()
+  this.orbitControls.update()
 
-this.azimuth = this.orbitControls.getAzimuthalAngle()
+  this.azimuth = this.orbitControls.getAzimuthalAngle()
 
 
 

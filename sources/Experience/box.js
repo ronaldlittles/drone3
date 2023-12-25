@@ -38,7 +38,7 @@ export default class Box {
     this.resource6 =  this.resources.items.hdr
     this.setLights()
     //this.setCity() 
-    //this.setBox()
+    this.setBox()
     //this.setFlower()
    
     
@@ -258,8 +258,8 @@ export default class Box {
     
      
     const myText2 = new Text();
-    //this.scene.add(myText2);
-    myText2.text = "readability";
+    this.scene.add(myText2);
+    myText2.text = "Merry Christmas";
 
     myText2.fontSize = 75.0;
     myText2.color = "yellow";
@@ -270,9 +270,9 @@ export default class Box {
 
    
     const myText3 = new Text();
-    //this.scene.add(myText3);
+    this.scene.add(myText3);
     myText3.text =
-      "EVERYTHING HAS A PATTERN EVERYTHING HAS A PATTERN EVERYTHING HAS A PATTERN"
+      "EVERYTHING is PATTERN"
     myText3.curveRadius = -170.0;
     myText3.fontSize = 85.0;
     myText3.color = "yellow";
@@ -500,12 +500,12 @@ window.addEventListener('pointerdown', () => {
   setLights() {
 
 
-    const lights = new THREE.HemisphereLight(0xff0000,0xff0000, 1.0);
+    const lights = new THREE.HemisphereLight(0xff0000,0xffffff, 1.0);
     lights.position.set(0, 25, 0);
     this.scene2.add(lights);
     //this.camera.instance.add(lights)
 
-    const light1 = new THREE.AmbientLight( 0xff0000, 2.5 );
+    const light1 = new THREE.AmbientLight( 0xffffff, 1.0 );
     light1.position.set( 0, 5, 0 );
     this.scene2.add( light1 );
     //this.camera.instance.add( light1 );
@@ -525,7 +525,7 @@ window.addEventListener('pointerdown', () => {
     this.camera.instance.add( light4 );
     this.scene2.add( light4 );*/
 
-    var pointLight = new THREE.PointLight( 0xff0000, 1.0, 100 );
+    var pointLight = new THREE.PointLight( 0xffffff, 1.0, 1 );
     pointLight.position.set( 0, 0, -50 );
     this.scene2.add( pointLight ); 
   }
