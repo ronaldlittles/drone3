@@ -244,41 +244,43 @@ export default class Box {
     this.myText.text =
       "the brain is the strongest muscle of the body.";
 
-    this.myText.fontSize = 145;
+    this.myText.fontSize = 48.0;
     this.myText.textAlign = 'center';
     
     this.myText.color = 'yellow';
-    this.myText.position.set(-500, 200 , -2000);
+    this.myText.position.set(50, 200 , -200);
     
-    this.myText.maxWidth = 3500;
-   
-   
+    this.myText.maxWidth = 550;
     this.myText.sync();
 
+    this.myText.lookAt(this.camera.instance.position)
     
      
     const myText2 = new Text();
-    this.scene.add(myText2);
+    this.scene2.add(myText2);
+
     myText2.text = "Merry Christmas";
 
-    myText2.fontSize = 75.0;
+    myText2.fontSize = 48.0;
     myText2.color = "yellow";
-   
-    myText2.position.set(-50, -75 , 310) 
-    myText2.rotation.y += Math.PI
+    myText2.position.set(-50, 100 , 310) 
+    
     myText2.sync();
+    myText2.lookAt(this.camera.instance.position)
 
    
     const myText3 = new Text();
-    this.scene.add(myText3);
+    this.scene2.add(myText3);
+
     myText3.text =
       "EVERYTHING is PATTERN"
-    myText3.curveRadius = -170.0;
-    myText3.fontSize = 85.0;
+    //myText3.curveRadius = -170.0;
+    myText3.fontSize = 72.0;
     myText3.color = "yellow";
-    myText3.maxWidth = 200;
-    myText3.position.set(0,-75, 310);
+    myText3.maxWidth = 500;
+    myText3.position.set(0,50, 310);
     myText3.sync();
+    myText3.lookAt(this.camera.instance.position)
 
 
     this.myText4 = new Text();
@@ -286,13 +288,14 @@ export default class Box {
 
     this.myText4.text =
       "wherever you go there you are";
-    this.myText4.fontSize = 250;
+    this.myText4.fontSize = 82.0;
     this.myText4.color = "blue";
-    this.myText4.maxWidth = 3500;
+    this.myText4.maxWidth = 550;
     this.myText4.textAlign = 'center';
    
-    this.myText4.position.set(-400, 200, -1000);
+    this.myText4.position.set(0, 25, -1000);
     this.myText4.sync();
+    this.myText4.lookAt(this.camera.instance.position)
 
 
 let keyPressStartTime = 0;

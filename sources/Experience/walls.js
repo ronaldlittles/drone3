@@ -229,16 +229,19 @@ export default class Walls extends EventEmitter {
    
       //USE THE FOLLOWING TO TRAVERSE ANY OF THE MODELS PROPERTIES
 
-                /* this.meshes = [];
+                 this.meshes = [];
                       this.model.traverse((object) => {
                         if (object.isMesh) {
                           this.meshes.push(object);
                         } 
-                      });  */
+                      });  
 
 
-        
-        
+        console.log(this.meshes)
+        this.meshes[0].material.map = this.resource2
+        this.meshes[1].material.map = this.resource2
+        this.meshes[2].material.map = this.resource1
+
         }
 
 
@@ -675,7 +678,7 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.resource2.wrapT = THREE.RepeatWrapping;
     
-        this.resource2.repeat.set(.05,.01)
+        this.resource2.repeat.set(1,1)
 
 
  
@@ -702,7 +705,7 @@ racetrackShape6.lineTo(-.2, -1);
         this.sphere.scale.setScalar(10)
         this.scene2.add(this.sphere)
 
-        this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.1 );
+        this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.2 );
        
 
        
@@ -714,8 +717,8 @@ racetrackShape6.lineTo(-.2, -1);
             new THREE.MeshPhysicalMaterial({
 
               //wireframe: true,
-              map: this.resource1,
-              color: Math.random() * 0xffffff,
+              map: this.resource2,
+              //color: Math.random() * 0xffffff,
               side: THREE.DoubleSide,
               transparent: true,
               opacity:.7,
@@ -819,9 +822,9 @@ racetrackShape6.lineTo(-.2, -1);
       this.iNoise +=  this.time.elapsed;
       
       
-      //this.sphere2.rotation.y += Math.PI/3 *5
+      this.sphere2.rotation.y += Math.PI/3 *5* this.time.elapsed
 
-      //this.sphere2.rotation.x += Math.PI * this.time.elapsed * .1;
+      this.sphere2.rotation.x += Math.PI * this.time.elapsed * .1;
 
       let currentPosition = 0; 
       let speed = .8; 
