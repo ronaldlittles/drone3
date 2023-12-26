@@ -42,13 +42,13 @@ export default class World {
         //this.setSceneWorld();
         this.setBox();
         //this.setDrawing();
-        this.setCar();
-        this.setMenu();
+        //this.setCar();
+        //this.setMenu();
         //this.setFloor()
         //this.setParticles()
         
         //this.setDrone();
-      this.setVideo();
+      //this.setVideo();
       this.setWalls();
       }
     });

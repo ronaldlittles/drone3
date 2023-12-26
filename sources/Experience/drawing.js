@@ -36,7 +36,7 @@ export default class Drawing extends EventEmitter {
 
   
 
-    //this.setDraw()
+    this.setDraw()
     this.setMaterial()
     
      

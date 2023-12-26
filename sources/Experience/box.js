@@ -244,7 +244,7 @@ export default class Box {
     this.myText.text =
       "the brain is the strongest muscle of the body.";
 
-    this.myText.fontSize = 48.0;
+    this.myText.fontSize = 128.0;
     this.myText.textAlign = 'center';
     
     this.myText.color = 'yellow';
@@ -261,9 +261,9 @@ export default class Box {
 
     myText2.text = "Merry Christmas";
 
-    myText2.fontSize = 48.0;
+    myText2.fontSize = 128.0;
     myText2.color = "yellow";
-    myText2.position.set(-50, 100 , 310) 
+    myText2.position.set(150, 0 , 310) 
     
     myText2.sync();
     myText2.lookAt(this.camera.instance.position)
@@ -288,17 +288,17 @@ export default class Box {
 
     this.myText4.text =
       "wherever you go there you are";
-    this.myText4.fontSize = 82.0;
+    this.myText4.fontSize = 182.0;
     this.myText4.color = "blue";
     this.myText4.maxWidth = 550;
     this.myText4.textAlign = 'center';
    
     this.myText4.position.set(0, 25, -1000);
     this.myText4.sync();
-    this.myText4.lookAt(this.camera.instance.position)
+    this.myText4.lookAt(new THREE.Vector3(0, 0, 1))
 
 
-let keyPressStartTime = 0;
+/* let keyPressStartTime = 0;
 let keyPressDuration = 0;
 const textDisplayInterval = 500; 
 const textLingerDuration = 1000; 
@@ -345,9 +345,9 @@ document.addEventListener("keydown", function(event) {
 
 function displayText() {
 
- /*  const textElement = document.getElementById("smalltext"); 
+   const textElement = document.getElementById("smalltext"); 
 
-  textElement.textContent = texts[currentIndex]; */
+  textElement.textContent = texts[currentIndex]; 
 
   const textElement =  texts[currentIndex];
 
@@ -378,126 +378,17 @@ function nextText() {
   isTextLingering = false; 
  
 
-}
+} */
     
 
 
-    //CLOUDBOXES//
-    /*  this.shaderMaterial = new THREE.ShaderMaterial({
-
-      uniforms: {
-
-        mouse: { value: this.mouse },
-        time: { value: this.time },
-        fogDensity: { value: 0.45 },
-        color: { value: new THREE.Vector3( 0.0, 0.0, 1.0 ) },
-        texture1: { value: this.resources.items.fireTexture },
-        texture2: { value: null },
-
-      },
-
-      vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader.fragmentShader,
-
-      
-
-    });  */
-
-      //this.shaderMaterial.uniforms.texture1.value.wrapS =
-      //this.shaderMaterial.uniforms.texture1.value.wrapT = THREE.RepeatWrapping;
-
-    /*   this.shaderMaterial.uniforms.texture2.value.wrapS =
-      this.shaderMaterial.uniforms.texture2.value.wrapT = THREE.MirroredRepeatWrapping; */
-
-     /*  this.video = new Video()
   
-      this.videoTexture = this.video.setVideoTexture() */
-
-
- let length =500;
-this.boxes = [];
-
-this.boxGeometry = new THREE.CylinderGeometry(1, 1, 10.1, 32, 1);
-
-this.purpleMaterial = new THREE.MeshStandardMaterial({
-  color: 'purple',
-  opacity: 1,
-  transparent: true,
-  //roughness: 0.1,
-  //metalness: .5,
-  //clearcoat: 1,
-  //transmission: 0.9,
-});
-
-this.yellowMaterial = new THREE.MeshPhongMaterial({ 
-  color: 'yellow', 
-  //map: this.resources.items.meTexture,
-   refractionRatio: 0.98,
-    reflectivity: 0.9,
-    opacity: 1,
-    transparent: true,
-    
-});
-
-for (let i = 0; i < length; i++) {
-  const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
-
-  this.box1 = new THREE.Mesh(this.boxGeometry, material);
-
-  this.box = this.box1.clone();
-
-  this.box.position.set(
-    Math.random() * 1200 - 600,
-    0,
-    Math.random() * 2400 - 1200
-  );
-
-  this.box.scale.set(10, 1, 10);
-
-  this.box.castShadow = true
-
-  //this.scene2.add(this.box);
-
-  this.boxes.push(this.box);
-}
-
-
-
-
-this.boxes.name = 'cloudboxes';
-
-    
-
-
-  // Add event listener to window object
-window.addEventListener('pointerdown', () => {
-
-  //test.testing('testing from box.js 232', this.scene2, this.myText)
-  
-
-  for (let i = 0; i < this.boxes.length; i++) {
-    const box = this.boxes[i];
-    const distance = 660;
-    
-    
-    GSAP.to(box.position, 10, {
-      x: box.position.x + Math.random() * distance - distance / 2,
-      y: box.position.y + Math.random() * distance - distance / 2,
-      z: box.rotation.z + Math.random() * distance - distance / 2,
-      ease: 'power2.easeOut',
    
-    });
 
+ 
 
+  
   }
-})
-
-    return this.boxes
-   
-  } 
-
-  
-
 
 
   setLights() {
@@ -511,42 +402,17 @@ window.addEventListener('pointerdown', () => {
     const light1 = new THREE.AmbientLight( 0xffffff, 1.0 );
     light1.position.set( 0, 5, 0 );
     this.scene2.add( light1 );
-    //this.camera.instance.add( light1 );
-/* 
-    const light2 = new THREE.HemisphereLight( 0xffffff,0xffffff, 1.5 );
-    light2.position.set( 0, 15, 0 );
-    this.scene2.add( light2 );
-    this.camera.instance.add( light2 );
-  
-    const light3 = new THREE.DirectionalLight( 0x0000ff, 2.5 );
-    light3.position.set( 0, 800, 300 );
-    this.camera.instance.add( light3 );
-    this.scene2.add( light3 );
-
-    const light4 = new THREE.SpotLight( 0x0000ff, 2.5 );
-    light4.position.set( 0, 100, 0 );
-    this.camera.instance.add( light4 );
-    this.scene2.add( light4 );*/
+    this.camera.instance.add( light1 );
 
     var pointLight = new THREE.PointLight( 0xffffff, 1.0, 1 );
     pointLight.position.set( 0, 0, -50 );
     this.scene2.add( pointLight ); 
+
   }
 
 
   update(){
-    //this.shaderMaterial.uniforms.time.value += this.time.delta * 10;
     
-    //this.shaderMaterial.uniforms.azimuth.value = this.camera.azimuth * 2.5 + Math.PI;
-    //this.myText.curveRadius -= 10.0;
-
-  /*   const time = this.time.elapsed * 0.001;
-    this.theta = (Math.PI /this.period) * time;
-    const amplitude = Math.sin(this.theta) * this.amplitude;
-  
-    
-    this.pivot.rotation.z = amplitude;
- */
     
    
    

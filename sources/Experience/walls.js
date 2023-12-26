@@ -8,6 +8,8 @@ import { fragmentShader } from "./fragment.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 import { FigureEightPolynomialKnot } from "three/examples/jsm/curves/CurveExtras.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import {smokeFragment} from "./smokeFragment.js";
+import {smokeVertex} from './smokeVertex.js';
 export default class Walls extends EventEmitter {
   constructor() {
 
@@ -192,7 +194,7 @@ export default class Walls extends EventEmitter {
     this.model.upVector = new THREE.Vector3(0, 1, 0);
     this.model.castShadow = true;
     this.model.visible = true;
-    this.model.scale.set(1.3,.7,1)
+    this.model.scale.set(.9,.3,1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
 
@@ -222,7 +224,7 @@ export default class Walls extends EventEmitter {
     
     this.camera.instance.add(this.model)
     this.model.translateZ(-100)
-    this.model.translateY(15)
+    //this.model.translateY(5)
 
 
 
@@ -239,8 +241,8 @@ export default class Walls extends EventEmitter {
 
         console.log(this.meshes)
         this.meshes[0].material.map = this.resource2
-        this.meshes[1].material.map = this.resource2
-        this.meshes[2].material.map = this.resource1
+        //this.meshes[1].material.map = this.resource2
+        this.meshes[2].material.map = this.resource2
 
         }
 
@@ -253,12 +255,13 @@ export default class Walls extends EventEmitter {
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "5px";
-          this.label.style.right = "calc(50% - 50px)";
-          this.label.style.backgroundColor = 'transparent';
-          this.label.style.color = "white";
+          this.label.style.right = '5px';
+          this.label.style.backgroundColor = 'white';
+          //this.label.style.borderRadius = "5px";
+          this.label.style.color = "red";
           this.label.style.padding = "5px";
           this.label.style.fontFamily = "sans-serif";
-          this.label.style.fontSize = "48px";
+          this.label.style.fontSize = "36px";
           this.label.style.textShadow = "2px 2px #ff0000";
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
@@ -338,7 +341,7 @@ export default class Walls extends EventEmitter {
         
      
 
-      /*   this.shaderMaterial3 = new THREE.ShaderMaterial({
+        this.shaderMaterial3 = new THREE.ShaderMaterial({
        
           side: THREE.DoubleSide,
           
@@ -347,13 +350,17 @@ export default class Walls extends EventEmitter {
           
           uniforms: {
             time: { value: this.time.elapsed },
-              
+            resolution: { value: new THREE.Vector2() },
+            uvScale: { value: new THREE.Vector2(1,1)},
+            texture1: { value: this.resource2},
+            uNoise: { value: this.iNoise}
+
           },
     
-          vertexShader: vertexShader.vertexShader,
-          fragmentShader: fragmentShader3.fragmentShader3,
+          vertexShader: smokeVertex.vertexShader,
+          fragmentShader: smokeFragment.fragmentShader,
     
-        }); */
+        }); 
         
        
        
@@ -398,9 +405,7 @@ export default class Walls extends EventEmitter {
     });
 
 
-this.shaderMaterial.envMap = this.scene2.environment
-this.shaderMaterial.envMapIntensity = 1
-this.shaderMaterial.reflectivity = 1
+
 
 
 
@@ -410,7 +415,7 @@ this.shaderMaterial.reflectivity = 1
       //color: 'black',
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: .5,
+      opacity: 1.0,
       //map: this.resource1,
       bumpMap: this.resource1,
       bumpScale: 1,
@@ -457,10 +462,6 @@ this.shaderMaterial.reflectivity = 1
               var z = Math.cos( t ) * radius;
             
               var y = Math.sin(Math.cos(t * 3) * Math.PI) * 15; 
-
-            /*const x = Math.sin( t * 3 ) * Math.cos( t * 4 ) * 50;
-						const y = Math.sin( t * 10 ) * 2 + Math.cos( t * 17 ) * 2 + 5;
-						const z = Math.sin( t ) * Math.sin( t * 4 ) * 50;  */
 
               if( t<Math.PI/1.5 && t>Math.PI/2.5){
               
@@ -587,7 +588,7 @@ racetrackShape6.lineTo(-.2, -1);
       steps: 1000,
       depth: 100,
       
-      extrudePath: this.spline2,
+      extrudePath: this.spline,
 
     }
 
@@ -611,7 +612,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
     
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.displacementMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial3) 
 
    
     this.scene2.add(this.tube);
@@ -671,14 +672,14 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource1.repeat.set(4,4)
+        this.resource1.repeat.set(2,4)
 
 
         this.resource2.wrapS = THREE.RepeatWrapping;
 
         this.resource2.wrapT = THREE.RepeatWrapping;
     
-        this.resource2.repeat.set(1,1)
+        this.resource2.repeat.set(4,1)
 
 
  
@@ -705,7 +706,7 @@ racetrackShape6.lineTo(-.2, -1);
         this.sphere.scale.setScalar(10)
         this.scene2.add(this.sphere)
 
-        this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.2 );
+        this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 );
        
 
        
@@ -713,9 +714,8 @@ racetrackShape6.lineTo(-.2, -1);
 
           this.roundedBox,
  
-
-            new THREE.MeshPhysicalMaterial({
-
+            //this.shaderMaterial,
+            new THREE.MeshStandardMaterial({
               //wireframe: true,
               map: this.resource2,
               //color: Math.random() * 0xffffff,
@@ -736,9 +736,9 @@ racetrackShape6.lineTo(-.2, -1);
     
     
    
-    const numObjects = 350; // Number of objects to place on each side
+    const numObjects = 750; // Number of objects to place on each side
     this.spacing = 30; // Adjust this value for spacing
-    this.scaleFactor = 5.0;
+    this.scaleFactor = 50.0;
 
     this.objectsArray1 = [];
     this.objectsArray2 = [];
@@ -774,7 +774,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.sphereLeft.isWall = true
     this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
 
-    this.sphereLeft.position.add(new THREE.Vector3(0,-50,0))
+    this.sphereLeft.position.add(new THREE.Vector3(0,-100,0))
    
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle+ Math.PI/2 );
     
@@ -799,7 +799,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.randomOffset = new THREE.Vector3(
       
       (Math.random() * 2 - 1 ) * 100 * this.iNoise,
-      (Math.random() * 2 - 1 ) * 30,
+      //(Math.random() * 2 - 1 ) * 30,
       (Math.random() * 2 - 1 ) * 100 * this.iNoise,
       
       )
@@ -820,11 +820,15 @@ racetrackShape6.lineTo(-.2, -1);
   update() {
   
       this.iNoise +=  this.time.elapsed;
-      
-      
-      this.sphere2.rotation.y += Math.PI/3 *5* this.time.elapsed
 
-      this.sphere2.rotation.x += Math.PI * this.time.elapsed * .1;
+      this.objectsArray2.forEach( (object) => {
+      
+      
+      object.rotation.y += Math.PI * 5 * this.time.elapsed
+
+      object.rotation.x += Math.PI * this.time.elapsed * 5;
+
+      })
 
       let currentPosition = 0; 
       let speed = .8; 
@@ -848,7 +852,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 5, 0)
+    const offset = new THREE.Vector3(0, 20, 0)
 
 
        
@@ -942,11 +946,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     if (this.arrowUpPressed) {
 
-      this.forwardVector = new THREE.Vector3(0, 0, 1);
-      this.forwardDirection = this.forwardVector.clone();
-      this.forwardDirection.applyQuaternion(this.model.quaternion);
-      this.model.position.add(this.forwardDirection.multiplyScalar(this.movementSpeed));
-      this.camera.instance.position.copy(pos)
+      this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
+
+      this.camera.instance.lookAt( pos2.add(tangent).add( offset )  )
 
     } 
     

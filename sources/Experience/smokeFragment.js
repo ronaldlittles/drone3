@@ -7,19 +7,6 @@ uniform vec2 resolution;
 uniform vec2 uvScale;
 uniform sampler2D texture1;
 
-float sphere(vec3 p, vec3 c, float r) {
-  return length(p - c) - r;
-};
-
-
-float box(vec3 p, vec3 b) {
-  vec3 d = abs(p) - b;
-  return min(max(d.x, max(d.y, d.z)), 0.0) + length(max(d, 0.0));
-};
-
-figure8(vec3 p, vec3 c, float r) {
-  return length(p - c) - r;
-};
 
 
 
@@ -34,15 +21,13 @@ void main() {
 
   float scaledDistance = 1.0 - distance / 0.05;
 
-  vec2 T2 = vUv + vec2( - 0.5, 2.0 ) * time * 0.00001;
+  vec2 T2 = fract(vUv*.5) + vec2( - 0.5, 2.0 ) * time * 0.00001;
 
-  vec4 color =  texture2D( texture1,st * scaledDistance * .0001)  ;
-  //vec4 color = vec4(.5);
+  vec4 color =  texture2D( texture1,fract(T2));
+  vec4 color1 = mix(color, vec4(1.0,.0,.0,1.0),  1.5);
  
  
-  
-  //Output the distance as the color
-  gl_FragColor = color;
+  gl_FragColor = color1;
 }
 
   

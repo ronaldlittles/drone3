@@ -47,7 +47,7 @@ export default class Video extends EventEmitter {
    
     //this.setVideoTexture();
 
-    this.setSound();
+    //this.setSound();
    
     this.setPlane();
     this.walls = new Walls();

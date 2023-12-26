@@ -31,7 +31,7 @@ export default class Renderer {
       this.debugFolder = this.debug.addFolder("renderer");
     } 
 
-    this.usePostprocess = false;
+    this.usePostprocess = true;
 
     this.setInstance();
     this.setPostProcess();
@@ -107,29 +107,35 @@ export default class Renderer {
     );
 
     const params = {
-      exposure: 1,
-      bloomStrength:0,// .74,
-      bloomThreshold: 0.1,
-      bloomRadius: 0,//.49,
+      exposure:.5,
+      bloomStrength:.5,
+      bloomThreshold:.5,
+      bloomRadius:.5,
     };
 
     this.postProcess.unrealBloomPass = new UnrealBloomPass(
       new THREE.Vector2(this.sizes.width, this.sizes.height),
-      .1,
-      .74,
-      .49
+      .5,
+      .8,
+      .5
     );
 
+    this.postProcess.unrealBloomPass.exposure = params.exposure;
     this.postProcess.unrealBloomPass.threshold = params.bloomThreshold;
     this.postProcess.unrealBloomPass.strength = params.bloomStrength;
     this.postProcess.unrealBloomPass.radius = params.bloomRadius;
 
     if (this.debug) {
       this.debugFolder
+     .add(this.postProcess.unrealBloomPass, "exposure", 0)
+      .min(0)
+      .max(10)
+      .step(0.0001); 
+      this.debugFolder
         .add(this.postProcess.unrealBloomPass, "threshold", 0)
         .min(0)
         .max(10)
-        .step(0.001);
+        .step(0.0001);
       this.debugFolder
         .add(this.postProcess.unrealBloomPass, "strength", 0)
         .min(0)
@@ -139,7 +145,7 @@ export default class Renderer {
         .add(this.postProcess.unrealBloomPass, "radius", 0)
         .min(0)
         .max(10)
-        .step(0.01);
+        .step(0.0001);
     }
 
     this.postProcess.unrealBloomPass.enabled = true;

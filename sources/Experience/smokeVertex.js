@@ -39,7 +39,7 @@ float perlin2d(vec2 P){
   return 2.3 * n_xy;
 }
 
-
+uniform float uNoise;
 uniform vec2 resolution;
 uniform float time;
 uniform vec2 uvScale;
