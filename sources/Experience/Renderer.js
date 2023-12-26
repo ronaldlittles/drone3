@@ -108,7 +108,7 @@ export default class Renderer {
 
     const params = {
       exposure:.5,
-      bloomStrength:1.2,
+      bloomStrength:.6,
       bloomThreshold:.5,
       bloomRadius:.6,
     };

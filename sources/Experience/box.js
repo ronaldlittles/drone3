@@ -73,11 +73,11 @@ export default class Box {
     ]);
 
    
-    //this.scene2.background =  this.cubeTexture
+    //lightthis.scene2.background =  this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true
-    this.cubeTexture.mapping = THREE.CubeReflectionMapping;
+    this.cubeTexture.mapping = THREE.CubeRefractionMapping;
     this.scene2.environment = this.cubeTexture
 
    
@@ -399,10 +399,10 @@ function nextText() {
     this.scene2.add(lights);
     //this.camera.instance.add(lights)
 
-    const light1 = new THREE.AmbientLight( 0xffffff, 1.0 );
+    const light1 = new THREE.AmbientLight( 0xff0000, 1.0 );
     light1.position.set( 0, 5, 0 );
-    //this.scene2.add( light1 );
-    //this.camera.instance.add( light1 );
+    this.scene2.add( light1 );
+    this.camera.instance.add( light1 );
 
     var pointLight = new THREE.PointLight( 0xffffff, 1.0, 1 );
     pointLight.position.set( 0, 0, -50 );

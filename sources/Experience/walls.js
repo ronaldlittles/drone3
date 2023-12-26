@@ -692,19 +692,19 @@ racetrackShape6.lineTo(-.2, -1);
 
           new THREE.MeshStandardMaterial({
 
-             color: Math.random() * 0xffffff,
-             //map: this.resource2, 
+             //color: Math.random() * 0xffffff,
+             map: this.resource2, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: .3,
+             opacity: 1.0,
            
 
           })
 
           )
 
-        this.sphere.scale.setScalar(10)
-        this.scene2.add(this.sphere)
+        this.sphere.scale.setScalar(5000)
+        //this.scene2.add(this.sphere)
 
         this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 );
        
@@ -729,14 +729,14 @@ racetrackShape6.lineTo(-.2, -1);
             
           )
 
-          this.sphere2.scale.setScalar(2)
+          this.sphere2.scale.setScalar(5)
           this.sphere2.castShadow = true;
   
 
     
     
    
-    const numObjects = 750; // Number of objects to place on each side
+    const numObjects = 250; // Number of objects to place on each side
     this.spacing = 30; // Adjust this value for spacing
     this.scaleFactor = 50.0;
 
@@ -798,9 +798,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.randomOffset = new THREE.Vector3(
       
-      (Math.random() * 2 - 1 ) * 100 * this.iNoise,
-      //(Math.random() * 2 - 1 ) * 30,
-      (Math.random() * 2 - 1 ) * 100 * this.iNoise,
+      (Math.random() * 2- 1) * 250 * this.iNoise,
+      (Math.random() * 2 - 1 ) * 100,
+      (Math.random() * 2 - 1 ) * 150 * this.iNoise,
       
       )
 
@@ -852,7 +852,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 35, 15)
+    const offset = new THREE.Vector3(0, 50, 25)
 
 
        
