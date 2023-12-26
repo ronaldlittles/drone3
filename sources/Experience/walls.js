@@ -223,8 +223,8 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-200)
-    this.model.translateY(-40)
+    this.model.translateZ(-250)
+    this.model.translateY(-30)
 
 
 
