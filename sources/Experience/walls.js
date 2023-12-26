@@ -223,8 +223,8 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-150)
-    this.model.translateY(-20)
+    this.model.translateZ(-200)
+    this.model.translateY(-40)
 
 
 
@@ -824,9 +824,9 @@ racetrackShape6.lineTo(-.2, -1);
       this.objectsArray2.forEach( (object) => {
       
       
-      object.rotation.y += Math.PI * 5 * this.time.elapsed
+      object.rotation.y += Math.PI * this.time.elapsed
 
-      object.rotation.x += Math.PI * this.time.elapsed * 5;
+      object.rotation.x += Math.PI * this.time.elapsed;
 
       })
 
