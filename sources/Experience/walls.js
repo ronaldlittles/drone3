@@ -223,8 +223,8 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-100)
-    //this.model.translateY(5)
+    this.model.translateZ(-125)
+    this.model.translateY(-5)
 
 
 
@@ -852,7 +852,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 20, 0)
+    const offset = new THREE.Vector3(0, 35, 15)
 
 
        
