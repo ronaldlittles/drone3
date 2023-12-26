@@ -194,7 +194,7 @@ export default class Walls extends EventEmitter {
     this.model.upVector = new THREE.Vector3(0, 1, 0);
     this.model.castShadow = true;
     this.model.visible = true;
-    this.model.scale.set(.9,.3,1)
+    this.model.scale.set(.9,.5,1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
 
@@ -223,8 +223,8 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-125)
-    this.model.translateY(-5)
+    this.model.translateZ(-150)
+    this.model.translateY(-20)
 
 
 
