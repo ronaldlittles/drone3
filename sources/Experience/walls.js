@@ -425,29 +425,23 @@ export default class Walls extends EventEmitter {
     });
 
 
-    this.yellowMaterial2 = new THREE.MeshStandardMaterial({ 
+    this.redMaterial = new THREE.MeshStandardMaterial({ 
 
-            //emissive: 0xff0000,
-            //emissiveIntensity:.1, 
+            color: 'red',
+            emissive: 0xffffff,
+            emissiveIntensity:.1, 
             map: this.resource2,
-            opacity: .3,
+            opacity: .8,
             transparent: true,
             
         });
 
 
-    this.lineMaterial = new THREE.MeshBasicMaterial( { 
-
-      //linewidth: 1,
-      //dashed: true,
-      color: 0xff0000,
-    
-    } );
       
 
 
         
-        this.numPoints = 1500
+        this.numPoints = 2000
        
         this.points = [];
 
@@ -486,7 +480,9 @@ export default class Walls extends EventEmitter {
     this.spline = new THREE.CatmullRomCurve3(this.points);
 
     this.spline.curveType = 'catmullrom';
-   
+    this.spline.closed = true;
+    this.spline.tension = 0.5;
+    
 
     this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1000,1300)
 
@@ -612,7 +608,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
     
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial3) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
    
     this.scene2.add(this.tube);
@@ -620,6 +616,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.tube.position.y =-10 
 
     //this.tube.visible = false;
+
+    this.tube.receiveShadow = true;
   
  
     this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
@@ -706,6 +704,7 @@ racetrackShape6.lineTo(-.2, -1);
         this.sphere.scale.setScalar(5000)
         //this.scene2.add(this.sphere)
 
+
         this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 );
        
 
@@ -731,6 +730,7 @@ racetrackShape6.lineTo(-.2, -1);
 
           this.sphere2.scale.setScalar(5)
           this.sphere2.castShadow = true;
+          
   
 
     
@@ -826,7 +826,7 @@ racetrackShape6.lineTo(-.2, -1);
       
       object.rotation.y += Math.PI * this.time.elapsed
 
-      object.rotation.x += Math.PI * this.time.elapsed;
+      //object.rotation.x += Math.PI * this.time.elapsed;
 
       })
 
