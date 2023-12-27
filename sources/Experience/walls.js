@@ -240,9 +240,13 @@ export default class Walls extends EventEmitter {
 
 
         console.log(this.meshes)
+
         this.meshes[0].material.map = this.resource2
         //this.meshes[1].material.map = this.resource2
         this.meshes[2].material.map = this.resource2
+
+        this.meshes[2].material.transparent = true
+        this.meshes[2].material.opacity = .3
 
         }
 
@@ -412,10 +416,10 @@ export default class Walls extends EventEmitter {
     this.displacementMaterial = new THREE.MeshMatcapMaterial({
       
       //wireframe: true,
-      //color: 'black',
+      color: 'red',
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 1.0,
+      opacity: .6,
       //map: this.resource1,
       bumpMap: this.resource1,
       bumpScale: 1,
@@ -456,14 +460,14 @@ export default class Walls extends EventEmitter {
             
                 var z = Math.cos( t ) * radius;
               
-                var y = Math.sin(Math.cos(t * 3) * Math.PI) * 15; 
+                var y = Math.sin(Math.cos(t * 3 * Math.PI )) * 5 
 
 
               if( t<Math.PI/1.5 && t>Math.PI/2.5){
               
-                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 125; 
+                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 100; 
                 
-                const smoothY = y + (targetY + y) * (t - Math.PI/2.5) * 5; 
+                const smoothY = y + (targetY + y) * (t - Math.PI/2.5) * 10; 
                 
                 y = smoothY;
             
@@ -496,7 +500,7 @@ export default class Walls extends EventEmitter {
 
     this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1000,1300)
 
-    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(700,900)
+    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(600,900)
 
     
    
