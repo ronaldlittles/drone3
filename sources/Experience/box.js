@@ -38,7 +38,7 @@ export default class Box {
     this.resource6 =  this.resources.items.hdr
     this.setLights()
     //this.setCity() 
-    this.setBox()
+    //this.setBox()
     //this.setFlower()
    
     
@@ -221,18 +221,10 @@ export default class Box {
 
 }
 
-  setFlower(){
-
-
-
-  }
+ 
 
 
   setBox() {
-
-    
-
- 
 
    
     const myText = new Text();

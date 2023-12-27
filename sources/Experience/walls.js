@@ -223,8 +223,8 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-250)
-    this.model.translateY(-30)
+    this.model.translateZ(-100)
+    this.model.translateY(5)
 
 
 
@@ -451,30 +451,29 @@ export default class Walls extends EventEmitter {
 
             let t = (i / this.numPoints) * Math.PI * 2
 
-            const mappedT = Math.sin(t * Math.PI * 2);
-
-             
-
-              var x = Math.sin( t*2) * radius;
-           
-              var z = Math.cos( t ) * radius;
             
-              var y = Math.sin(Math.cos(t * 3) * Math.PI) * 15; 
+                var x = Math.sin( t*2) * radius;
+            
+                var z = Math.cos( t ) * radius;
+              
+                var y = Math.sin(Math.cos(t * 3) * Math.PI) * 15; 
+
 
               if( t<Math.PI/1.5 && t>Math.PI/2.5){
               
-                const targetY = Math.sin(t * 1.5 * Math.PI) * 125;
-                // Smoothly transition from current y to targetY
-                const smoothY = y + (targetY - y) * (t - Math.PI / 2.5) * 5; // Adjust the factor for the transition speed
+                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 125; 
+                
+                const smoothY = y + (targetY + y) * (t - Math.PI/2.5) * 5; 
+                
                 y = smoothY;
             
             }
-           else if (t > Math.PI / 1.5 || t < Math.PI / 2.5) {
-            const targetYDown = Math.sin(Math.cos(t * 3) * Math.PI) * 15;
-            // Smoothly transition down from current y to targetYDown
-            const smoothYDown = y + (targetYDown - y) * (Math.abs(t - Math.PI) - Math.PI / 6) * 5; // Adjust the factor for the transition speed
-            y = smoothYDown;
-        }
+
+            else {
+
+              y = Math.sin(Math.cos(t * 3) * Math.PI) * 5;
+            
+            }
             
            
 
@@ -492,7 +491,7 @@ export default class Walls extends EventEmitter {
 
     this.spline.curveType = 'catmullrom';
     this.spline.closed = true;
-    this.spline.tension = 0.05;
+    this.spline.tension = 0.1;
     
 
     this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1000,1300)
@@ -681,7 +680,7 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource1.repeat.set(2,4)
+        this.resource1.repeat.set(2,1)
 
 
         this.resource2.wrapS = THREE.RepeatWrapping;
@@ -731,7 +730,7 @@ racetrackShape6.lineTo(-.2, -1);
               //color: Math.random() * 0xffffff,
               side: THREE.DoubleSide,
               transparent: true,
-              opacity:.7,
+              opacity:.4,
               //emissive: 0x00ff00,
               //emissiveIntensity: .5, 
             
@@ -739,7 +738,7 @@ racetrackShape6.lineTo(-.2, -1);
             
           )
 
-          this.sphere2.scale.setScalar(5)
+          this.sphere2.scale.setScalar(3)
           this.sphere2.castShadow = true;
           
   
@@ -773,8 +772,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.binormal.crossVectors(this.tangent, this.normal).normalize(); 
 
    
-    this.offset = this.tubeGeo.normal
-    //.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
+    this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
 
     const angle = Math.atan2(this.tangent.x , this.tangent.z );
 
@@ -792,7 +790,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle+ Math.PI/2 );
     
     this.objectsArray1.push(this.sphereLeft)
-    this.scene2.add(this.sphereLeft);
+    //this.scene2.add(this.sphereLeft);
 
 
     this.sphereRight = this.sphere2.clone();
@@ -818,7 +816,7 @@ racetrackShape6.lineTo(-.2, -1);
       )
 
       this.sphere2Clone = this.sphere2.clone()
-      //this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
+      this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
       
       
       this.scene2.add(this.sphere2Clone) 
@@ -839,7 +837,7 @@ racetrackShape6.lineTo(-.2, -1);
       
       object.rotation.y += Math.PI * this.time.elapsed
 
-      //object.rotation.x += Math.PI * this.time.elapsed;
+      
 
       })
 
@@ -865,7 +863,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 50, 25)
+    const offset = new THREE.Vector3(0, 15, 0)
 
 
        
@@ -889,7 +887,7 @@ racetrackShape6.lineTo(-.2, -1);
    
     this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
 
-    this.camera.instance.lookAt( pos2.add(tangent).add( offset )  )// + (pos2.y/10)
+    this.camera.instance.lookAt( pos2.add(tangent).add( offset ) )
 
      //POINTS ALONG THE CURVE
 
