@@ -451,7 +451,11 @@ export default class Walls extends EventEmitter {
 
             let t = (i / this.numPoints) * Math.PI * 2
 
-              var x = Math.sin(t*2) * radius;
+            const mappedT = Math.sin(t * Math.PI * 2);
+
+             
+
+              var x = Math.sin( t*2) * radius;
            
               var z = Math.cos( t ) * radius;
             
@@ -459,17 +463,22 @@ export default class Walls extends EventEmitter {
 
               if( t<Math.PI/1.5 && t>Math.PI/2.5){
               
-              y = Math.sin(t * 1.5 * Math.PI) * 125;
+                const targetY = Math.sin(t * 1.5 * Math.PI) * 125;
+                // Smoothly transition from current y to targetY
+                const smoothY = y + (targetY - y) * (t - Math.PI / 2.5) * 5; // Adjust the factor for the transition speed
+                y = smoothY;
             
             }
-            else {
-             
-              y =  Math.sin(Math.cos(t * 3) * Math.PI) * 15;
-          }  
+           else if (t > Math.PI / 1.5 || t < Math.PI / 2.5) {
+            const targetYDown = Math.sin(Math.cos(t * 3) * Math.PI) * 15;
+            // Smoothly transition down from current y to targetYDown
+            const smoothYDown = y + (targetYDown - y) * (Math.abs(t - Math.PI) - Math.PI / 6) * 5; // Adjust the factor for the transition speed
+            y = smoothYDown;
+        }
             
            
 
-            this.points.push(new THREE.Vector3(x, y, z).multiplyScalar( 2 ));
+            this.points.push(new THREE.Vector3(x, y, z).multiplyScalar(2));
 
            
 
@@ -479,14 +488,16 @@ export default class Walls extends EventEmitter {
 
     this.spline = new THREE.CatmullRomCurve3(this.points);
 
+  
+
     this.spline.curveType = 'catmullrom';
     this.spline.closed = true;
-    this.spline.tension = 0.5;
+    this.spline.tension = 0.05;
     
 
     this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1000,1300)
 
-    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(500,800)
+    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(700,900)
 
     
    
@@ -643,7 +654,7 @@ racetrackShape6.lineTo(-.2, -1);
       
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.displacementMaterial) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.displacementMaterial) 
 
       this.scene2.add(this.tube5);
 
@@ -736,22 +747,23 @@ racetrackShape6.lineTo(-.2, -1);
     
     
    
-    const numObjects = 250; // Number of objects to place on each side
-    this.spacing = 30; // Adjust this value for spacing
-    this.scaleFactor = 50.0;
+    const numObjects = 1000; // Number of objects to place on each side
+    this.spacing = 5; // Adjust this value for spacing
+    this.scaleFactor = 5;
 
     this.objectsArray1 = [];
     this.objectsArray2 = [];
 
     for (let i = 0; i < numObjects; i++) {
 
-    const t = i / (numObjects - 1); // Ranges from 0 to 1
+    const t = i / (numObjects-1); // Ranges from 0 to 1 //-1
 
    
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
-  
+    
+
     const referenceVector = new THREE.Vector3(0,1, 0);
 
     this.normal = new THREE.Vector3();
@@ -761,20 +773,21 @@ racetrackShape6.lineTo(-.2, -1);
     this.binormal.crossVectors(this.tangent, this.normal).normalize(); 
 
    
-    this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
+    this.offset = this.tubeGeo.normal
+    //.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
 
     const angle = Math.atan2(this.tangent.x , this.tangent.z );
 
     
 
-    this.positionLeft = positionOnCurve.clone().add(this.offset);
-    this.positionRight = positionOnCurve.clone().sub(this.offset);
+    this.positionLeft = positionOnCurve.clone()//.add(this.offset);
+    this.positionRight = positionOnCurve.clone()//.sub(this.offset);
 
     this.sphereLeft = this.model2.clone();
     this.sphereLeft.isWall = true
     this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
 
-    this.sphereLeft.position.add(new THREE.Vector3(0,-100,0))
+    //this.sphereLeft.position.add(new THREE.Vector3(0,-100,0))
    
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle+ Math.PI/2 );
     
@@ -805,7 +818,7 @@ racetrackShape6.lineTo(-.2, -1);
       )
 
       this.sphere2Clone = this.sphere2.clone()
-      this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
+      //this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
       
       
       this.scene2.add(this.sphere2Clone) 
@@ -869,6 +882,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.label.textContent = this.tubeGeo.attributes.normal.y;
     this.label3.textContent = this.binormal.x;
     this.label4.textContent = this.binormal.z;
+
+   
 
     ///CAMERA MOVEMENT
    
