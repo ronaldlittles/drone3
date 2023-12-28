@@ -390,15 +390,18 @@ function nextText() {
     lights.position.set(0, 50, 0);
     this.scene2.add(lights);
     //this.camera.instance.add(lights)
+    lights.castShadow = true;
 
     const light1 = new THREE.AmbientLight( 0xff0000, 1.0 );
     light1.position.set( 0, 5, 0 );
     this.scene2.add( light1 );
-    this.camera.instance.add( light1 );
+    //this.camera.instance.add( light1 );
+    light1.castShadow = true;
 
     var pointLight = new THREE.PointLight( 0xffffff, 1.0, 1 );
-    pointLight.position.set( 0, 0, -50 );
-    //this.scene2.add( pointLight ); 
+    pointLight.position.set( 0, 0, 50 );
+    this.scene2.add( pointLight ); 
+    pointLight.castShadow = true;
 
   }
 

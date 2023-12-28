@@ -65,11 +65,14 @@ void main() {
   vec2 vUv = uv + uvScale;
 
  
-  vec3 gpt = getPointAt(time);
+
+
   
-  vec3 newPosition = gpt + position;
+  vec4 newPosition = modelMatrix * vec4(position, 1.0);
+
+  newPosition.y *= sin(.2*newPosition.x + time )* .2;
   
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * viewMatrix * newPosition;
 
   //gl_Position = vec4(position, 1.0);
 }

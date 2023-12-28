@@ -24,7 +24,7 @@ void main() {
   vec2 T2 = fract(vUv*.5) + vec2( - 0.5, 2.0 ) * time * 0.00001;
 
   vec4 color =  texture2D( texture1,fract(T2));
-  vec4 color1 = mix(color, vec4(1.0,.0,.0,1.0),  1.5);
+  vec4 color1 = mix(color, vec4(1.0,1.0,.0,1.),  1.5);
  
  
   gl_FragColor = color1;

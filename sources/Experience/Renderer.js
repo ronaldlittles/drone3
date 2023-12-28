@@ -116,8 +116,8 @@ export default class Renderer {
     this.postProcess.unrealBloomPass = new UnrealBloomPass(
       new THREE.Vector2(this.sizes.width, this.sizes.height),
       .5,
-      1.1,
-      .86
+      1.3,
+      1.3
     );
 
     this.postProcess.unrealBloomPass.exposure = params.exposure;

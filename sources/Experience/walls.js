@@ -197,7 +197,7 @@ export default class Walls extends EventEmitter {
     this.model.scale.set(.9,.5,1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
-
+    //this.model.castShadow = true;
    
 
     this.model2 = this.resource4.scene;
@@ -223,7 +223,7 @@ export default class Walls extends EventEmitter {
 
     
     this.camera.instance.add(this.model)
-    this.model.translateZ(-150)
+    this.model.translateZ(-200)
     this.model.translateY(5)
 
 
@@ -242,9 +242,11 @@ export default class Walls extends EventEmitter {
         console.log(this.meshes)
 
         this.meshes[0].material.map = this.resource2
-        //this.meshes[1].material.map = this.resource2
+        this.meshes[1].material.map = this.resource2
         this.meshes[2].material.map = this.resource2
 
+        this.meshes[0].material.transparent = true
+        this.meshes[0].material.opacity = .3
         this.meshes[2].material.transparent = true
         this.meshes[2].material.opacity = .3
 
@@ -432,11 +434,11 @@ export default class Walls extends EventEmitter {
     this.redMaterial = new THREE.MeshStandardMaterial({ 
 
             color: 'red',
-            emissive: 0xffffff,
-            emissiveIntensity:.1, 
-            map: this.resource2,
-            opacity: .8,
-            transparent: true,
+            //emissive: 0xffffff,
+            //emissiveIntensity:.1, 
+            //map: this.resource2,
+            opacity: 1.0,
+            //transparent: true,
             
         });
 
@@ -727,7 +729,9 @@ racetrackShape6.lineTo(-.2, -1);
 
           this.roundedBox,
  
-            //this.shaderMaterial,
+            this.shaderMaterial3,
+
+            /*
             new THREE.MeshStandardMaterial({
               //wireframe: true,
               map: this.resource2,
@@ -738,7 +742,7 @@ racetrackShape6.lineTo(-.2, -1);
               //emissive: 0x00ff00,
               //emissiveIntensity: .5, 
             
-            })   
+            })  */ 
             
           )
 
@@ -846,7 +850,7 @@ racetrackShape6.lineTo(-.2, -1);
       })
 
       let currentPosition = 0; 
-      let speed = .8; 
+      let speed = 1.0; 
       let loopTime = 60;
       const lookAt = new THREE.Vector3();
 
@@ -867,7 +871,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 15, 0)
+    const offset = new THREE.Vector3(0, 5, 0)
 
 
        
