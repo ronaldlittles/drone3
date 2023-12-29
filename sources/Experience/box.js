@@ -252,8 +252,8 @@ export default class Box {
 
     myText2.text = "EVERYTHING is PATTERN";
 
-    myText2.fontSize = 100.0;
-    myText2.color = "green";
+    myText2.fontSize = 75.0;
+    myText2.color = "white";
     myText2.position.set(1907, 230 , 1174) 
     
     myText2.sync();
