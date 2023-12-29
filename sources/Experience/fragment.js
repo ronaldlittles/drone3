@@ -48,7 +48,7 @@ const fragmentShader = {
 
      
       void main() {
-        vec2 uv = vUv * 100.0; // Scale of the dots
+        vec2 uv = sin(vUv * 100.0); // Scale of the dots
 
         vec3 redColor = vec3(1.0, 0.0, 0.0); // Red color
         float dot = smoothstep(0.5, .05, sin(mod(uv.x, 5.0))) * smoothstep(0.5, 1.0, mod(uv.y, 1.0)); // Create dots pattern
