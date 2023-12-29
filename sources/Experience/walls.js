@@ -260,9 +260,9 @@ export default class Walls extends EventEmitter {
 
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
-          this.label.style.top = "5px";
-          this.label.style.right = '5px';
-          this.label.style.backgroundColor = 'white';
+          this.label.style.top = "0px";
+          this.label.style.right = '335px';
+          this.label.style.backgroundColor = 'transparent';
           //this.label.style.borderRadius = "5px";
           this.label.style.color = "red";
           this.label.style.padding = "5px";
@@ -276,7 +276,7 @@ export default class Walls extends EventEmitter {
           this.label3 = document.createElement("div");
           this.label3.style.position = "absolute"; // Change to absolute positioning
           this.label3.style.bottom = "0"; // Align to the bottom
-          this.label3.style.left = "0"; // Align to the left
+          this.label3.style.left = "5"; // Align to the left
           this.label3.style.fontSize = "24px";
           this.label3.style.backgroundColor = 'transparent';
           this.label3.style.color = "red";
@@ -289,7 +289,7 @@ export default class Walls extends EventEmitter {
           this.label4 = document.createElement("div");
           this.label4.style.position = "absolute"; // Change to absolute positioning
           this.label4.style.bottom = "0"; // Align to the bottom
-          this.label4.style.right = "0"; // Align to the right
+          this.label4.style.right = "5"; // Align to the right
           this.label4.style.fontSize = "24px";
           this.label4.style.backgroundColor = 'transparent';
           this.label4.style.color = "red";
@@ -875,7 +875,7 @@ racetrackShape6.lineTo(-.2, -1);
       })
 
       let currentPosition = 0; 
-      let speed = 1.0; 
+      let speed = .8; 
       let loopTime = 60;
       const lookAt = new THREE.Vector3();
 
@@ -909,7 +909,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(tangent, this.normal).normalize(); 
 
-    this.label.textContent = this.tubeGeo.attributes.normal.y;
+    this.label.textContent = tangent.x;
     this.label3.textContent = this.binormal.x;
     this.label4.textContent = this.binormal.z;
 
