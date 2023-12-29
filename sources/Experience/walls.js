@@ -224,7 +224,7 @@ export default class Walls extends EventEmitter {
     
     this.camera.instance.add(this.model)
     this.model.translateZ(-200)
-    this.model.translateY(5)
+    this.model.translateY(10)
 
 
 
@@ -301,32 +301,7 @@ export default class Walls extends EventEmitter {
           
 
 
-          window.addEventListener("pointerdown", (event) => {
-
-            const raycaster = new THREE.Raycaster();
-
-            raycaster.setFromCamera(this.mouse, this.camera.instance);
          
-              const intersects = raycaster.intersectObjects(this.objectsArray2, true);
-        
-              if (intersects.length > 0) {
-
-               this.pointY = intersects[0].point.y;
-               this.pointZ = intersects[0].point.z;
-               
-               this.label1 = this.pointY.toFixed(4)
-               this.label2 = this.pointZ.toFixed(4)
-            
-              this.label.textContent = `Index: ${this.label1} ${this.label2 }`;
-              
-            } else {
-             
-              this.label.textContent = this.newNormalY;
-            }
-          
-           
-
-          })
 
           
 
@@ -384,8 +359,8 @@ export default class Walls extends EventEmitter {
           uvScale: { value: new THREE.Vector2(100,10)}
       },
 
-      vertexShader: vertexShader.vertexShader2,
-      fragmentShader: fragmentShader.fragmentShader,
+      vertexShader: vertexShader.vertexShader,
+      fragmentShader: fragmentShader.fragmentShader2,
 
     });  
 
@@ -469,7 +444,7 @@ export default class Walls extends EventEmitter {
               
                 const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 100; 
                 
-                const smoothY = y + (targetY + y) * (t - Math.PI/2.5) * 10; 
+                const smoothY = y + (targetY + y) * ( Math.abs(t - Math.PI/2.5) )* 10; 
                 
                 y = smoothY;
             
@@ -498,6 +473,50 @@ export default class Walls extends EventEmitter {
     this.spline.curveType = 'catmullrom';
     this.spline.closed = true;
     this.spline.tension = 0.1;
+
+    console.log(this.spline)
+
+    window.addEventListener("pointerdown", (event) => {
+
+      const raycaster = new THREE.Raycaster();
+
+      raycaster.setFromCamera(this.mouse, this.camera.instance);
+   
+        const intersects = raycaster.intersectObjects(this.objectsArray2, true);
+
+        const intersects2 = raycaster.intersectObject(this.tube, true);
+
+       
+
+        if (intersects2.length > 0) {
+
+          const intersects2Point = intersects2[0].point
+
+           //const closestPoint = this.spline.getPointAt(intersects2Point);
+
+           //const t = this.spline.getUtoTmapping(0,closestPoint)
+
+
+          //const angle = t * Math.PI * 2
+
+         console.log(intersects2Point )
+
+        /*  this.pointY = intersects[0].point.y;
+         this.pointZ = intersects[0].point.z;
+         
+         this.label1 = this.pointY.toFixed(4)
+         this.label2 = this.pointZ.toFixed(4)
+      
+        this.label.textContent = `Index: ${this.label1} ${this.label2 }`; */
+        
+      } else {
+       
+        //this.label.textContent = this.newNormalY;
+      }
+    
+     
+
+    })
     
 
     this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1000,1300)
@@ -622,11 +641,14 @@ racetrackShape6.lineTo(-.2, -1);
     this.tubeGeo5 = new THREE.TubeGeometry(this.spline3, 100, 200, 100, false);
 
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
-    
+    this.tubeGeo.computeVertexNormals()
+    //this.tubeGeo.computeFaceNormals()
+    //this.tubeGeo.attributes.normal.needsUpdate = true;  
+    this.tubeGeo.attributes.normal.normalized = true;
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
-   
+   console.log(this.tube)
     this.scene2.add(this.tube);
     
     this.tube.position.y =-10 
@@ -651,7 +673,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube3.position.y =-12
 
 
-      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.displacementMaterial) 
+      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.shaderMaterial2) 
 
       this.scene2.add(this.tube4);
 
@@ -659,7 +681,7 @@ racetrackShape6.lineTo(-.2, -1);
       
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.displacementMaterial) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial2) 
 
       this.scene2.add(this.tube5);
 
@@ -746,7 +768,7 @@ racetrackShape6.lineTo(-.2, -1);
             
           )
 
-          this.sphere2.scale.setScalar(3)
+          //this.sphere2.scale.setScalar(8)
           this.sphere2.castShadow = true;
           
   
@@ -765,6 +787,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     const t = i / (numObjects-1); // Ranges from 0 to 1 //-1
 
+    
    
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
@@ -798,8 +821,10 @@ racetrackShape6.lineTo(-.2, -1);
     this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle+ Math.PI/2 );
     
     this.objectsArray1.push(this.sphereLeft)
-    //this.scene2.add(this.sphereLeft);
 
+  
+
+    //this.scene2.add(this.sphereLeft);
 
     this.sphereRight = this.sphere2.clone();
     
@@ -873,17 +898,16 @@ racetrackShape6.lineTo(-.2, -1);
 
     const offset = new THREE.Vector3(0, 5, 0)
 
-
-       
+    
     
 
-    this.referenceVector = new THREE.Vector3(0,1,1); 
+    this.referenceVector = new THREE.Vector3(0,1,0); 
 
     this.normal = new THREE.Vector3().normalize();
     this.normal.crossVectors( this.referenceVector, tangent ).normalize();
 
     this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(tangent, this.tubeGeo.attributes.normal).normalize(); 
+    this.binormal.crossVectors(tangent, this.normal).normalize(); 
 
     this.label.textContent = this.tubeGeo.attributes.normal.y;
     this.label3.textContent = this.binormal.x;
@@ -906,13 +930,13 @@ racetrackShape6.lineTo(-.2, -1);
     this.model.rotation.z = -tangent.z 
     this.model.rotation.x = Math.sin(pos2.x  * .005) * .1
 
-    //this.camera.instance.rotation.z = tangent.z * .05 + this.binormal.z
+    this.camera.instance.rotation.z = tangent.x * .1
 
     
     const maxAngle = Math.PI / 6; 
     const minAngle = -Math.PI / 6; 
     
-    this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
+    /* this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
   
     this.q1 = new THREE.Quaternion()
     this.q2 = new THREE.Quaternion()
@@ -922,7 +946,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.q3 = new THREE.Quaternion()
     this.q3.multiplyQuaternions(this.q1,this.q2)
-
+ */
 
 
     //this.model.quaternion.copy(this.q3)

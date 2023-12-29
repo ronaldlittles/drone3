@@ -37,9 +37,9 @@ export default class Box {
     this.resource3 = this.resources.items.sceneModel
     this.resource6 =  this.resources.items.hdr
     this.setLights()
-    //this.setCity() 
-    //this.setBox()
-    //this.setFlower()
+    this.setCity() 
+    this.setBox()
+   
    
     
    
@@ -227,22 +227,21 @@ export default class Box {
   setBox() {
 
    
-    const myText = new Text();
+    this.myText = new Text();
 
-    console.log(myText)
-    this.myText = myText;
-    this.scene2.add(this.myText);
+   
+    //this.scene2.add(this.myText);
 
     this.myText.text =
       "the brain is the strongest muscle of the body.";
 
-    this.myText.fontSize = 128.0;
-    this.myText.textAlign = 'center';
+    this.myText.fontSize = 100.0;
+    //this.myText.textAlign = 'center';
     
     this.myText.color = 'yellow';
-    this.myText.position.set(50, 200 , -200);
+    this.myText.position.set(-1526, 300 , -1012);
     
-    this.myText.maxWidth = 550;
+    this.myText.maxWidth = 1050;
     this.myText.sync();
 
     this.myText.lookAt(this.camera.instance.position)
@@ -251,21 +250,21 @@ export default class Box {
     const myText2 = new Text();
     this.scene2.add(myText2);
 
-    myText2.text = "Merry Christmas";
+    myText2.text = "EVERYTHING is PATTERN";
 
-    myText2.fontSize = 128.0;
-    myText2.color = "yellow";
-    myText2.position.set(150, 0 , 310) 
+    myText2.fontSize = 100.0;
+    myText2.color = "green";
+    myText2.position.set(1907, 230 , 1174) 
     
     myText2.sync();
     myText2.lookAt(this.camera.instance.position)
 
    
     const myText3 = new Text();
-    this.scene2.add(myText3);
+    //this.scene2.add(myText3);
 
     myText3.text =
-      "EVERYTHING is PATTERN"
+      "EVERYTHING is PATTERN2"
     //myText3.curveRadius = -170.0;
     myText3.fontSize = 72.0;
     myText3.color = "yellow";
@@ -276,7 +275,7 @@ export default class Box {
 
 
     this.myText4 = new Text();
-    this.scene2.add(this.myText4);
+    //this.scene2.add(this.myText4);
 
     this.myText4.text =
       "wherever you go there you are";

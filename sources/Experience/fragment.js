@@ -33,40 +33,40 @@ const fragmentShader = {
 
       }
 
-`   
+` ,  
     
     
-  }
+    
 
 
-   /*  const fragmentShader2 = {
+  
       fragmentShader2: `
 
 
+    
       varying vec2 vUv;
-      varying vec3 newPosition;
 
-      uniform vec2 uvScale;
-      uniform sampler2D texture1; 
+     
+      void main() {
+        vec2 uv = vUv * 50.0; // Scale of the dots
 
+        vec3 redColor = vec3(1.0, 0.0, 0.0); // Red color
+        float dot = smoothstep(0.50, 1.0, mod(uv.x, 1.0)) * smoothstep(0.96, 1.0, mod(uv.y, 1.0)); // Create dots pattern
 
-      void main() { 
-        
+        vec3 finalColor = mix(redColor, vec3(1.0), dot); // White dots
 
+        gl_FragColor = vec4(finalColor, 1.0);
+    }
       
-      vec2 newUV = vUv;
-      vec4 tex = texture2D( texture1, fract(newUV+uvScale)*6.0);
+  
 
-      
 
-          gl_FragColor = vec4(tex); 
-        
+  `,
 
-      }
 
-`
-    }; */
-
+    
+    
+    }
 
 
   /*  const fragmentShader3 = {
@@ -86,7 +86,7 @@ const fragmentShader = {
     `
    } */
 
-
+  
 
 
 export { fragmentShader  };

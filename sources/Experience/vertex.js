@@ -8,7 +8,7 @@ const vertexShader = {
     
     varying vec3 newPosition;
 
-    
+    //varying vec3 vNormal;
 
     float PI = 3.141592653589793238;
     
@@ -20,7 +20,9 @@ const vertexShader = {
 
   void main() {
 
-    vUv =  uv ;;
+    //vNormal = normal;
+
+    vUv =  uv; 
 
     newPosition = position;
      

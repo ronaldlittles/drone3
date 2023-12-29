@@ -266,30 +266,6 @@ export default class Renderer {
       -200
     );
 
-    this.search.addEventListener("pointerdown", () => {
-      this.mesh.rotation.x += Math.PI / 2;
-      this.mesh2.position.lerp(newPosition, 1);
-      this.ssie.style.color = "yellow";
-
-      this.ssie.style.animation = "spring 2s ease-in-out forwards infinite";
-
-      this.ssie.style.webkitAnimation = "spring 1s ease-in-out infinite";
-    });
-    this.search.addEventListener("pointerup", () => {
-      this.ssie.style.color = "purple";
-      this.ssie.style.transform = "rotate(.03turn)";
-      this.mesh2.position.lerp(oldPosition, 1);
-      this.ssie.style.animation = "";
-
-      //this.ssie.style.webkitAnimation = '';
-    });
-
-    this.social.addEventListener("pointerdown", () => {
-      this.mesh.position.lerp(newPosition, 1);
-    });
-    this.social.addEventListener("pointerup", () => {
-      this.mesh.position.lerp(oldPosition, 1);
-    });
   }
 
   resize() {
