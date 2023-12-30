@@ -42,7 +42,7 @@ const fragmentShader = {
   
       fragmentShader2: `
 
-
+      uniform float uNoise;
     
       varying vec2 vUv;
 
@@ -51,7 +51,7 @@ const fragmentShader = {
         vec2 uv = sin(vUv * 100.0); // Scale of the dots
 
         vec3 redColor = vec3(1.0, 0.0, 0.0); // Red color
-        float dot = smoothstep(0.5, .05, sin(mod(uv.x, 5.0))) * smoothstep(0.5, 1.0, mod(uv.y, 1.0)); // Create dots pattern
+        float dot = smoothstep(0.5* uNoise, .05, sin(mod(uv.x, 5.0))) * smoothstep(0.5, 1.0, mod(uv.y, 1.0)) ; // Create dots pattern
 
         vec3 finalColor = mix(redColor, vec3(1.0), dot); // White dots
 

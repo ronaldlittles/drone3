@@ -343,7 +343,9 @@ export default class Walls extends EventEmitter {
     
         }); 
         
-       
+        this.noise = new ImprovedNoise()
+  
+    this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
        
       this.shaderMaterial2 = new THREE.ShaderMaterial({
        
@@ -355,7 +357,7 @@ export default class Walls extends EventEmitter {
       uniforms: {
          
           
-          
+          uNoise: { value: this.iNoise },
           uvScale: { value: new THREE.Vector2(100,10)}
       },
 
@@ -422,49 +424,97 @@ export default class Walls extends EventEmitter {
 
 
         
-        this.numPoints = 2000
-       
+        this.numPoints = 2000;
         this.points = [];
-
+        this.derivatives = []; // Initialize an array to hold derivatives
+        
         let radius = 1000;
         
-        for (let i = 0; i <= this.numPoints; i++) {
-
-            let t = (i / this.numPoints) * Math.PI * 2
-
-            
-                var x = Math.sin( t*2) * radius;
-            
-                var z = Math.cos( t ) * radius;
-              
-                var y = Math.sin(Math.cos(t * 3 * Math.PI )) * 5 
-
-
-              if( t<Math.PI/1.5 && t>Math.PI/2.5){
-              
-                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 100; 
-                
-                const smoothY = y + (targetY + y) * ( Math.abs(t - Math.PI/2.5) )* 10; 
-                
+        function figureEightCurve(t) {
+            let x = Math.sin(t * 2) * radius;
+            let z = Math.cos(t) * radius;
+            let y;
+        
+            if (t < Math.PI / 1.5 && t > Math.PI / 2.5) {
+                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 100;
+                y = Math.sin(Math.cos(t * 3 * Math.PI)) * 5;
+                const smoothY = y + (targetY + y) * (Math.abs(t - Math.PI / 2.5)) * 10;
                 y = smoothY;
-            
+            } else {
+                y = Math.sin(Math.cos(t * 3) * Math.PI) * 5;
             }
-
-            else {
-
-              y = Math.sin(Math.cos(t * 3) * Math.PI) * 5;
-            
-            }
-            
-           
-
-            this.points.push(new THREE.Vector3(x, y, z).multiplyScalar(2));
-
-           
-
+        
+            return new THREE.Vector3(x, y, z).multiplyScalar(2);
         }
+        
+        function derivativeCurve(t) {
+            const h = 0.0001;
+            const dx = (figureEightCurve(t + h).x - figureEightCurve(t).x) / h;
+            const dy = (figureEightCurve(t + h).y - figureEightCurve(t).y) / h;
+            const dz = (figureEightCurve(t + h).z - figureEightCurve(t).z) / h;
+        
+            return new THREE.Vector3(dx, dy, dz);
+        }
+        
+        // Generate points and derivatives for the figure-eight curve
+        for (let i = 0; i <= this.numPoints; i++) {
+            const t = (i / this.numPoints) * Math.PI * 2;
+            const point = figureEightCurve(t);
+            this.points.push(point);
+        
+            const derivative = derivativeCurve(t);
+            this.derivatives.push(derivative);
+        }
+        
+        
+        function calculateSurfaceArea(numPoints, derivativesArray) {
+            let surfaceArea = 0;
+        
+            for (let i = 0; i < numPoints; i++) {
+                const firstDerivative = derivativesArray[i];
+        
+                // For the last point, wrap around to the first derivative to close the loop
+                const secondDerivative = (i === numPoints - 1) ? derivativesArray[0] : derivativesArray[i + 1];
+        
+                const crossProduct = new THREE.Vector3();
+                crossProduct.crossVectors(firstDerivative, secondDerivative);
+        
+                const magnitude = crossProduct.length();
+                surfaceArea += magnitude;
+            }
+        
+            surfaceArea *= (Math.PI * 2) / numPoints;
+        
+            return surfaceArea;
+        }
+        
+        const totalSurfaceArea = calculateSurfaceArea(this.numPoints, this.derivatives);
+        console.log("Total Surface Area of the figure-eight curve:", totalSurfaceArea);
+        
 
-       
+
+     function getPointAboveCurve(t, distanceAbove) {
+
+        const pointOnCurve = figureEightCurve(t); 
+        const normalVector = derivativeCurve(t).normalize(); 
+
+        const pointAboveCurve = new THREE.Vector3().copy(pointOnCurve).add(normalVector.multiplyScalar(distanceAbove));
+
+        return pointAboveCurve;
+
+      }
+
+
+        const tForPoint = this.time.elapsed % (Math.PI * 2); ; 
+        const distanceAboveCurve = 1.5;  
+        this.h = getPointAboveCurve(tForPoint,distanceAboveCurve);
+
+     
+console.log(this.h)
+
+    //console.log("Point above the curve at time", tForPoint, ":", h);
+
+
 
     this.spline = new THREE.CatmullRomCurve3(this.points);
 
@@ -834,9 +884,7 @@ racetrackShape6.lineTo(-.2, -1);
 
 
 
-     this.noise = new ImprovedNoise()
-  
-    this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
+    
 
     
 
@@ -890,15 +938,19 @@ racetrackShape6.lineTo(-.2, -1);
         const pos2 = this.spline.getPointAt(t2);
         const pos3 =  this.spline4.getPointAt(t3);
      
-      
+       
   
     const tangent = this.spline.getTangentAt(t).normalize();
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    const offset = new THREE.Vector3(0, 5, 0)
+    const offset = new THREE.Vector3(0, 0, -10)
 
-    
+      
+         
+    console.log(this.h)
+
+      
     
 
     this.referenceVector = new THREE.Vector3(0,1,0); 
@@ -917,14 +969,14 @@ racetrackShape6.lineTo(-.2, -1);
 
     ///CAMERA MOVEMENT
    
-    this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
+    this.camera.instance.position.copy( this.h )
 
-    this.camera.instance.lookAt( pos2.add(tangent).add( offset ) )
+    this.camera.instance.lookAt(this.h.add( offset ) )
 
      //POINTS ALONG THE CURVE
 
-     //this.sphere.position.copy(pos2).add(tangent).add(this.randomOffset)
-     //this.sphere2.clone().position.copy(pos2)
+     
+     //this.sphere2.clone().position.copy(this.h)
 
     this.model.rotation.y = tangent.y
     this.model.rotation.z = -tangent.z 
