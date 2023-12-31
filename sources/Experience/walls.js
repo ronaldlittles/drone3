@@ -358,7 +358,7 @@ export default class Walls extends EventEmitter {
       
       uniforms: {
          
-          
+          time: { value: this.time.elapsed },
           uNoise: { value: this.iNoise },
           uvScale: { value: new THREE.Vector2(100,10)}
       },
