@@ -84,9 +84,9 @@ export default class World {
     this.tshirt = new TShirt();
   }
 
-   setVideo() {
+  /*  setVideo() {
     this.video = new Video();
-  } 
+  }  */
 
   setRoom() {
     this.room = new RoomEnvironment();
@@ -158,7 +158,7 @@ export default class World {
 
     if (this.setdrawing) this.setdrawing.update();
 
-    if (this.video) this.video.update();
+    //if (this.video) this.video.update();
 
     if (this.particles) this.particles.update();
 

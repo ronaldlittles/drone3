@@ -66,7 +66,8 @@ const vertexShader = {
      
       newPosition.y *= sin(PI * position.x * uScale.x + uNoise);
        
-    newPosition.z *= sin(time*PI);
+    newPosition.z *= cos(time*PI);
+    //newPosition.x *= sin(time*PI);
 
       vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0 );
     

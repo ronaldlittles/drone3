@@ -228,8 +228,7 @@ export default class Walls extends EventEmitter {
     this.model.translateZ(-200)
     this.model.translateY(10)
 
-
-
+   
    
       //USE THE FOLLOWING TO TRAVERSE ANY OF THE MODELS PROPERTIES
 
@@ -243,9 +242,9 @@ export default class Walls extends EventEmitter {
 
         console.log(this.meshes)
 
-        this.meshes[0].material.map = this.resource2
-        this.meshes[1].material.map = this.resource2
-        this.meshes[2].material.map = this.resource2
+        this.meshes[0].material.map = this.shaderMaterial2
+        this.meshes[1].material.map = this.shaderMaterial2
+        this.meshes[2].material.map = this.redMaterial
 
         this.meshes[0].material.transparent = true
         this.meshes[0].material.opacity = .3
@@ -796,8 +795,9 @@ racetrackShape6.lineTo(-.2, -1);
 
        
           this.sphere2 = new THREE.Mesh(
-
-          this.roundedBox,
+            
+            new THREE. SphereGeometry(1,36,36 ),
+          
  
             this.shaderMaterial3,
 
@@ -816,7 +816,7 @@ racetrackShape6.lineTo(-.2, -1);
             
           )
 
-          //this.sphere2.scale.setScalar(8)
+          //this.sphere2.scale.setScalar(3)
           this.sphere2.castShadow = true;
           
   
@@ -897,10 +897,10 @@ racetrackShape6.lineTo(-.2, -1);
       this.sphere2Clone = this.sphere2.clone()
       this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
       
-      
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
-     
+      this.camera.instance.add(this.sphere2Clone)
+    this.sphere2Clone.translateZ(-200)
 
     }  
 
@@ -909,16 +909,9 @@ racetrackShape6.lineTo(-.2, -1);
       
   update() {
   
-      this.iNoise +=  this.time.elapsed;
-
-      this.objectsArray2.forEach( (object) => {
-      
-      
-      object.rotation.y += Math.PI * this.time.elapsed
+      //this.iNoise +=  this.time.elapsed * 5.0;
 
       
-
-      })
 
       let currentPosition = 0; 
       let speed = 1.2; 
@@ -966,15 +959,15 @@ racetrackShape6.lineTo(-.2, -1);
 
      //POINTS ALONG THE CURVE
 
-     
-     //this.sphere2.clone().position.copy(this.h)
+     this.sphere2Clone.position.copy(pos).add(tangent)
+     this.sphere2.clone().position.copy(pos2).add(tangent)
 
     this.model.rotation.y = tangent.y
     this.model.rotation.z = -tangent.z 
     this.model.rotation.x = Math.sin(pos2.x  * .005) * .1
 
-    this.camera.instance.rotation.z = tangent.x * .1
-
+    this.camera.instance.rotation.z = tangent.x * 0.01
+    this.camera.instance.rotation.x = tangent.x * 0.01
     
     const maxAngle = Math.PI / 6; 
     const minAngle = -Math.PI / 6; 

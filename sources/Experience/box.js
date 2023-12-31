@@ -250,7 +250,7 @@ export default class Box {
     const myText2 = new Text();
     this.scene2.add(myText2);
 
-    myText2.text = "Camera level test";
+    myText2.text = "HAPPY NEW YEAR";
 
     myText2.fontSize = 75.0;
     myText2.color = "white";

@@ -36,7 +36,7 @@ export default class Renderer {
     this.setInstance();
     this.setPostProcess();
 
-    this.setPlane();
+    //this.setPlane();
   }
 
   setInstance() {
