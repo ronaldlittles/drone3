@@ -15,6 +15,8 @@ export default class Walls extends EventEmitter {
 
     super();
 
+   
+
     this.experience = new Experience();
     this.config = this.experience.config;
     this.debug = this.experience.debug;
@@ -45,7 +47,7 @@ export default class Walls extends EventEmitter {
 
     this.setRaycaster();
 
-    
+   
 
     this.depth = 50;
     this.rotationSpeed = .005;
@@ -423,10 +425,10 @@ export default class Walls extends EventEmitter {
       
 
 
-        
+         
         this.numPoints = 2000;
         this.points = [];
-        this.derivatives = []; // Initialize an array to hold derivatives
+        this.derivatives = []; 
         
         let radius = 1000;
         
@@ -456,7 +458,7 @@ export default class Walls extends EventEmitter {
             return new THREE.Vector3(dx, dy, dz);
         }
         
-        // Generate points and derivatives for the figure-eight curve
+        
         for (let i = 0; i <= this.numPoints; i++) {
             const t = (i / this.numPoints) * Math.PI * 2;
             const point = figureEightCurve(t);
@@ -495,7 +497,7 @@ export default class Walls extends EventEmitter {
 
      function getPointAboveCurve(t, distanceAbove) {
 
-        const pointOnCurve = figureEightCurve(t); 
+        const pointOnCurve = figureEightCurve(t);  
         const normalVector = derivativeCurve(t).normalize(); 
 
         const pointAboveCurve = new THREE.Vector3().copy(pointOnCurve).add(normalVector.multiplyScalar(distanceAbove));
@@ -503,16 +505,12 @@ export default class Walls extends EventEmitter {
         return pointAboveCurve;
 
       }
+ 
 
-
-        const tForPoint = this.time.elapsed % (Math.PI * 2); ; 
-        const distanceAboveCurve = 1.5;  
-        this.h = getPointAboveCurve(tForPoint,distanceAboveCurve);
-
+        this.test = getPointAboveCurve(10, 1.5)
      
-console.log(this.h)
-
-    //console.log("Point above the curve at time", tForPoint, ":", h);
+        
+  
 
 
 
@@ -928,30 +926,23 @@ racetrackShape6.lineTo(-.2, -1);
       const lookAt = new THREE.Vector3();
 
       
-        const t =  (speed *this.time.elapsed )/loopTime % 1;
+        this.t =  (speed *this.time.elapsed )/loopTime % 1;
         const t2 =  (speed * this.time.elapsed + .0004)/loopTime % 1;
         const t3 =  (speed * this.time.elapsed + .06)/loopTime % 1;
    
  
     
-        const pos = this.spline.getPointAt(t);
+        const pos = this.spline.getPointAt(this.t);
         const pos2 = this.spline.getPointAt(t2);
         const pos3 =  this.spline4.getPointAt(t3);
      
-       
+        console.log(this.test)
   
-    const tangent = this.spline.getTangentAt(t).normalize();
+    const tangent = this.spline.getTangentAt(this.t).normalize();
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
     const offset = new THREE.Vector3(0, 0, -10)
-
-      
-         
-    console.log(this.h)
-
-      
-    
 
     this.referenceVector = new THREE.Vector3(0,1,0); 
 
@@ -969,9 +960,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     ///CAMERA MOVEMENT
    
-    this.camera.instance.position.copy( this.h )
+    this.camera.instance.position.copy( this.test )
 
-    this.camera.instance.lookAt(this.h.add( offset ) )
+    this.camera.instance.lookAt(pos2)
 
      //POINTS ALONG THE CURVE
 
