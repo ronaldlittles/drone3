@@ -55,7 +55,7 @@ const fragmentShader = {
         
         vec4 whiteColor = vec4(1.0, 1.0, 1.0, 1.0);
 
-        float dot = smoothstep(sin(0.5*time), .05, sin(mod(uv.x, 5.0))) * smoothstep(0.5, 1.0, mod(uv.y, 1.0)) ; 
+        float dot = smoothstep(sin(0.5*time), .05, sin(mod(uv.x, 5.0*time))) * smoothstep(0.5, 1.0, mod(uv.y, 1.0)) ; 
 
         vec4 finalColor = mix(redColor, whiteColor, dot); 
 
