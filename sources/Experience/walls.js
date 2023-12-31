@@ -921,7 +921,7 @@ racetrackShape6.lineTo(-.2, -1);
       })
 
       let currentPosition = 0; 
-      let speed = .8; 
+      let speed = 1.2; 
       let loopTime = 60;
       const lookAt = new THREE.Vector3();
 
@@ -936,7 +936,7 @@ racetrackShape6.lineTo(-.2, -1);
         const pos2 = this.spline.getPointAt(t2);
         const pos3 =  this.spline4.getPointAt(t3);
      
-        console.log(this.test)
+      
   
     const tangent = this.spline.getTangentAt(this.t).normalize();
 
@@ -960,9 +960,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     ///CAMERA MOVEMENT
    
-    this.camera.instance.position.copy( this.test )
+    this.camera.instance.position.copy( pos2 )
 
-    this.camera.instance.lookAt(pos2)
+    this.camera.instance.lookAt(pos)
 
      //POINTS ALONG THE CURVE
 
