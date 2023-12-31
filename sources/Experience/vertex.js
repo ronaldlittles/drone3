@@ -16,7 +16,7 @@ const vertexShader = {
   
     uniform vec2 uScale;
   
- 
+    uniform float time;       
 
   void main() {
 
@@ -54,8 +54,8 @@ const vertexShader = {
       uniform float uNoise;
     
       uniform vec2 uScale;
-    
-   
+
+      uniform float time;
   
     void main() {
   
@@ -66,7 +66,8 @@ const vertexShader = {
      
       newPosition.y *= sin(PI * position.x * uScale.x + uNoise);
        
-    
+    newPosition.z *= sin(time*PI);
+
       vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0 );
     
   
