@@ -265,7 +265,7 @@ export default class Walls extends EventEmitter {
           this.label.style.right = '30%';
           this.label.style.backgroundColor = 'transparent';
           //this.label.style.borderRadius = "5px";
-          this.label.style.color = "red";
+          this.label.style.color = "black";
           //this.label.style.padding = "5px";
           this.label.style.fontFamily = "sans-serif";
           this.label.style.fontSize = "48px";

@@ -31,12 +31,13 @@ button {
   font-weight: bold;
   text-shadow: 2px 2px #921010;
   background-image: url(../assets/shelly.jpg);
+ 
   background-repeat: no-repeat;
   background-position: center;
   background-size: 175px 100px;
   border: #f81212 1px solid;
-  border-radius: 50%;
-  box-shadow: 5px 0 5px #544747;
+  border-radius: 150% 150%;
+  box-shadow: 2px 2px 2px #111111;
 }
 
 .top-left {
