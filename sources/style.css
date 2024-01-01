@@ -27,10 +27,16 @@ button {
   cursor: pointer;
   background-color: transparent;
   color: #fff;
-  font-size: 24px;
+  font-size: 14px;
   font-weight: bold;
-  background-image: url(../assets/heart.png);
+  text-shadow: 2px 2px #921010;
+  background-image: url(../assets/shelly.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 175px 100px;
+  border: #f81212 1px solid;
   border-radius: 50%;
+  box-shadow: 5px 0 5px #544747;
 }
 
 .top-left {
@@ -44,11 +50,45 @@ button {
 }
 
 .bottom-left {
-  bottom: 10px;
+  bottom: 30px;
   left: 10px;
 }
 
 .bottom-right {
-  bottom: 10px;
+  bottom: 30px;
   right: 10px;
+}
+
+/* Additional styles for the new div elements */
+#label,
+#label3,
+#label4 {
+  position: absolute;
+  font-family: sans-serif;
+  color: red;
+  text-shadow: 2px 2px #ff0000;
+}
+
+#label {
+  top: 50px; /* Adjust as needed for the top label */
+  left: 50%; /* Align center */
+  transform: translateX(-50%);
+  font-size: 36px;
+}
+
+#label3,
+#label4 {
+  font-size: 24px;
+  padding: 10px;
+  text-shadow: 2px 2px #000000;
+}
+
+#label3 {
+  bottom: 20px; /* Adjust for the bottom-left label */
+  left: 20px;
+}
+
+#label4 {
+  bottom: 20px; /* Adjust for the bottom-right label */
+  right: 20px;
 }
