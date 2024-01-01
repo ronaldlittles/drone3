@@ -226,7 +226,7 @@ export default class Walls extends EventEmitter {
     
     this.camera.instance.add(this.model)
     this.model.translateZ(-200)
-    this.model.translateY(10)
+    this.model.translateY(20)
 
    
    
@@ -261,14 +261,14 @@ export default class Walls extends EventEmitter {
 
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
-          this.label.style.top = "50px";
+          this.label.style.top = "65px";
           this.label.style.right = '30%';
           this.label.style.backgroundColor = 'transparent';
           //this.label.style.borderRadius = "5px";
           this.label.style.color = "black";
           //this.label.style.padding = "5px";
           this.label.style.fontFamily = "sans-serif";
-          this.label.style.fontSize = "48px";
+          this.label.style.fontSize = "56px";
           this.label.style.textShadow = "2px 2px #ff0000";
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
@@ -958,9 +958,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     ///CAMERA MOVEMENT
    
-    this.camera.instance.position.copy( pos2 )
+    this.camera.instance.position.copy( pos )
 
-    this.camera.instance.lookAt(pos)
+    this.camera.instance.lookAt(pos2) 
 
      //POINTS ALONG THE CURVE
 
@@ -972,7 +972,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.model.rotation.x = Math.sin(pos2.x  * .005) * .1
 
     this.camera.instance.rotation.z = tangent.x * 0.01
-    this.camera.instance.rotation.x = tangent.x * 0.01
+    this.camera.instance.rotation.x = tangent.z * 0.01
     
     const maxAngle = Math.PI / 6; 
     const minAngle = -Math.PI / 6; 
