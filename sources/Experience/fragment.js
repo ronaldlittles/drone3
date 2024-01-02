@@ -9,6 +9,8 @@ const fragmentShader = {
       
       uniform float uNoise;
 
+      uniform float time;
+
 
       void main() {
 
@@ -27,10 +29,19 @@ const fragmentShader = {
 
         } else {
 
-          gl_FragColor = vec4(1.0, 1.0,1.0, 1.0); 
+          gl_FragColor = vec4(1.0, 1.0,1.0, 1.0);  
 
-        }
 
+          /*float snow = abs(sin(vUv.x * 100.0 + vUv.y * 100.0 + time * 0.5)) * 0.5;
+            
+           
+            vec3 snowColor = mix(vec3(1.0), vec3(1.0, 1.0, .05), snow);
+            
+            gl_FragColor = vec4(snowColor, 1.0);*/
+
+        
+
+      }
       }
 
 ` ,  

@@ -30,7 +30,7 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource1 = this.resources.items.me;
+    this.resource1 = this.resources.items.smoke;
     this.resource2 = this.resources.items.wallTexture;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
@@ -242,14 +242,14 @@ export default class Walls extends EventEmitter {
 
         console.log(this.meshes)
 
-        this.meshes[0].material.map = this.shaderMaterial2
-        this.meshes[1].material.map = this.shaderMaterial2
-        this.meshes[2].material.map = this.redMaterial
+        this.meshes[0].material.map = this.shaderMaterial3
+        this.meshes[1].material.map = this.redMaterial
+        this.meshes[2].material.map = this.shaderMaterial3
 
         this.meshes[0].material.transparent = true
         this.meshes[0].material.opacity = .3
         this.meshes[2].material.transparent = true
-        this.meshes[2].material.opacity = .3
+        this.meshes[2].material.opacity = 1.0
 
         }
 
@@ -265,11 +265,11 @@ export default class Walls extends EventEmitter {
           this.label.style.right = '30%';
           this.label.style.backgroundColor = 'transparent';
           //this.label.style.borderRadius = "5px";
-          this.label.style.color = "black";
+          this.label.style.color = "white";
           //this.label.style.padding = "5px";
           this.label.style.fontFamily = "sans-serif";
           this.label.style.fontSize = "56px";
-          this.label.style.textShadow = "2px 2px #ff0000";
+          this.label.style.textShadow = "1px 2px #000000";
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
           
@@ -333,13 +333,14 @@ export default class Walls extends EventEmitter {
           side: THREE.DoubleSide,
           
           transparent: true,
-          opacity: 1.0,
+          
           
           uniforms: {
+            
             time: { value: this.time.elapsed },
             resolution: { value: new THREE.Vector2() },
-            uvScale: { value: new THREE.Vector2(1,1)},
-            texture1: { value: this.resource2},
+            uvScale: { value: new THREE.Vector2(.001,64)},
+            texture1: { value: this.resource1},
             uNoise: { value: this.iNoise}
 
           },
@@ -378,10 +379,10 @@ export default class Walls extends EventEmitter {
      
       side: THREE.DoubleSide,
       //transparent: true,
-      // opacity: 1,
+       opacity: .05,
     
       uniforms: {
-   
+       time: { value: this.time.elapsed},
         //texture1: { value: this.resource2},
         uNoise: { value: this.iNoise},
         uvScale: { value: new THREE.Vector2()}
@@ -405,9 +406,9 @@ export default class Walls extends EventEmitter {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: .6,
-      //map: this.resource1,
-      bumpMap: this.resource1,
-      bumpScale: 1,
+      map: this.resource1,
+      //bumpMap: this.resource1,
+      //bumpScale: 1,
       //displacementMap: this.resource1,
       //displacementScale: 1,
 
@@ -739,21 +740,29 @@ racetrackShape6.lineTo(-.2, -1);
 
       //this.tube5.position.y = -10;
 
-      //this.tube4.position = this.spline2.getPointAt(800);
+
+      this.tube6 = new THREE.Mesh(this.tubeGeo6, this.shaderMaterial2)
+
+      //this.scene2.add(this.tube6);
 
 
-      this.tube6 = new THREE.Mesh(this.tubeGeo6, this.shaderMaterial) 
 
-      this.scene2.add(this.tube6);
+      this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 200, 300, 200, false); 
+
+      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial3)
+      
+      //this.tube7.scale.setScalar(1.5)
+
+      this.scene2.add(this.tube7);
      
-      this.tube6.position.y = -9;
 
 
         this.resource6.wrapS = THREE.RepeatWrapping;
 
         this.resource6.wrapT = THREE.RepeatWrapping;
     
-        this.resource6.repeat.set(.9,.5)
+        this.resource6.repeat.set(64, 64   
+          )
 
 
         this.resource1.wrapS = THREE.RepeatWrapping;
@@ -781,10 +790,10 @@ racetrackShape6.lineTo(-.2, -1);
           new THREE.MeshStandardMaterial({
 
              //color: Math.random() * 0xffffff,
-             map: this.resource2, 
+             map: this.resource1, 
              side: THREE.DoubleSide,
              transparent: true,
-             opacity: 1.0,
+             opacity: 1,
            
 
           })
@@ -904,8 +913,8 @@ racetrackShape6.lineTo(-.2, -1);
       
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
-      this.camera.instance.add(this.sphere2Clone)
-    this.sphere2Clone.translateZ(-200)
+      //this.camera.instance.add(this.sphere2Clone)
+      this.sphere2Clone.translateZ(-200)
 
     }  
 
@@ -965,11 +974,11 @@ racetrackShape6.lineTo(-.2, -1);
      //POINTS ALONG THE CURVE
 
      this.sphere2Clone.position.copy(pos).add(tangent)
-     this.sphere2.clone().position.copy(pos2).add(tangent)
+     //this.sphere2.clone().position.copy(pos2).add(tangent)
 
     this.model.rotation.y = tangent.y
     this.model.rotation.z = -tangent.z 
-    this.model.rotation.x = Math.sin(pos2.x  * .005) * .1
+    this.model.rotation.x = Math.sin(pos2.x  * .5) * .1
 
     this.camera.instance.rotation.z = tangent.x * 0.01
     this.camera.instance.rotation.x = tangent.z * 0.01

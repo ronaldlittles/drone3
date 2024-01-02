@@ -6,28 +6,24 @@ uniform float time;
 uniform vec2 resolution;
 uniform vec2 uvScale;
 uniform sampler2D texture1;
-
+varying vec3 vNormal;
 
 
 
 void main() {
   
 
-  vec2 center = vec2(0.5, 0.5);
+  float reflectionStrength = 0.008; // Adjust reflection strength
+  vec3 normal = normalize(vNormal);
 
-  vec2 st =  gl_FragCoord.xy/1.0-resolution.xy ;
+  // Calculate reflection
+  vec3 reflected = reflect(normalize(-vNormal), normal);
+  vec3 viewDir = normalize(-vNormal);
 
-  float distance =  length( st - center );
+  // Mix between reflection and transparency
+  vec3 color = mix(reflected, vec3(0.0, 0.0, 0.0), reflectionStrength);
 
-  float scaledDistance = 1.0 - distance / 0.05;
-
-  vec2 T2 = fract(vUv*.5) + vec2( - 0.5, 2.0 ) * time * 0.00001;
-
-  vec4 color =  texture2D( texture1,vUv);
-  vec4 color1 = mix(  color, vec4(1.0,1.0,.0,1.), 1.5);
- 
- 
-  gl_FragColor = color1;
+  gl_FragColor = vec4(color, 0.2); // Adjust alpha for transparency
 }
 
   

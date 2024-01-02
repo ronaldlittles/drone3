@@ -44,6 +44,7 @@ uniform vec2 resolution;
 uniform float time;
 uniform vec2 uvScale;
 varying vec2 vUv;
+varying vec3 vNormal;
 
 const float PI = 3.14159265359;
 
@@ -60,18 +61,20 @@ vec3 getPointAt(float t) {
   return vec3(x, y, z);
 }
 
+
+
 void main() {
 
   vec2 vUv = uv + uvScale;
 
- 
+  vNormal = normal;
 
 
   
   vec4 newPosition = modelMatrix * vec4(position, 1.0);
 
-  newPosition.z *= sin(.2*newPosition.x + time )* .2;
-  newPosition.x *= sin(.2*newPosition.y + time )* .2;
+  //newPosition.y *= sin( .05 * newPosition.x * PI ) * .5;
+  //newPosition.x *= cos(.2*newPosition.y + time )* .02;
   
   gl_Position = projectionMatrix * viewMatrix * newPosition;
 

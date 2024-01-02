@@ -33,8 +33,8 @@ export default [
       },
 
       {
-        name: "forrest",
-        source: "/assets/forrest.jpg",
+        name: "smoke",
+        source: "/assets/smoke.png",
         type: "texture",
       },
 

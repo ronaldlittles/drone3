@@ -397,11 +397,11 @@ function nextText() {
     //this.camera.instance.add( light1 );
     light1.castShadow = true;
 
-    var pointLight = new THREE.PointLight( 0xffffff, 1.0, 1 );
-    pointLight.position.set( 0, 0, 50 );
-    this.scene2.add( pointLight ); 
+    var pointLight = new THREE.PointLight( 0xff0000, 1.0, 1 );
+    //pointLight.position.set( 0, 0, 50 );
+    this.camera.instance.add( pointLight ); 
     pointLight.castShadow = true;
-
+    pointLight.lookAt(0, 10, -50)
   }
 
 
