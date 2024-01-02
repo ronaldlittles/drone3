@@ -52,13 +52,13 @@ button {
 .top-right {
   top: 10px;
   right: 10px;
-  border-radius: 15%;
+  border-radius: 25%;
   
 }
 
 .bottom-left {
   bottom: 50px;
-  left: 90px;
+  left: 70px;
   width: 75px;
   height: 75px;
   font-size: 14px;
@@ -67,7 +67,7 @@ button {
 
 .bottom-right {
   bottom: 50px;
-  right:  90px;
+  right:  70px;
   width: 75px;
   height: 75px;
   font-size: 14px;
