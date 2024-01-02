@@ -39,8 +39,8 @@ button {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 175px 100px;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   box-shadow: 2px 2px 2px #111111;
 }
 
@@ -52,19 +52,19 @@ button {
 .top-right {
   top: 10px;
   right: 10px;
-  border-radius: 25%;
+  
 }
 
 .bottom-left {
   bottom: 50px;
-  left: 150px;
+  left: 130px;
   width: 75px;
   height: 75px;
 }
 
 .bottom-right {
   bottom: 50px;
-  right: 150px;
+  right: 130px;
   width: 75px;
   height: 75px;
 }
