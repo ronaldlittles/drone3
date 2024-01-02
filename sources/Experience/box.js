@@ -386,7 +386,7 @@ function nextText() {
 
 
     const lights = new THREE.HemisphereLight(0xff0000,0xffffff, 1.0);
-    lights.position.set(0, 50, 0);
+    lights.position.set(0, 100, 0);
     this.scene2.add(lights);
     //this.camera.instance.add(lights)
     lights.castShadow = true;
@@ -397,7 +397,7 @@ function nextText() {
     //this.camera.instance.add( light1 );
     light1.castShadow = true;
 
-    var pointLight = new THREE.PointLight( 0xff0000, 1.0, 1 );
+    var pointLight = new THREE.PointLight( 0xffffff, 1.0, 1 );
     //pointLight.position.set( 0, 0, 50 );
     this.camera.instance.add( pointLight ); 
     pointLight.castShadow = true;

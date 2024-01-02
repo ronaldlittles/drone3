@@ -13,19 +13,19 @@ varying vec3 vNormal;
 void main() {
   
 
-  float reflectionStrength = 2.0001; 
+  float reflectionStrength = .5; 
 
   vec3 normal = normalize(vNormal);
 
  
-  vec3 reflected = reflect(normalize(-vNormal), normal);
+  vec3 reflected = reflect(normalize( -normal), normal);
 
   vec3 viewDir = normalize(-vNormal);
 
   
   vec3 color = mix(reflected, vec3(0.0, 0.0, 0.0), reflectionStrength);
 
-  gl_FragColor = vec4(color, 0.2); 
+  gl_FragColor = vec4(color, .08); 
 
 
 }

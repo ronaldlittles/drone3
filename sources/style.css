@@ -22,17 +22,19 @@ body, html {
 
 button {
   position: absolute;
-  padding: 10px 20px;
+  
   border: none;
   cursor: pointer;
   background-color: transparent;
   color: #fff;
-  font-size: 6px;
+  font-size: 10px;
   font-weight: bold;
-  text-shadow: 2px 2px #921010;
+  text-transform: uppercase;
+  
+  text-shadow: 1px 1px #414040;
   border-radius: 50%;
   /*background-image: url(../assets/steer.jpg);*/
-  background-color: rgba(255, 255, 255, 0.3); 
+  background-color: rgba(1, 1, 1, 0.2); 
   /* Here, 0.5 sets the opacity (0 = fully transparent, 1 = fully opaque) */
   background-repeat: no-repeat;
   background-position: center;
@@ -50,16 +52,21 @@ button {
 .top-right {
   top: 10px;
   right: 10px;
+  border-radius: 25%;
 }
 
 .bottom-left {
-  bottom: 30px;
-  left: 10px;
+  bottom: 50px;
+  left: 150px;
+  width: 75px;
+  height: 75px;
 }
 
 .bottom-right {
-  bottom: 30px;
-  right: 10px;
+  bottom: 50px;
+  right: 150px;
+  width: 75px;
+  height: 75px;
 }
 
 /* Additional styles for the new div elements */
