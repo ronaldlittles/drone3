@@ -960,8 +960,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.binormal.crossVectors(tangent, this.normal).normalize(); 
 
     this.label.textContent = tangent.x;
-    this.label3.textContent = this.binormal.x;
-    this.label4.textContent = this.binormal.z;
+    this.label3.textContent = Math.floor(this.binormal.x);
+    this.label4.textContent = Math.floor(this.binormal.z);
 
    
 
