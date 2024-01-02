@@ -268,7 +268,7 @@ export default class Walls extends EventEmitter {
           this.label.style.color = "white";
           //this.label.style.padding = "5px";
           this.label.style.fontFamily = "sans-serif";
-          this.label.style.fontSize = "56px";
+          this.label.style.fontSize = "36px";
           this.label.style.textShadow = "1px 2px #000000";
           this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
           document.body.appendChild(this.label);
