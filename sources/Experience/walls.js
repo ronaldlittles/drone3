@@ -336,7 +336,7 @@ export default class Walls extends EventEmitter {
           
           
           uniforms: {
-            
+
             time: { value: this.time.elapsed },
             resolution: { value: new THREE.Vector2() },
             uvScale: { value: new THREE.Vector2(.001,64)},
@@ -751,7 +751,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial3)
       
-      //this.tube7.scale.setScalar(1.5)
+      this.tube7.position.y = 10;
 
       this.scene2.add(this.tube7);
      
