@@ -71,9 +71,9 @@ void main() {
 
 
   
-  vec4 newPosition = modelMatrix * vec4(position, 1.0);
+  vec4 newPosition = modelMatrix * vec4(position+ vNormal, 1.0);
 
-  //newPosition.y *= sin( .0005 * newPosition.x );
+  //newPosition.y *= sin( .05 * newPosition.x *vUv.y )*.5;
   //newPosition.x *= cos(.2*newPosition.y + time )* .02;
   
   gl_Position = projectionMatrix * viewMatrix * newPosition;

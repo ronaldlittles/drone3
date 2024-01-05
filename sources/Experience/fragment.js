@@ -53,20 +53,22 @@ const fragmentShader = {
   
       fragmentShader2: `
 
-      uniform float uNoise;
-    
-      varying vec2 vUv;
-      uniform float time;
      
+      varying vec2 vUv;
+
+      uniform float uNoise;
+      uniform float time;
+      uniform vec2 uvScale;
+
       void main() {
 
-        vec2 uv = sin((vUv/sin(time ))* 100.0); 
+        vec2 uv = sin((vUv/sin(time ))* uvScale); 
 
         vec4 redColor = vec4(0.0, 0.0, 0.0, 1.0);
         
         vec4 whiteColor = vec4(1.0, 1.0, 1.0, .5);
 
-        float dot = smoothstep(sin(0.5*time), .05, sin(mod(uv.x, 5.0*time))) * smoothstep(0.5, 1.0, mod(uv.y, 1.0)) ; 
+        float dot = smoothstep(sin(0.5), .05, sin(mod(uv.x, 5.0))) * smoothstep(0.5, 1.0, mod(uv.y, 1.0)) ; 
 
         vec4 finalColor = mix(redColor, whiteColor, dot); 
 

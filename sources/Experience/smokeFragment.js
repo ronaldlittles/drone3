@@ -11,21 +11,15 @@ varying vec3 vNormal;
 
 
 void main() {
-  
+  vec3 baseColor = vec3(0.2, 0.2, 0.2);
 
-  float reflectionStrength = .5; 
+    
+    float sparkle = abs(sin(time * 2.0 + fract(vUv.x) * 0.1) * cos(time * 1.0 + vUv.y * 0.1));
+    
+   
+    vec3 finalColor = baseColor + sparkle * 0.7; 
 
-  vec3 normal = normalize(vNormal);
-
- 
-  vec3 reflected = reflect(normalize( -normal), normal);
-
-  vec3 viewDir = normalize(-vNormal);
-
-  
-  vec3 color = mix(reflected, vec3(0.0, 0.0, 0.0), reflectionStrength);
-
-  gl_FragColor = vec4(color, .08); 
+    gl_FragColor = vec4(finalColor, .1);
 
 
 }

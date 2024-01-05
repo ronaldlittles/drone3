@@ -402,6 +402,13 @@ function nextText() {
     this.camera.instance.add( pointLight ); 
     pointLight.castShadow = true;
     pointLight.lookAt(0, 10, -50)
+
+    var directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
+    this.scene2.add(directionalLight);
+     //this.camera.instance.add( directionalLight ); 
+     directionalLight.castShadow = true;
+     //directionalLight.lookAt(0, 10, -50)
+   
   }
 
 
