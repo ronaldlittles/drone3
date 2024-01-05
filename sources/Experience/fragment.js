@@ -3,25 +3,28 @@ const fragmentShader = {
 
       uniform sampler2D texture1;
 
-      varying vec2 vUv;
-      
       uniform vec2 uvScale;
       
       uniform float uNoise;
 
       uniform float time;
 
+      varying vec2 vUv;
+      
+
 
       void main() {
 
+        vec2 center = vec2(0.5, 0.5);
 
-       vec4 tex = texture2D( texture1, vUv);
-   
-       
+        vec2 newUv = vUv * uvScale + center;
+
+        vec4 tex = texture2D( texture1, newUv );
        
         float squareSize = 10.0 ; 
     
         vec2 position = floor(vUv  / squareSize );
+
     
         if (mod(position.y , 2.0) < 1.0) { 
 
@@ -29,15 +32,8 @@ const fragmentShader = {
 
         } else {
 
-          gl_FragColor = vec4(1.0, 1.0,1.0, 1.0);  
+          gl_FragColor = vec4(tex);  
 
-
-          /*float snow = abs(sin(vUv.x * 100.0 + vUv.y * 100.0 + time * 0.5)) * 0.5;
-            
-           
-            vec3 snowColor = mix(vec3(1.0), vec3(1.0, 1.0, .05), snow);
-            
-            gl_FragColor = vec4(snowColor, 1.0);*/
 
         
 
@@ -53,12 +49,13 @@ const fragmentShader = {
   
       fragmentShader2: `
 
-     
-      varying vec2 vUv;
 
       uniform float uNoise;
       uniform float time;
       uniform vec2 uvScale;
+
+      varying vec2 vUv;
+
 
       void main() {
 

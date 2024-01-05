@@ -274,24 +274,32 @@ export default class Walls extends EventEmitter {
   
         function doSomething() {
        
-          if(this.isPointerDown === true) {
+          /* if(this.arrowLeftPressed === true) {
   
             console.log('this.isPointerDown')
   
             //this.model.rotation.y += Math.PI/2
   
-          }
+          } */
         
         }
+
         this.rotateLeftButton.addEventListener('pointerdown', () => {
   
-          this.isPointerDown = true;
-        
-          doSomething();
-  
+          this.arrowLeftPressed = true;
+
+          this.arrowRightPressed = false;
+         
         });
+
   
-        this.rotateRightButton.addEventListener('pointerdown', this.handleKeyDown);
+        this.rotateRightButton.addEventListener('pointerdown', () => {
+  
+          this.arrowRightPressed = true;
+
+          this.arrowLeftPressed = false;
+          
+        });
   
        
       
@@ -421,14 +429,14 @@ export default class Walls extends EventEmitter {
     this.shaderMaterial = new THREE.ShaderMaterial({
      
       side: THREE.DoubleSide,
-      //transparent: true,
-       opacity: .05,
+     
     
       uniforms: {
-       time: { value: this.time.elapsed},
-        //texture1: { value: this.resource2},
+
+        time: { value: this.time.elapsed},
+        texture1: { value: this.resource2},
         uNoise: { value: this.iNoise},
-        uvScale: { value: new THREE.Vector2(1,1)}
+        uvScale: { value: new THREE.Vector2(.05,.05)}
 
       },
    
@@ -442,14 +450,14 @@ export default class Walls extends EventEmitter {
       this.debugFolder = this.debug.addFolder()
 
     this.debugFolder
-    .add( this.shaderMaterial2.uniforms.uvScale.value,'y',5)
+    .add( this.shaderMaterial.uniforms.uvScale.value,'x',5)
     .min(0)
-    .max(500)
-    .step(0.5)
+    .max(10)
+    .step(1.0)
     .onChange((value) => {
-      this.shaderMaterial2.uniforms.uvScale.value.y = value})
-   
 
+      this.shaderMaterial.uniforms.uvScale.value.x = value})
+   
     }
 
     
@@ -823,7 +831,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 300, 1, 300, false); 
 
-      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial3)
+      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial)
       
       this.tube7.position.y = -8;
 
@@ -850,7 +858,7 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.resource2.wrapT = THREE.RepeatWrapping;
     
-        this.resource2.repeat.set(4,1)
+        this.resource2.repeat.set(.5,.5)
 
 
  
@@ -1060,7 +1068,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     //this.model.lookAt(pos3)
 
-    let originalValue = this.normal.y
+    let originalValue = this.normal.y % .5
 
     let normalizedValue = (originalValue + 1) / 2;
 
@@ -1071,23 +1079,23 @@ racetrackShape6.lineTo(-.2, -1);
 
     //this.model.position.z = this.normal.z * 10
     this.model.position.y = normalizedValue * 35
-    this.model.position.x = this.normal.x * 10
+     
 
    
 
-    this.model.rotation.z = this.normal.z * .1
-    this.model.rotation.x = this.normal.x * -.1
-    this.model.rotation.y = this.normal.y * .2
+    this.model.rotation.z = Math.sin(this.normal.z) * .1
+    this.model.rotation.x = Math.sin(this.normal.x) * .1
+    this.model.rotation.y = Math.cos(this.normal.y) * .1
 
     this.camera.instance.rotation.z = this.normal.z * .2
-    this.camera.instance.rotation.x = this.normal.x * 0.1
+    //this.camera.instance.rotation.x = this.normal.x *-.1
     //this.camera.instance.rotation.y = this.normal.y * 0.1
 
 
     const light1 = new THREE.AmbientLight( 0xffffff, 1.0 );
-    light1.position.copy(pos.add(offset))
+    light1.position.copy(pos2.add(offset))
     this.scene2.add( light1 );
-    this.camera.instance.add( light1 );
+    
     light1.castShadow = true;
 
     
@@ -1134,7 +1142,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.model.rotation.z += Math.PI/4;
    
-    this.model.rotation.y +=  Math.abs(this.normal.y)//Math.PI/6;
+    this.model.position.x -=  5
 
     }
 
@@ -1143,7 +1151,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.model.rotation.z -= Math.PI/4;
     
-    this.model.rotation.y -=  Math.PI/6;
+    this.model.position.x +=  5
 
     } 
 
