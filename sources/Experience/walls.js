@@ -284,16 +284,18 @@ export default class Walls extends EventEmitter {
         
         }
 
-        this.rotateLeftButton.addEventListener('pointerdown', () => {
+        this.rotateLeftButton.addEventListener('mousedown', () => {
   
           this.arrowLeftPressed = true;
 
           this.arrowRightPressed = false;
+
+          console.log(this.model.position.distanceTo(this.tube7.position))
          
         });
 
   
-        this.rotateRightButton.addEventListener('pointerdown', () => {
+        this.rotateRightButton.addEventListener('mousedown', () => {
   
           this.arrowRightPressed = true;
 
@@ -303,11 +305,8 @@ export default class Walls extends EventEmitter {
   
        
       
-      
 
-
-
-        }
+     }
 
 
    
