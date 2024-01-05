@@ -1143,11 +1143,11 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.model.rotation.z += Math.PI/4;
    
-    this.model.position.x -=  5
+    this.model.position.x -=  2
 
-    if(this.model.position.distanceTo(this.tube7.position) > 250){
+    if(this.model.position.distanceTo(this.tube7.position) > 200){
 
-      this.model.position.x += 5
+      this.model.position.x += 10
 
     }
 
@@ -1158,11 +1158,11 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.model.rotation.z -= Math.PI/4;
     
-    this.model.position.x +=  5
+    this.model.position.x +=  2
 
-    if(this.model.position.distanceTo(this.tube7.position) > 250){
+    if(this.model.position.distanceTo(this.tube7.position) > 200){
 
-      this.model.position.x -= 5
+      this.model.position.x -= 10
 
     }
 
