@@ -70,20 +70,9 @@ export default class Walls extends EventEmitter {
       this.arrowLeftPressed = false;
       this.arrowRightPressed = false;
       
-   
+      this.isPointerDown = false;
       
-      this.rotateLeftButton = document.getElementById('left');
-      this.rotateRightButton = document.getElementById('right');
-       
-      
-    
-      this.rotateLeftButton.addEventListener('pointerdown',this.handleKeyDown);
-
-      this.rotateRightButton.addEventListener('pointerdown', this.handleKeyDown);
-
-     
-    
-    }
+  }
 
   
   
@@ -175,6 +164,16 @@ export default class Walls extends EventEmitter {
     }
    
     this.boxes.name = 'cloudboxes';
+
+   /*  this.spline.points.forEach((point) => {
+          
+         
+          
+      this.box.position = point
+
+     
+   
+     }) */
     
     window.addEventListener('pointerdown', () => {
     
@@ -195,9 +194,11 @@ export default class Walls extends EventEmitter {
     
       }
 
-    })
      
-       
+
+    
+      })
+      
        
       }
 
@@ -265,6 +266,39 @@ export default class Walls extends EventEmitter {
         this.meshes[2].material.transparent = true
         this.meshes[2].material.opacity = 1
 
+
+        this.rotateLeftButton = document.getElementById('left');
+        this.rotateRightButton = document.getElementById('right');
+  
+        
+  
+        function doSomething() {
+       
+          if(this.isPointerDown === true) {
+  
+            console.log('this.isPointerDown')
+  
+            //this.model.rotation.y += Math.PI/2
+  
+          }
+        
+        }
+        this.rotateLeftButton.addEventListener('pointerdown', () => {
+  
+          this.isPointerDown = true;
+        
+          doSomething();
+  
+        });
+  
+        this.rotateRightButton.addEventListener('pointerdown', this.handleKeyDown);
+  
+       
+      
+      
+
+
+
         }
 
 
@@ -278,15 +312,13 @@ export default class Walls extends EventEmitter {
           this.label.style.top = "65px";
           this.label.style.right = '30%';
           this.label.style.backgroundColor = 'transparent';
-          //this.label.style.borderRadius = "5px";
           this.label.style.color = "white";
-          //this.label.style.padding = "5px";
           this.label.style.fontFamily = "sans-serif";
           this.label.style.fontSize = "36px";
           this.label.style.textShadow = "1px 2px #000000";
           this.label.style.textAlign = "center";
           this.label.style.display = "block";
-          this.label.style.pointerEvents = "none"; // Make sure the this.label doesn't interfere with mouse events
+          this.label.style.pointerEvents = "none"; 
           document.body.appendChild(this.label);
           
 
@@ -297,7 +329,6 @@ export default class Walls extends EventEmitter {
           this.label3.style.fontSize = "24px";
           this.label3.style.backgroundColor = 'transparent';
           this.label3.style.color = "white";
-          //this.label3.style.padding = "10px";
           this.label3.style.fontFamily = "sans-serif";
           this.label3.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label3);
@@ -310,7 +341,6 @@ export default class Walls extends EventEmitter {
           this.label4.style.fontSize = "24px";
           this.label4.style.backgroundColor = 'transparent';
           this.label4.style.color = "white";;
-         // this.label4.style.padding = "10px";
           this.label4.style.fontFamily = "sans-serif";
           this.label4.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label4);
@@ -358,10 +388,14 @@ export default class Walls extends EventEmitter {
           fragmentShader: smokeFragment.fragmentShader,
     
         }); 
+
+
         
       this.noise = new ImprovedNoise()
   
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
+
+
        
       this.shaderMaterial2 = new THREE.ShaderMaterial({
        
@@ -701,7 +735,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.extrudeSettings = {
 
       steps: 1000,
-      depth: 100,
+      depth: 80,
       
       extrudePath: this.spline,
 
@@ -741,7 +775,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
-   console.log(this.tube)
+  
     this.scene2.add(this.tube);
     
     this.tube.position.y =-10 
@@ -787,13 +821,13 @@ racetrackShape6.lineTo(-.2, -1);
 
 
 
-      this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 200, 300, 200, false); 
+      this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 300, 1, 300, false); 
 
       this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial3)
       
-      this.tube7.position.y = 8;
+      this.tube7.position.y = -8;
 
-      //this.scene2.add(this.tube7);
+      this.scene2.add(this.tube7);
      
 
 
@@ -924,10 +958,11 @@ racetrackShape6.lineTo(-.2, -1);
     
     this.objectsArray1.push(this.sphereLeft)
 
+    this.scene2.add(this.sphereLeft);
    
   
 
-    this.scene2.add(this.sphereLeft);
+   
 
     this.sphereRight = this.sphere2.clone();
     
@@ -965,8 +1000,7 @@ racetrackShape6.lineTo(-.2, -1);
   update() {
   
       //this.iNoise +=  this.time.elapsed * 5.0;
-      this.shaderMaterial2.uniforms.needsUpdate = true
-      
+     
 
       let currentPosition = 0; 
       let speed = .9; 
@@ -975,8 +1009,8 @@ racetrackShape6.lineTo(-.2, -1);
 
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
-        const t2 =  (speed * this.time.elapsed + .06)/loopTime % 1;
-        const t3 =  (speed * this.time.elapsed + .1)/loopTime % 1;
+        const t2 =  (speed * this.time.elapsed + .5)/loopTime % 1;
+        const t3 =  (speed * this.time.elapsed + 1)/loopTime % 1;
    
  
     
@@ -984,7 +1018,7 @@ racetrackShape6.lineTo(-.2, -1);
         const pos2 = this.spline.getPointAt(t2);
         const pos3 =  this.spline4.getPointAt(t3);
      
-      
+        
   
     const tangent = this.spline.getTangentAt(t).normalize();
 
@@ -1000,9 +1034,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.normal = new THREE.Vector3();
     this.normal.crossVectors( this.binormal, tangent ).normalize();
 
-    this.label.textContent = this.normal.y;
-    this.label3.textContent = Math.floor(this.binormal.x);
-    this.label4.textContent = this.binormal.y;
+    
 
     
     const offset = new THREE.Vector3(0, 30, -50)
@@ -1021,22 +1053,36 @@ racetrackShape6.lineTo(-.2, -1);
      //POINTS ALONG THE CURVE
 
     
-     //this.sphere2Clone.position.copy(pos2).add(offset) 
+     this.sphere2Clone.position.copy(pos2).add(offset) 
 
-    //this.model.position.copy( pos2.add(tangent).add(offset) ) 
+   
 
 
     //this.model.lookAt(pos3)
 
+    let originalValue = this.normal.y
+
+    let normalizedValue = (originalValue + 1) / 2;
+
+
+    this.label.textContent = normalizedValue;
+    this.label3.textContent = Math.floor(this.binormal.x);
+    this.label4.textContent = this.binormal.y;
+
     //this.model.position.z = this.normal.z * 10
-    this.model.position.y = Math.floor(this.normal.y * 100)
+    this.model.position.y = normalizedValue * 35
     this.model.position.x = this.normal.x * 10
 
-    this.model.rotation.z = this.binormal.z * .5 
+   
 
-   // this.camera.instance.rotation.z =this.normal.z * 2
-    //this.camera.instance.rotation.x = this.normal.x * 0.1
+    this.model.rotation.z = this.normal.z * .1
+    this.model.rotation.x = this.normal.x * -.1
+    this.model.rotation.y = this.normal.y * .2
+
+    this.camera.instance.rotation.z = this.normal.z * .2
+    this.camera.instance.rotation.x = this.normal.x * 0.1
     //this.camera.instance.rotation.y = this.normal.y * 0.1
+
 
     const light1 = new THREE.AmbientLight( 0xffffff, 1.0 );
     light1.position.copy(pos.add(offset))

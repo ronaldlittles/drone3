@@ -19,7 +19,7 @@ void main() {
    
     vec3 finalColor = baseColor + sparkle * 0.7; 
 
-    gl_FragColor = vec4(finalColor, .1);
+    gl_FragColor = vec4(.0,.0,.0,1.0);
 
 
 }
