@@ -284,7 +284,7 @@ export default class Walls extends EventEmitter {
         
         }
 
-        this.rotateLeftButton.addEventListener('mousedown', () => {
+        this.rotateLeftButton.addEventListener('pointerdown', () => {
   
           this.arrowLeftPressed = true;
 
@@ -295,11 +295,13 @@ export default class Walls extends EventEmitter {
         });
 
   
-        this.rotateRightButton.addEventListener('mousedown', () => {
+        this.rotateRightButton.addEventListener('pointerdown', () => {
   
           this.arrowRightPressed = true;
 
           this.arrowLeftPressed = false;
+
+          console.log(this.model.position.distanceTo(this.tube7.position))
           
         });
   
@@ -1143,6 +1145,12 @@ racetrackShape6.lineTo(-.2, -1);
    
     this.model.position.x -=  5
 
+    if(this.model.position.distanceTo(this.tube7.position) > 250){
+
+      this.model.position.x += 5
+
+    }
+
     }
 
 
@@ -1151,6 +1159,12 @@ racetrackShape6.lineTo(-.2, -1);
     this.model.rotation.z -= Math.PI/4;
     
     this.model.position.x +=  5
+
+    if(this.model.position.distanceTo(this.tube7.position) > 250){
+
+      this.model.position.x -= 5
+
+    }
 
     } 
 
