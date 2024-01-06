@@ -370,7 +370,7 @@ export default class Walls extends EventEmitter {
        this.video = document.querySelector(".top-right");
         
         this.video.play();
-    
+        this.video.autoPlay = true;
         this.texture = new THREE.VideoTexture(this.video);  
 
         
