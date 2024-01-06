@@ -367,11 +367,11 @@ export default class Walls extends EventEmitter {
 
       createWall() {
 
-     /*  this.video = document.querySelector(".video");
+       this.video = document.querySelector(".top-right");
         
         this.video.play();
     
-        this.texture = new THREE.VideoTexture(this.video);  */
+        this.texture = new THREE.VideoTexture(this.video);  
 
         
      
@@ -435,9 +435,9 @@ export default class Walls extends EventEmitter {
       uniforms: {
 
         time: { value: this.time.elapsed},
-        texture1: { value: this.resource2},
+        texture1: { value: this.texture},
         uNoise: { value: this.iNoise},
-        uvScale: { value: new THREE.Vector2(.05,.05)}
+        uvScale: { value: new THREE.Vector2(.005,.005)}
 
       },
    
@@ -452,8 +452,8 @@ export default class Walls extends EventEmitter {
 
     this.debugFolder
     .add( this.shaderMaterial.uniforms.uvScale.value,'x',5)
-    .min(0)
-    .max(10)
+    .min(-100)
+    .max(100)
     .step(1.0)
     .onChange((value) => {
 
@@ -868,12 +868,12 @@ racetrackShape6.lineTo(-.2, -1);
 
           this.sphere = new THREE.Mesh(
 
-          new THREE.SphereGeometry(1,36,36 ),
+          new THREE.PlaneGeometry(2,2,2 ),
 
           new THREE.MeshStandardMaterial({
 
              //color: Math.random() * 0xffffff,
-             map: this.resource1, 
+             map: this.texture, 
              side: THREE.DoubleSide,
              transparent: true,
              opacity: 1,
@@ -883,8 +883,8 @@ racetrackShape6.lineTo(-.2, -1);
 
           )
 
-        this.sphere.scale.setScalar(5000)
-        //this.scene2.add(this.sphere)
+        this.sphere.scale.setScalar(5)
+        this.scene2.add(this.sphere)
 
 
         this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 );
@@ -921,7 +921,7 @@ racetrackShape6.lineTo(-.2, -1);
     
     
    
-    const numObjects = 1000; // Number of objects to place on each side
+    const numObjects = 100; // Number of objects to place on each side
     this.spacing = 5; // Adjust this value for spacing
     this.scaleFactor = 5;
 
@@ -957,9 +957,9 @@ racetrackShape6.lineTo(-.2, -1);
     this.positionLeft = positionOnCurve.clone()//.add(this.offset);
     this.positionRight = positionOnCurve.clone()//.sub(this.offset);
 
-    this.sphereLeft = this.model2.clone();
+    this.sphereLeft = this.sphere.clone();
     this.sphereLeft.isWall = true
-    //this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
+    this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
 
     //this.sphereLeft.position.add(new THREE.Vector3(0,-100,0))
    
@@ -967,7 +967,7 @@ racetrackShape6.lineTo(-.2, -1);
     
     this.objectsArray1.push(this.sphereLeft)
 
-    this.scene2.add(this.sphereLeft);
+    //this.scene2.add(this.sphereLeft);
    
   
 
@@ -993,13 +993,12 @@ racetrackShape6.lineTo(-.2, -1);
       
       )
 
-      this.sphere2Clone = this.sphere2.clone()
-      this.sphere2Clone.position.copy(positionOnCurve.clone())//.add(this.randomOffset)
+      this.sphere2Clone = this.sphere.clone()
+      this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
       
-      //this.scene2.add(this.sphere2Clone) 
+      this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
-      //this.camera.instance.add(this.sphere2Clone)
-      //this.sphere2Clone.translateZ(-200)
+     
 
     }  
 
@@ -1144,7 +1143,9 @@ racetrackShape6.lineTo(-.2, -1);
     this.model.rotation.z += Math.PI/4;
    
     this.model.position.x -=  2
+    this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
 
+    this.camera.instance.lookAt( pos2.add(tangent).add( offset )  )
     if(this.model.position.distanceTo(this.tube7.position) > 200){
 
       this.model.position.x += 10
@@ -1159,7 +1160,9 @@ racetrackShape6.lineTo(-.2, -1);
     this.model.rotation.z -= Math.PI/4;
     
     this.model.position.x +=  2
+    this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
 
+    this.camera.instance.lookAt( pos2.add(tangent).add( offset )  )
     if(this.model.position.distanceTo(this.tube7.position) > 200){
 
       this.model.position.x -= 10

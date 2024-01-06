@@ -50,15 +50,15 @@ button {
 }
 
 .top-right {
-  
+  position: absolute;
   top: 15px;
-  right: 200px;
+  right: 150px;
   color: #fd0000;
   font-size: 36px;
-  
-  width: 40px;
-  height: 15px;
-  box-shadow: 3px 2px 2px #ffffff;
+  z-index: 100;
+  width: 150px;
+  height: 100px;
+  box-shadow: 3px 2px 2px #030303;
   
 }
 
