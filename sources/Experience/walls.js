@@ -258,14 +258,18 @@ export default class Walls extends EventEmitter {
 
         console.log(this.meshes)
 
-        this.meshes[0].material.map = this.displacementMaterial
+        this.meshes[0].receiveShadow = true
+        this.meshes[1].receiveShadow = true
+        this.meshes[2].receiveShadow = true
+
+        /* this.meshes[0].material.map = this.displacementMaterial
         this.meshes[1].material.map = this.shaderMaterial
         this.meshes[2].material.map = this.shaderMaterial3
 
         this.meshes[0].material.transparent = true
         this.meshes[0].material.opacity = 1
         this.meshes[2].material.transparent = true
-        this.meshes[2].material.opacity = 1
+        this.meshes[2].material.opacity = 1 */
 
 
         this.rotateLeftButton = document.getElementById('left');
@@ -372,7 +376,18 @@ export default class Walls extends EventEmitter {
         
         //this.video.play();
         this.video.autoPlay = true;
-        this.texture = new THREE.VideoTexture(this.video);  
+        this.texture = new THREE.VideoTexture(this.video); 
+
+        
+        const light1 = new THREE.PointLight( 0x0000ff, 1.0, 100 );
+        light1.position.set(0,100,500)
+        this.scene2.add( light1 );
+        
+        light1.castShadow = true;
+        light1.shadowMapWidth = 1024;
+        light1.shadowMapHeight = 1024;
+        //light1.shadow.camera.near = 0.5;
+        //light1.shadow.camera.far = 500; 
 
         
      
@@ -499,14 +514,14 @@ export default class Walls extends EventEmitter {
     });
 
 
-    this.redMaterial = new THREE.MeshStandardMaterial({ 
+    this.redMaterial = new THREE.MeshBasicMaterial({ 
 
             color: 'white',
             //emissive: 0xffffff,
             //emissiveIntensity:.1, 
             //map:this.renderer.renderTarget.texture,
             opacity: 1.0,
-            //transparent: true,
+            transparent: true,
             
         });
 
@@ -814,15 +829,16 @@ racetrackShape6.lineTo(-.2, -1);
     this.tube.receiveShadow = true;
   
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial3)   
 
 
     this.scene2.add(this.tube2);
 
     //this.tube2.position.y =-12
 
+    
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial3)  
 
     this.scene2.add(this.tube3);
         
@@ -935,7 +951,7 @@ racetrackShape6.lineTo(-.2, -1);
           )
 
           //this.sphere2.scale.setScalar(3)
-          this.sphere2.castShadow = true;
+          //this.sphere2.castShadow = true;
           
   
 
@@ -977,7 +993,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.positionLeft = positionOnCurve.clone().add(this.offset);
     this.positionRight = positionOnCurve.clone().sub(this.offset);
-
+/* 
     this.sphereLeft = this.sphere.clone();
     this.sphereLeft.isWall = true
     this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
@@ -995,7 +1011,7 @@ racetrackShape6.lineTo(-.2, -1);
     
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
 
-    this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2);
+    this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2); */
 
 
 
@@ -1033,8 +1049,8 @@ racetrackShape6.lineTo(-.2, -1);
 
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
-        const t2 =  (speed * this.time.elapsed + .05)/loopTime % 1;
-        const t3 =  (speed * this.time.elapsed + .1)/loopTime % 1;
+        const t2 =  (speed * this.time.elapsed + .005)/loopTime % 1;
+        const t3 =  (speed * this.time.elapsed + .01)/loopTime % 1;
    
  
     
@@ -1088,34 +1104,21 @@ racetrackShape6.lineTo(-.2, -1);
     this.label4.textContent = this.binormal.y;
 
      //this.model.position.z = this.normal.z 
-    this.model.position.y = normalizedValue 
+    this.model.position.y = originalValue + 1.0
      
 
-    //this.model.rotation.z = this.normal.z
-    //this.model.rotation.x = this.normal.x
-    //this.model.rotation.y = this.normal.y
+      this.model.rotation.z = -this.normal.z * .05
+    this.model.rotation.x = this.normal.x * 
+    this.model.rotation.y = this.normal.y * .005
 
     this.camera.instance.rotation.z = this.normal.z * .2
     //this.camera.instance.rotation.x = this.normal.x *-.1
     //this.camera.instance.rotation.y = this.normal.y * 0.1
 
-    //this.sphere2Clone.copy(pos3.add(tangent).add(this.normal))
+    this.sphere.position.copy(pos3.add(tangent).add(this.normal))
+    this.sphere.rotation.y += 5
 
-
-   /*  const light1 = new THREE.PointLight( 0x0000ff, 1.0, 100 );
-    light1.position.set(0,100,500)
-    this.scene2.add( light1 );
-    
-    light1.castShadow = true;
-    light1.shadowMapWidth = 1024;
-    light1.shadowMapHeight = 1024;
-    //light1.shadow.camera.near = 0.5;
-    //light1.shadow.camera.far = 500; */
-    
-
-    
-    const maxAngle = Math.PI / 6; 
-    const minAngle = -Math.PI / 6; 
+  
     
     /* this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
   
