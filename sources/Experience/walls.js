@@ -433,7 +433,7 @@ export default class Walls extends EventEmitter {
          
           time: { value: this.time.elapsed },
           uNoise: { value: this.iNoise },
-          uvScale: { value: new THREE.Vector2(10,10)}
+          uvScale: { value: new THREE.Vector2(1,1)}
       },
 
       vertexShader: vertexShader.vertexShader,
@@ -829,7 +829,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.tube.receiveShadow = true;
   
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial3)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
 
 
     this.scene2.add(this.tube2);
@@ -838,14 +838,14 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial3)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial2)  
 
     this.scene2.add(this.tube3);
         
     //this.tube3.position.y =-12
 
 
-      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.shaderMaterial2) 
+      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.shaderMaterial4) 
 
       this.scene2.add(this.tube4);
 
@@ -1049,8 +1049,8 @@ racetrackShape6.lineTo(-.2, -1);
 
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
-        const t2 =  (speed * this.time.elapsed + .005)/loopTime % 1;
-        const t3 =  (speed * this.time.elapsed + .01)/loopTime % 1;
+        const t2 =  (speed * this.time.elapsed + 1)/loopTime % 1;
+        const t3 =  (speed * this.time.elapsed + 2)/loopTime % 1;
    
  
     
@@ -1098,22 +1098,23 @@ racetrackShape6.lineTo(-.2, -1);
 
     let normalizedValue = (originalValue + 1) / 2;
 
+    const distance = this.model.position.distanceTo(pos)
 
-    this.label.textContent = normalizedValue;
+    this.label.textContent = ((normalizedValue + distance) * .1).toFixed(6)
     this.label3.textContent = this.iNoise;
-    this.label4.textContent = this.binormal.y;
+    this.label4.textContent = (this.binormal.y).toFixed(6);
 
      //this.model.position.z = this.normal.z 
-    this.model.position.y = originalValue + 1.0
-     
+   
+    this.model.position.y = (normalizedValue + distance) * .01
 
-    this.model.rotation.z = -this.normal.z * .05
-    this.model.rotation.x = this.normal.x * .005
-    this.model.rotation.y = this.normal.y * .005
+    this.model.rotation.z =  this.binormal.z * .3
+    this.model.rotation.x = -this.normal.x * .1
+    this.model.rotation.y =  this.tangent.y 
 
-    this.camera.instance.rotation.z = this.normal.z * .2
-    //this.camera.instance.rotation.x = this.normal.x *-.1
-    //this.camera.instance.rotation.y = this.normal.y * 0.1
+    this.camera.instance.rotation.z = -this.model.rotation.z * .6
+    //this.camera.instance.rotation.x =  this.model.rotation.x * .05
+    //this.camera.instance.rotation.y = this.model.rotation.y
 
     this.sphere.position.copy(pos3.add(tangent).add(this.normal))
     this.sphere.rotation.y += 5

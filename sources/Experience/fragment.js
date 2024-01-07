@@ -23,13 +23,15 @@ const fragmentShader = {
       float pulse = smoothstep(innerRadius, innerRadius + 0.1, distance) - smoothstep(outerRadius - 0.1, outerRadius, distance);
       
       vec3 color = vec3(0.5);
-      
+
       color += pulse * vec3(1.0, 1.0, 0.0); 
   
        if (phase >= numCycles - 1.0) {
          
           color += pulse * vec3(0.0, 0.0, 1.0);
       } 
+     
+
       
       gl_FragColor = vec4(color, 1.0);
 
@@ -59,7 +61,7 @@ const fragmentShader = {
 
         vec2 uv = sin((vUv/sin(time ))* uvScale); 
 
-        vec4 redColor = vec4(0.0, 0.0, 0.0, 1.0);
+        vec4 redColor = vec4(1.0, 0.0, 0.0, 1.0);
         
         vec4 whiteColor = vec4(1.0, 1.0, 1.0, .5);
 
