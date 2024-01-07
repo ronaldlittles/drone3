@@ -242,7 +242,7 @@ export default class Walls extends EventEmitter {
     
   
     this.model.translateZ(-200)
-    this.model.translateY(20)
+    this.model.translateY(5)
 
    
    
@@ -902,7 +902,7 @@ racetrackShape6.lineTo(-.2, -1);
 
           )
 
-        this.sphere.scale.setScalar(3)
+        //this.sphere.scale.setScalar(3)
         this.scene2.add(this.sphere)
 
 
@@ -940,7 +940,7 @@ racetrackShape6.lineTo(-.2, -1);
     
     
    
-    const numObjects = 500; // Number of objects to place on each side
+    const numObjects = 100; // Number of objects to place on each side
     this.spacing = 5; // Adjust this value for spacing
     this.scaleFactor = 5;
 
@@ -986,7 +986,7 @@ racetrackShape6.lineTo(-.2, -1);
     
     this.objectsArray1.push(this.sphereLeft)
 
-    this.scene2.add(this.sphereLeft);
+    //this.scene2.add(this.sphereLeft);
    
   
 
@@ -1006,9 +1006,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.randomOffset = new THREE.Vector3(
       
-      (Math.random() * 2- 1) * 250 + this.iNoise,
+      (Math.random() * 2- 1) * 250 ,
       (Math.random() * 2 - 1 ) * 100,
-      (Math.random() * 2 - 1 ) * 150 + this.iNoise,
+      (Math.random() * 2 - 1 ) * 150 ,
       
       )
 
@@ -1038,8 +1038,8 @@ racetrackShape6.lineTo(-.2, -1);
 
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
-        const t2 =  (speed * this.time.elapsed + .5)/loopTime % 1;
-        const t3 =  (speed * this.time.elapsed + 1)/loopTime % 1;
+        const t2 =  (speed * this.time.elapsed + .005)/loopTime % 1;
+        const t3 =  (speed * this.time.elapsed + .01)/loopTime % 1;
    
  
     
@@ -1081,9 +1081,9 @@ racetrackShape6.lineTo(-.2, -1);
 
      
 
-    this.model.lookAt(pos3)
+    //this.model.lookAt(pos3)
 
-    let originalValue = this.normal.y % .5
+    let originalValue = this.normal.y
 
     let normalizedValue = (originalValue + 1) / 2;
 
@@ -1092,23 +1092,23 @@ racetrackShape6.lineTo(-.2, -1);
     this.label3.textContent = this.iNoise;
     this.label4.textContent = this.binormal.y;
 
-    //this.model.position.z = this.normal.z * 10
-    this.model.position.y = normalizedValue * 35
+     //this.model.position.z = this.normal.z 
+    this.model.position.y = this.normal.y + 5
      
 
    
 
-    this.model.rotation.z = Math.sin(this.normal.z) * .1
-    this.model.rotation.x = Math.sin(this.normal.x) * .1
-    this.model.rotation.y = Math.cos(this.normal.y) * .1
+    //this.model.rotation.z = this.normal.z
+    //this.model.rotation.x = this.normal.x
+    //this.model.rotation.y = this.normal.y
 
     this.camera.instance.rotation.z = this.normal.z * .2
     //this.camera.instance.rotation.x = this.normal.x *-.1
     //this.camera.instance.rotation.y = this.normal.y * 0.1
 
 
-    const light1 = new THREE.AmbientLight( 0x0000ff, 1.0 );
-    //this.camera.instance.add(light1)
+    const light1 = new THREE.PointLight( 0x0000ff, 1.0, 100 );
+    light1.position.set(0,100,500)
     this.scene2.add( light1 );
     
     light1.castShadow = true;

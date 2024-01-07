@@ -7,9 +7,9 @@ const fragmentShader = {
   
   void main() {
 
-    float innerRadius = .2;
+    float innerRadius = .3;
     float outerRadius = .5;
-    float numCycles = 40.0;
+    float numCycles = 150.0;
     float cycleCounter = 0.0;
  
    
