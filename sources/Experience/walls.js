@@ -1107,8 +1107,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.model.position.y = originalValue + 1.0
      
 
-      this.model.rotation.z = -this.normal.z * .05
-    this.model.rotation.x = this.normal.x * 
+    this.model.rotation.z = -this.normal.z * .05
+    this.model.rotation.x = this.normal.x * .005
     this.model.rotation.y = this.normal.y * .005
 
     this.camera.instance.rotation.z = this.normal.z * .2
