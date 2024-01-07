@@ -370,7 +370,7 @@ export default class Walls extends EventEmitter {
 
        this.video = document.querySelector(".top-right");
         
-        this.video.play();
+        //this.video.play();
         this.video.autoPlay = true;
         this.texture = new THREE.VideoTexture(this.video);  
 
@@ -431,11 +431,10 @@ export default class Walls extends EventEmitter {
     this.shaderMaterial = new THREE.ShaderMaterial({
      
       side: THREE.DoubleSide,
-     
     
       uniforms: {
 
-        time: { value: this.time.elapsed},
+        time: { value: null},
         texture1: { value: this.resource2},
         uNoise: { value: this.iNoise},
         uvScale: { value: new THREE.Vector2(1,1)}
@@ -446,6 +445,7 @@ export default class Walls extends EventEmitter {
       fragmentShader: fragmentShader.fragmentShader,
    
     });
+
 
     if(this.debug){
 
@@ -611,6 +611,7 @@ export default class Walls extends EventEmitter {
 
     this.spline = new THREE.CatmullRomCurve3(this.points);
 
+
     for (let i = 0; i < this.spline.points.length; i++) {
 
       this.splinePoints = this.spline.points[i]
@@ -625,9 +626,10 @@ export default class Walls extends EventEmitter {
   
   }
 
+
     this.spline.curveType = 'catmullrom';
     this.spline.closed = true;
-    this.spline.tension = 1.0;
+    this.spline.tension = .5;
 
    
 
@@ -743,9 +745,9 @@ const innerRadius = .4;
 
 const holePath = new THREE.Path();
 
-holePath.absarc(-25,  -100, innerRadius, 0, Math.PI, true);
+//holePath.absarc(-25,  -100, innerRadius, 0, Math.PI, true);
 
-racetrackShape3.holes.push(holePath);
+//racetrackShape3.holes.push(holePath);
 
 
 const racetrackShape6 = new THREE.Shape();
@@ -989,9 +991,6 @@ racetrackShape6.lineTo(-.2, -1);
     //this.scene2.add(this.sphereLeft);
    
   
-
-   
-
     this.sphereRight = this.sphere2.clone();
     
     this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
@@ -1000,15 +999,11 @@ racetrackShape6.lineTo(-.2, -1);
 
 
 
-    
-
-    
-
     this.randomOffset = new THREE.Vector3(
       
-      (Math.random() * 2- 1) * 250 ,
+      (Math.random() * 2 - 1 ) * 250,
       (Math.random() * 2 - 1 ) * 100,
-      (Math.random() * 2 - 1 ) * 150 ,
+      (Math.random() * 2 - 1 ) * 150,
       
       )
 
@@ -1016,7 +1011,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
       
       this.scene2.add(this.sphere2Clone) 
-      this.objectsArray2.push(this.sphere2Clone) 
+      //this.objectsArray2.push(this.sphere2Clone) 
      
 
     }  
@@ -1026,7 +1021,7 @@ racetrackShape6.lineTo(-.2, -1);
       
   update() {
   
-      this.iNoise +=  this.time.elapsed * 5.0;
+      //this.iNoise +=  this.time.elapsed * 5.0;
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
       this.shaderMaterial.uniforms.time.value = this.time.elapsed * .5
@@ -1038,8 +1033,8 @@ racetrackShape6.lineTo(-.2, -1);
 
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
-        const t2 =  (speed * this.time.elapsed + .005)/loopTime % 1;
-        const t3 =  (speed * this.time.elapsed + .01)/loopTime % 1;
+        const t2 =  (speed * this.time.elapsed + .05)/loopTime % 1;
+        const t3 =  (speed * this.time.elapsed + .1)/loopTime % 1;
    
  
     
@@ -1093,10 +1088,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.label4.textContent = this.binormal.y;
 
      //this.model.position.z = this.normal.z 
-    this.model.position.y = this.normal.y + 5
+    this.model.position.y = normalizedValue 
      
-
-   
 
     //this.model.rotation.z = this.normal.z
     //this.model.rotation.x = this.normal.x
@@ -1106,8 +1099,10 @@ racetrackShape6.lineTo(-.2, -1);
     //this.camera.instance.rotation.x = this.normal.x *-.1
     //this.camera.instance.rotation.y = this.normal.y * 0.1
 
+    //this.sphere2Clone.copy(pos3.add(tangent).add(this.normal))
 
-    const light1 = new THREE.PointLight( 0x0000ff, 1.0, 100 );
+
+   /*  const light1 = new THREE.PointLight( 0x0000ff, 1.0, 100 );
     light1.position.set(0,100,500)
     this.scene2.add( light1 );
     
@@ -1115,7 +1110,7 @@ racetrackShape6.lineTo(-.2, -1);
     light1.shadowMapWidth = 1024;
     light1.shadowMapHeight = 1024;
     //light1.shadow.camera.near = 0.5;
-    //light1.shadow.camera.far = 500;
+    //light1.shadow.camera.far = 500; */
     
 
     

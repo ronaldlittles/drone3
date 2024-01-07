@@ -7,31 +7,32 @@ const fragmentShader = {
   
   void main() {
 
-    float innerRadius = .3;
-    float outerRadius = .5;
-    float numCycles = 150.0;
-    float cycleCounter = 0.0;
+      float innerRadius = .2;
+      float outerRadius = .5;
+      float numCycles = 3.0;
+
+      float cycleCounter = 0.0;
  
-   
-      
       vec2 center = vec2(0.5);
 
       float distance = length(vUv - center);
   
-      float direction = sign(sin(time)); // Controls direction of movement (-1 or 1)
+      float direction = sign(sin(time)); 
   
       float phase = mod(cycleCounter, numCycles);
       float pulse = smoothstep(innerRadius, innerRadius + 0.1, distance) - smoothstep(outerRadius - 0.1, outerRadius, distance);
       
-      vec3 color = vec3(0.0);
-      color += pulse * vec3(1.0, 1.0, 0.0); // Yellow light
+      vec3 color = vec3(0.5);
+      
+      color += pulse * vec3(1.0, 1.0, 0.0); 
   
-      if (phase >= numCycles - 1.0) {
-          // Change the color or effect after completing a certain number of cycles
-          color += pulse * vec3(0.0, 1.0, 1.0); // Changing to cyan color
-      }
+       if (phase >= numCycles - 1.0) {
+         
+          color += pulse * vec3(0.0, 0.0, 1.0);
+      } 
       
       gl_FragColor = vec4(color, 1.0);
+
   }
   
 
