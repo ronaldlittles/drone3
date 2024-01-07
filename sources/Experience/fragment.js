@@ -1,44 +1,41 @@
 const fragmentShader = {
   fragmentShader: `
 
-      uniform sampler2D texture1;
+  uniform float time;
+  varying vec2 vUv;
+ 
+  
+  void main() {
 
-      uniform vec2 uvScale;
+    float innerRadius = .2;
+    float outerRadius = .5;
+    float numCycles = 40.0;
+    float cycleCounter = 0.0;
+ 
+   
       
-      uniform float uNoise;
+      vec2 center = vec2(0.5);
 
-      uniform float time;
-
-      varying vec2 vUv;
+      float distance = length(vUv - center);
+  
+      float direction = sign(sin(time)); // Controls direction of movement (-1 or 1)
+  
+      float phase = mod(cycleCounter, numCycles);
+      float pulse = smoothstep(innerRadius, innerRadius + 0.1, distance) - smoothstep(outerRadius - 0.1, outerRadius, distance);
       
-
-
-      void main() {
-
-        vec2 center = vec2(0.5, 0.5);
-
-        vec2 newUv = vUv * uvScale + center;
-
-        vec4 tex = texture2D( texture1, newUv );
-       
-        float squareSize = 10.0 ; 
-    
-        vec2 position = floor(vUv  / squareSize );
-
-    
-        if (mod(position.y , 2.0) < 1.0) { 
-
-          gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
-
-        } else {
-
-          gl_FragColor = vec4(tex);  
-
-
-        
-
+      vec3 color = vec3(0.0);
+      color += pulse * vec3(1.0, 1.0, 0.0); // Yellow light
+  
+      if (phase >= numCycles - 1.0) {
+          // Change the color or effect after completing a certain number of cycles
+          color += pulse * vec3(0.0, 1.0, 1.0); // Changing to cyan color
       }
-      }
+      
+      gl_FragColor = vec4(color, 1.0);
+  }
+  
+
+      
 
 ` ,  
     
@@ -81,27 +78,31 @@ const fragmentShader = {
 
     
     
-    }
+    
 
 
-  /*  const fragmentShader3 = {
+   
 
     fragmentShader3: `
+
         varying vec2 vUv;
         uniform float time;
         
         void main() {
-            vec2 p = -1.0 + 2.0 * vUv;
-            float a = atan(p.y, p.x);
-            float r = length(p);
-            float f = sin(r * 10.0 + time * 2.0) * 0.2 + 1.0;
-            float c = mod(a, 3.1416 / 8.0) > 3.1416 / 16.0 ? 0.0 : 1.0;
-            gl_FragColor = vec4(c * f, c * f * 0.5, c * f * 0.5, 1.0);
+            
+          vec2 center = vec2(0.5, 0.5);
+          float t = time* 10.0;
+
+          gl_FragColor = vec4(vec3( ( sin(t - distance( vUv, center ) * 215.0 ) ) )  * .5, 1.0);
+
         }
-    `
-   } */
+
+
+    `,
+
+   } 
 
   
 
 
-export { fragmentShader  };
+export { fragmentShader };

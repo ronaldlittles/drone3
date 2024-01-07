@@ -36,7 +36,7 @@ export default class Drawing extends EventEmitter {
 
   
 
-    this.setDraw()
+    //this.setDraw()
     this.setMaterial()
     
      
@@ -200,6 +200,8 @@ createLine() {
 
     this.line = new THREE.Line(geometry, material);
 
+    
+
     this.scene2.add(this.line);
 
     this.line.scale.setScalar(1000)
@@ -214,7 +216,7 @@ update() {
 
   if (this.line) {
 
-    this.scale = 1250;
+    this.scale = 2250;
 
    
     const rotation = this.calculateRotation(this.time.delta);
@@ -239,7 +241,7 @@ update() {
       const x = point.x * this.scale;
       const y = point.y * this.scale;
 
-      this.mesh.position.set(x, y, 0);
+      this.mesh.position.set(x, y, 500);
 
       this.newPath = this.currentPath.map((index)=>{
 

@@ -31,10 +31,10 @@ export default class Renderer {
       this.debugFolder = this.debug.addFolder("renderer");
     } 
 
-    this.usePostprocess = true;
+    this.usePostprocess = false;
 
     this.setInstance();
-    this.setPostProcess();
+    //this.setPostProcess();
 
     //this.setPlane();
   }
@@ -274,8 +274,8 @@ export default class Renderer {
     this.instance.setPixelRatio(this.config.pixelRatio);
 
     // Post process
-    this.postProcess.composer.setSize(this.config.width, this.config.height);
-    this.postProcess.composer.setPixelRatio(this.config.pixelRatio);
+    //this.postProcess.composer.setSize(this.config.width, this.config.height);
+    //this.postProcess.composer.setPixelRatio(this.config.pixelRatio);
   }
 
   update() {
@@ -327,8 +327,8 @@ export default class Renderer {
 
     } else {
      
-      this.postProcess.composer.render();
-
+      //this.postProcess.composer.render();
+      this.instance.render(this.scene2, this.camera.instance);
     }
 
     if (this.stats) {
