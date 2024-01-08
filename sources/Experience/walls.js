@@ -241,8 +241,8 @@ export default class Walls extends EventEmitter {
 
     
   
-    this.model.translateZ(-200)
-    this.model.translateY(5)
+    this.model.translateZ(-250)
+   this.model.translateY(5)
 
    
    
@@ -402,7 +402,7 @@ export default class Walls extends EventEmitter {
           
           uniforms: {
 
-            time: { value: this.time.elapsed },
+            time: { value: null },
             resolution: { value: new THREE.Vector2() },
             uvScale: { value: new THREE.Vector2(.001,64)},
             texture1: { value: this.resource1},
@@ -653,25 +653,26 @@ export default class Walls extends EventEmitter {
       const raycaster = new THREE.Raycaster();
 
       raycaster.setFromCamera(this.mouse, this.camera.instance);
+      //raycaster.set(this.model.position, new THREE.Vector3(0,0,-1))
+      
+      
+      
    
         const intersects = raycaster.intersectObjects(this.objectsArray2, true);
 
-        const intersects2 = raycaster.intersectObject(this.tube, true);
+            
 
-       
+        if (intersects.length > 0) {
 
-        if (intersects2.length > 0) {
+          const intersectsPoint = intersects[0].object
 
-          const intersects2Point = intersects2[0].point
+          console.log(intersectsPoint)
 
-           //const closestPoint = this.spline.getPointAt(intersects2Point);
+          intersectsPoint.scale.setScalar(2)
+          intersectsPoint.material = this.shaderMaterial2
+          intersectsPoint.position.z += -50
+          intersectsPoint.rotation.x += Math.PI/2
 
-           //const t = this.spline.getUtoTmapping(0,closestPoint)
-
-
-          //const angle = t * Math.PI * 2
-
-         //console.log(intersects2Point )
 
         /*  this.pointY = intersects[0].point.y;
          this.pointZ = intersects[0].point.z;
@@ -817,7 +818,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tubeGeo.computeVertexNormals()
    
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial) 
 
   
     this.scene2.add(this.tube);
@@ -853,7 +854,7 @@ racetrackShape6.lineTo(-.2, -1);
       
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial4) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial3) 
 
       this.scene2.add(this.tube5);
 
@@ -920,7 +921,7 @@ racetrackShape6.lineTo(-.2, -1);
 
           )
 
-        //this.sphere.scale.setScalar(3)
+        this.sphere.scale.setScalar(3)
         this.scene2.add(this.sphere)
 
 
@@ -958,8 +959,8 @@ racetrackShape6.lineTo(-.2, -1);
     
     
    
-    const numObjects = 100; // Number of objects to place on each side
-    this.spacing = 5; // Adjust this value for spacing
+    const numObjects = 100; 
+    this.spacing = 5; 
     this.scaleFactor = 5;
 
     this.objectsArray1 = [];
@@ -974,7 +975,7 @@ racetrackShape6.lineTo(-.2, -1);
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
-    //const derivativeTangent = this.spline.getTangentAt(t2).sub(tangent).normalize();
+    
 
     const referenceVector = new THREE.Vector3(0,1, 0);
 
@@ -993,25 +994,6 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.positionLeft = positionOnCurve.clone().add(this.offset);
     this.positionRight = positionOnCurve.clone().sub(this.offset);
-/* 
-    this.sphereLeft = this.sphere.clone();
-    this.sphereLeft.isWall = true
-    this.sphereLeft.position.copy(this.positionLeft.multiplyScalar(this.scaleFactor));
-
-    this.sphereLeft.position.add(new THREE.Vector3(0,100,0))
-   
-    this.sphereLeft.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2 );
-    
-    this.objectsArray1.push(this.sphereLeft)
-
-    //this.scene2.add(this.sphereLeft);
-   
-  
-    this.sphereRight = this.sphere2.clone();
-    
-    this.sphereRight.position.copy(this.positionRight.multiplyScalar(this.scaleFactor));
-
-    this.sphereRight.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), angle + Math.PI/2); */
 
 
 
@@ -1027,7 +1009,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
       
       this.scene2.add(this.sphere2Clone) 
-      //this.objectsArray2.push(this.sphere2Clone) 
+      this.objectsArray2.push(this.sphere2Clone) 
      
 
     }  
@@ -1037,20 +1019,14 @@ racetrackShape6.lineTo(-.2, -1);
       
   update() {
   
-    this.randInt = THREE.MathUtils.randFloat(0, 1000);
-
-    console.log(this.randInt)
-
-    this.randFloatSpread = THREE.MathUtils.randFloatSpread(100);
-
-    console.log(this.randFloatSpread)
+   this.iNoise += .05;
 
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
 
 
-      this.shaderMaterial.uniforms.time.value = this.time.elapsed * .5
+      this.shaderMaterial3.uniforms.time.value = this.time.elapsed * 50
 
       let currentPosition = 0; 
       let speed = .9; 
@@ -1089,7 +1065,7 @@ racetrackShape6.lineTo(-.2, -1);
     
     const offset = new THREE.Vector3(0, 30, -50)
    
-    const cameraOffset = this.normal
+   
 
     ///CAMERA MOVEMENT
 
@@ -1110,9 +1086,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     const distance = this.model.position.distanceTo(pos)
 
-    this.label.textContent = ((normalizedValue + distance) * .1).toFixed(6)
-    this.label3.textContent = this.iNoise;
-    this.label4.textContent = (this.binormal.y).toFixed(6);
+    this.label.textContent = (this.model.position.y).toFixed(12)
+    this.label3.textContent = (distance).toFixed(8);
+    this.label4.textContent = (this.model.position.x).toFixed(10);
 
      //this.model.position.z = this.normal.z 
    
@@ -1126,9 +1102,16 @@ racetrackShape6.lineTo(-.2, -1);
     //this.camera.instance.rotation.x =  this.model.rotation.x * .05
     //this.camera.instance.rotation.y = this.model.rotation.y
 
-    this.sphere.position.copy(pos3.add(tangent).add(this.normal))
-    this.sphere.rotation.y += 5
-    this.sphere2Clone.rotation.y += 5        
+    this.objectsArray2.forEach((object) => {
+
+      object.rotation.y += 5
+
+      //object.position.copy(pos3.add(tangent).add(this.normal).add(this.randomOffset))
+
+    })
+
+  
+           
     
     /* this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
   
@@ -1169,39 +1152,27 @@ racetrackShape6.lineTo(-.2, -1);
     if (this.arrowLeftPressed) {
 
 
-    this.model.rotation.z += Math.PI/4;
+    this.model.rotation.z += Math.PI/2;
    
-    this.model.position.x -=  2
+    this.model.position.x -=  .9
+
     
-    if(this.model.position.distanceTo(this.tube7.position) > 200){
-
-      this.model.position.x = 10
-
-      this.tube.material = this.shaderMaterial
-
+    
+    
     }
 
-
-    }
+   
 
 
     if (this.arrowRightPressed) {
 
-    this.model.rotation.z -= Math.PI/4;
+    this.model.rotation.z -= Math.PI/2;
     
-    this.model.position.x +=  2
+    this.model.position.x +=  .9
    
 
-    if(this.model.position.distanceTo(this.tube7.position) > 200){
-
-      this.model.position.x = 10
-
-      this.tube.material = this.shaderMaterial
-
-    }
 
     } 
-
 
     if (this.arrowUpPressed) {
 
@@ -1215,7 +1186,7 @@ racetrackShape6.lineTo(-.2, -1);
       }
 
       resize() {
-        // Instance
+        
         this.camera.instance.setSize(this.config.width, this.config.height);
         this.camera.instance.setPixelRatio(this.config.pixelRatio);
     
