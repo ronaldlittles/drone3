@@ -275,7 +275,8 @@ export default class Walls extends EventEmitter {
         this.rotateLeftButton = document.getElementById('left');
         this.rotateRightButton = document.getElementById('right');
   
-        
+       
+  
   
         function doSomething() {
        
@@ -417,9 +418,8 @@ export default class Walls extends EventEmitter {
 
         
       this.noise = new ImprovedNoise()
-  
-      
 
+     
 
        
       this.shaderMaterial2 = new THREE.ShaderMaterial({
@@ -633,9 +633,9 @@ export default class Walls extends EventEmitter {
 
       this.distance= this.splinePoints.distanceTo(this.model.position)
 
-      if(this.distance < 100) {
+      if(this.distance < 50) {
 
-        this.model.scale.setScalar(5)
+        this.tube.material = this.shaderMaterial
 
     }
   
@@ -1016,10 +1016,10 @@ racetrackShape6.lineTo(-.2, -1);
 
 
     this.randomOffset = new THREE.Vector3(
-      
+
       (Math.random() * 2 - 1 ) * 250,
       (Math.random() * 2 - 1 ) * 100,
-      (Math.random() * 2 - 1 ) * 150,
+      (Math.random() * 2 - 1 ) * 150 
       
       )
 
@@ -1037,8 +1037,18 @@ racetrackShape6.lineTo(-.2, -1);
       
   update() {
   
-      //this.iNoise +=  this.time.elapsed * 5.0;
+    this.randInt = THREE.MathUtils.randFloat(0, 1000);
+
+    console.log(this.randInt)
+
+    this.randFloatSpread = THREE.MathUtils.randFloatSpread(100);
+
+    console.log(this.randFloatSpread)
+
+
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
+
+
 
       this.shaderMaterial.uniforms.time.value = this.time.elapsed * .5
 
@@ -1066,7 +1076,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
-    
+
 
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(tangent, derivativeTangent).normalize(); 
@@ -1118,8 +1128,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.sphere.position.copy(pos3.add(tangent).add(this.normal))
     this.sphere.rotation.y += 5
-
-  
+    this.sphere2Clone.rotation.y += 5        
     
     /* this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
   
@@ -1159,17 +1168,19 @@ racetrackShape6.lineTo(-.2, -1);
 
     if (this.arrowLeftPressed) {
 
+
     this.model.rotation.z += Math.PI/4;
    
     this.model.position.x -=  2
-    this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
-
-    this.camera.instance.lookAt( pos2.add(tangent).add( offset )  )
+    
     if(this.model.position.distanceTo(this.tube7.position) > 200){
 
-      this.model.position.x += 10
+      this.model.position.x = 10
+
+      this.tube.material = this.shaderMaterial
 
     }
+
 
     }
 
@@ -1179,12 +1190,13 @@ racetrackShape6.lineTo(-.2, -1);
     this.model.rotation.z -= Math.PI/4;
     
     this.model.position.x +=  2
-    this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
+   
 
-    this.camera.instance.lookAt( pos2.add(tangent).add( offset )  )
     if(this.model.position.distanceTo(this.tube7.position) > 200){
 
-      this.model.position.x -= 10
+      this.model.position.x = 10
+
+      this.tube.material = this.shaderMaterial
 
     }
 

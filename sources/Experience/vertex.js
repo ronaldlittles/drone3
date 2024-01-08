@@ -46,6 +46,8 @@ const vertexShader = {
       varying vec2 vUv;
       
       varying vec3 newPosition;
+
+     
   
       
   
@@ -59,9 +61,11 @@ const vertexShader = {
   
     void main() {
   
-      vUv =  uv ;;
+      vUv =  uv;
+
+      
   
-      newPosition = position;
+      newPosition = position;   
        
      
       newPosition.y *= sin(PI * position.x * uScale.x + uNoise);
