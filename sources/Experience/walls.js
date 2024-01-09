@@ -146,11 +146,13 @@ export default class Walls extends EventEmitter {
 
       this.box = this.box1.clone();
     
-      this.box.position.set(
+      //this.box.position
+      
+     /*  set(
         Math.random() * 200 - 100,
         Math.random() * 200 - 100,
         Math.random() * 2400 - 1200
-      );
+      ); */
     
       this.box.scale.set(5, 1, 5);
     
@@ -166,28 +168,21 @@ export default class Walls extends EventEmitter {
    
     this.boxes.name = 'cloudboxes';
 
-   /*  this.spline.points.forEach((point) => {
-          
-         
-          
-      this.box.position = point
-
-     
-   
-     }) */
+  
     
     window.addEventListener('pointerdown', () => {
     
       
       for (let i = 0; i < this.boxes.length; i++) {
-        const box = this.boxes[i];
+        this.box1 = this.boxes[i];
         const distance = 900;
         
-        
-        GSAP.to(box.position, 2, {
-          x: box.position.x + Math.random() * distance - distance / 2,
-          y: box.position.y + Math.random() * distance - distance / 2,
-          z: box.rotation.z + Math.random() * distance - distance / 2,
+       
+        GSAP.to(this.box1.position, 2, {
+
+          x: this.box1.position.x + Math.random() * distance - distance / 2,
+          y: this.box1.position.y + Math.random() * distance - distance / 2,
+          z: this.box1.rotation.z + Math.random() * distance - distance / 2,
           ease: 'power2.easeOut',
        
         });
@@ -390,6 +385,8 @@ export default class Walls extends EventEmitter {
         //light1.shadow.camera.near = 0.5;
         //light1.shadow.camera.far = 500; 
 
+        const light1Helper = new THREE.PointLightHelper( light1, 1 );
+        this.scene2.add( light1Helper );
         
      
 
@@ -652,8 +649,10 @@ export default class Walls extends EventEmitter {
 
       const raycaster = new THREE.Raycaster();
 
+      //this.raycaster = new THREE.Raycaster(this.model.position.clone(), new THREE.Vector3(0,0,-1), 0, -1000);
+
       raycaster.setFromCamera(this.mouse, this.camera.instance);
-      //raycaster.set(this.model.position, new THREE.Vector3(0,0,-1))
+      //raycaster.set(this.model.position.z, new THREE.Vector3(0,0,-1))
       
       
       
@@ -665,12 +664,12 @@ export default class Walls extends EventEmitter {
         if (intersects.length > 0) {
 
           const intersectsPoint = intersects[0].object
+          this.intersectsPoint2 = intersects[0].point
+          
 
-          console.log(intersectsPoint)
-
-          intersectsPoint.scale.setScalar(2)
+          intersectsPoint.scale.setScalar(.5)
           intersectsPoint.material = this.shaderMaterial2
-          intersectsPoint.position.z += -50
+          //intersectsPoint.position.z += -100
           intersectsPoint.rotation.x += Math.PI/2
 
 
@@ -682,10 +681,7 @@ export default class Walls extends EventEmitter {
       
         this.label.textContent = `Index: ${this.label1} ${this.label2 }`; */
         
-      } else {
-       
-        //this.label.textContent = this.newNormalY;
-      }
+      } 
     
      
 
@@ -696,7 +692,6 @@ export default class Walls extends EventEmitter {
 
     this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(600,900)
 
-    
    
     /* const sectionSize = 10;
     const skipSize = 50;
@@ -854,7 +849,7 @@ racetrackShape6.lineTo(-.2, -1);
       
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial3) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial4) 
 
       this.scene2.add(this.tube5);
 
@@ -921,7 +916,7 @@ racetrackShape6.lineTo(-.2, -1);
 
           )
 
-        this.sphere.scale.setScalar(3)
+        //this.sphere.scale.setScalar(3)
         this.scene2.add(this.sphere)
 
 
@@ -1006,7 +1001,7 @@ racetrackShape6.lineTo(-.2, -1);
       )
 
       this.sphere2Clone = this.sphere.clone()
-      this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
+      this.sphere2Clone.position.copy(positionOnCurve.clone())//.add(this.randomOffset)
       
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
@@ -1018,13 +1013,12 @@ racetrackShape6.lineTo(-.2, -1);
         
       
   update() {
-  
-   this.iNoise += .05;
 
+           
+
+      this.iNoise += .05;
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
-
-
 
       this.shaderMaterial3.uniforms.time.value = this.time.elapsed * 50
 
@@ -1104,12 +1098,53 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.objectsArray2.forEach((object) => {
 
-      object.rotation.y += 5
+      object.rotation.y += .5
+
+      
 
       //object.position.copy(pos3.add(tangent).add(this.normal).add(this.randomOffset))
 
     })
 
+
+    const originOffSet = new THREE.Vector3(0, -500, 0)
+
+    const origin =  pos2.clone().add(tangent).add(this.normal).add(originOffSet)
+    const origin2 = pos3.clone().add(tangent).add(this.normal).add(originOffSet)
+
+    const raycaster = new THREE.Raycaster( origin, new THREE.Vector3(0,1,0) );
+    const raycaster2 = new THREE.Raycaster( origin2, new THREE.Vector3(0,1,0) );
+
+    const intersects = raycaster.intersectObjects(this.objectsArray2, true);
+    const intersects2 = raycaster2.intersectObjects(this.objectsArray2, true);
+
+  if (intersects.length > 0) {
+
+  
+        const intersectsPoint = intersects[0].object
+        
+
+        intersectsPoint.scale.setScalar(1.5)
+        intersectsPoint.material = this.shaderMaterial2
+        intersectsPoint.rotation.x += Math.PI/2
+        intersectsPoint.position.x += 50 * Math.random()
+        intersectsPoint.position.y += 50 * this.time.elapsed
+}
+
+if (intersects2.length > 0) {
+
+  
+  const intersectsPoint = intersects2[0].object
+  
+
+  intersectsPoint.scale.setScalar(1.5)
+  intersectsPoint.material = this.shaderMaterial4
+  intersectsPoint.rotation.z += Math.PI/2
+  intersectsPoint.position.x += -50 * Math.random()
+  intersectsPoint.position.y += 50 * this.time.elapsed
+
+}
+    
   
            
     
@@ -1152,7 +1187,8 @@ racetrackShape6.lineTo(-.2, -1);
     if (this.arrowLeftPressed) {
 
 
-    this.model.rotation.z += Math.PI/2;
+    this.model.rotation.z += Math.PI/4;
+    this.model.rotation.y += Math.PI/4;
    
     this.model.position.x -=  .9
 
@@ -1166,7 +1202,8 @@ racetrackShape6.lineTo(-.2, -1);
 
     if (this.arrowRightPressed) {
 
-    this.model.rotation.z -= Math.PI/2;
+    this.model.rotation.z -= Math.PI/4;
+    this.model.rotation.y += Math.PI/4;
     
     this.model.position.x +=  .9
    
