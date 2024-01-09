@@ -1128,7 +1128,7 @@ racetrackShape6.lineTo(-.2, -1);
         intersectsPoint.material = this.shaderMaterial2
         intersectsPoint.rotation.x += Math.PI/2
         intersectsPoint.position.x += 50 * Math.random()
-        intersectsPoint.position.y += 50 * this.time.elapsed
+        intersectsPoint.position.y += 50 
 }
 
 if (intersects2.length > 0) {
@@ -1141,7 +1141,7 @@ if (intersects2.length > 0) {
   intersectsPoint.material = this.shaderMaterial4
   intersectsPoint.rotation.z += Math.PI/2
   intersectsPoint.position.x += -50 * Math.random()
-  intersectsPoint.position.y += 50 * this.time.elapsed
+  intersectsPoint.position.y += 50 
 
 }
     
