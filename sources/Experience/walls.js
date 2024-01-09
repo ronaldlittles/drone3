@@ -236,8 +236,8 @@ export default class Walls extends EventEmitter {
 
     
   
-    this.model.translateZ(-250)
-   this.model.translateY(5)
+    this.model.translateZ(-200)
+   //this.model.translateY(15)
 
    
    
@@ -375,19 +375,19 @@ export default class Walls extends EventEmitter {
         this.texture = new THREE.VideoTexture(this.video); 
 
         
-        const light1 = new THREE.PointLight( 0x0000ff, 1.0, 100 );
-        light1.position.set(0,100,500)
+        const light1 = new THREE.DirectionalLight( 0x0000ff, 4.5 );
+        light1.position.set(-10,800,0)
         this.scene2.add( light1 );
         
         light1.castShadow = true;
-        light1.shadowMapWidth = 1024;
-        light1.shadowMapHeight = 1024;
+        light1.shadow.mapSize.width = 1024;
+        light1.shadow.mapSize.height = 1024;
         //light1.shadow.camera.near = 0.5;
         //light1.shadow.camera.far = 500; 
 
-        const light1Helper = new THREE.PointLightHelper( light1, 1 );
+        const light1Helper = new THREE.DirectionalLightHelper( light1, 500 );
         this.scene2.add( light1Helper );
-        
+        console.log(light1)
      
 
         this.shaderMaterial3 = new THREE.ShaderMaterial({
@@ -1057,7 +1057,7 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     
-    const offset = new THREE.Vector3(0, 30, -50)
+    const offset = new THREE.Vector3(0, this.model.position.z, this.model.position.y)
    
    
 
@@ -1065,10 +1065,11 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.camera.instance.add(this.model)
    
-    this.camera.instance.position.copy( pos.add(tangent).add(this.normal) )
+    this.camera.instance.position.copy( pos.add(tangent).add(this.normal).add(this.binormal))
 
 
-    this.camera.instance.lookAt(pos2.add(tangent).add(this.normal))
+
+    this.camera.instance.lookAt(pos2.add(tangent).add(this.normal).add(this.binormal))
 
      
 
@@ -1078,7 +1079,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     let normalizedValue = (originalValue + 1) / 2;
 
-    const distance = this.model.position.distanceTo(pos)
+    const distance = this.model.position.distanceTo(pos2)
 
     this.label.textContent = (this.model.position.y).toFixed(12)
     this.label3.textContent = (distance).toFixed(8);
@@ -1086,11 +1087,11 @@ racetrackShape6.lineTo(-.2, -1);
 
      //this.model.position.z = this.normal.z 
    
-    this.model.position.y = (normalizedValue + distance) * .01
+    this.model.position.y = (normalizedValue + distance) 
 
     this.model.rotation.z =  this.binormal.z * .3
-    this.model.rotation.x = -this.normal.x * .1
-    this.model.rotation.y =  this.tangent.y 
+    //this.model.rotation.x = -this.normal.x * .1
+    this.model.rotation.y =  this.tangent.y * .1
 
     this.camera.instance.rotation.z = -this.model.rotation.z * .6
     //this.camera.instance.rotation.x =  this.model.rotation.x * .05
@@ -1127,9 +1128,9 @@ racetrackShape6.lineTo(-.2, -1);
         intersectsPoint.scale.setScalar(.5)
         intersectsPoint.material = this.shaderMaterial2
         intersectsPoint.rotation.x += Math.PI/2* Math.random()
-        intersectsPoint.position.x += 5 * Math.random()
-        intersectsPoint.position.y += 5 * Math.random()
-        intersectsPoint.position.z -= 50 * Math.random()
+        intersectsPoint.position.x += 15 * Math.random()
+        intersectsPoint.position.y += 25 * Math.random()
+        intersectsPoint.position.z += -50 * Math.random()
 
 }
 
@@ -1142,9 +1143,9 @@ if (intersects2.length > 0) {
   intersectsPoint.scale.setScalar(.5)
   intersectsPoint.material = this.shaderMaterial4
   intersectsPoint.rotation.z += Math.PI/2* Math.random()
-  intersectsPoint.position.x += -5 * Math.random()
-  intersectsPoint.position.y += 5 * Math.random()
-  intersectsPoint.position.z -= 50 * Math.random()
+  intersectsPoint.position.x += -15 * Math.random()
+  intersectsPoint.position.y += 25 * Math.random()
+  intersectsPoint.position.z += -50 * Math.random()
 }
     
   
