@@ -1129,6 +1129,8 @@ racetrackShape6.lineTo(-.2, -1);
         intersectsPoint.rotation.x += Math.PI/2* Math.random()
         intersectsPoint.position.x += 5 * Math.random()
         intersectsPoint.position.y += 5 * Math.random()
+        intersectsPoint.position.z -= 50 * Math.random()
+
 }
 
 if (intersects2.length > 0) {
@@ -1142,7 +1144,7 @@ if (intersects2.length > 0) {
   intersectsPoint.rotation.z += Math.PI/2* Math.random()
   intersectsPoint.position.x += -5 * Math.random()
   intersectsPoint.position.y += 5 * Math.random()
-
+  intersectsPoint.position.z -= 50 * Math.random()
 }
     
   
