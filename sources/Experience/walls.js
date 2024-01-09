@@ -1124,11 +1124,11 @@ racetrackShape6.lineTo(-.2, -1);
         const intersectsPoint = intersects[0].object
         
 
-        intersectsPoint.scale.setScalar(1.5)
+        intersectsPoint.scale.setScalar(.5)
         intersectsPoint.material = this.shaderMaterial2
-        intersectsPoint.rotation.x += Math.PI/2
+        intersectsPoint.rotation.x += Math.PI/2* Math.random()
         intersectsPoint.position.x += 5 * Math.random()
-        intersectsPoint.position.y += 5 
+        intersectsPoint.position.y += 5 * Math.random()
 }
 
 if (intersects2.length > 0) {
@@ -1137,11 +1137,11 @@ if (intersects2.length > 0) {
   const intersectsPoint = intersects2[0].object
   
 
-  intersectsPoint.scale.setScalar(1.5)
+  intersectsPoint.scale.setScalar(.5)
   intersectsPoint.material = this.shaderMaterial4
-  intersectsPoint.rotation.z += Math.PI/2
+  intersectsPoint.rotation.z += Math.PI/2* Math.random()
   intersectsPoint.position.x += -5 * Math.random()
-  intersectsPoint.position.y += 5 
+  intersectsPoint.position.y += 5 * Math.random()
 
 }
     
