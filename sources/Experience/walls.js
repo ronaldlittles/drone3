@@ -31,8 +31,8 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource1 = this.resources.items.smoke;
-    this.resource2 = this.resources.items.wallTexture;
+    this.resource1 = this.resources.items.me;
+    this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.buildingModel;
     this.resource5 = this.resources.items.baloonsModel;
@@ -352,15 +352,20 @@ export default class Walls extends EventEmitter {
           this.label4.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label4);
 
-          this.popup = document.getElementById("popup");
+
+
+        /*   this.popup = document.getElementById("popup");
+
           this.popup.visible = false
 
 
           this.menu = document.getElementById("menu");
+
           this.menu.addEventListener('pointerdown', ()=>{
-          this.popup.visible = true
-          
-          })
+
+          this.popup.visible = true 
+
+          })*/
           
        
          
@@ -382,16 +387,16 @@ export default class Walls extends EventEmitter {
         this.texture = new THREE.VideoTexture(this.video); 
 
         
-        const light1 = new THREE.PointLight( 0x0000ff, 4.5, 1000, 2  );
-        light1.position.set(-50,800,0)
+        const light1 = new THREE.PointLight( 0x0000ff, .5, 10, 2  );
+        light1.position.set(-50,-800,0)
         this.scene2.add( light1 );
         
         
         light1.castShadow = true;
-        light1.shadow.mapSize.width = 1024;
-        light1.shadow.mapSize.height = 1024;
+        light1.shadow.mapSize.width = 4;
+        light1.shadow.mapSize.height = 4;
         light1.shadow.camera.near = 0.5;
-        light1.shadow.camera.far = 1000; 
+        light1.shadow.camera.far = 10; 
 
         const light1Helper = new THREE.PointLightHelper( light1, 500 );
         this.scene2.add( light1Helper );
@@ -461,11 +466,18 @@ export default class Walls extends EventEmitter {
     
       uniforms: {
 
-        time: { value: null },
-        texture1: { value: this.resource1},
+        time: { value: 1.0 },
+       
         uNoise: { value: this.iNoise},
-        uvScale: { value: new THREE.Vector2(1,1)},
-        tangent:{ value:this.tangent}
+        uvScale:  { value: new THREE.Vector2( 3.0, 1.0 ) },
+        tangent:{ value:this.tangent },
+
+        fogDensity: { value: 0.45 },
+				fogColor: { value: new THREE.Vector3( 0, 0, 0 ) },
+					
+        texture1: { value: this.resource1 },
+				texture2: { value: this.resource2 }
+
       },
    
       vertexShader: vertexShader.vertexShader,
@@ -529,9 +541,6 @@ export default class Walls extends EventEmitter {
     this.redMaterial = new THREE.MeshBasicMaterial({ 
 
             color: 'white',
-            //emissive: 0xffffff,
-            //emissiveIntensity:.1, 
-            //map:this.renderer.renderTarget.texture,
             opacity: 1.0,
             transparent: true,
             
@@ -1082,11 +1091,11 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.camera.instance.add(this.model)
    
-    //this.camera.instance.position.copy( pos.add(tangent).add(this.normal))//.add(this.binormal))
+    this.camera.instance.position.copy( pos.add(tangent).add(this.normal))//.add(this.binormal))
 
 
 
-    //this.camera.instance.lookAt(pos2.add(tangent).add(this.normal))//.add(this.binormal))
+    this.camera.instance.lookAt(pos2.add(tangent).add(this.normal))//.add(this.binormal))
 
      
 
