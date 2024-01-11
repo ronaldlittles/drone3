@@ -12,6 +12,7 @@ body, html {
 }
 
 .experience {
+
   position: absolute;
   top: 0;
   left: 0;
@@ -20,12 +21,51 @@ body, html {
   
 }
 
+.popup{
+
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 400px;
+height: 400px;
+padding: 20px;
+background: 'transparent';
+border-radius: 2px;
+
+z-index: 9999;
+border: 1px solid #850404;
+
+
+}
+
+p {
+
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  font-size: 25px;
+  color: #fff;
+  text-shadow: 1px 1px #000000;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+
+#popuptext2{
+
+font-size: 14px;
+color: #f00a0a;
+text-shadow: none;
+
+}
+
 button {
+
   position: absolute;
-  
   border: none;
   cursor: pointer;
-  
   background-color: transparent;
   color: #fff;
   font-size: 8px;
@@ -52,12 +92,11 @@ button {
 
 .top-right {
   position: absolute;
+  z-index: 10;
   top: 15px;
   right: 100px;
- 
-  z-index: 100;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   box-shadow: 3px 2px 2px #030303;
   
 }
@@ -69,6 +108,7 @@ button {
   height: 75px;
   font-size: 14px;
   font-weight: bold;
+  
 }
 
 .bottom-right {
@@ -78,6 +118,7 @@ button {
   height: 75px;
   font-size: 14px;
   font-weight: bold;
+ 
 }
 
 /* Additional styles for the new div elements */
@@ -100,7 +141,7 @@ button {
 #label3,
 #label4 {
   font-size: 24px;
-  padding: 10px;
+  padding: 10px 10px 10px 10px;
   text-shadow: 2px 2px #000000;
 }
 

@@ -3,13 +3,13 @@ import Experience from "./Experience.js";
 import EventEmitter from "./Utils/EventEmitter.js";
 import GSAP from "gsap";
 import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
-import { vertexShader } from "./vertex.js";
-import { fragmentShader } from "./fragment.js";
-import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
-import { FigureEightPolynomialKnot } from "three/examples/jsm/curves/CurveExtras.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import {smokeFragment} from "./smokeFragment.js";
 import {smokeVertex} from './smokeVertex.js';
+import { vertexShader } from "./vertex.js";
+import { fragmentShader } from "./fragment.js";
+import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
+
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -146,17 +146,11 @@ export default class Walls extends EventEmitter {
 
       this.box = this.box1.clone();
     
-      //this.box.position
-      
-     /*  set(
-        Math.random() * 200 - 100,
-        Math.random() * 200 - 100,
-        Math.random() * 2400 - 1200
-      ); */
     
       this.box.scale.set(5, 1, 5);
     
       this.box.castShadow = true
+      this.box.receiveShadow = true
     
       this.scene2.add(this.box);
     
@@ -166,7 +160,7 @@ export default class Walls extends EventEmitter {
        
     }
    
-    this.boxes.name = 'cloudboxes';
+   
 
   
     
@@ -200,6 +194,7 @@ export default class Walls extends EventEmitter {
 
 
 
+
   setModel() {
 
     this.model = this.resource3.scene;
@@ -227,19 +222,31 @@ export default class Walls extends EventEmitter {
     //this.model3.castShadow = true;
     this.model3.position.y = -300;
     //this.model3.receiveShadow = true; 
-    
 
     //this.scene2.add(this.model3);
 
     
    
+   this.model.translateZ(-150)
+   this.model.translateY(5)
 
-    
-  
-    this.model.translateZ(-200)
-   //this.model.translateY(15)
 
+   if(this.debug){
+
+    this.debugFolder = this.debug.addFolder()
+
+  this.debugFolder
+  .add(this.model.position,'z')
+  .min(-500)
+  .max(500)
+  .step(50.0)
+  .onChange((value) => {
+
+    this.model.position.z = value })
+ 
    
+
+  }
    
       //USE THE FOLLOWING TO TRAVERSE ANY OF THE MODELS PROPERTIES
 
@@ -273,17 +280,7 @@ export default class Walls extends EventEmitter {
        
   
   
-        function doSomething() {
-       
-          /* if(this.arrowLeftPressed === true) {
-  
-            console.log('this.isPointerDown')
-  
-            //this.model.rotation.y += Math.PI/2
-  
-          } */
         
-        }
 
         this.rotateLeftButton.addEventListener('pointerdown', () => {
   
@@ -354,6 +351,16 @@ export default class Walls extends EventEmitter {
           this.label4.style.fontFamily = "sans-serif";
           this.label4.style.textShadow = "2px 2px #000000";
           document.body.appendChild(this.label4);
+
+          this.popup = document.getElementById("popup");
+          this.popup.visible = false
+
+
+          this.menu = document.getElementById("menu");
+          this.menu.addEventListener('pointerdown', ()=>{
+          this.popup.visible = true
+          
+          })
           
        
          
@@ -375,19 +382,25 @@ export default class Walls extends EventEmitter {
         this.texture = new THREE.VideoTexture(this.video); 
 
         
-        const light1 = new THREE.DirectionalLight( 0x0000ff, 4.5 );
-        light1.position.set(-10,800,0)
+        const light1 = new THREE.PointLight( 0x0000ff, 4.5, 1000, 2  );
+        light1.position.set(-50,800,0)
         this.scene2.add( light1 );
+        
         
         light1.castShadow = true;
         light1.shadow.mapSize.width = 1024;
         light1.shadow.mapSize.height = 1024;
-        //light1.shadow.camera.near = 0.5;
-        //light1.shadow.camera.far = 500; 
+        light1.shadow.camera.near = 0.5;
+        light1.shadow.camera.far = 1000; 
 
-        const light1Helper = new THREE.DirectionalLightHelper( light1, 500 );
+        const light1Helper = new THREE.PointLightHelper( light1, 500 );
         this.scene2.add( light1Helper );
+        
         console.log(light1)
+
+        this.model.add(light1)
+
+
      
 
         this.shaderMaterial3 = new THREE.ShaderMaterial({
@@ -430,10 +443,12 @@ export default class Walls extends EventEmitter {
          
           time: { value: this.time.elapsed },
           uNoise: { value: this.iNoise },
-          uvScale: { value: new THREE.Vector2(1,1)}
+          uvScale: { value: new THREE.Vector2(1,1)},
+          tangent:{ value:this.tangent}
+
       },
 
-      vertexShader: vertexShader.vertexShader,
+      vertexShader: vertexShader.vertexShader2,
       fragmentShader: fragmentShader.fragmentShader2,
 
     });  
@@ -446,11 +461,11 @@ export default class Walls extends EventEmitter {
     
       uniforms: {
 
-        time: { value: null},
-        texture1: { value: this.resource2},
+        time: { value: null },
+        texture1: { value: this.resource1},
         uNoise: { value: this.iNoise},
-        uvScale: { value: new THREE.Vector2(1,1)}
-
+        uvScale: { value: new THREE.Vector2(1,1)},
+        tangent:{ value:this.tangent}
       },
    
       vertexShader: vertexShader.vertexShader,
@@ -464,13 +479,13 @@ export default class Walls extends EventEmitter {
       this.debugFolder = this.debug.addFolder()
 
     this.debugFolder
-    .add( this.shaderMaterial.uniforms.uvScale.value,'x',10)
-    .min(-100)
-    .max(100)
-    .step(10.0)
+    .add( this.shaderMaterial2.uniforms.uvScale.value,'x',10)
+    .min(-1000)
+    .max(1000)
+    .step(100.0)
     .onChange((value) => {
 
-      this.shaderMaterial.uniforms.uvScale.value.x = value})
+      this.shaderMaterial2.uniforms.uvScale.value.x = value})
    
     }
 
@@ -616,7 +631,7 @@ export default class Walls extends EventEmitter {
 
         this.test = getPointAboveCurve(10, 1.5)
      
-        
+        console.log(this.test)
   
 
 
@@ -630,11 +645,7 @@ export default class Walls extends EventEmitter {
 
       this.distance= this.splinePoints.distanceTo(this.model.position)
 
-      if(this.distance < 50) {
-
-        this.tube.material = this.shaderMaterial
-
-    }
+     
   
   }
 
@@ -799,6 +810,10 @@ racetrackShape6.lineTo(-.2, -1);
       extrudePath: this.spline3,
 
     } 
+
+    
+
+
     
  
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
@@ -823,7 +838,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube.visible = false;
 
     this.tube.receiveShadow = true;
-  
+    light1.lookAt(this.tube.position)
  
     this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
 
@@ -892,14 +907,13 @@ racetrackShape6.lineTo(-.2, -1);
     
         this.resource6.repeat.set(64, 64)
 
-
- 
-
+      
           //SKYBOX
 
           this.sphere = new THREE.Mesh(
 
-            this.torusGeometry = new THREE.TorusGeometry(10, 3, 16, 100),
+          this.torusGeometry = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 ),
+            
 
           this.shaderMaterial
 
@@ -916,7 +930,9 @@ racetrackShape6.lineTo(-.2, -1);
 
           )
 
-        //this.sphere.scale.setScalar(3)
+         
+
+        this.sphere.scale.setScalar(10)
         this.scene2.add(this.sphere)
 
 
@@ -1016,11 +1032,12 @@ racetrackShape6.lineTo(-.2, -1);
 
            
 
-      this.iNoise += .05;
+      this.iNoise += .5;
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      this.shaderMaterial3.uniforms.time.value = this.time.elapsed * 50
+      this.shaderMaterial.uniforms.time.value +=  50
+      this.shaderMaterial4.uniforms.time.value +=  50
 
       let currentPosition = 0; 
       let speed = .9; 
@@ -1057,7 +1074,7 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     
-    const offset = new THREE.Vector3(0, this.model.position.z, this.model.position.y)
+    const offset = new THREE.Vector3(0, 0, 0)
    
    
 
@@ -1065,11 +1082,11 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.camera.instance.add(this.model)
    
-    this.camera.instance.position.copy( pos.add(tangent).add(this.normal).add(this.binormal))
+    //this.camera.instance.position.copy( pos.add(tangent).add(this.normal))//.add(this.binormal))
 
 
 
-    this.camera.instance.lookAt(pos2.add(tangent).add(this.normal).add(this.binormal))
+    //this.camera.instance.lookAt(pos2.add(tangent).add(this.normal))//.add(this.binormal))
 
      
 
@@ -1087,7 +1104,7 @@ racetrackShape6.lineTo(-.2, -1);
 
      //this.model.position.z = this.normal.z 
    
-    this.model.position.y = (normalizedValue + distance) 
+    this.model.position.y = (normalizedValue + distance) *.01 
 
     this.model.rotation.z =  this.binormal.z * .3
     //this.model.rotation.x = -this.normal.x * .1
@@ -1097,9 +1114,10 @@ racetrackShape6.lineTo(-.2, -1);
     //this.camera.instance.rotation.x =  this.model.rotation.x * .05
     //this.camera.instance.rotation.y = this.model.rotation.y
 
+
     this.objectsArray2.forEach((object) => {
 
-      object.rotation.y += .5
+      object.rotation.z += .5
 
       
 
@@ -1125,7 +1143,7 @@ racetrackShape6.lineTo(-.2, -1);
         const intersectsPoint = intersects[0].object
         
 
-        intersectsPoint.scale.setScalar(.5)
+        intersectsPoint.scale.setScalar(5)
         intersectsPoint.material = this.shaderMaterial2
         intersectsPoint.rotation.x += Math.PI/2* Math.random()
         intersectsPoint.position.x += 15 * Math.random()
@@ -1140,7 +1158,7 @@ if (intersects2.length > 0) {
   const intersectsPoint = intersects2[0].object
   
 
-  intersectsPoint.scale.setScalar(.5)
+  intersectsPoint.scale.setScalar(5)
   intersectsPoint.material = this.shaderMaterial4
   intersectsPoint.rotation.z += Math.PI/2* Math.random()
   intersectsPoint.position.x += -15 * Math.random()
@@ -1216,9 +1234,9 @@ if (intersects2.length > 0) {
 
     if (this.arrowUpPressed) {
 
-      this.camera.instance.position.copy( pos.add(tangent).add( offset ) )
+      this.camera.instance.position.copy( pos.add(tangent).add(this.normal).add( offset ) )
 
-      this.camera.instance.lookAt( pos2.add(tangent).add( offset )  )
+      this.camera.instance.lookAt( pos2.add(tangent).add(this.normal).add( offset )  )
 
     } 
     

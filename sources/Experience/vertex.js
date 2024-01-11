@@ -47,8 +47,10 @@ const vertexShader = {
       
       varying vec3 newPosition;
 
-     
-  
+      varying vec3 vNormal;
+      varying vec3 vTangent;
+
+      uniform vec3 tangent;
       
   
       float PI = 3.141592653589793238;
@@ -65,18 +67,19 @@ const vertexShader = {
 
       
   
-      newPosition = position;   
+      newPosition = position;  
+      
+      vec3 vNormal = normalMatrix * tangent;
+      vec3 vTangent = normalMatrix * normal;
        
-     
-      newPosition.y *= sin(PI * position.x * uScale.x + uNoise);
-       
-    newPosition.z *= cos(time*PI);
-    //newPosition.x *= sin(time*PI);
+      
+
 
       vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0 );
     
-  
-      gl_Position = projectionMatrix * mvPosition;
+      
+
+        gl_Position = projectionMatrix * mvPosition;
   
     }
   

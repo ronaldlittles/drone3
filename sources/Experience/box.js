@@ -33,10 +33,10 @@ export default class Box {
    
     this.setCubeTexture()
     this.resource1 = this.resources.items.smoke;
-    //this.resource2 = this.resources.items.forrest;
+    this.resource2 = this.resources.items.forrest;
     this.resource3 = this.resources.items.sceneModel
     this.resource6 =  this.resources.items.hdr
-    this.setLights()
+    //this.setLights()
     this.setCity() 
     this.setBox()
    
@@ -87,22 +87,18 @@ export default class Box {
   
   setCity() {
 
-   /*  this.shaderMaterial = new THREE.ShaderMaterial({
+     this.shaderMaterial = new THREE.ShaderMaterial({
 
       side: THREE.DoubleSide,
-            //transparent: true,
-      //opacity: 1.0,
-     
+            
     
       uniforms: {
 
           resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-          fogDensity: { value: 0.45 },
-					fogColor: { value: new THREE.Vector3( 0, 0, 0 ) },
 					time: { value: 1.0 },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
 					texture1: { value: this.resource2 },
-					texture2: { value: this.resource2 },
+					//texture2: { value: this.resource2 },
           azimuth: { value: null },
       
       },
@@ -110,7 +106,7 @@ export default class Box {
       vertexShader: vertexShader.vertexShader,
       fragmentShader: fragmentShader.fragmentShader,
 
-    }); */
+    }); 
 
    
   //this.resource2.wrapS =  THREE.RepeatWrapping;
@@ -129,15 +125,14 @@ export default class Box {
 
       this.mesh1 = new THREE.Mesh(this.geometry, this.shaderMaterial);
       
-      this.mesh1.name ='road'
-     
+      
       this.mesh1.scale.set(0,0,0)
 
       this.mesh1.scale.setScalar(500)
       
-      //this.scene2.add(this.mesh1);
+      this.scene2.add(this.mesh1);
 
-      //this.mesh1.position.z = 600;
+      this.mesh1.position.z = 500;
       //this.mesh1.rotation.x += Math.PI/2;
       this.mesh1.position.y = -10; 
     
@@ -183,41 +178,7 @@ export default class Box {
 
     }  */
       
-    
-
-     
-     
-
-    this.meshes2 = []
-
-    //for (let i = 0; i < 20; i++) {
-
-     
-
-      this.mesh2 = new THREE.Mesh(this.geometry, this.shaderMaterial);
-
-      this.mesh2.scale.setScalar(50)
-
-     /*  this.mesh2.position.copy(this.meshes[i].position);
-  this.mesh2.position.y += (this.meshes[i].scale.y / 2) + (this.mesh2.scale.y / 2); */
-
-      
-     // this.mesh = this.mesh2.clone()
-     /*  this.mesh.position.x = Math.random() * 6000 - 3000;
-      this.mesh.position.y = 100
-      this.mesh.position.z = Math.random() * 6000 - 3000;
-      this.mesh.scale.x = 10;
-      this.mesh.scale.y =   Math.random() * 160 + 20;
-      this.mesh.scale.z = 1; */
-
-      this.mesh2.name ='pillars2'
-     
-
-      
-      //this.scene2.add(this.mesh2);
-      //this.meshes2.push(this.mesh2)
-    
-  //}
+   
 
 }
 
@@ -389,13 +350,13 @@ function nextText() {
     lights.position.set(0, 100, 0);
     this.scene2.add(lights);
     //this.camera.instance.add(lights)
-    lights.castShadow = true;
+   
 
     const light1 = new THREE.AmbientLight( 0xff0000, 1.0 );
     light1.position.set( 0, 5, 0 );
     this.scene2.add( light1 );
     //this.camera.instance.add( light1 );
-    light1.castShadow = true;
+    
 
     var pointLight = new THREE.PointLight( 0xffffff, 1.0, 1 );
     //pointLight.position.set( 0, 0, 50 );
