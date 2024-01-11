@@ -31,10 +31,10 @@ export default class Renderer {
       this.debugFolder = this.debug.addFolder("renderer");
     } 
 
-    this.usePostprocess = false;
+    this.usePostprocess = true;
 
     this.setInstance();
-    //this.setPostProcess();
+    this.setPostProcess();
 
     //this.setPlane();
   }
@@ -58,7 +58,7 @@ export default class Renderer {
     this.instance.setSize(this.config.width, this.config.height);
     this.instance.setPixelRatio(this.config.pixelRatio);
 
-    this.instance.physicallyCorrectLights = false;
+    this.instance.physicallyCorrectLights = true;
     //this.instance.gammaOutPut = true
     this.instance.outputEncoding = THREE.sRGBEncoding;
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -327,8 +327,8 @@ export default class Renderer {
 
     } else {
      
-      //this.postProcess.composer.render();
-      this.instance.render(this.scene2, this.camera.instance);
+      this.postProcess.composer.render();
+      //this.instance.render(this.scene2, this.camera.instance);
     }
 
     if (this.stats) {
