@@ -873,14 +873,14 @@ racetrackShape6.lineTo(-.2, -1);
       
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial4) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial) 
 
       this.scene2.add(this.tube5);
 
       //this.tube5.position.y = -10;
 
 
-      this.tube6 = new THREE.Mesh(this.tubeGeo6, this.shaderMaterial2)
+      this.tube6 = new THREE.Mesh(this.tubeGeo6, this.shaderMaterial4)
 
       //this.scene2.add(this.tube6);
 
