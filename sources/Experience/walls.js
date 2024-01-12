@@ -888,7 +888,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 300, 1, 300, false); 
 
-      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial)
+      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.redMaterial)
       
       this.tube7.position.y = -8;
 

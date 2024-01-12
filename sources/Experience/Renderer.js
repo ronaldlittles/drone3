@@ -5,7 +5,7 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
-//import Video from './video.js'
+//import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
 export default class Renderer {
   constructor(_options = {}) {
@@ -150,6 +150,8 @@ export default class Renderer {
 
     this.postProcess.unrealBloomPass.enabled = true;
 
+    //this.postProcess.outputPass = new OutputPass();
+
     this.renderTarget = new THREE.WebGLRenderTarget(
       this.sizes.width,
       this.sizes.height,
@@ -188,6 +190,8 @@ export default class Renderer {
     this.postProcess.composer.addPass(this.postProcess.renderPass);
 
     this.postProcess.composer.addPass(this.postProcess.unrealBloomPass);
+
+    //this.postProcess.composer.addPass(this.postProcess.outputPass);
 
    
     this.postProcess.unrealBloomPass.renderTarget = this.renderTarget;
@@ -327,7 +331,7 @@ export default class Renderer {
 
     } else {
      
-      this.postProcess.composer.render();
+      this.postProcess.composer.render(0.01);
       //this.instance.render(this.scene2, this.camera.instance);
     }
 
