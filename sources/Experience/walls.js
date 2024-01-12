@@ -317,14 +317,14 @@ export default class Walls extends EventEmitter {
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "65px";
-          this.label.style.right = '30%';
+          this.label.style.right = '40%';
           this.label.style.backgroundColor = 'transparent';
           this.label.style.color = "white";
           this.label.style.fontFamily = "sans-serif";
-          this.label.style.fontSize = "36px";
+          this.label.style.fontSize = "34px";
           this.label.style.textShadow = "1px 2px #000000";
-          this.label.style.justifyContent = "center";
-          this.label.style.display = "none";
+          //this.label.style.justifyContent = "center";
+          this.label.style.display = "block";
           //this.label.style.pointerEvents = "none"; 
           document.body.appendChild(this.label);
           
