@@ -76,7 +76,7 @@ export default [
 
          {
         name: "hdr",
-        source: "/assets/park.hdr",
+        source: "/assets/michelleskids.jpg",
         type: "texture",
       },  
 

@@ -323,8 +323,8 @@ export default class Walls extends EventEmitter {
           this.label.style.fontFamily = "sans-serif";
           this.label.style.fontSize = "36px";
           this.label.style.textShadow = "1px 2px #000000";
-          this.label.style.textAlign = "center";
-          this.label.style.display = "block";
+          this.label.style.justifyContent = "center";
+          this.label.style.display = "none";
           //this.label.style.pointerEvents = "none"; 
           document.body.appendChild(this.label);
           
@@ -914,7 +914,7 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.resource6.wrapT = THREE.RepeatWrapping;
     
-        this.resource6.repeat.set(64, 64)
+        //this.resource6.repeat.set(4, 4) 
 
       
           //SKYBOX

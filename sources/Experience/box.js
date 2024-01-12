@@ -117,29 +117,40 @@ export default class Box {
   this.resource1.wrapT =  THREE.RepeatWrapping;
   //this.resource1.repeat.set(10,10)
 
-  this.resource2.wrapS = THREE.RepeatWrapping;
-  this.resource2.wrapT =THREE.RepeatWrapping; 
+  //this.resource2.wrapS = THREE.RepeatWrapping;
+  //this.resource2.wrapT =THREE.RepeatWrapping; 
   //this.resource2.repeat.set(10,10)
 
   this.resource1.colorSpace = THREE.SRGBColorSpace;
 
-
+  /* this.resource6.wrapS = THREE.RepeatWrapping;
+  this.resource6.wrapT =THREE.RepeatWrapping; 
+  this.resource6.repeat.set(.05,.05) */
     
 
-      this.geometry = new THREE.PlaneGeometry(2,2,100,100);
+      this.geometry = new THREE.PlaneGeometry(2,1.5,10,10);
 
-      this.mesh1 = new THREE.Mesh(this.geometry, this.shaderMaterial);
+      this.mesh1 = new THREE.Mesh(this.geometry,
+         new THREE.MeshBasicMaterial({
+
+          map: this.resource6,
+          color: 0x0000ff,
+          side: THREE.DoubleSide
+
+        }));
       
       
       this.mesh1.scale.set(0,0,0)
 
-      this.mesh1.scale.setScalar(500)
+      this.mesh1.scale.setScalar(400)
+
+      this.mesh1.position.set(1000, 500 , -500)
       
       this.scene2.add(this.mesh1);
 
-      this.mesh1.position.z = 500;
-      //this.mesh1.rotation.x += Math.PI/2;
-      this.mesh1.position.y = -10; 
+     
+
+      //this.mesh1.lookAt(new THREE.Vector3(0, 0, 1200))
     
 
     
@@ -216,7 +227,7 @@ export default class Box {
     const myText2 = new Text();
     this.scene2.add(myText2);
 
-    myText2.text = "HAPPY NEW YEAR";
+    myText2.text = "Ronald C. Littles";
 
     myText2.fontSize = 50.0;
     myText2.color = "yellow";
@@ -380,8 +391,9 @@ function nextText() {
 
   update(){
     
-    this.shaderMaterial.uniforms.time.value += this.time.deltaa * 0.2;
-   
+    this.shaderMaterial.uniforms.time.value += this.time.delta * 0.2;
+    this.mesh1.rotation.y += 0.01;
+
    
   } 
 
