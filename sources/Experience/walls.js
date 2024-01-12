@@ -473,7 +473,7 @@ export default class Walls extends EventEmitter {
         tangent:{ value:this.tangent },
 
         fogDensity: { value: 0.45 },
-				fogColor: { value: new THREE.Vector3( 0, 0, 0 ) },
+				fogColor: { value: new THREE.Vector3( 0.0, 0.0, 1.0 ) },
 					
         texture1: { value: this.resource1 },
 				texture2: { value: this.resource2 }
@@ -900,14 +900,14 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
-        this.resource1.repeat.set(2,1)
+        //this.resource1.repeat.set(2,1)
 
 
         this.resource2.wrapS = THREE.RepeatWrapping;
 
-        //this.resource2.wrapT = THREE.RepeatWrapping;
+        this.resource2.wrapT = THREE.RepeatWrapping;
     
-        this.resource2.repeat.set(.05,.05)
+        //this.resource2.repeat.set(.05,.05)
 
 
         this.resource6.wrapS = THREE.RepeatWrapping;
@@ -1045,7 +1045,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      this.shaderMaterial.uniforms.time.value +=  50
+      this.shaderMaterial.uniforms.time.value +=  this.time.delta * 0.2
       this.shaderMaterial4.uniforms.time.value +=  50
 
       let currentPosition = 0; 

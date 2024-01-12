@@ -17,13 +17,13 @@ export default [
 
       {
         name: "fluffy",
-        source: "/assets/fluffy.png",
+        source: "/assets/lava.jpg",
         type: "texture",
       },
 
       {
         name: "me",
-        source: "/assets/michelleskids.jpg",
+        source: "/assets/cloud.png",
         type: "texture",
       },
       {

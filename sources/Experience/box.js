@@ -32,8 +32,8 @@ export default class Box {
     
    
     this.setCubeTexture()
-    this.resource1 = this.resources.items.smoke;
-    this.resource2 = this.resources.items.forrest;
+    this.resource1 = this.resources.items.me;
+    this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.sceneModel
     this.resource6 =  this.resources.items.hdr
     //this.setLights()
@@ -97,9 +97,13 @@ export default class Box {
           resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
 					time: { value: 1.0 },
 					uvScale: { value: new THREE.Vector2( 3.0, 1.0 ) },
-					texture1: { value: this.resource2 },
-					//texture2: { value: this.resource2 },
+					texture1: { value: this.resource1 },
+					texture2: { value: this.resource2 },
           azimuth: { value: null },
+
+          fogDensity: { value: 0.45 },
+				  fogColor: { value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
+          
       
       },
 
@@ -109,14 +113,15 @@ export default class Box {
     }); 
 
    
-  //this.resource2.wrapS =  THREE.RepeatWrapping;
-  //this.resource2.wrapT =  THREE.RepeatWrapping;
+  this.resource1.wrapS =  THREE.RepeatWrapping;
+  this.resource1.wrapT =  THREE.RepeatWrapping;
+  //this.resource1.repeat.set(10,10)
+
+  this.resource2.wrapS = THREE.RepeatWrapping;
+  this.resource2.wrapT =THREE.RepeatWrapping; 
   //this.resource2.repeat.set(10,10)
 
-  //this.resource2.wrapS = THREE.RepeatWrapping;
-  //this.resource2.wrapT =THREE.RepeatWrapping; 
-
-  //this.resource1.colorSpace = THREE.SRGBColorSpace;
+  this.resource1.colorSpace = THREE.SRGBColorSpace;
 
 
     
@@ -375,7 +380,7 @@ function nextText() {
 
   update(){
     
-    
+    this.shaderMaterial.uniforms.time.value += this.time.deltaa * 0.2;
    
    
   } 
