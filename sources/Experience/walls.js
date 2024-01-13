@@ -558,11 +558,11 @@ export default class Walls extends EventEmitter {
 
 
          
-        this.numPoints = 2000;
+        this.numPoints = 1000;
         this.points = [];
         this.derivatives = []; 
         
-        let radius = 2000;
+        let radius = 2500;
         
         function figureEightCurve(t) {
 
@@ -572,9 +572,12 @@ export default class Walls extends EventEmitter {
         
             if ( t < Math.PI / 1.5 && t > Math.PI / 2.5 ) {
 
-                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 100;
+                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 150;
+
                 y = Math.sin(Math.cos(t * 6 * Math.PI)) * 5;
+
                 const smoothY = y + (targetY + y) * (Math.abs(t - Math.PI / 2.5)) * 10;
+
                 y = smoothY;
 
             } else {
@@ -844,7 +847,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tubeGeo.computeVertexNormals()
    
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial) 
 
   
     this.scene2.add(this.tube);
@@ -856,7 +859,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.tube.receiveShadow = true;
     this.light1.lookAt(this.tube.position)
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
 
 
     this.scene2.add(this.tube2);
@@ -865,7 +868,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial2)  
 
     this.scene2.add(this.tube3);
         
@@ -895,7 +898,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 300, 1, 300, false); 
 
-      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial)
+      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.redMaterial2)
       
       this.tube7.position.y = -8;
 
@@ -1054,11 +1057,11 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      this.shaderMaterial.uniforms.time.value +=  this.time.delta * 2.5
+      this.shaderMaterial.uniforms.time.value +=  this.time.delta * 3.0
       this.shaderMaterial4.uniforms.time.value +=  50
 
       let currentPosition = 0; 
-      let speed = .9; 
+      let speed = .8; 
       let loopTime = 60;
       
 

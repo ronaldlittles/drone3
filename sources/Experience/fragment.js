@@ -32,9 +32,9 @@ void main() {
 
   vec2 position = - 1.0 + 2.0 * vUv;
 
-  vec2 rotatedPosition = rotationMatrix * position.xy;
+  //vec2 rotatedPosition = rotationMatrix * position.xy;
 
-  position = rotatedPosition;
+  //position = rotatedPosition;
 
   vec4 noise = texture2D( texture1, vUv );
   vec2 T1 = vUv + vec2( 1.5, - 1.5 ) * time * 0.02;
@@ -95,7 +95,7 @@ void main() {
 
         vec4 redColor = vec4(1.0, 0.0, 0.0, 1.0);
         
-        vec4 whiteColor = vec4(1.0, 1.0, 1.0, 1.0);
+        vec4 whiteColor = vec4(1.0, 1.0, 1.0, .1);
 
         float dot = smoothstep(sin(0.05), .05, sin(mod(uv.x, 1.0))) * smoothstep(0.05, .05, mod(uv.y, 1.0)) ; 
 
