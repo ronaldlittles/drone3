@@ -14,15 +14,17 @@ const vertexShader = {
     
     uniform float uNoise;
   
-    uniform vec2 uScale;
+    uniform vec2 uvScale;
   
-    uniform float time;       
+    uniform float time; 
+    
+    
 
   void main() {
 
     //vNormal = normal;
 
-    vUv =  uv; 
+    vUv =  uv * uvScale; 
 
     newPosition = position;
      
@@ -57,13 +59,13 @@ const vertexShader = {
       
       uniform float uNoise;
     
-      uniform vec2 uScale;
+      uniform vec2 uvScale;
 
       uniform float time;
   
     void main() {
   
-      vUv =  uv;
+      vUv =  uv * uvScale;
 
       
   

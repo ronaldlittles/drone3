@@ -38,7 +38,8 @@ export default class Walls extends EventEmitter {
     this.resource5 = this.resources.items.baloonsModel;
     this.resource6 = this.resources.items.hdr;
 
-    
+   
+    console.log(this.world)
 
     this.setModel();
    
@@ -258,7 +259,7 @@ export default class Walls extends EventEmitter {
                       });  
 
 
-        console.log(this.meshes)
+        
 
         this.meshes[0].receiveShadow = true
         this.meshes[1].receiveShadow = true
@@ -276,13 +277,19 @@ export default class Walls extends EventEmitter {
 
         this.rotateLeftButton = document.getElementById('left');
         this.rotateRightButton = document.getElementById('right');
-  
+        this.menuButton = document.getElementById('menu');
+
        
-  
+        this.menuButton.addEventListener('pointerdown', () => {
+          
+          this.arrowUpPressed = true;
+          this.video.play();
+
+        })
   
         
 
-        this.rotateLeftButton.addEventListener('pointerdown', () => {
+          this.rotateLeftButton.addEventListener('pointerdown', () => {
   
           this.arrowLeftPressed = true;
 
@@ -383,27 +390,27 @@ export default class Walls extends EventEmitter {
        this.video = document.querySelector(".top-right");
         
         //this.video.play();
-        this.video.autoPlay = true;
+        console.log(this.video)
         this.texture = new THREE.VideoTexture(this.video); 
 
         
-        const light1 = new THREE.PointLight( 0x0000ff, .5, 10, 2  );
-        light1.position.set(-50,-800,0)
-        this.scene2.add( light1 );
+       this.light1 = new THREE.PointLight( 0x0000ff, 2.5, 350, 0  );
+       this.light1.position.set(-50,300,0)
+        this.scene2.add(this.light1 );
         
         
-        light1.castShadow = true;
-        light1.shadow.mapSize.width = 4;
-        light1.shadow.mapSize.height = 4;
-        light1.shadow.camera.near = 0.5;
-        light1.shadow.camera.far = 10; 
+       this.light1.castShadow = true;
+       this.light1.shadow.mapSize.width = 1024
+       this.light1.shadow.mapSize.height = 1024
+       this.light1.shadow.camera.near = 0.5;
+       this.light1.shadow.camera.far = 100; 
 
-        const light1Helper = new THREE.PointLightHelper( light1, 500 );
+        const light1Helper = new THREE.PointLightHelper( this.light1, 500 );
         this.scene2.add( light1Helper );
         
-        console.log(light1)
+        
 
-        this.model.add(light1)
+        
 
 
      
@@ -555,7 +562,7 @@ export default class Walls extends EventEmitter {
         this.points = [];
         this.derivatives = []; 
         
-        let radius = 1000;
+        let radius = 2000;
         
         function figureEightCurve(t) {
 
@@ -638,8 +645,8 @@ export default class Walls extends EventEmitter {
       }
  
 
-        this.test = getPointAboveCurve(10, 1.5)
-     
+        this.test = getPointAboveCurve(2000, .5)
+        
         console.log(this.test)
   
 
@@ -837,7 +844,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tubeGeo.computeVertexNormals()
    
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
   
     this.scene2.add(this.tube);
@@ -847,9 +854,9 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube.visible = false;
 
     this.tube.receiveShadow = true;
-    light1.lookAt(this.tube.position)
+    this.light1.lookAt(this.tube.position)
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
 
 
     this.scene2.add(this.tube2);
@@ -858,7 +865,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial2)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
 
     this.scene2.add(this.tube3);
         
@@ -888,7 +895,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 300, 1, 300, false); 
 
-      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.redMaterial)
+      this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial)
       
       this.tube7.position.y = -8;
 
@@ -943,6 +950,8 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.sphere.scale.setScalar(10)
         this.scene2.add(this.sphere)
+
+        this.sphere.castShadow = true
 
 
         this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 );
@@ -1026,7 +1035,7 @@ racetrackShape6.lineTo(-.2, -1);
       )
 
       this.sphere2Clone = this.sphere.clone()
-      this.sphere2Clone.position.copy(positionOnCurve.clone())//.add(this.randomOffset)
+      this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset).add(this.test)
       
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
@@ -1045,7 +1054,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      this.shaderMaterial.uniforms.time.value +=  this.time.delta * 0.2
+      this.shaderMaterial.uniforms.time.value +=  this.time.delta * 2.5
       this.shaderMaterial4.uniforms.time.value +=  50
 
       let currentPosition = 0; 
@@ -1090,12 +1099,13 @@ racetrackShape6.lineTo(-.2, -1);
     ///CAMERA MOVEMENT
 
     this.camera.instance.add(this.model)
+    this.camera.instance.add(this.light1)
    
-    this.camera.instance.position.copy( pos.add(tangent).add(this.normal))//.add(this.binormal))
+    //this.camera.instance.position.copy( pos.add(tangent).add(this.normal))//.add(this.binormal))
 
 
 
-    this.camera.instance.lookAt(pos2.add(tangent).add(this.normal))//.add(this.binormal))
+    //this.camera.instance.lookAt(pos2.add(tangent).add(this.normal))//.add(this.binormal))
 
      
 
@@ -1147,32 +1157,29 @@ racetrackShape6.lineTo(-.2, -1);
     const intersects2 = raycaster2.intersectObjects(this.objectsArray2, true);
 
   if (intersects.length > 0) {
-
   
         const intersectsPoint = intersects[0].object
-        
 
-        intersectsPoint.scale.setScalar(5)
+        intersectsPoint.scale.setScalar(15)
         intersectsPoint.material = this.shaderMaterial2
         intersectsPoint.rotation.x += Math.PI/2* Math.random()
         intersectsPoint.position.x += 15 * Math.random()
-        intersectsPoint.position.y += 25 * Math.random()
-        intersectsPoint.position.z += -50 * Math.random()
+        intersectsPoint.position.y += 5 * Math.random()
+        intersectsPoint.position.z += -5 * Math.random()
 
 }
 
 if (intersects2.length > 0) {
 
-  
   const intersectsPoint = intersects2[0].object
-  
 
-  intersectsPoint.scale.setScalar(5)
+  intersectsPoint.scale.setScalar(15)
   intersectsPoint.material = this.shaderMaterial4
   intersectsPoint.rotation.z += Math.PI/2* Math.random()
   intersectsPoint.position.x += -15 * Math.random()
-  intersectsPoint.position.y += 25 * Math.random()
-  intersectsPoint.position.z += -50 * Math.random()
+  intersectsPoint.position.y += 5 * Math.random()
+  intersectsPoint.position.z += -5 * Math.random()
+
 }
     
   
@@ -1222,7 +1229,7 @@ if (intersects2.length > 0) {
    
     this.model.position.x -=  .9
 
-    
+   
     
     
     }
@@ -1237,7 +1244,7 @@ if (intersects2.length > 0) {
     
     this.model.position.x +=  .9
    
-
+    
 
     } 
 

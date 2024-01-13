@@ -1,6 +1,16 @@
 const fragmentShader = {
   fragmentShader: `
 
+  mat2 rotate(float angle){
+    
+      float c = cos(angle);
+      float s = sin(angle);
+
+      return mat2(c, -s, s, c);
+
+    
+  }
+
   uniform float time;
   uniform vec2 uvScale;
 
@@ -16,7 +26,15 @@ const fragmentShader = {
 
 void main() {
 
+  float angle = 1.5708;
+
+  mat2 rotationMatrix = rotate(angle);
+
   vec2 position = - 1.0 + 2.0 * vUv;
+
+  vec2 rotatedPosition = rotationMatrix * position.xy;
+
+  position = rotatedPosition;
 
   vec4 noise = texture2D( texture1, vUv );
   vec2 T1 = vUv + vec2( 1.5, - 1.5 ) * time * 0.02;
