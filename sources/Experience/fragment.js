@@ -107,18 +107,41 @@ void main() {
 
   fragmentShader3: `
 
+  mat2 rotate(float angle){
+    
+    float c = cos(angle);
+    float s = sin(angle);
+
+    return mat2(c, -s, s, c);
+
+  
+}
+
         varying vec2 vUv;
         uniform float time;
-        
+        uniform vec3 tangent;
+        uniform float uNoise;
+        uniform sampler2D texture1;
+
         void main() {
 
-          vec4 color = vec4(1.0,0.0,0.0,1.0);
+          float angle = 1.5708;
+
+          mat2 rotated = rotate(angle);
+
+          vec3 textured = texture2D( texture1, vUv ).rgb;
+
+          vec4 color = vec4(1.0,1.0,0.0,.8);
+
+          vec4 tangentColor = vec4( textured, 1.0);
+
+          vec4 mixedColor = mix(color, tangentColor, 1.3);
             
-          vec2 center = vec2(0.5,0.5);
+          vec2 center = vec2(1.0 - (0.5 + tangent.x), 0.5 + tangent.y);
 
           float t = time* 10.0;
 
-          vec4 mixed = mix(vec4(vec3( ( sin(t - distance( vUv, center ) * 100.0 ) ) )  * .5, .5),color, .9  );
+          vec4 mixed = mix(vec4(vec3( ( sin(t - distance( vUv, center ) * 50.0 ) ) )  * .5, .5),mixedColor, .9  );
 
           gl_FragColor = vec4(mixed);
 

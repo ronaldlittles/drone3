@@ -51,6 +51,11 @@ export default class Walls extends EventEmitter {
 
     this.setRaycaster();
 
+
+    
+
+    
+
    
 
     this.depth = 50;
@@ -269,7 +274,7 @@ export default class Walls extends EventEmitter {
         this.meshes[1].receiveShadow = true
         this.meshes[2].receiveShadow = true
 
-         this.meshes[0].material.map = this.displacementMaterial
+         this.meshes[0].material.map = this.shaderMaterial4
         /*this.meshes[1].material.map = this.shaderMaterial
         this.meshes[2].material.map = this.shaderMaterial3
 
@@ -283,14 +288,17 @@ export default class Walls extends EventEmitter {
         this.rotateRightButton = document.getElementById('right');
         this.menuButton = document.getElementById('menu');
 
-       
-        this.menuButton.addEventListener('pointerdown', () => {
-          
-          this.arrowUpPressed = true;
-          this.video.play();
+        let popUp =  document.getElementById('andrea')
+//this.texture = new THREE.VideoTexture(this.video); 
 
+        
+        //this.video.play()
+
+       
+        this.menuButton.addEventListener('pointerdown', ()=>{
+          this.centerElement(popUp)
+          this.arrowUpPressed = true;
         })
-  
        
 
           this.rotateLeftButton.addEventListener('pointerdown', () => {
@@ -316,10 +324,49 @@ export default class Walls extends EventEmitter {
   
        
       
+      }
+     
 
-     }
+     centerElement(element){
+
+      //this.video = document.querySelector(".top-right");
+
+      let elementWidth = element.offsetWidth;
+      let elementHeight = element.offsetHeight;
+
+      let windowWidth = window.innerWidth;
+      let windowHeight = window.innerHeight;
+
+      let leftPosition = (windowWidth - elementWidth) /2;
+      let topPosition = (windowHeight - elementHeight) /2;
+
+      element.style.position = 'absolute';
+      element.style.left = leftPosition - elementWidth /2 + 'px';
+      element.style.top = topPosition - elementHeight /2 + 'px';
+      element.style.display = 'block'
+      element.play()
 
 
+     /*  GSAP.to(element, {
+
+        scale: 1.5,
+        opacity: 0,
+        
+        repeat: -1,
+        yoyo: true,
+        ease: 'power2.easeInOut',
+       
+        }); */
+
+        //this.texture = new THREE.VideoTexture(this.video); 
+
+        //this.arrowUpPressed = true;
+        //this.video.play();
+    
+      }
+    
+
+  
    
 
   
@@ -328,7 +375,7 @@ export default class Walls extends EventEmitter {
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "65px";
-          this.label.style.right = '40%';
+          this.label.style.right = '50%';
           this.label.style.backgroundColor = 'transparent';
           this.label.style.color = "white";
           this.label.style.fontFamily = "sans-serif";
@@ -338,7 +385,7 @@ export default class Walls extends EventEmitter {
           this.label.style.display = "block";
           //this.label.style.pointerEvents = "none"; 
           document.body.appendChild(this.label);
-          
+           
 
           this.label3 = document.createElement("div");
           this.label3.style.position = "absolute"; // Change to absolute positioning
@@ -393,11 +440,10 @@ export default class Walls extends EventEmitter {
 
         this.noise = new ImprovedNoise()
 
-       this.video = document.querySelector(".top-right");
+       
         
-        //this.video.play();
-        console.log(this.video)
-        this.texture = new THREE.VideoTexture(this.video); 
+        
+        
 
         
        this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 100, 5  );
@@ -490,31 +536,7 @@ export default class Walls extends EventEmitter {
    
 
 
-    if(this.debug){
-
-      this.debugFolder = this.debug.addFolder()
-
-    this.debugFolder
-    .add( this.shaderMaterial.uniforms.uvScale.value,'x' )
-    .min(-10)
-    .max(10)
-    .step(1.0)
-    .onChange((value) => {
-
-      this.shaderMaterial.uniforms.uvScale.value.x = value})
-   
     
-
-    this.debugFolder
-    .add( this.shaderMaterial.uniforms.uvScale.value,'y' )
-    .min(-10)
-    .max(10)
-    .step(1.0)
-    .onChange((value) => {
-
-      this.shaderMaterial.uniforms.uvScale.value.y = value})
-   
-    }
 
     
   
@@ -527,18 +549,59 @@ export default class Walls extends EventEmitter {
       uniforms: {
 
         time: { value: 1.0 },
-        texture1: { value: this.texture },
+        texture1: { value: this.resource6 },
         uNoise: { value: this.iNoise },
-        uvScale: { value: new THREE.Vector2(1,1) }
+        uvScale: { value: new THREE.Vector2(4,3) },
+        tangent: { value:  new THREE.Vector3(this.tangent)}
 
       },
    
       vertexShader: vertexShader.vertexShader,
-      fragmentShader: fragmentShader.fragmentShader,
+      fragmentShader: fragmentShader.fragmentShader3,
    
     });
 
 console.log(this.config)
+
+if(this.debug){
+
+  this.debugFolder = this.debug.addFolder()
+
+this.debugFolder
+.add( this.shaderMaterial4.uniforms.tangent.value,'x' )
+.min(-10)
+.max(10)
+.step(1.0)
+.onChange((value) => {
+
+  this.shaderMaterial4.uniforms.tangent.value.x = value})
+
+
+
+this.debugFolder
+.add( this.shaderMaterial4.uniforms.tangent.value,'y' )
+.min(-10)
+.max(10)
+.step(1.0)
+.onChange((value) => {
+
+  this.shaderMaterial4.uniforms.tangent.value.y = value})
+
+
+  this.debugFolder
+.add( this.shaderMaterial4.uniforms.tangent.value,'y' )
+.min(-10)
+.max(10)
+.step(1.0)
+.onChange((value) => {
+
+  this.shaderMaterial4.uniforms.tangent.value.z = value})
+
+
+
+}
+
+
 
       this.shaderMaterial5 = new THREE.ShaderMaterial({
      
@@ -582,7 +645,7 @@ console.log(this.config)
     this.redMaterial = new THREE.MeshBasicMaterial({ 
 
             color: 'white',
-            opacity: 1.0,
+            opacity: .7,
             transparent: true,
             
         });
@@ -606,7 +669,7 @@ console.log(this.config)
         
             if ( t < Math.PI / 1.5 && t > Math.PI / 2.5 ) {
 
-                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 125;
+                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 100;
 
                 y = Math.sin(Math.cos(t * 6 * Math.PI)) * 5;
 
@@ -614,7 +677,11 @@ console.log(this.config)
 
                 y = smoothY;
 
-            } else {
+            } else if (t < Math.PI/1. && t > Math.PI/2.0) {
+
+              y = Math.sin( Math.cos(t * 7* Math.PI)) * 27;
+
+              } else{
 
                 y = Math.sin(Math.cos(t * 3) * Math.PI) * 5;
 
@@ -682,7 +749,7 @@ console.log(this.config)
       }
  
 
-        this.test = getPointAboveCurve(2000, .5)
+        this.test = getPointAboveCurve(2000, .1)
         
         console.log(this.test)
   
@@ -917,7 +984,7 @@ racetrackShape6.lineTo(-.2, -1);
        
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial4) 
 
       this.scene2.add(this.tube5);
 
@@ -1130,7 +1197,7 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     
-    const offset = new THREE.Vector3(0, 10, 0)
+    const offset = new THREE.Vector3(0, 100, -50)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
    
@@ -1140,11 +1207,11 @@ racetrackShape6.lineTo(-.2, -1);
     this.camera.instance.add(this.model)
     //this.camera.instance.add(this.light1)
    
-    //this.camera.instance.position.copy( pos.add(tangent).add(this.normal))//.add(this.binormal))
+    //this.camera.instance.position.copy( pos.add(tangent).add(this.normal)).add(this.binormal))
 
 
 
-    //this.camera.instance.lookAt(pos2.add(tangent).add(this.normal))//.add(this.binormal))
+    //this.camera.instance.lookAt(pos2.add(tangent).add(this.normal)).add(this.binormal))
 
      
 
