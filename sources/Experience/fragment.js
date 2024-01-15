@@ -59,7 +59,7 @@ void main() {
 				float depth = gl_FragCoord.z / gl_FragCoord.w;
 				const float LOG2 = 1.442695;
 				float fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );
-				//fogFactor = 1.0 - clamp( fogFactor, 0.0, 1.0 );
+				//fogFactor =  clamp( fogFactor, 0.0, 1.0 );//1.0 -
 
 				gl_FragColor = mix( gl_FragColor, vec4( fogColor, gl_FragColor.w ), fogFactor );
 
@@ -68,14 +68,9 @@ void main() {
 
       
 
-` ,  
-    
-    
-    
+`,
 
-
-  
-      fragmentShader2: `
+  fragmentShader2: `
 
 
       uniform float uNoise;
@@ -97,7 +92,7 @@ void main() {
         
         vec4 whiteColor = vec4(1.0, 1.0, 1.0, .1);
 
-        float dot = smoothstep(sin(0.05), .05, sin(mod(uv.x, 1.0))) * smoothstep(0.05, .05, mod(uv.y, 1.0)) ; 
+        float dot = smoothstep(sin(0.005), .005, sin(mod(uv.x, 1.0))) * smoothstep(0.05, .05, mod(uv.y, 1.0)) ; 
 
         vec4 finalColor = mix(redColor, whiteColor, dot); 
 
@@ -110,28 +105,20 @@ void main() {
 
   `,
 
-
-    
-    
-    
-
-
-   
-
-    fragmentShader3: `
+  fragmentShader3: `
 
         varying vec2 vUv;
         uniform float time;
         
         void main() {
 
-          vec4 color = vec4(1.0,0.0,0.0,0.5);
+          vec4 color = vec4(1.0,0.0,0.0,1.0);
             
           vec2 center = vec2(0.5,0.5);
 
           float t = time* 10.0;
 
-          vec4 mixed = mix(color,vec4(vec3( ( sin(t - distance( vUv, center ) * 215.0 ) ) )  * .5, 1.0), 0.5  );
+          vec4 mixed = mix(vec4(vec3( ( sin(t - distance( vUv, center ) * 100.0 ) ) )  * .5, .5),color, .9  );
 
           gl_FragColor = vec4(mixed);
 
@@ -140,7 +127,91 @@ void main() {
 
     `,
 
-   } 
+  fragmentShader4: `
+
+
+  uniform float time;
+  uniform sampler2D texture1;
+  uniform vec2 iResolution;
+  uniform vec2 iMouse;
+ 
+
+
+    mat2 rot(float a) { return mat2(cos(a), sin(a), -sin(a), cos(a)); }
+
+// iq's noise function
+float noise(vec3 x) {
+    vec3 p = floor(x);
+    vec3 f = fract(x);
+	f = f*f*(3.0-2.0*f);
+	vec2 uv = (p.xy+vec2(37.0,17.0)*p.z) + f.xy;
+    vec2 rg = texture2D( texture1, (uv+ 0.5)/256.0, 0. ).yx;
+	return -1.0+2.0*mix( rg.x, rg.y, f.z );
+}
+
+float smoke(vec3 p) {
+    //return clamp(1. - length(p), 0., 1.);
+    vec3 q = 1.2 * p;
+    float f = 0., a = .5;
+    for(int i = 0; i < 5; ++i, a *= .4, q *= 2.1) { // fbm
+        q += time * vec3(.17, -.5, 0);
+        f += a * noise(q);
+    }
+    float noiseShape = .5 + .7 * max(p.y, 0.) - .15 * length(p.xz);
+    return clamp(1. +  noiseShape * f - length(p), 0., 1.);
+    
+}
+
+vec3 shading(vec3 ro, vec3 rd) {
+    vec3 ld = normalize(vec3(.5, 1, -.7));
+    
+    const float nbStep = 30., diam = 3., rayLength = diam / nbStep;
+    float start = length(ro) - diam / 2., end = start + diam;
+    float sumDen = 0., sumDif = 0.;
+    
+    for(float d = end; d > start; d -= rayLength) { // raymarching
+        vec3 p = ro + d * rd;
+    	if(dot(p,p) > diam * diam) break;
+        float den = smoke(p);
+        sumDen += den;
+        if(den > .02) sumDif += max(0., den - smoke(p + ld * .17));
+    }
+
+    const vec3 lightCol = vec3(.95, .75, .3);
+    float light = 10. * pow(max(0., dot(rd, ld)), 10.);
+    vec3 col = .01 * light * lightCol;
+    col +=  .4 * sumDen * rayLength * vec3(.8, .9, 1.); // ambient
+    col += 1.3 * sumDif * rayLength * lightCol;         // diffuse
+	return col;
+}
+
+
+
+
+
+
+void main() {
+
+   
+    vec2 uv = (gl_FragCoord.xy - iResolution.xy / 2.) / iResolution.yy;
+    vec3 rd = normalize(vec3(uv, -1.07));
+
+    vec2 ang = iMouse.xy/iResolution.xy;
+    float yaw = 7. * ang.x;
+    float pitch = +(ang.y);
+
+    vec3 camPos = vec3(0., .3, 3.5);
+    camPos.yz *= rot(pitch); camPos.zx *= rot(yaw);
+    rd.yz     *= rot(pitch);     rd.zx *= rot(yaw);
+
+	  gl_FragColor = vec4(pow(shading(camPos, rd), vec3(1. / 2.2)), 1.);
+
+    
+}
+
+
+`,
+}; 
 
   
 

@@ -108,16 +108,16 @@ export default class Renderer {
 
     const params = {
       exposure:.5,
-      bloomStrength:.7,
+      bloomStrength:.3,
       bloomThreshold:.5,
-      bloomRadius:.6,
+      bloomRadius:.3,
     };
 
     this.postProcess.unrealBloomPass = new UnrealBloomPass(
       new THREE.Vector2(this.sizes.width, this.sizes.height),
       .5,
-      1.3,
-      1.3
+      1.0,
+      1.0
     );
 
     this.postProcess.unrealBloomPass.exposure = params.exposure;

@@ -230,7 +230,7 @@ export default class Camera {
    
   this.orbitControls.update()
 
-  this.azimuth = this.orbitControls.getAzimuthalAngle()
+  //this.azimuth = this.orbitControls.getAzimuthalAngle()
 
 
 

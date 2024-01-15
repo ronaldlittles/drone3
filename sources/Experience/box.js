@@ -113,8 +113,8 @@ export default class Box {
     }); 
 
    
-  this.resource1.wrapS =  THREE.RepeatWrapping;
-  this.resource1.wrapT =  THREE.RepeatWrapping;
+  //this.resource1.wrapS =  THREE.RepeatWrapping;
+  //this.resource1.wrapT =  THREE.RepeatWrapping;
   //this.resource1.repeat.set(10,10)
 
   //this.resource2.wrapS = THREE.RepeatWrapping;
@@ -133,8 +133,8 @@ export default class Box {
       this.mesh1 = new THREE.Mesh(this.geometry,
          new THREE.MeshBasicMaterial({
 
-          map: this.resource6,
-          color: 0x0000ff,
+          map: this.resource1,
+          //color: 0x0000ff,
           side: THREE.DoubleSide
 
         }));
