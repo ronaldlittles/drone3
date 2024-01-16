@@ -131,9 +131,9 @@ export default class Box {
       this.geometry = new THREE.PlaneGeometry(2,1.5,10,10);
 
       this.mesh1 = new THREE.Mesh(this.geometry,
-         new THREE.MeshBasicMaterial({
+         new THREE.MeshStandardMaterial({
 
-          map: this.resource1,
+          map: this.resource6,
           //color: 0x0000ff,
           side: THREE.DoubleSide
 
@@ -142,13 +142,14 @@ export default class Box {
       
       this.mesh1.scale.set(0,0,0)
 
-      this.mesh1.scale.setScalar(400)
+      this.mesh1.scale.setScalar(50)
 
-      this.mesh1.position.set(1000, 500 , -500)
+      this.mesh1.position.set(1000, 150 , -500)
       
       this.scene2.add(this.mesh1);
 
-     
+      this.mesh1.receiveShadow = true;
+      this.mesh1.castShadow = true;
 
       //this.mesh1.lookAt(new THREE.Vector3(0, 0, 1200))
     

@@ -31,10 +31,10 @@ export default class Renderer {
       this.debugFolder = this.debug.addFolder("renderer");
     } 
 
-    this.usePostprocess = true;
+    //this.usePostprocess = true;
 
     this.setInstance();
-    this.setPostProcess();
+    //this.setPostProcess();
 
     //this.setPlane();
   }
@@ -331,8 +331,8 @@ export default class Renderer {
 
     } else {
      
-      this.postProcess.composer.render(0.01);
-      //this.instance.render(this.scene2, this.camera.instance);
+      //this.postProcess.composer.render(0.01);
+      this.instance.render(this.scene2, this.camera.instance);
     }
 
     if (this.stats) {

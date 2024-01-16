@@ -10,6 +10,7 @@ import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 
+import { VertexNormalsHelper } from "three/examples/jsm/helpers/VertexnormalsHelper.js";
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -40,14 +41,14 @@ export default class Walls extends EventEmitter {
 
     //this.resource1.colorSpace = THREE.SRGBColorSpace
 
-   
+    this.setBoxes();
     console.log(this.world)
 
     this.setModel();
    
     this.createWall();
 
-    this.setBoxes();
+    
 
     this.setRaycaster();
 
@@ -116,6 +117,42 @@ export default class Walls extends EventEmitter {
 
   setBoxes(){
 
+    this.light1 = new THREE.PointLight( 0xffffff, 1.5, 150, 0  );
+    //this.light1.position.set(-10,40,0)
+     this.scene2.add(this.light1 );
+     this.light1.lookAt(this.scene2.position)
+     this.light1.translateZ(100)
+     this.light1.translateX(50)
+     this.light1.translateY(125)
+     
+    this.light1.castShadow = true;
+    this.light1.shadow.mapSize.width = 512
+    this.light1.shadow.mapSize.height = 512
+    this.light1.shadow.camera.near = 10;
+    this.light1.shadow.camera.far = 100;
+    this.light1.shadow.radius = 2;
+    //this.light1.angle = Math.PI / 5;
+		//this.light1.penumbra = 0.3;
+    //this.light1.shadow.bias = -.002;
+
+     const light1Helper = new THREE.PointLightHelper( this.light1, 100 );
+     this.scene2.add( light1Helper );
+
+     console.log(this.light1)
+
+     this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
+     this.scene2.add(this.directionalLight);
+     this.camera.instance.add( this.directionalLight ); 
+     this.directionalLight.castShadow = true;
+     this.directionalLight.shadow.mapSize.width = 512
+     this.directionalLight.shadow.mapSize.height = 512
+     this.directionalLight.shadow.camera.near = 10;
+     this.directionalLight.shadow.camera.far = 100;
+     this.directionalLight.shadow.radius = 2;
+     this.directionalLight.lookAt(this.scene2.position)
+
+
+     const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 50, 0xffffff)
 
     let length = 250;
     this.boxes = [];
@@ -211,12 +248,13 @@ export default class Walls extends EventEmitter {
     this.model.name = "droneModel";
     this.model.upVector = new THREE.Vector3(0, 1, 0);
     this.model.castShadow = true;
+    this.model.receiveShadow = true;
     this.model.visible = true;
     this.model.scale.set(.9,.5,1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
-   
-   
+   console.log(this.model)
+   //this.camera.instance.castShadow = true;
 
     this.model2 = this.resource4.scene;
     this.model2.scale.setScalar(6)
@@ -446,20 +484,7 @@ export default class Walls extends EventEmitter {
         
 
         
-       this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 100, 5  );
-       this.light1.position.set(-50,100,0)
-        this.scene2.add(this.light1 );
-        this.light1.lookAt(this.scene2.position)
-        
-       this.light1.castShadow = true;
-       this.light1.shadow.mapSize.width = 1024
-       this.light1.shadow.mapSize.height = 1024
-       this.light1.shadow.camera.near = .1;
-       this.light1.shadow.camera.far = 100;
-       this.light1.shadow.radius = 50;
-
-        const light1Helper = new THREE.PointLightHelper( this.light1, 500 );
-        this.scene2.add( light1Helper );
+      
         
         //SHADERS
 
@@ -642,11 +667,12 @@ this.debugFolder
     });
 
 
-    this.redMaterial = new THREE.MeshBasicMaterial({ 
+    this.redMaterial = new THREE.MeshStandardMaterial({ 
 
+            side: THREE.DoubleSide,
             color: 'white',
-            opacity: .7,
-            transparent: true,
+            opacity: 1.0,
+            transparent: false,
             
         });
 
@@ -677,9 +703,9 @@ this.debugFolder
 
                 y = smoothY;
 
-            } else if (t < Math.PI/1. && t > Math.PI/2.0) {
+            } else if (t < Math.PI/.5 && t > Math.PI/2.0) {
 
-              y = Math.sin( Math.cos(t * 7* Math.PI)) * 27;
+              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 50;
 
               } else{
 
@@ -945,19 +971,30 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
 
-    //this.tubeGeo.computeVertexNormals()
+    this.tubeGeo.computeVertexNormals()
+    //this.tubeGeo.computeVertexTangents()
+    
    
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
+    //this.vnhHelper = new VertexNormalsHelper(this.tube4, 25, 0xff00ff );
+    //this.vthHelper = new VertexTangentsHelper(this.tube, 5, 0x0000ff);
   
     this.scene2.add(this.tube);
+
+    console.log(this.tube)
+   
+
+    //this.scene2.add(this.vthHelper)
+
     
     this.tube.position.y =-10 
 
     //this.tube.visible = false;
 
     this.tube.receiveShadow = true;
+    //this.tube.castShadow = true;
    
  
     this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
@@ -976,15 +1013,19 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube3.position.y =-12
 
 
-      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.shaderMaterial) 
+      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.redMaterial) 
 
       this.scene2.add(this.tube4);
 
       this.tube4.position.y = 10;
        
+      this.tube4.receiveShadow = true;
+      //this.tube4.castShadow = true;
+
+      //this.vnhHelper = new VertexNormalsHelper(this.tubeGeo4, 25, 0xff00ff )
+      //this.scene2.add(this.vnhHelper)
       
-      
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial4) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial) 
 
       this.scene2.add(this.tube5);
 
@@ -1035,7 +1076,7 @@ racetrackShape6.lineTo(-.2, -1);
           this.torusGeometry = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 ),
             
 
-          this.shaderMaterial5
+          this.redMaterial
 
          /*  new THREE.MeshStandardMaterial({
 
@@ -1052,7 +1093,7 @@ racetrackShape6.lineTo(-.2, -1);
 
          
 
-        this.sphere.scale.setScalar(15)
+        this.sphere.scale.setScalar(25)
         this.scene2.add(this.sphere)
 
         this.sphere.castShadow = true
@@ -1152,7 +1193,13 @@ racetrackShape6.lineTo(-.2, -1);
       
   update() {
 
-    this.shaderMaterial.uniforms.needsUpdate = true;     
+    this.shaderMaterial.uniforms.needsUpdate = true;
+    
+   
+
+    //this.vnhHelper.update()
+    //this.vthHelper.update()
+
 
       this.iNoise += .5;
 
@@ -1197,7 +1244,7 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     
-    const offset = new THREE.Vector3(0, 100, -50)
+    const offset = new THREE.Vector3(0, 50, -10)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
    
@@ -1205,7 +1252,7 @@ racetrackShape6.lineTo(-.2, -1);
     ///CAMERA MOVEMENT
 
     this.camera.instance.add(this.model)
-    //this.camera.instance.add(this.light1)
+    this.camera.instance.add(this.light1)
    
     //this.camera.instance.position.copy( pos.add(tangent).add(this.normal)).add(this.binormal))
 
