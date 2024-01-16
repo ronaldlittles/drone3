@@ -142,7 +142,7 @@ export default class Walls extends EventEmitter {
 
      this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
      this.scene2.add(this.directionalLight);
-     this.directionalLight.position.set(0,300,-100)
+     this.directionalLight.position.set(0,50,-100)
      //this.camera.instance.add( this.directionalLight ); 
      this.directionalLight.castShadow = true;
      this.directionalLight.shadow.mapSize.width = 1024
@@ -154,6 +154,23 @@ export default class Walls extends EventEmitter {
 
 
      const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 500, 0xffffff)
+
+
+
+     if(this.debug){
+
+    this.debugFolder = this.debug.addFolder()
+  
+    this.debugFolder
+    .add(this.light1.position,'y')
+    .min(-500)
+    .max(500)
+    .step(50.0)
+    .onChange((value) => {
+  
+      this.light1.position.y = value })
+  
+    }
 
     let length = 250;
     this.boxes = [];
