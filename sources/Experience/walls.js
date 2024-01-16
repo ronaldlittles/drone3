@@ -142,17 +142,18 @@ export default class Walls extends EventEmitter {
 
      this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
      this.scene2.add(this.directionalLight);
-     this.camera.instance.add( this.directionalLight ); 
+     this.directionalLight.position.set(0,300,-100)
+     //this.camera.instance.add( this.directionalLight ); 
      this.directionalLight.castShadow = true;
-     this.directionalLight.shadow.mapSize.width = 512
-     this.directionalLight.shadow.mapSize.height = 512
+     this.directionalLight.shadow.mapSize.width = 1024
+     this.directionalLight.shadow.mapSize.height = 1024
      this.directionalLight.shadow.camera.near = 10;
-     this.directionalLight.shadow.camera.far = 100;
-     this.directionalLight.shadow.radius = 2;
+     this.directionalLight.shadow.camera.far = 400;
+     this.directionalLight.shadow.radius = 50;
      this.directionalLight.lookAt(this.scene2.position)
 
 
-     const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 50, 0xffffff)
+     const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 500, 0xffffff)
 
     let length = 250;
     this.boxes = [];
@@ -657,11 +658,11 @@ this.debugFolder
     this.displacementMaterial = new THREE.MeshStandardMaterial({
       
       //wireframe: true,
-      //color: 'red',
+      color: 'white',
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 1.0,
-      map: this.resource1,
+      //map: this.resource1,
      
 
     });
@@ -672,7 +673,9 @@ this.debugFolder
             side: THREE.DoubleSide,
             color: 'white',
             opacity: 1.0,
-            transparent: false,
+            transparent: true,
+
+            //map: this.resource6,
             
         });
 
@@ -976,7 +979,7 @@ racetrackShape6.lineTo(-.2, -1);
     
    
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.displacementMaterial) 
 
     //this.vnhHelper = new VertexNormalsHelper(this.tube4, 25, 0xff00ff );
     //this.vthHelper = new VertexTangentsHelper(this.tube, 5, 0x0000ff);
