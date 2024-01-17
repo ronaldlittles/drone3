@@ -142,7 +142,7 @@ export default class Box {
       
       this.mesh1.scale.set(0,0,0)
 
-      this.mesh1.scale.setScalar(50)
+      this.mesh1.scale.setScalar(40)
 
       this.mesh1.position.set(1000, 150 , -500)
       
