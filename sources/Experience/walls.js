@@ -8,9 +8,7 @@ import {smokeFragment} from "./smokeFragment.js";
 import {smokeVertex} from './smokeVertex.js';
 import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
-import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 
-import { VertexNormalsHelper } from "three/examples/jsm/helpers/VertexnormalsHelper.js";
 
 export default class Walls extends EventEmitter {
   constructor() {

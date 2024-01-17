@@ -11,7 +11,7 @@ import GSAP from "gsap";
 import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
 //import {test}  from "./video.js";
-import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
+
 export default class Box {
 
   constructor(_options = {}) {
