@@ -37,25 +37,16 @@ export default class Walls extends EventEmitter {
     this.resource5 = this.resources.items.baloonsModel;
     this.resource6 = this.resources.items.hdr;
 
-    //this.resource1.colorSpace = THREE.SRGBColorSpace
+    this.resource1.colorSpace = THREE.SRGBColorSpace
 
     this.setBoxes();
-    console.log(this.world)
 
     this.setModel();
    
     this.createWall();
-
     
-
     this.setRaycaster();
 
-
-    
-
-    
-
-   
 
     this.depth = 50;
     this.rotationSpeed = .005;
@@ -391,12 +382,12 @@ export default class Walls extends EventEmitter {
       let windowWidth = window.innerWidth;
       let windowHeight = window.innerHeight;
 
-      let leftPosition = (windowWidth - elementWidth) /2;
-      let topPosition = (windowHeight - elementHeight) /2;
+      let leftPosition = '50px'//(windowWidth - elementWidth) /2;
+      let topPosition = '50px' //(windowHeight - elementHeight) /2;
 
       element.style.position = 'absolute';
-      element.style.left = leftPosition - elementWidth /2 + 'px';
-      element.style.top = topPosition - elementHeight /2 + 'px';
+      element.style.left = leftPosition //- elementWidth /2 + 'px';
+      element.style.top = topPosition //- elementHeight /2 + 'px';
       element.style.display = 'block'
       element.play()
 
@@ -429,7 +420,7 @@ export default class Walls extends EventEmitter {
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "65px";
-          this.label.style.right = '50%';
+          this.label.style.left = '40vw';
           this.label.style.backgroundColor = 'transparent';
           this.label.style.color = "white";
           this.label.style.fontFamily = "sans-serif";
@@ -437,7 +428,7 @@ export default class Walls extends EventEmitter {
           this.label.style.textShadow = "1px 2px #000000";
           //this.label.style.justifyContent = "center";
           this.label.style.display = "block";
-          //this.label.style.pointerEvents = "none"; 
+          this.label.style.pointerEvents = "none"; 
           document.body.appendChild(this.label);
            
 
@@ -1111,7 +1102,7 @@ racetrackShape6.lineTo(-.2, -1);
 
          
 
-        this.sphere.scale.setScalar(25)
+        this.sphere.scale.setScalar(5)
         this.scene2.add(this.sphere)
 
         this.sphere.castShadow = true
@@ -1191,14 +1182,14 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.randomOffset = new THREE.Vector3(
 
+      (Math.random() * 2 - 1 ),
       (Math.random() * 2 - 1 ) * 50,
-      (Math.random() * 2 - 1 ) * 100,
-      (Math.random() * 2 - 1 ) * 100 
+      (Math.random() * 2 - 1 ) 
       
       )
 
       this.sphere2Clone = this.sphere.clone()
-      this.sphere2Clone.position.copy(positionOnCurve.clone()).add(this.randomOffset).add(this.test)
+      this.sphere2Clone.position.copy(positionOnCurve.clone())//.add(this.randomOffset)//.add(this.test)
       
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
@@ -1331,12 +1322,12 @@ racetrackShape6.lineTo(-.2, -1);
   
         const intersectsPoint = intersects[0].object
 
-        intersectsPoint.scale.setScalar(50)
+        intersectsPoint.scale.setScalar(10)
         intersectsPoint.material = this.shaderMaterial
-        intersectsPoint.rotation.x += Math.PI/2* Math.random()
-        intersectsPoint.position.x += 15 * Math.random()
-        intersectsPoint.position.y += 50 * Math.random()
-        intersectsPoint.position.z += -5 * Math.random()
+        intersectsPoint.rotation.x +=  this.time.delta
+        intersectsPoint.position.x +=  15 *        Math.random()
+        intersectsPoint.position.y +=  50 *        Math.random()
+        intersectsPoint.position.z += -50 *        Math.random()
 
 }
 
@@ -1344,12 +1335,12 @@ if (intersects2.length > 0) {
 
   const intersectsPoint = intersects2[0].object
 
-  intersectsPoint.scale.setScalar(50)
+  intersectsPoint.scale.setScalar(10)
   intersectsPoint.material = this.shaderMaterial4
-  intersectsPoint.rotation.z += Math.PI/2* Math.random()
+  intersectsPoint.rotation.z += this.time.delta
   intersectsPoint.position.x += -15 * Math.random()
-  intersectsPoint.position.y += 50 * Math.random()
-  intersectsPoint.position.z += -5 * Math.random()
+  intersectsPoint.position.y +=  50 * Math.random()
+  intersectsPoint.position.z += -50 * Math.random()
 
 }
     
