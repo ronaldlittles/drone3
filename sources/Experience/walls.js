@@ -33,8 +33,8 @@ export default class Walls extends EventEmitter {
     this.resource1 = this.resources.items.me;
     this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.droneModel;
-    this.resource4 = this.resources.items.buildingModel;
-    this.resource5 = this.resources.items.baloonsModel;
+    this.resource4 = this.resources.items.smokeModel;
+    //this.resource5 = this.resources.items.terrainModel;
     this.resource6 = this.resources.items.hdr;
 
     this.resource1.colorSpace = THREE.SRGBColorSpace
@@ -261,22 +261,26 @@ export default class Walls extends EventEmitter {
     this.model.scale.set(.9,.5,1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
-   console.log(this.model)
+   
    //this.camera.instance.castShadow = true;
 
     this.model2 = this.resource4.scene;
-    this.model2.scale.setScalar(6)
+    this.model2.scale.setScalar(350)
     this.model2.castShadow = true;
-    this.model2.position.y = -250;
-    this.model2.receiveShadow = true;
+    this.model2.position.z = 350;
+    this.model2.position.y = -100;
+    this.model2.upVector = new THREE.Vector3(0, 1, 0);
 
-    //this.scene2.add(this.model2);
     
-    this.model3 = this.resource5.scene;
+    //this.scene2.add(this.model2);
 
-    this.model3.scale.setScalar(750)
+    
+    
+    //this.model3 = this.resource5.scene;
+
+    //this.model3.scale.setScalar(750)
     //this.model3.castShadow = true;
-    this.model3.position.y = -300;
+    //this.model3.position.y = -300;
     //this.model3.receiveShadow = true; 
 
     //this.scene2.add(this.model3);
@@ -548,6 +552,8 @@ export default class Walls extends EventEmitter {
     this.shaderMaterial3 = new THREE.ShaderMaterial({
        
       side: THREE.DoubleSide,
+      transparent: true,
+      depthWrite: false,
            
       uniforms: {
 
@@ -559,7 +565,7 @@ export default class Walls extends EventEmitter {
         time: { value: 1.0 },
         uTimeFrequency: { value: .4 },
         uUvFrequency: { value: new THREE.Vector2(14, 15) },
-        uColor: { value: new THREE.Color(0x00000d) },
+        uColor: { value: new THREE.Color(0x000000) },
 
       },
 
@@ -567,6 +573,8 @@ export default class Walls extends EventEmitter {
       fragmentShader: smokeFragment.fragmentShader,
 
     }); 
+
+    
 
    
     this.shaderMaterial4 = new THREE.ShaderMaterial({
@@ -944,8 +952,8 @@ racetrackShape6.lineTo(-.2, -1);
 
      this.extrudeSettings2 = {
 
-      steps: 1000,
-      depth: 100,
+      steps: 1200,
+      depth: 150,
       
       extrudePath: this.spline,
 
@@ -1104,24 +1112,22 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 );
        
-
-       
           this.sphere2 = new THREE.Mesh(
             
-            new THREE.BoxGeometry( 20, 240, 40, 100, 100, 100 ),
+            new THREE.CylinderGeometry( .2, .2, 10, 32 ),
           
  
             this.shaderMaterial3,
-
             
           )
 
-          this.sphere2.scale.setScalar(5)
-          //this.sphere2.castShadow = true;
+          this.sphere2.scale.setScalar(20)
+          this.sphere2.castShadow = true;
           this.scene2.add(this.sphere2)
   
-
-    
+          this.sphere2.translateZ(-400)
+          
+          this.sphere2.translateY(68)
     
    
     const numObjects = 100; 
@@ -1164,11 +1170,17 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.randomOffset = new THREE.Vector3(
 
-      (Math.random() * 2 - 1 ),
-      (Math.random() * 2 - 1 ) * 50,
-      (Math.random() * 2 - 1 ) 
+      (Math.random() * 2 - 1 )*100,
+      0,//(Math.random() * 2 - 1 ) * 50,
+      0,//(Math.random() * 2 - 1 ) 
       
       )
+
+      this.sphereClone = this.sphere2.clone()
+      this.sphereClone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
+
+      this.scene2.add(this.sphereClone)
+
 
       this.sphere2Clone = this.sphere.clone()
       this.sphere2Clone.position.copy(positionOnCurve.clone())//.add(this.randomOffset)//.add(this.test)
@@ -1185,7 +1197,7 @@ racetrackShape6.lineTo(-.2, -1);
   update() {
 
     this.shaderMaterial.uniforms.needsUpdate = true;
-    
+    this.sphere2.translateX(Math.sin(-30 * this.time.elapsed))
    
 
     //this.vnhHelper.update()
@@ -1197,7 +1209,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 1.5
-      this.shaderMaterial3.uniforms.time.value +=  this.time.delta * 3.0
+      this.shaderMaterial3.uniforms.time.value +=  this.time.delta * 1.5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 3.0
 
       let currentPosition = 0; 
@@ -1244,7 +1256,8 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.camera.instance.add(this.model)
     this.camera.instance.add(this.light1)
-   
+    this.camera.instance.add(this.sphere2)
+
     //this.camera.instance.position.copy( pos.add(tangent).add(this.normal)).add(this.binormal))
 
 

@@ -73,11 +73,13 @@ void main()
     vec2 displacementUv = uv;
     displacementUv *= 5.0;
     displacementUv.y -= time * 0.02;
+    //displacementUv.x *=  time * 3.1;
 
     float displacementStrength = pow(uv.y * 3.0, 2.0);
     float perlin = perlin2d(displacementUv) * displacementStrength;
 
     newPosition.y += perlin * 0.1;
+    //newPosition.x += sin(uv.y * 10.0 + time * 2.0) * 0.1;
 
     vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;

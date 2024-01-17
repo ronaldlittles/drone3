@@ -44,17 +44,17 @@ export default [
         type: "texture",
       },
 
-     /*  {
-        name: "walltrackModel",
-        source: "/assets/walltrack.glb",
+       {
+        name: "smokeModel",
+        source: "/assets/smokeModel.glb",
         type: "gltfModel",
-      }, */
+      }, 
 
-      /* {
+       /*{
         name: "terrainModel",
         source: "/assets/terrain.glb",
         type: "gltfModel",
-      }, */
+      },*/ 
 
        {
         name: "droneModel",
