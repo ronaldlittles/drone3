@@ -563,7 +563,7 @@ export default class Walls extends EventEmitter {
         texture1: { value: this.resource1 },
         uNoise: { value: this.iNoise },
         time: { value: 1.0 },
-        uTimeFrequency: { value: .4 },
+        uTimeFrequency: { value: 1.4 },
         uUvFrequency: { value: new THREE.Vector2(14, 15) },
         uColor: { value: new THREE.Color(0x000000) },
 
@@ -1125,9 +1125,9 @@ racetrackShape6.lineTo(-.2, -1);
           this.sphere2.castShadow = true;
           this.scene2.add(this.sphere2)
   
-          this.sphere2.translateZ(-400)
-          
-          this.sphere2.translateY(68)
+         /*  this.sphere2.translateZ(-400)
+          this.sphere2.translateX(Math.sin(-30 ))
+          this.sphere2.translateY(68) */
     
    
     const numObjects = 100; 
@@ -1197,7 +1197,7 @@ racetrackShape6.lineTo(-.2, -1);
   update() {
 
     this.shaderMaterial.uniforms.needsUpdate = true;
-    this.sphere2.translateX(Math.sin(-30 * this.time.elapsed))
+    
    
 
     //this.vnhHelper.update()
