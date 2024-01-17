@@ -1108,7 +1108,7 @@ racetrackShape6.lineTo(-.2, -1);
        
           this.sphere2 = new THREE.Mesh(
             
-            new THREE.BoxGeometry( 20, 240, 40 ),
+            new THREE.BoxGeometry( 20, 240, 40, 100, 100, 100 ),
           
  
             this.shaderMaterial3,
