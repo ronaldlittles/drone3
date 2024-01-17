@@ -548,17 +548,18 @@ export default class Walls extends EventEmitter {
     this.shaderMaterial3 = new THREE.ShaderMaterial({
        
       side: THREE.DoubleSide,
-      
-      transparent: true,
-      
-      
+           
       uniforms: {
 
-        time: { value: null },
+        time: { value: 1.0 },
         resolution: { value: new THREE.Vector2() },
-        uvScale: { value: new THREE.Vector2(.001,64)},
-        texture1: { value: this.resource1},
-        uNoise: { value: this.iNoise}
+        uvScale: { value: new THREE.Vector2(.001,64) },
+        texture1: { value: this.resource1 },
+        uNoise: { value: this.iNoise },
+        time: { value: 1.0 },
+        uTimeFrequency: { value: .4 },
+        uUvFrequency: { value: new THREE.Vector2(14, 15) },
+        uColor: { value: new THREE.Color(0x00000d) },
 
       },
 
@@ -566,14 +567,8 @@ export default class Walls extends EventEmitter {
       fragmentShader: smokeFragment.fragmentShader,
 
     }); 
+
    
-
-
-    
-
-    
-  
-
     this.shaderMaterial4 = new THREE.ShaderMaterial({
      
       side: THREE.DoubleSide,
@@ -594,7 +589,6 @@ export default class Walls extends EventEmitter {
    
     });
 
-console.log(this.config)
 
 if(this.debug){
 
@@ -608,7 +602,6 @@ this.debugFolder
 .onChange((value) => {
 
   this.shaderMaterial4.uniforms.tangent.value.x = value})
-
 
 
 this.debugFolder
@@ -1115,29 +1108,17 @@ racetrackShape6.lineTo(-.2, -1);
        
           this.sphere2 = new THREE.Mesh(
             
-            new THREE. SphereGeometry(1,36,36 ),
+            new THREE.BoxGeometry( 20, 240, 40 ),
           
  
             this.shaderMaterial3,
 
-            /*
-            new THREE.MeshStandardMaterial({
-              //wireframe: true,
-              map: this.resource2,
-              //color: Math.random() * 0xffffff,
-              side: THREE.DoubleSide,
-              transparent: true,
-              opacity:.4,
-              //emissive: 0x00ff00,
-              //emissiveIntensity: .5, 
-            
-            })  */ 
             
           )
 
-          //this.sphere2.scale.setScalar(3)
+          this.sphere2.scale.setScalar(5)
           //this.sphere2.castShadow = true;
-          
+          this.scene2.add(this.sphere2)
   
 
     
@@ -1216,7 +1197,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 1.5
-      //this.shaderMaterial.uniforms.time.value +=  this.time.delta * 3.0
+      this.shaderMaterial3.uniforms.time.value +=  this.time.delta * 3.0
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 3.0
 
       let currentPosition = 0; 

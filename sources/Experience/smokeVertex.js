@@ -39,13 +39,6 @@ float perlin2d(vec2 P){
   return 2.3 * n_xy;
 }
 
-uniform float uNoise;
-uniform vec2 resolution;
-uniform float time;
-uniform vec2 uvScale;
-varying vec2 vUv;
-varying vec3 vNormal;
-
 const float PI = 3.14159265359;
 
 vec3 getPointAt(float t) {
@@ -63,22 +56,35 @@ vec3 getPointAt(float t) {
 
 
 
-void main() {
+uniform float uNoise;
+uniform vec2 resolution;
+uniform float time;
+uniform vec2 uvScale;
 
-  vec2 vUv = uv + uvScale;
+varying vec2 vUv;
+varying vec3 vNormal;
 
-  vNormal = normal;
 
 
-  
-  vec4 newPosition = modelMatrix * vec4(position+ vNormal, 1.0);
 
-  vNormal.y *= sin( time* .02 );
-  //newPosition.x *= cos(.2*newPosition.y + time )* .02;
-  
-  gl_Position = projectionMatrix * viewMatrix * newPosition;
+void main()
+{
+    vec3 newPosition = position;
+    vec2 displacementUv = uv;
+    displacementUv *= 5.0;
+    displacementUv.y -= time * 0.02;
 
-  //gl_Position = vec4(position, 1.0);
+    float displacementStrength = pow(uv.y * 3.0, 2.0);
+    float perlin = perlin2d(displacementUv) * displacementStrength;
+
+    newPosition.y += perlin * 0.1;
+
+    vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
+    vec4 viewPosition = viewMatrix * modelPosition;
+    vec4 projectionPosition = projectionMatrix * viewPosition;
+    gl_Position = projectionPosition;
+
+    vUv = uv;
 }
 
 `
