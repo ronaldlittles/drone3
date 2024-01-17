@@ -427,7 +427,7 @@ export default class Walls extends EventEmitter {
           this.label.style.fontSize = "34px";
           this.label.style.textShadow = "1px 2px #000000";
           //this.label.style.justifyContent = "center";
-          this.label.style.display = "block";
+          //this.label.style.display = "block";
           this.label.style.pointerEvents = "none"; 
           document.body.appendChild(this.label);
            
