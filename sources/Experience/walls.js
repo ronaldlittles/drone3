@@ -1213,7 +1213,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 3.0
 
       let currentPosition = 0; 
-      let speed = .8; 
+      let speed = 1.5; 
       let loopTime = 60;
       
 
@@ -1282,10 +1282,9 @@ racetrackShape6.lineTo(-.2, -1);
    
     this.model.position.y = (normalizedValue - distance) *.01 
 
-    this.model.rotation.z =  this.binormal.z * .3
-    //this.model.rotation.x = -this.normal.x * .1
-    this.model.rotation.y =  this.tangent.y * .1
-
+   /*  this.model.rotation.z +=  this.binormal.z *  2
+    this.model.rotation.x += -this.normal.x * .02
+    this.model.rotation.y +=  this.angle */
     this.camera.instance.rotation.z = -this.model.rotation.z * .6
     //this.camera.instance.rotation.x =  this.model.rotation.x * .05
     //this.camera.instance.rotation.y = this.model.rotation.y
@@ -1411,7 +1410,7 @@ if (intersects2.length > 0) {
 
       this.camera.instance.lookAt( lookAt.copy(pos2).add(tangent).add(this.normal).add(this.binormal) ) 
 
-      this.model.lookAt(lookAt)
+      this.model.lookAt( lookAt.copy(pos).add(tangent) )
 
     } 
     

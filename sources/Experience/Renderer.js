@@ -31,7 +31,7 @@ export default class Renderer {
       this.debugFolder = this.debug.addFolder("renderer");
     } 
 
-    //this.usePostprocess = true;
+   // this.usePostprocess = true;
 
     this.setInstance();
     //this.setPostProcess();
