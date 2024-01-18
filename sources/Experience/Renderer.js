@@ -31,10 +31,10 @@ export default class Renderer {
       this.debugFolder = this.debug.addFolder("renderer");
     } 
 
-   // this.usePostprocess = true;
+    this.usePostprocess = true;
 
     this.setInstance();
-    //this.setPostProcess();
+    this.setPostProcess();
 
     //this.setPlane();
   }
@@ -108,16 +108,16 @@ export default class Renderer {
 
     const params = {
       exposure:.5,
-      bloomStrength:.3,
-      bloomThreshold:.5,
-      bloomRadius:.3,
+      bloomStrength:0,
+      bloomThreshold:0,
+      bloomRadius:0,
     };
 
     this.postProcess.unrealBloomPass = new UnrealBloomPass(
       new THREE.Vector2(this.sizes.width, this.sizes.height),
-      .5,
-      1.0,
-      1.0
+      0,
+      0,
+      0
     );
 
     this.postProcess.unrealBloomPass.exposure = params.exposure;
@@ -329,10 +329,12 @@ export default class Renderer {
 
       this.postProcess.composer.render();
 
+     
+
     } else {
      
-      //this.postProcess.composer.render(0.01);
-      this.instance.render(this.scene2, this.camera.instance);
+      this.postProcess.composer.render(0.01);
+      //this.instance.render(this.scene2, this.camera.instance);
     }
 
     if (this.stats) {

@@ -324,17 +324,15 @@ export default class Walls extends EventEmitter {
         
 
         this.meshes[0].receiveShadow = true
-        this.meshes[1].receiveShadow = true
-        this.meshes[2].receiveShadow = true
+        //this.meshes[1].receiveShadow = true
+        //this.meshes[2].receiveShadow = true 
 
-         this.meshes[0].material.map = this.shaderMaterial4
-        /*this.meshes[1].material.map = this.shaderMaterial
-        this.meshes[2].material.map = this.shaderMaterial3
+        
 
         this.meshes[0].material.transparent = true
-        this.meshes[0].material.opacity = 1
-        this.meshes[2].material.transparent = true
-        this.meshes[2].material.opacity = 1 */
+        this.meshes[0].material.opacity = 1.0
+        /*this.meshes[2].material.transparent = true
+        this.meshes[2].material.opacity = 1  */
 
 
         this.rotateLeftButton = document.getElementById('left');
@@ -660,8 +658,7 @@ this.debugFolder
    
     });
 
-
-
+   
     
 
 
@@ -690,7 +687,10 @@ this.debugFolder
         });
 
 
-      
+        this.meshes[0].material = this.displacementMaterial //body
+        this.meshes[1].material = this.shaderMaterial4  //toplight
+        this.meshes[2].material = this.shaderMaterial4  //backlight
+    
 
 
          
@@ -1081,19 +1081,29 @@ racetrackShape6.lineTo(-.2, -1);
     
         //this.resource6.repeat.set(4, 4) 
 
-      
+      console.log(this.renderer)
           //SKYBOX
 
-          this.plane = new THREE.Mesh( new THREE.SphereGeometry( 1,36,36),
+          this.plane = new THREE.Mesh( new THREE.SphereGeometry( 1, 36, 36 ),
 
-          this.shaderMaterial4)
+          new THREE.MeshStandardMaterial({
 
-          this.plane.scale.setScalar(75)
+          side: THREE.DoubleSide,
+
+          map: this.renderer.renderTarget.texture
+
+          })
+
+          )
+
+          this.plane.scale.setScalar(25)
 
           this.scene2.add(this.plane)
 
-          this.plane.translateZ(-400)
+          
+
           this.plane.translateY(100)
+          this.plane.translateZ(-300)
           this.plane.translateX(100)
 
 
@@ -1210,12 +1220,14 @@ racetrackShape6.lineTo(-.2, -1);
   update() {
 
     this.shaderMaterial.uniforms.needsUpdate = true;
+
+   
     
     this.plane.rotation.x += 10;
     this.plane.rotation.y += 10;
     this.plane.rotation.z += 10;
 
-   
+    
 
 
       this.iNoise += .5;
