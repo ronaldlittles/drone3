@@ -108,7 +108,7 @@ void main() {
   fragmentShader3: `
 
   #define NUM_PARTICLES 25.
-  #define NUM_EXPLOSIONS 1.
+  #define NUM_EXPLOSIONS 5.
 
   varying vec2 vUv;
 

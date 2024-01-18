@@ -512,7 +512,7 @@ export default class Walls extends EventEmitter {
             time: { value: 1.0 },
            
             uNoise: { value: this.iNoise},
-            uvScale:  { value: new THREE.Vector2( 3.0, 1.0 ) },
+            uvScale:  { value: new THREE.Vector2( .09, .03 ) },
             tangent:{ value:this.tangent },
     
             fogDensity: { value: 0.45 },
@@ -1019,7 +1019,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial2)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
 
     this.scene2.add(this.tube3);
         
@@ -1084,15 +1084,17 @@ racetrackShape6.lineTo(-.2, -1);
       
           //SKYBOX
 
-          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2, 100, 100 ),
+          this.plane = new THREE.Mesh( new THREE.SphereGeometry( 1,36,36),
 
           this.shaderMaterial4)
 
-          this.plane.scale.setScalar(100)
+          this.plane.scale.setScalar(75)
 
           this.scene2.add(this.plane)
 
           this.plane.translateZ(-400)
+          this.plane.translateY(100)
+          this.plane.translateX(100)
 
 
 
@@ -1209,10 +1211,11 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.shaderMaterial.uniforms.needsUpdate = true;
     
-   
+    this.plane.rotation.x += 10;
+    this.plane.rotation.y += 10;
+    this.plane.rotation.z += 10;
 
-    //this.vnhHelper.update()
-    //this.vthHelper.update()
+   
 
 
       this.iNoise += .5;
