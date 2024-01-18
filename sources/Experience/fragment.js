@@ -107,6 +107,11 @@ void main() {
 
   fragmentShader3: `
 
+  #define NUM_PARTICLES 50.
+  #define NUM_EXPLOSIONS 5.
+
+  varying vec2 vUv;
+
   mat2 rotate(float angle){
     
     float c = cos(angle);
@@ -117,7 +122,52 @@ void main() {
   
 }
 
-        varying vec2 vUv;
+vec2 Hash12(float t){
+
+  float x = fract(sin(t*674.3) * 453.2);
+  float y = fract(sin((t+x)*714.3)*263.2);
+
+  return vec2(x, y);
+
+}
+
+
+vec2 Hash12_Polar(float t){
+
+  float a = fract(sin(t*674.3) * 453.2);
+  float d = fract(sin((t+a)*714.3)*263.2);
+
+  return vec2(sin(a), cos(a)) * d;
+
+}
+
+
+float Explosion(vec2 uv, float t) {
+
+  float sparks = 0.0;
+
+  for(float i=0.0; i< NUM_PARTICLES; i++){
+
+    vec2 dir = Hash12_Polar(i+1.0)*1.5;  //.5
+
+    float d = length(vUv - dir *  t);
+
+    float brightness = mix(.0005, .002,smoothstep(.05, 0.0, t) );
+
+    brightness *= sin(t*20.+i)*.5 + .5;
+    brightness *= smoothstep(.1, 0.75, t);
+
+    sparks += brightness/d; 
+
+    }
+
+    return sparks;
+
+    }
+
+
+
+       
         uniform float time;
         uniform vec3 tangent;
         uniform float uNoise;
@@ -125,25 +175,26 @@ void main() {
 
         void main() {
 
-          float angle = 1.5708;
-
-          mat2 rotated = rotate(angle);
-
-          vec3 textured = texture2D( texture1, vUv ).rgb;
-
-          vec4 color = vec4(1.0,1.0,0.0,.8);
-
-          vec4 tangentColor = vec4( textured, 1.0);
-
-          vec4 mixedColor = mix(color, tangentColor, 1.3);
+          vec3 col = vec3(0.0);
             
-          vec2 center = vec2(1.0 - (0.5 + tangent.x), 0.5 + tangent.y);
+          vec2 center = vec2(0.5, 0.5);
 
-          float t = time* 10.0;
+          for(float i=0.0; i< NUM_EXPLOSIONS; i++){
 
-          vec4 mixed = mix(vec4(vec3( ( sin(t - distance( vUv, center ) * 50.0 ) ) )  * .5, .5),mixedColor, .9  );
+            float t = time + i/NUM_EXPLOSIONS;
+            float ft = floor(t);
+            vec3 color = sin(4.0 * vec3(.34,.54,.43)*ft)*.25+.75;
 
-          gl_FragColor = vec4(mixed);
+            vec2 offs = Hash12(i+1.0+ft)-.5;
+            offs *= vec2(1.77, 1.0);
+            
+            col += Explosion(vUv-offs,fract(time))*color;
+
+          }
+
+          col*=2.0;
+
+          gl_FragColor = vec4(col, 1.0);
 
         }
 

@@ -107,6 +107,9 @@ export default class Walls extends EventEmitter {
 
   setBoxes(){
 
+    //const fog = new THREE.Fog('blue', 500, -500);
+   // this.scene2.add(fog)
+
     this.light1 = new THREE.PointLight( 0xffffff, 1.5, 150, 0  );
     //this.light1.position.set(-10,40,0)
      this.scene2.add(this.light1 );
@@ -584,11 +587,10 @@ export default class Walls extends EventEmitter {
     
       uniforms: {
 
-        time: { value: 1.0 },
-        texture1: { value: this.resource6 },
-        uNoise: { value: this.iNoise },
-        uvScale: { value: new THREE.Vector2(4,3) },
-        tangent: { value:  new THREE.Vector3(this.tangent)}
+        time: { value: 0.0 },
+       
+        uvScale: { value: new THREE.Vector2(.5,.5) },
+       
 
       },
    
@@ -603,34 +605,34 @@ if(this.debug){
   this.debugFolder = this.debug.addFolder()
 
 this.debugFolder
-.add( this.shaderMaterial4.uniforms.tangent.value,'x' )
+.add( this.shaderMaterial4.uniforms.uvScale.value,'x' )
 .min(-10)
 .max(10)
-.step(1.0)
+.step(.5)
 .onChange((value) => {
 
-  this.shaderMaterial4.uniforms.tangent.value.x = value})
+  this.shaderMaterial4.uniforms.uvScale.value.x = value})
 
 
 this.debugFolder
-.add( this.shaderMaterial4.uniforms.tangent.value,'y' )
+.add( this.shaderMaterial4.uniforms.uvScale.value,'y' )
 .min(-10)
 .max(10)
-.step(1.0)
+.step(.5)
 .onChange((value) => {
 
-  this.shaderMaterial4.uniforms.tangent.value.y = value})
+  this.shaderMaterial4.uniforms.uvScale.value.y = value})
 
-
+/* 
   this.debugFolder
-.add( this.shaderMaterial4.uniforms.tangent.value,'y' )
+.add( this.shaderMaterial4.uniforms.time.value )
 .min(-10)
 .max(10)
 .step(1.0)
 .onChange((value) => {
 
-  this.shaderMaterial4.uniforms.tangent.value.z = value})
-
+  this.shaderMaterial4.uniforms.time.value = value})
+ */
 
 
 }
@@ -716,7 +718,7 @@ this.debugFolder
 
             } else if (t < Math.PI/.5 && t > Math.PI/2.0) {
 
-              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 50;
+              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 150;
 
               } else{
 
@@ -1036,7 +1038,7 @@ racetrackShape6.lineTo(-.2, -1);
       //this.vnhHelper = new VertexNormalsHelper(this.tubeGeo4, 25, 0xff00ff )
       //this.scene2.add(this.vnhHelper)
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial4) 
 
       this.scene2.add(this.tube5);
 
@@ -1049,7 +1051,7 @@ racetrackShape6.lineTo(-.2, -1);
 
 
 
-      this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 300, 1, 300, false); 
+      this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 400, 1, 300, false); 
 
       this.tube7 = new THREE.Mesh(this.tubeGeo7, this.shaderMaterial5)
       
@@ -1081,6 +1083,18 @@ racetrackShape6.lineTo(-.2, -1);
 
       
           //SKYBOX
+
+          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2, 100, 100 ),
+
+          this.shaderMaterial4)
+
+          this.plane.scale.setScalar(100)
+
+          this.scene2.add(this.plane)
+
+          this.plane.translateZ(-400)
+
+
 
           this.sphere = new THREE.Mesh(
 
@@ -1125,9 +1139,6 @@ racetrackShape6.lineTo(-.2, -1);
           this.sphere2.castShadow = true;
           this.scene2.add(this.sphere2)
   
-         /*  this.sphere2.translateZ(-400)
-          this.sphere2.translateX(Math.sin(-30 ))
-          this.sphere2.translateY(68) */
     
    
     const numObjects = 100; 
@@ -1211,9 +1222,10 @@ racetrackShape6.lineTo(-.2, -1);
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 1.5
       this.shaderMaterial3.uniforms.time.value +=  this.time.delta * 1.5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 3.0
+      this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed
 
       let currentPosition = 0; 
-      let speed = 1.5; 
+      let speed = .9; 
       let loopTime = 60;
       
 
@@ -1256,7 +1268,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.camera.instance.add(this.model)
     this.camera.instance.add(this.light1)
-    this.camera.instance.add(this.sphere2)
+    this.camera.instance.add(this.plane)
 
     //this.camera.instance.position.copy( pos.add(tangent).add(this.normal)).add(this.binormal))
 
