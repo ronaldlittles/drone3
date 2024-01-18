@@ -1222,7 +1222,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 1.5
       this.shaderMaterial3.uniforms.time.value +=  this.time.delta * 1.5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 3.0
-      this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed
+      this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .05
 
       let currentPosition = 0; 
       let speed = .9; 
