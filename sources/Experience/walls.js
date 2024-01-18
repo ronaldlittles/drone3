@@ -1223,9 +1223,9 @@ racetrackShape6.lineTo(-.2, -1);
 
    
     
-    this.plane.rotation.x += 10;
-    this.plane.rotation.y += 10;
-    this.plane.rotation.z += 10;
+    //this.plane.rotation.x += 10;
+    //this.plane.rotation.y += 10;
+    //this.plane.rotation.z += 10;
 
     
 
@@ -1240,7 +1240,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .05
 
       let currentPosition = 0; 
-      let speed = .9; 
+      let speed = .7; 
       let loopTime = 60;
       
 
