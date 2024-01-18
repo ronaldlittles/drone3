@@ -512,7 +512,7 @@ export default class Walls extends EventEmitter {
             time: { value: 1.0 },
            
             uNoise: { value: this.iNoise},
-            uvScale:  { value: new THREE.Vector2( .09, .03 ) },
+            uvScale:  { value: new THREE.Vector2( 3, 1 ) },
             tangent:{ value:this.tangent },
     
             fogDensity: { value: 0.45 },
@@ -1019,7 +1019,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial2)  
 
     this.scene2.add(this.tube3);
         
