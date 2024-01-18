@@ -1038,7 +1038,7 @@ racetrackShape6.lineTo(-.2, -1);
       //this.vnhHelper = new VertexNormalsHelper(this.tubeGeo4, 25, 0xff00ff )
       //this.scene2.add(this.vnhHelper)
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial4) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial) 
 
       this.scene2.add(this.tube5);
 
@@ -1220,8 +1220,8 @@ racetrackShape6.lineTo(-.2, -1);
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 1.5
-      this.shaderMaterial3.uniforms.time.value +=  this.time.delta * 1.5
-      this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 3.0
+      this.shaderMaterial3.uniforms.time.value +=  this.time.delta * .5
+      this.shaderMaterial5.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .05
 
       let currentPosition = 0; 
