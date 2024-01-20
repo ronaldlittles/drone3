@@ -108,8 +108,8 @@ export default class Walls extends EventEmitter {
 
   setBoxes(){
 
-    //const fog = new THREE.Fog('blue', 500, -500);
-   // this.scene2.add(fog)
+    //this.scene2.fog = new THREE.FogExp2('0xefd1b5', 0.0025);
+   
 
     this.light1 = new THREE.PointLight( 0xffffff, 1.5, 150, 0  );
     //this.light1.position.set(-10,40,0)
@@ -681,7 +681,7 @@ this.debugFolder
 
             side: THREE.DoubleSide,
             color: 'white',
-            opacity: 1.0,
+            opacity: .5,
             transparent: true,
 
             //map: this.resource6,

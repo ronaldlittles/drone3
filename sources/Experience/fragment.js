@@ -124,7 +124,7 @@ void main() {
 
   
   #define NUM_PARTICLES 50.
-  #define NUM_EXPLOSIONS 10.
+  #define NUM_EXPLOSIONS 3.
 
   varying vec2 vUv;
 
@@ -173,11 +173,11 @@ float Explosion(vec2 uv, float t) {
 
     vec2 dir = Hash12_Polar(i+1.0)*.5;  //.5
 
-    
+    vec2 center = vec2(0.0005, 0.0005);
 
-    vec2 iResolution = vec2(uResolution.x/uResolution.y, 1.0);
+    vec2 iResolution = vec2(center);
 
-    float d = length((iResolution.xy) - dir *  t);
+    float d = length((iResolution) - dir *  t);
 
     float brightness = mix(.005, .002,smoothstep(.05, 0.0, t) );
 
@@ -199,7 +199,7 @@ float Explosion(vec2 uv, float t) {
 
           vec3 col = vec3(0.0);
             
-          vec2 center = vec2(0.5, 0.5);
+         
 
           for(float i=0.0; i< NUM_EXPLOSIONS; i++){
 

@@ -12,6 +12,8 @@ import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
 //import {test}  from "./video.js";
 
+import { Sky } from "three/examples/jsm/objects/Sky.js";
+
 export default class Box {
 
   constructor(_options = {}) {
@@ -73,14 +75,17 @@ export default class Box {
     ]);
 
    
-    this.scene2.background =  this.cubeTexture
+    //lightthis.scene2.background =  this.cubeTexture
     //this.scene2.backgroundBluriness = 1
     
-    //this.cubeTexture.needsUpdate = true
+    this.cubeTexture.needsUpdate = true
     this.cubeTexture.mapping = THREE.CubeRefractionMapping;
     this.scene2.environment = this.cubeTexture
 
-   
+                                                                
+    this.sky = new Sky();
+    this.sky.scale.setScalar( 500000 );
+    this.scene2.add( this.sky );                                                           
    
   }
 
