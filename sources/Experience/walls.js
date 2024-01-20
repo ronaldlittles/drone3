@@ -115,7 +115,7 @@ export default class Walls extends EventEmitter {
     //this.light1.position.set(-10,40,0)
      this.scene2.add(this.light1 );
      this.light1.lookAt(this.scene2.position)
-     this.light1.translateZ(100)
+     this.light1.translateZ(-100)
      this.light1.translateX(50)
      this.light1.translateY(125)
      
@@ -136,13 +136,13 @@ export default class Walls extends EventEmitter {
 
      this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
      this.scene2.add(this.directionalLight);
-     this.directionalLight.position.set(0,50,-100)
+     this.directionalLight.position.set(0,5,600)
      //this.camera.instance.add( this.directionalLight ); 
      this.directionalLight.castShadow = true;
      this.directionalLight.shadow.mapSize.width = 1024
      this.directionalLight.shadow.mapSize.height = 1024
      this.directionalLight.shadow.camera.near = 10;
-     this.directionalLight.shadow.camera.far = 400;
+     this.directionalLight.shadow.camera.far = 600;
      this.directionalLight.shadow.radius = 50;
      this.directionalLight.lookAt(this.scene2.position)
 
@@ -1226,13 +1226,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.shaderMaterial2.uniforms.needsUpdate = true;
    
     
-    //this.plane.position.x += Math.sin()*10;
-    //this.plane.position.y += Math.cos()*10;
-    //this.plane.rotation.y += 2;
-
     
-
-
       this.iNoise += .5;
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
@@ -1440,7 +1434,7 @@ if (intersects2.length > 0) {
 
       this.camera.instance.lookAt( lookAt.copy(pos2).add(tangent).add(this.normal).add(this.binormal) ) 
 
-      this.model.lookAt( lookAt.copy(pos).add(tangent) )
+      this.model.lookAt( pos3.add(tangent) )
 
     } 
     
