@@ -720,7 +720,7 @@ this.debugFolder
 
             } else if (t < Math.PI/.5 && t > Math.PI/2.0) {
 
-              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 150;
+              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 100;
 
               } else{
 
@@ -1086,7 +1086,7 @@ racetrackShape6.lineTo(-.2, -1);
       console.log(this.renderer)
           //SKYBOX
 
-          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,400,400 ),
+          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,800,800 ),
 
           this.shaderMaterial2,
 
@@ -1100,7 +1100,7 @@ racetrackShape6.lineTo(-.2, -1);
 
           )
 
-          this.plane.scale.setScalar(6000)
+          this.plane.scale.setScalar(8000)
 
           this.scene2.add(this.plane)
 
