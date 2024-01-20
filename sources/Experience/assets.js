@@ -28,7 +28,7 @@ export default [
       },
       {
         name: "wallTexture",
-        source: "/assets/shelly.jpg",
+        source: "/assets/smowmap.png",
         type: "texture",
       },
 
@@ -41,6 +41,12 @@ export default [
       {
         name: "road",
         source: "/assets/road.jpg",
+        type: "texture",
+      },
+
+      {
+        name: "snowm",
+        source: "/assets/snowm.png",
         type: "texture",
       },
 

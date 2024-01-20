@@ -80,25 +80,40 @@ void main() {
       varying vec2 vUv;
       varying vec3 vNormal;
       varying vec3 vTangent;
-
+      uniform sampler2D texture1;
 
       void main() {
+        // Define a base color for the snowy mountain, for example, white
+        vec3 mountainColor = vec3(1.0, 1.0, 1.0);
 
-        float lighting = dot(normalize(vNormal), normalize(vTangent));
 
-        vec2 uv = sin((vUv*sin(time ))* uvScale); 
+        vec3 heightColor = texture2D(texture1, vUv).rgb;
+        vec3  mixed = mix(mountainColor, heightColor, .8);                                                                                         
 
-        vec4 redColor = vec4(1.0, 0.0, 0.0, 1.0);
-        
-        vec4 whiteColor = vec4(1.0, 1.0, 1.0, .1);
-
-        float dot = smoothstep(sin(0.005), .005, sin(mod(uv.x, 1.0))) * smoothstep(0.05, .05, mod(uv.y, 1.0)) ; 
-
-        vec4 finalColor = mix(redColor, whiteColor, dot); 
-
-        gl_FragColor = vec4(finalColor);
-
+        // Calculate a directional light vector (adjust as needed)
+        vec3 lightDirection = normalize(vec3(1.0, 1.0, 1.0));
+    
+        // Calculate the surface normal
+        vec3 normal = normalize(vNormal);
+    
+        // Calculate the direction from the fragment to the camera (adjust camera position)
+        vec3 viewDirection = normalize(vec3(0.0, 0.0, 600.0) - gl_FragCoord.xyz);
+    
+        // Calculate the diffuse lighting term (Lambertian reflection)
+        float diffuse = max(dot(normal, lightDirection), 1.0);
+    
+        // Add some specular highlights (adjust as needed)
+        float shininess = 32.0;
+        float specular = pow(max(dot(reflect(-lightDirection, normal), viewDirection), 0.0), shininess);
+    
+        // Combine diffuse and specular lighting
+        vec3 lighting = mixed * (diffuse + specular);
+    
+        // Output the final color with full opacity
+        gl_FragColor = vec4( mixed, 1.0);
     }
+    
+    
       
   
 
@@ -107,10 +122,18 @@ void main() {
 
   fragmentShader3: `
 
-  #define NUM_PARTICLES 25.
-  #define NUM_EXPLOSIONS 5.
+  
+  #define NUM_PARTICLES 50.
+  #define NUM_EXPLOSIONS 10.
 
   varying vec2 vUv;
+
+  uniform vec2 uResolution;
+  uniform float time;
+  uniform vec3 tangent;
+  uniform float uNoise;
+  uniform sampler2D texture1;
+
 
   mat2 rotate(float angle){
     
@@ -148,11 +171,15 @@ float Explosion(vec2 uv, float t) {
 
   for(float i=0.0; i< NUM_PARTICLES; i++){
 
-    vec2 dir = Hash12_Polar(i+1.0)*1.5;  //.5
+    vec2 dir = Hash12_Polar(i+1.0)*.5;  //.5
 
-    float d = length(vUv - dir *  t);
+    
 
-    float brightness = mix(.0005, .002,smoothstep(.05, 0.0, t) );
+    vec2 iResolution = vec2(uResolution.x/uResolution.y, 1.0);
+
+    float d = length((iResolution.xy) - dir *  t);
+
+    float brightness = mix(.005, .002,smoothstep(.05, 0.0, t) );
 
     brightness *= sin(t*20.+i)*.5 + .5;
     brightness *= smoothstep(.1, 0.75, t);
@@ -168,11 +195,6 @@ float Explosion(vec2 uv, float t) {
 
 
        
-        uniform float time;
-        uniform vec3 tangent;
-        uniform float uNoise;
-        uniform sampler2D texture1;
-
         void main() {
 
           vec3 col = vec3(0.0);

@@ -34,8 +34,9 @@ export default class Walls extends EventEmitter {
     this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.smokeModel;
-    //this.resource5 = this.resources.items.terrainModel;
+    this.resource5 = this.resources.items.wallTexture;
     this.resource6 = this.resources.items.hdr;
+    this.resource7 = this.resources.items.snowm;
 
     this.resource1.colorSpace = THREE.SRGBColorSpace
 
@@ -521,7 +522,7 @@ export default class Walls extends EventEmitter {
     
           },
        
-          vertexShader: vertexShader.vertexShader,
+          vertexShader: vertexShader.vertexShader3,
           fragmentShader: fragmentShader.fragmentShader,
        
         }); 
@@ -532,15 +533,16 @@ export default class Walls extends EventEmitter {
        
       side: THREE.DoubleSide,
       
-      transparent: true,
-      opacity: .5,
+     
       
       uniforms: {
          
           time: { value: this.time.elapsed },
           uNoise: { value: this.iNoise },
-          uvScale: { value: new THREE.Vector2(1,1)},
-          tangent:{ value:this.tangent}
+          uvScale: { value: new THREE.Vector2(.5,.5)},
+          tangent:{ value:this.tangent},
+          texture1: { value: this.resource5 },
+          texture1:  { value: this.resource7 },
 
       },
 
@@ -586,16 +588,17 @@ export default class Walls extends EventEmitter {
       uniforms: {
 
         time: { value: 0.0 },
-       
         uvScale: { value: new THREE.Vector2(.5,.5) },
-       
+        uResolution: { value: new THREE.Vector2( this.config.width,this.config.height)},
 
       },
    
-      vertexShader: vertexShader.vertexShader,
+      vertexShader: vertexShader.vertexShader3,
       fragmentShader: fragmentShader.fragmentShader3,
    
-    });
+    })    
+
+    console.log(this.config)
 
 
 if(this.debug){
@@ -623,8 +626,7 @@ this.debugFolder
 
 /* 
   this.debugFolder
-.add( this.shaderMaterial4.uniforms.time.value )
-.min(-10)
+.add( this.shaderMaterial4.uniforms.time.value ).min(-0)
 .max(10)
 .step(1.0)
 .onChange((value) => {
@@ -989,7 +991,7 @@ racetrackShape6.lineTo(-.2, -1);
     
    
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.displacementMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial2) 
 
     //this.vnhHelper = new VertexNormalsHelper(this.tube4, 25, 0xff00ff );
     //this.vthHelper = new VertexTangentsHelper(this.tube, 5, 0x0000ff);
@@ -1084,28 +1086,30 @@ racetrackShape6.lineTo(-.2, -1);
       console.log(this.renderer)
           //SKYBOX
 
-          this.plane = new THREE.Mesh( new THREE.SphereGeometry( 1, 36, 36 ),
+          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,400,400 ),
 
-          new THREE.MeshStandardMaterial({
+          this.shaderMaterial2,
+
+         /*  new THREE.MeshStandardMaterial({
 
           side: THREE.DoubleSide,
 
           map: this.renderer.renderTarget.texture
 
-          })
+          }) */
 
           )
 
-          this.plane.scale.setScalar(25)
+          this.plane.scale.setScalar(6000)
 
           this.scene2.add(this.plane)
 
           
 
-          this.plane.translateY(100)
-          this.plane.translateZ(-300)
-          this.plane.translateX(100)
+         
 
+
+          this.plane.rotation.x += Math.PI/2;
 
 
           this.sphere = new THREE.Mesh(
@@ -1220,12 +1224,12 @@ racetrackShape6.lineTo(-.2, -1);
   update() {
 
     this.shaderMaterial.uniforms.needsUpdate = true;
-
+    this.shaderMaterial2.uniforms.needsUpdate = true;
    
     
-    //this.plane.rotation.x += 10;
-    //this.plane.rotation.y += 10;
-    //this.plane.rotation.z += 10;
+    //this.plane.position.x += Math.sin()*10;
+    //this.plane.position.y += Math.cos()*10;
+    //this.plane.rotation.y += 2;
 
     
 
@@ -1237,7 +1241,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 1.5
       this.shaderMaterial3.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * .5
-      this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .05
+      this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
       let currentPosition = 0; 
       let speed = .7; 
@@ -1283,7 +1287,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.camera.instance.add(this.model)
     this.camera.instance.add(this.light1)
-    this.camera.instance.add(this.plane)
+    //this.camera.instance.add(this.plane)
 
     //this.camera.instance.position.copy( pos.add(tangent).add(this.normal)).add(this.binormal))
 
