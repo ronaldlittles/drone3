@@ -991,7 +991,7 @@ racetrackShape6.lineTo(-.2, -1);
     
    
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial2) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
     //this.vnhHelper = new VertexNormalsHelper(this.tube4, 25, 0xff00ff );
     //this.vthHelper = new VertexTangentsHelper(this.tube, 5, 0x0000ff);
