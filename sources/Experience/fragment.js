@@ -88,7 +88,7 @@ void main() {
 
 
         vec3 heightColor = texture2D(texture1, vUv).rgb;
-        vec3  mixed = mix(mountainColor, heightColor, .8);                                                                                         
+        vec3  mixed = mix(mountainColor, heightColor, .5);                                                                                         
 
         // Calculate a directional light vector (adjust as needed)
         vec3 lightDirection = normalize(vec3(1.0, 1.0, 1.0));
