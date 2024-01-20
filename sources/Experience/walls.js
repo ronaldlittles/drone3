@@ -1106,9 +1106,9 @@ racetrackShape6.lineTo(-.2, -1);
           
 
          
-          this.plane.position.y = -400;
+         
 
-          this.plane.rotation.x += Math.PI/2;
+          this.plane.rotation.x += Math.PI/3;
 
 
           this.sphere = new THREE.Mesh(
