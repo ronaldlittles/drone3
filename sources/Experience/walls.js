@@ -1012,7 +1012,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube.castShadow = true;
    
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial5)   
 
 
     this.scene2.add(this.tube2);
@@ -1021,7 +1021,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial2)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial5)  
 
     this.scene2.add(this.tube3);
         
@@ -1037,8 +1037,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.tube4.receiveShadow = true;
       //this.tube4.castShadow = true;
 
-      //this.vnhHelper = new VertexNormalsHelper(this.tubeGeo4, 25, 0xff00ff )
-      //this.scene2.add(this.vnhHelper)
+      
       
       this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial) 
 
@@ -1107,7 +1106,7 @@ racetrackShape6.lineTo(-.2, -1);
           
 
          
-
+          this.plane.position.y = -400;
 
           this.plane.rotation.x += Math.PI/2;
 
