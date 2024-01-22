@@ -112,7 +112,7 @@ export default class Walls extends EventEmitter {
     //this.scene2.fog = new THREE.FogExp2('0xefd1b5', 0.0025);
 
     
-    const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
+    const waterGeometry = new THREE.PlaneGeometry( 100000, 100000 );
 
                             this.water = new Water(
       waterGeometry,
@@ -134,6 +134,7 @@ export default class Walls extends EventEmitter {
     );
 
     this.water.rotation.x = - Math.PI / 2;
+    this.water.position.y-= 300;
 
     this.scene2.add( this.water );
 
@@ -553,7 +554,7 @@ export default class Walls extends EventEmitter {
     
           },
        
-          vertexShader: vertexShader.vertexShader3,
+          vertexShader: vertexShader.vertexShader,
           fragmentShader: fragmentShader.fragmentShader,
        
         }); 
@@ -1306,7 +1307,7 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     
-    const offset = new THREE.Vector3(0, 150, 0)
+    const offset = new THREE.Vector3(0,50+(15 * Math.PI / 180), 0)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
    
@@ -1472,7 +1473,7 @@ if (intersects2.length > 0) {
 
       this.camera.instance.lookAt( lookAt.copy(pos2).add(tangent).add(this.normal).add(this.binormal) ) 
 
-      this.model.lookAt( pos3 )
+      this.model.lookAt( pos2.add(tangent).add(this.normal).add(this.binormal) )
 
     } 
     
