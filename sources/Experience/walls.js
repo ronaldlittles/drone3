@@ -8,7 +8,8 @@ import {smokeFragment} from "./smokeFragment.js";
 import {smokeVertex} from './smokeVertex.js';
 import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
-
+import { Sky } from "three/examples/jsm/objects/Sky.js";
+import { Water } from 'three/examples/jsm/objects/Water.js';
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -109,9 +110,39 @@ export default class Walls extends EventEmitter {
   setBoxes(){
 
     //this.scene2.fog = new THREE.FogExp2('0xefd1b5', 0.0025);
+
+    
+    const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
+
+                            this.water = new Water(
+      waterGeometry,
+      {
+        textureWidth: 512,
+        textureHeight: 512,
+        waterNormals: new THREE.TextureLoader().load( '/assets/waternormals.jpg', function ( texture ) {
+
+          texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+        } ),
+        sunDirection: new THREE.Vector3(),
+        sunColor: 0xffffff,
+        waterColor: 0x001e0f,
+        distortionScale: 3.7,
+
+        fog: this.scene2.fog !== undefined
+      }
+    );
+
+    this.water.rotation.x = - Math.PI / 2;
+
+    this.scene2.add( this.water );
+
+    this.sky = new Sky();
+    this.sky.scale.setScalar( 500000 );
+    this.scene2.add( this.sky );
    
 
-    this.light1 = new THREE.PointLight( 0xffffff, 1.5, 150, 0  );
+    this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
     //this.light1.position.set(-10,40,0)
      this.scene2.add(this.light1 );
      this.light1.lookAt(this.scene2.position)
@@ -123,7 +154,7 @@ export default class Walls extends EventEmitter {
     this.light1.shadow.mapSize.width = 512
     this.light1.shadow.mapSize.height = 512
     this.light1.shadow.camera.near = 10;
-    this.light1.shadow.camera.far = 100;
+    this.light1.shadow.camera.far = 800;
     this.light1.shadow.radius = 2;
     //this.light1.angle = Math.PI / 5;
 		//this.light1.penumbra = 0.3;
@@ -136,7 +167,7 @@ export default class Walls extends EventEmitter {
 
      this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
      this.scene2.add(this.directionalLight);
-     this.directionalLight.position.set(0,5,600)
+     this.directionalLight.position.set(0,5,-600)
      //this.camera.instance.add( this.directionalLight ); 
      this.directionalLight.castShadow = true;
      this.directionalLight.shadow.mapSize.width = 1024
@@ -290,9 +321,9 @@ export default class Walls extends EventEmitter {
     //this.scene2.add(this.model3);
 
     
-   
-   this.model.translateZ(-150)
-   this.model.translateY(-5)
+   const angleTrans = 15 * Math.PI / 180;
+   this.model.translateZ(-200)
+   this.model.translateY(angleTrans)
 
 
    if(this.debug){
@@ -542,7 +573,7 @@ export default class Walls extends EventEmitter {
           uvScale: { value: new THREE.Vector2(.5,.5)},
           tangent:{ value:this.tangent},
           texture1: { value: this.resource5 },
-          texture1:  { value: this.resource7 },
+          texture2:  { value: this.resource7 },
 
       },
 
@@ -588,7 +619,7 @@ export default class Walls extends EventEmitter {
       uniforms: {
 
         time: { value: 0.0 },
-        uvScale: { value: new THREE.Vector2(.5,.5) },
+        uvScale: { value: .00000001 },
         uResolution: { value: new THREE.Vector2( this.config.width,this.config.height)},
 
       },
@@ -778,7 +809,7 @@ this.debugFolder
         
 
 
-     function getPointAboveCurve(t, distanceAbove) {
+    function getPointAboveCurve(t, distanceAbove) {
 
         const pointOnCurve = figureEightCurve(t);  
         const normalVector = derivativeCurve(t).normalize(); 
@@ -790,9 +821,9 @@ this.debugFolder
       }
  
 
-        this.test = getPointAboveCurve(2000, .1)
+        /////////this.test = getPointAboveCurve(2000, .1)
         
-        console.log(this.test)
+        //console.log(this.test)
   
 
 
@@ -1085,7 +1116,7 @@ racetrackShape6.lineTo(-.2, -1);
       console.log(this.renderer)
           //SKYBOX
 
-          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,800,800 ),
+          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,200,200 ),
 
           this.shaderMaterial2,
 
@@ -1099,16 +1130,16 @@ racetrackShape6.lineTo(-.2, -1);
 
           )
 
-          this.plane.scale.setScalar(8000)
+          this.plane.scale.setScalar(1000)
 
-          this.scene2.add(this.plane)
+          ////////////////////////////////this.scene2.add(this.plane)
 
           
 
          
-         
+          ////////this.plane.rotation.z += Math.PI/2;
 
-          this.plane.rotation.x += Math.PI/3;
+          //this.plane.rotation.x += Math.PI/2;
 
 
           this.sphere = new THREE.Mesh(
@@ -1225,11 +1256,14 @@ racetrackShape6.lineTo(-.2, -1);
     this.shaderMaterial.uniforms.needsUpdate = true;
     this.shaderMaterial2.uniforms.needsUpdate = true;
    
+                              
     
     
       this.iNoise += .5;
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
+
+      this.water.material.uniforms.time.value+=  this.time.elapsed * 5
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 1.5
       this.shaderMaterial3.uniforms.time.value +=  this.time.delta * .5
@@ -1245,8 +1279,8 @@ racetrackShape6.lineTo(-.2, -1);
         const t =  (speed *this.time.elapsed )/loopTime % 1;
         const t2 =  (speed * this.time.elapsed + 1)/loopTime % 1;
         const t3 =  (speed * this.time.elapsed + 2)/loopTime % 1;
-   
- 
+
+     
     
         const pos = this.spline.getPointAt(t);
         const pos2 = this.spline.getPointAt(t2);
@@ -1255,6 +1289,7 @@ racetrackShape6.lineTo(-.2, -1);
         
   
     const tangent = this.spline.getTangentAt(t).normalize();
+    const tangent2 = this.spline.getTangentAt(t3).normalize();
 
     const derivativeTangent = this.spline.getTangentAt(t3).sub(tangent).normalize();
 
@@ -1271,7 +1306,7 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     
-    const offset = new THREE.Vector3(0, 50, -10)
+    const offset = new THREE.Vector3(0, 150, 0)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
    
@@ -1403,26 +1438,29 @@ if (intersects2.length > 0) {
 
     if (this.arrowLeftPressed) {
 
-
-    this.model.rotation.z += Math.PI/4;
-    this.model.rotation.y += Math.PI/4;
+    this.camera.instance.rotation.z -= Math.PI/2*.9;                                                                                                 
+    //this.model.rotation.z += Math.PI/4;
+   //this.model.rotation.y += Math.PI/4;
    
-    this.model.position.x -=  .9
+    this.model.position.x -=  .09
 
-   
+                                                                                                               
     
     
     }
-
+                                      
    
 
 
     if (this.arrowRightPressed) {
 
-    this.model.rotation.z -= Math.PI/4;
-    this.model.rotation.y += Math.PI/4;
+
+    this.camera.instance.rotation.z += Math.PI/2*.9; 
+
+    ///////this.model.rotation.z -= Math.PI/4;
+    ///////this.model.rotation.y += Math.PI/4;
     
-    this.model.position.x +=  .9
+    this.model.position.x +=  .09
    
     
 
@@ -1434,7 +1472,7 @@ if (intersects2.length > 0) {
 
       this.camera.instance.lookAt( lookAt.copy(pos2).add(tangent).add(this.normal).add(this.binormal) ) 
 
-      this.model.lookAt( pos3.add(tangent) )
+      this.model.lookAt( pos3 )
 
     } 
     

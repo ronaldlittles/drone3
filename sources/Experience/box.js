@@ -12,7 +12,7 @@ import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
 //import {test}  from "./video.js";
 
-import { Sky } from "three/examples/jsm/objects/Sky.js";
+
 
 export default class Box {
 
@@ -83,9 +83,7 @@ export default class Box {
     this.scene2.environment = this.cubeTexture
 
                                                                 
-    this.sky = new Sky();
-    this.sky.scale.setScalar( 500000 );
-    this.scene2.add( this.sky );                                                           
+                                                               
    
   }
 

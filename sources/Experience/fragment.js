@@ -80,36 +80,21 @@ void main() {
       varying vec2 vUv;
       varying vec3 vNormal;
       varying vec3 vTangent;
-      uniform sampler2D texture1;
+      varying vec3 vPosition;
+
+      uniform sampler2D texture2;
 
       void main() {
-        // Define a base color for the snowy mountain, for example, white
+        
         vec3 mountainColor = vec3(1.0, 1.0, 1.0);
 
 
-        vec3 heightColor = texture2D(texture1, vUv).rgb;
+        vec3 heightColor = texture2D(texture2, vUv).rgb;
         vec3  mixed = mix(mountainColor, heightColor, .5);                                                                                         
 
-        // Calculate a directional light vector (adjust as needed)
-        vec3 lightDirection = normalize(vec3(1.0, 1.0, 1.0));
-    
-        // Calculate the surface normal
-        vec3 normal = normalize(vNormal);
-    
-        // Calculate the direction from the fragment to the camera (adjust camera position)
-        vec3 viewDirection = normalize(vec3(0.0, 0.0, 600.0) - gl_FragCoord.xyz);
-    
-        // Calculate the diffuse lighting term (Lambertian reflection)
-        float diffuse = max(dot(normal, lightDirection), 1.0);
-    
-        // Add some specular highlights (adjust as needed)
-        float shininess = 32.0;
-        float specular = pow(max(dot(reflect(-lightDirection, normal), viewDirection), 0.0), shininess);
-    
-        // Combine diffuse and specular lighting
-        vec3 lighting = mixed * (diffuse + specular);
-    
-        // Output the final color with full opacity
+
+
+       
         gl_FragColor = vec4( mixed, 1.0);
     }
     
@@ -123,7 +108,7 @@ void main() {
   fragmentShader3: `
 
   
-  #define NUM_PARTICLES 50.
+  #define NUM_PARTICLES 25.
   #define NUM_EXPLOSIONS 3.
 
   varying vec2 vUv;
@@ -167,17 +152,17 @@ vec2 Hash12_Polar(float t){
 
 float Explosion(vec2 uv, float t) {
 
-  float sparks = 0.0;
+  float sparks = 2.0;
 
   for(float i=0.0; i< NUM_PARTICLES; i++){
 
     vec2 dir = Hash12_Polar(i+1.0)*.5;  //.5
 
-    vec2 center = vec2(0.0005, 0.0005);
+    vec2 center = vec2(0.5, 0.5);
 
-    vec2 iResolution = vec2(center);
+    vec2 iResolution = vec2(center)*.5;
 
-    float d = length((iResolution) - dir *  t);
+    float d = length((vUv) - dir *  t);
 
     float brightness = mix(.005, .002,smoothstep(.05, 0.0, t) );
 
