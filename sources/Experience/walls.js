@@ -678,7 +678,7 @@ export default class Walls extends EventEmitter {
 
             } else if (t < Math.PI/.5 && t > Math.PI/2.0) {
 
-              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 100;
+              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 150;
 
               } else{
 
@@ -848,30 +848,30 @@ export default class Walls extends EventEmitter {
   
 const racetrackShape = new THREE.Shape();
 
-racetrackShape.moveTo(0, -80);
+racetrackShape.moveTo(0, -120);
 
-racetrackShape.lineTo(2 ,-80); 
-racetrackShape.lineTo(0, 80);
-racetrackShape.lineTo(-2, -80);
+racetrackShape.lineTo(2 ,-120); 
+racetrackShape.lineTo(0, 120);
+racetrackShape.lineTo(-2, -120);
 
 
 
 const racetrackShape2 = new THREE.Shape();
 
-racetrackShape2.moveTo(0, -90);
-racetrackShape2.lineTo(10, -90);  
-racetrackShape2.lineTo(10, -70);   
-racetrackShape2.lineTo(-5, -70); 
-racetrackShape2.lineTo(-5, -90); 
+racetrackShape2.moveTo(0, -130);
+racetrackShape2.lineTo(10, -130);  
+racetrackShape2.lineTo(10, -110);   
+racetrackShape2.lineTo(-5, -110); 
+racetrackShape2.lineTo(-5, -130); 
 
 
 const racetrackShape3 = new THREE.Shape();
 
-racetrackShape3.moveTo(0, 90);
-racetrackShape3.lineTo(10, 90);  
-racetrackShape3.lineTo(10, 70);  
-racetrackShape3.lineTo(-5, 70);  
-racetrackShape3.lineTo(-5, 90); 
+racetrackShape3.moveTo(0, 130);
+racetrackShape3.lineTo(10, 130);  
+racetrackShape3.lineTo(10, 110);  
+racetrackShape3.lineTo(-5, 110);  
+racetrackShape3.lineTo(-5, 130); 
 
 
 
@@ -1202,13 +1202,13 @@ racetrackShape6.lineTo(-.2, -1);
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
       let currentPosition = 0; 
-      let speed = .7; 
+      let speed = .9; 
       let loopTime = 60;
       
 
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
-        const t2 =  (speed * this.time.elapsed + .5)/loopTime % 1;
+        const t2 =  (speed * this.time.elapsed + .7)/loopTime % 1;
         const t3 =  (speed * this.time.elapsed + 2)/loopTime % 1;//reverse
 
         const t4 =  (speed * this.time.elapsed + 1.0)/loopTime % 1;
@@ -1261,7 +1261,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.label3.textContent = (normalizedValue).toFixed(8);
     this.label4.textContent = (distance).toFixed(10);
 
-     this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2 ))
+     this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
    
     this.objectsArray2.forEach((object) => {
 
@@ -1390,7 +1390,7 @@ if (intersects2.length > 0) {
 
       this.camera.instance.lookAt(this.model.position ) 
 
-      this.model.lookAt(  lookAt.copy(pos4) )
+      this.model.lookAt(   pos4   )
 
     } 
     
