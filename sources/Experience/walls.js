@@ -141,7 +141,7 @@ export default class Walls extends EventEmitter {
 
     this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
     //this.light1.position.set(-10,40,0)
-     //this.scene2.add(this.light1 );
+     this.scene2.add(this.light1 );
      this.light1.lookAt(this.scene2.position)
      this.light1.translateZ(-100)
      this.light1.translateX(50)
@@ -162,7 +162,7 @@ export default class Walls extends EventEmitter {
 
      console.log(this.light1)
 
-     this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+     this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1.5 );
      this.scene2.add(this.directionalLight);
      //this.directionalLight.position.set(200,500,0)
      this.camera.instance.add( this.directionalLight ); 
@@ -1240,9 +1240,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
 
-    
-
-    const offset = new THREE.Vector3(0,100, 0)
+    const offset = new THREE.Vector3(0,75, 0)
     const offset2 = new THREE.Vector3(0,7, 0)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
@@ -1251,19 +1249,8 @@ racetrackShape6.lineTo(-.2, -1);
     ///CAMERA MOVEMENT
 
    
-    //this.camera.instance.add(this.light1)
-    //this.camera.instance.add(this.plane)
-
-    //this.camera.instance.position.copy( pos.add(tangent).add(this.normal)).add(this.binormal))
-
-
-
-    //this.camera.instance.lookAt(pos2.add(tangent).add(this.normal)).add(this.binormal))
-
-     
- 
+    this.camera.instance.add(this.light1)
     
-
     let originalValue = this.normal.y
 
     let normalizedValue = (originalValue + 1) / 2;
@@ -1276,17 +1263,10 @@ racetrackShape6.lineTo(-.2, -1);
 
      this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2 ))
    
-
-   
-
-
     this.objectsArray2.forEach((object) => {
 
       object.rotation.z += .5
 
-      
-
-      //object.position.copy(pos3.add(tangent).add(this.normal).add(this.randomOffset))
 
     })
 
@@ -1388,7 +1368,8 @@ if (intersects2.length > 0) {
 
 
     if (this.arrowRightPressed) {
-  this.isPointerDown=true
+
+      this.isPointerDown=true
 
     this.camera.instance.rotation.z += Math.PI/2; 
 
@@ -1403,9 +1384,9 @@ if (intersects2.length > 0) {
 
     if (this.arrowUpPressed) {
 
-      this.isPointerDown=true
+      
 
-      this.camera.instance.position.copy( pos.add(tangent).add(this.normal).add(this.binormal).add( offset ) )
+      this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
 
       this.camera.instance.lookAt(this.model.position ) 
 
