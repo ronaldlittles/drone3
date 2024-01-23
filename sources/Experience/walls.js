@@ -1208,17 +1208,17 @@ racetrackShape6.lineTo(-.2, -1);
 
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
-        const t2 =  (speed * this.time.elapsed + 1)/loopTime % 1;
+        const t2 =  (speed * this.time.elapsed + .5)/loopTime % 1;
         const t3 =  (speed * this.time.elapsed + 2)/loopTime % 1;//reverse
 
-        const t4 =  (speed * this.time.elapsed + 1.3)/loopTime % 1;
+        const t4 =  (speed * this.time.elapsed + 1.0)/loopTime % 1;
 
 
      
     
         const pos = this.spline.getPointAt(t);
         const pos2 = this.spline.getPointAt(t2);
-        const pos3 =  this.spline4.getPointAt(t3);
+        const pos3 =  this.spline4.getPointAt(t3);//reverse
 
         const pos4 = this.spline.getPointAt(t4)
         
@@ -1226,7 +1226,7 @@ racetrackShape6.lineTo(-.2, -1);
     const tangent = this.spline.getTangentAt(t).normalize();
     const tangent2 = this.spline.getTangentAt(t3).normalize();
 
-    const derivativeTangent = this.spline.getTangentAt(t3).sub(tangent).normalize();
+    const derivativeTangent = this.spline.getTangentAt(t4).sub(tangent).normalize();
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
