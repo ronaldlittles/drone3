@@ -136,11 +136,11 @@ export default class Walls extends EventEmitter {
     this.water.rotation.x = - Math.PI / 2;
     this.water.position.y-= 300;
 
-    this.scene2.add( this.water );
+    //this.scene2.add( this.water );
 
     this.sky = new Sky();
     this.sky.scale.setScalar( 500000 );
-    this.scene2.add( this.sky );
+    //this.scene2.add( this.sky );
    
 
     this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
@@ -166,17 +166,17 @@ export default class Walls extends EventEmitter {
 
      console.log(this.light1)
 
-     this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
+     this.directionalLight = new THREE.DirectionalLight( 0x0000ff, 3.5 );
      this.scene2.add(this.directionalLight);
-     this.directionalLight.position.set(0,5,-600)
+     this.directionalLight.position.set(200,5,600)
      //this.camera.instance.add( this.directionalLight ); 
      this.directionalLight.castShadow = true;
-     this.directionalLight.shadow.mapSize.width = 1024
-     this.directionalLight.shadow.mapSize.height = 1024
-     this.directionalLight.shadow.camera.near = 10;
-     this.directionalLight.shadow.camera.far = 600;
-     this.directionalLight.shadow.radius = 50;
-     this.directionalLight.lookAt(this.scene2.position)
+     this.directionalLight.shadow.mapSize.width = 48
+     this.directionalLight.shadow.mapSize.height = 48
+     this.directionalLight.shadow.camera.near = 0;
+     this.directionalLight.shadow.camera.far = 1000;
+     this.directionalLight.shadow.radius = 2;
+    
 
 
      const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 500, 0xffffff)
@@ -188,15 +188,23 @@ export default class Walls extends EventEmitter {
     this.debugFolder = this.debug.addFolder()
   
     this.debugFolder
-    .add(this.light1.position,'y')
+    .add( this.directionalLight.position,'y')
     .min(-500)
-    .max(500)
+    .max(4500)
     .step(50.0)
     .onChange((value) => {
   
-      this.light1.position.y = value })
-  
-    }
+      this.directionalLight.position.y = value 
+    
+    })
+
+
+
+
+    
+      }
+
+
 
     let length = 250;
     this.boxes = [];
@@ -298,38 +306,21 @@ export default class Walls extends EventEmitter {
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
    
-   //this.camera.instance.castShadow = true;
-
-    this.model2 = this.resource4.scene;
-    this.model2.scale.setScalar(350)
-    this.model2.castShadow = true;
-    this.model2.position.z = 350;
-    this.model2.position.y = -100;
-    this.model2.upVector = new THREE.Vector3(0, 1, 0);
-
-    
-    //this.scene2.add(this.model2);
+    this.model.scale.set(.9,.5,1)
+    //this.directionalLight.lookAt(this.model.position)
 
     
     
-    //this.model3 = this.resource5.scene;
-
-    //this.model3.scale.setScalar(750)
-    //this.model3.castShadow = true;
-    //this.model3.position.y = -300;
-    //this.model3.receiveShadow = true; 
-
-    //this.scene2.add(this.model3);
-
+   
     
    const angleTrans = 15 * Math.PI / 180;
-   this.model.translateZ(-200)
-   this.model.translateY(angleTrans)
+   this.model.translateZ(-150)
+   
 
 
    if(this.debug){
 
-    this.debugFolder = this.debug.addFolder()
+   
 
   this.debugFolder
   .add(this.model.position,'z')
@@ -338,7 +329,9 @@ export default class Walls extends EventEmitter {
   .step(50.0)
   .onChange((value) => {
 
-    this.model.position.z = value })
+    this.model.position.z = value 
+  
+  })
  
    
 
@@ -364,8 +357,7 @@ export default class Walls extends EventEmitter {
 
         this.meshes[0].material.transparent = true
         this.meshes[0].material.opacity = 1.0
-        /*this.meshes[2].material.transparent = true
-        this.meshes[2].material.opacity = 1  */
+       
 
 
         this.rotateLeftButton = document.getElementById('left');
@@ -373,10 +365,7 @@ export default class Walls extends EventEmitter {
         this.menuButton = document.getElementById('menu');
 
         let popUp =  document.getElementById('andrea')
-//this.texture = new THREE.VideoTexture(this.video); 
 
-        
-        //this.video.play()
 
        
         this.menuButton.addEventListener('pointerdown', ()=>{
@@ -431,22 +420,6 @@ export default class Walls extends EventEmitter {
       element.play()
 
 
-     /*  GSAP.to(element, {
-
-        scale: 1.5,
-        opacity: 0,
-        
-        repeat: -1,
-        yoyo: true,
-        ease: 'power2.easeInOut',
-       
-        }); */
-
-        //this.texture = new THREE.VideoTexture(this.video); 
-
-        //this.arrowUpPressed = true;
-        //this.video.play();
-    
       }
     
 
@@ -461,7 +434,7 @@ export default class Walls extends EventEmitter {
           this.label.style.top = "65px";
           this.label.style.right = '50%';
           this.label.style.backgroundColor = 'transparent';
-          this.label.style.color = "white";
+          this.label.style.color = "#0000ff";
           this.label.style.fontFamily = "sans-serif";
           this.label.style.fontSize = "34px";
           this.label.style.textShadow = "1px 2px #000000";
@@ -578,7 +551,7 @@ export default class Walls extends EventEmitter {
 
       },
 
-      vertexShader: vertexShader.vertexShader2,
+      vertexShader: vertexShader.vertexShader,
       fragmentShader: fragmentShader.fragmentShader2,
 
     });  
@@ -630,44 +603,11 @@ export default class Walls extends EventEmitter {
    
     })    
 
-    console.log(this.config)
 
 
-if(this.debug){
-
-  this.debugFolder = this.debug.addFolder()
-
-this.debugFolder
-.add( this.shaderMaterial4.uniforms.uvScale.value,'x' )
-.min(-10)
-.max(10)
-.step(.5)
-.onChange((value) => {
-
-  this.shaderMaterial4.uniforms.uvScale.value.x = value})
 
 
-this.debugFolder
-.add( this.shaderMaterial4.uniforms.uvScale.value,'y' )
-.min(-10)
-.max(10)
-.step(.5)
-.onChange((value) => {
 
-  this.shaderMaterial4.uniforms.uvScale.value.y = value})
-
-/* 
-  this.debugFolder
-.add( this.shaderMaterial4.uniforms.time.value ).min(-0)
-.max(10)
-.step(1.0)
-.onChange((value) => {
-
-  this.shaderMaterial4.uniforms.time.value = value})
- */
-
-
-}
 
 
 
@@ -713,8 +653,8 @@ this.debugFolder
 
             side: THREE.DoubleSide,
             color: 'white',
-            opacity: .5,
-            transparent: true,
+            //opacity: 1,
+           //transparent: true,
 
             //map: this.resource6,
             
@@ -892,9 +832,9 @@ this.debugFolder
     })
     
 
-    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1000,1300)
+    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1100,1300)
 
-    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(600,900)
+    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(700,900)
 
    
     /* const sectionSize = 10;
@@ -1018,22 +958,20 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
 
-    this.tubeGeo.computeVertexNormals()
-    //this.tubeGeo.computeVertexTangents()
+    
     
    
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
-    //this.vnhHelper = new VertexNormalsHelper(this.tube4, 25, 0xff00ff );
-    //this.vthHelper = new VertexTangentsHelper(this.tube, 5, 0x0000ff);
+    
   
     this.scene2.add(this.tube);
 
     console.log(this.tube)
    
 
-    //this.scene2.add(this.vthHelper)
+    
 
     
     this.tube.position.y =-10 
@@ -1041,10 +979,10 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube.visible = false;
 
     this.tube.receiveShadow = true;
-    //this.tube.castShadow = true;
+    this.tube.castShadow = true;
    
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial5)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
 
 
     this.scene2.add(this.tube2);
@@ -1053,7 +991,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial5)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial2)  
 
     this.scene2.add(this.tube3);
         
@@ -1307,7 +1245,7 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     
-    const offset = new THREE.Vector3(0,50+(15 * Math.PI / 180), 0)
+    const offset = new THREE.Vector3(0,35+(15 * Math.PI / 180), 0)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
    
@@ -1315,7 +1253,7 @@ racetrackShape6.lineTo(-.2, -1);
     ///CAMERA MOVEMENT
 
     this.camera.instance.add(this.model)
-    this.camera.instance.add(this.light1)
+    //this.camera.instance.add(this.light1)
     //this.camera.instance.add(this.plane)
 
     //this.camera.instance.position.copy( pos.add(tangent).add(this.normal)).add(this.binormal))
@@ -1332,7 +1270,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     let normalizedValue = (originalValue + 1) / 2;
 
-    const distance = this.model.position.distanceTo(pos2)*.1
+    const distance = this.model.position.distanceTo(pos2)*.01
 
     this.label.textContent = (this.model.position.y).toFixed(12)
     this.label3.textContent = (normalizedValue).toFixed(8);
@@ -1340,7 +1278,7 @@ racetrackShape6.lineTo(-.2, -1);
 
      //this.model.position.z = this.normal.z 
    
-    this.model.position.y = (normalizedValue - distance) *.01 
+    this.model.position.y = (normalizedValue - distance)*.1
 
    /*  this.model.rotation.z +=  this.binormal.z *  2
     this.model.rotation.x += -this.normal.x * .02
