@@ -162,7 +162,7 @@ export default class Walls extends EventEmitter {
 
      console.log(this.light1)
 
-     this.directionalLight = new THREE.DirectionalLight( 0xffffff, .5 );
+     this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
      this.scene2.add(this.directionalLight);
      //this.directionalLight.position.set(200,500,0)
      this.camera.instance.add( this.directionalLight ); 
@@ -294,7 +294,7 @@ export default class Walls extends EventEmitter {
     this.model.castShadow = true;
     this.model.receiveShadow = true;
     this.model.visible = true;
-    this.model.scale.set(.9,.5,1)
+    this.model.scale.set(1.2,.5,1.1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
    
@@ -1243,7 +1243,7 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     const offset = new THREE.Vector3(0,100, 0)
-    const offset2 = new THREE.Vector3(0,5, 100)
+    const offset2 = new THREE.Vector3(0,7, 0)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
    
@@ -1274,7 +1274,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.label3.textContent = (normalizedValue).toFixed(8);
     this.label4.textContent = (distance).toFixed(10);
 
-     this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal) )
+     this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2 ))
    
 
    
