@@ -131,9 +131,9 @@ export default class Walls extends EventEmitter {
     );
 
     this.water.rotation.x = - Math.PI / 2;
-    this.water.position.y-= 300;
+    this.water.position.y-= 100;
 
-    //this.scene2.add( this.water );
+    this.scene2.add( this.water );
 
     this.sky = new Sky();
     this.sky.scale.setScalar( 500000 );
@@ -1234,7 +1234,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      //this.water.material.uniforms.time.value+=  this.time.elapsed * 5
+      this.water.material.uniforms.time.value+=  this.time.elapsed * 5
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial2.uniforms.time.value +=  this.time.delta * .5
