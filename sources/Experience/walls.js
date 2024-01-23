@@ -38,6 +38,7 @@ export default class Walls extends EventEmitter {
     this.resource5 = this.resources.items.wallTexture;
     this.resource6 = this.resources.items.hdr;
     this.resource7 = this.resources.items.snowm;
+    this.resource8 = this.resources.items.trees2;
 
     this.resource1.colorSpace = THREE.SRGBColorSpace
 
@@ -301,7 +302,16 @@ export default class Walls extends EventEmitter {
     
     this.directionalLight.lookAt(this.model.position)
 
-    
+    this.model2 = this.resource8.scene;
+    this.model2.name = "trees2model";
+    this.model2.upVector = new THREE.Vector3(0, 1, 0);
+    //this.model2.castShadow = true;
+    //this.model2.receiveShadow = true;
+    this.model2.visible = true;
+    //this.model2.scale.setScalar(10)
+   
+   
+    ///////this.scene2.add(this.model2);
 
 
    if(this.debug){
@@ -503,7 +513,7 @@ export default class Walls extends EventEmitter {
            
             uNoise: { value: this.iNoise},
             uvScale:  { value: new THREE.Vector2( 3, 1 ) },
-            tangent:{ value:this.tangent },
+            tangent:{ value: this.tangent},
     
             fogDensity: { value: 0.45 },
             fogColor: { value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
@@ -531,7 +541,7 @@ export default class Walls extends EventEmitter {
           time: { value: this.time.elapsed },
           uNoise: { value: this.iNoise },
           uvScale: { value: new THREE.Vector2(.5,.5)},
-          tangent:{ value:this.tangent},
+          tangent:{ value: this.tangent},
           texture1: { value: this.resource5 },
           texture2:  { value: this.resource7 },
 
@@ -1122,45 +1132,48 @@ racetrackShape6.lineTo(-.2, -1);
     const numObjects = 100; 
     this.spacing = 5; 
     this.scaleFactor = 5;
-    this.offset = new THREE.Vector3(400,0,0);
+    const offset = new THREE.Vector3(300,0,0);
+
+   
 
     this.objectsArray1 = [];
     this.objectsArray2 = [];
 
     for (let i = 0; i < numObjects; i++) {
 
-    const t = i / (numObjects-1); // Ranges from 0 to 1 //-1
+    const t = (i / this.numPoints) * Math.PI * 2;
 
-    
+    const tvalue  = .5
+    const step=.1;
+    const pointBefore = this.spline.getPointAt(tvalue - step);
+    const pointAfter = this.spline.getPointAt(tvalue + step);
+
+    const derivative = pointAfter.clone().sub(pointBefore).normalize();
    
     const positionOnCurve = this.spline.getPointAt(t);
-    this.tangent = this.spline.getTangentAt(t);
+    const tangent = this.spline.getTangentAt(t);
 
-    const positionOnCurve2 = this.spline5.getPointAt(t);
+    const positionOnCurve2 = this.spline.getPointAt(t);
 
-    this.modelClone= this.model.clone()
-    this.modelClone.position.copy(positionOnCurve2.add( this.offset))
-    this.modelClone.scale.setScalar(1.2)
-    this.scene2.add(this.modelClone)
    
 
     const referenceVector = new THREE.Vector3(0,1, 0);
 
-    const normal = new THREE.Vector3();
-    normal.crossVectors(referenceVector, this.tangent).normalize();
+    const binormal = new THREE.Vector3();
+    binormal.crossVectors(derivative, tangent).normalize();
 
-    this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(this.tangent, normal).normalize(); 
+    const normal = new THREE.Vector3();
+    normal.crossVectors(tangent, binormal).normalize(); 
 
    
     //this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
 
-    const angle = Math.atan2(this.tangent.x , this.tangent.z );
+    const angle = Math.atan2(tangent.x , tangent.z );
 
     
 
-    this.positionLeft = positionOnCurve.clone().add(this.offset);
-    this.positionRight = positionOnCurve.clone().sub(this.offset);
+    this.positionLeft = positionOnCurve.clone()//.add(this.offset);
+    this.positionRight = positionOnCurve.clone()//.sub(this.offset);
 
 
 
@@ -1183,6 +1196,18 @@ racetrackShape6.lineTo(-.2, -1);
       
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
+
+      
+    this.modelClone= this.model.clone()
+    this.modelClone.position.copy(positionOnCurve2.add( tangent).add( normal).add( binormal))
+    this.modelClone.scale.setScalar(1.2)
+    //this.scene2.add(this.modelClone)
+
+    
+    this.model2Clone= this.model2.clone()
+    this.model2Clone.position.copy(positionOnCurve2.add( tangent.multiplyScalar(offset.x).add( normal).add( binormal)))
+    this.model2Clone.scale.setScalar(10.2)
+    this.scene2.add(this.model2Clone)
 
 
       
@@ -1241,14 +1266,14 @@ racetrackShape6.lineTo(-.2, -1);
     const tangent = this.spline.getTangentAt(t).normalize();
     const tangent2 = this.spline.getTangentAt(t3).normalize();
 
-    const derivativeTangent = this.spline.getTangentAt(t4).sub(tangent).normalize();
+    this.derivativeTangent = this.spline.getTangentAt(t4).sub(tangent).normalize();
 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
 
 
     this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(tangent, derivativeTangent).normalize(); 
+    this.binormal.crossVectors(tangent, this.derivativeTangent).normalize(); 
 
     this.normal = new THREE.Vector3();
     this.normal.crossVectors( this.binormal, tangent ).normalize();

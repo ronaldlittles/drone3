@@ -87,9 +87,9 @@ export default [
       },  
 
       {
-        name: "pizzaFont",
-        source: "/assets/gentilis.json",
-        type: "font",
+        name: "trees2",
+        source: "/assets/trees2.glb",
+        type: "gltfModel",
       },
     ],
   },
