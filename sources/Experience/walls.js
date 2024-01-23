@@ -1202,7 +1202,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
       let currentPosition = 0; 
-      let speed = .9; 
+      let speed = .8; 
       let loopTime = 60;
       
 
@@ -1286,11 +1286,11 @@ racetrackShape6.lineTo(-.2, -1);
   
         const intersectsPoint = intersects[0].object
 
-        intersectsPoint.scale.setScalar(10)
+        intersectsPoint.scale.setScalar(15)
         intersectsPoint.material = this.shaderMaterial
         intersectsPoint.rotation.x +=  this.time.delta
         intersectsPoint.position.x +=  15 *        Math.random()
-        intersectsPoint.position.y +=  50 *        Math.random()
+        intersectsPoint.position.y +=  250 *        Math.random()
         intersectsPoint.position.z += -50 *        Math.random()
 
 }
@@ -1391,6 +1391,8 @@ if (intersects2.length > 0) {
       this.camera.instance.lookAt(this.model.position ) 
 
       this.model.lookAt(   pos4   )
+
+      this.camera.instance.rotation.z = this.binormal.z *.0001                             
 
     } 
     
