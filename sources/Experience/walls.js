@@ -1271,10 +1271,10 @@ racetrackShape6.lineTo(-.2, -1);
     })
 
 
-    const originOffSet = new THREE.Vector3(0, -300, 0)
+    const originOffSet = new THREE.Vector3(0, -500, 0)
 
-    const origin =  pos2.clone().add(tangent).add(this.normal).add(originOffSet)
-    const origin2 = pos3.clone().add(tangent).add(this.normal).add(originOffSet)
+    const origin =  pos2.clone().add(tangent).add(this.normal).add(this.binormal).add(originOffSet)
+    const origin2 = pos3.clone().add(tangent).add(this.normal).add(this.binormal).add(originOffSet)
 
     const raycaster = new THREE.Raycaster( origin, new THREE.Vector3(0,1,0) );
     const raycaster2 = new THREE.Raycaster( origin2, new THREE.Vector3(0,1,0) );
@@ -1392,7 +1392,7 @@ if (intersects2.length > 0) {
 
       this.model.lookAt(   pos4   )
 
-      this.camera.instance.rotation.z = this.binormal.z *.0001                             
+      this.camera.instance.rotation.z = this.binormal.z *.01                             
 
     } 
     
