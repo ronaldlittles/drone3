@@ -676,9 +676,9 @@ export default class Walls extends EventEmitter {
 
                 y = smoothY;
 
-            } else if (t < Math.PI/.5 && t > Math.PI/2.0) {
+            } else if (-(t < Math.PI/.5) && t > Math.PI/1.5) {
 
-              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 150;
+              y = Math.cos( Math.sin(t * 5.7* Math.PI)) * 50;
 
               } else{
 
@@ -822,6 +822,8 @@ export default class Walls extends EventEmitter {
 
     this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(700,900)
 
+    this.spacedPoints3 = this.spline.getSpacedPoints(1500).slice(0,500)
+
    
     /* const sectionSize = 10;
     const skipSize = 50;
@@ -839,6 +841,9 @@ export default class Walls extends EventEmitter {
     
 
     this.spline3 = new THREE.CatmullRomCurve3(this.spacedPoints2);
+
+
+    this.spline5 = new THREE.CatmullRomCurve3(this.spacedPoints3);
 
 
     this.splineReverse = this.spline.points
@@ -1117,6 +1122,7 @@ racetrackShape6.lineTo(-.2, -1);
     const numObjects = 100; 
     this.spacing = 5; 
     this.scaleFactor = 5;
+    this.offset = new THREE.Vector3(400,0,0);
 
     this.objectsArray1 = [];
     this.objectsArray2 = [];
@@ -1130,7 +1136,13 @@ racetrackShape6.lineTo(-.2, -1);
     const positionOnCurve = this.spline.getPointAt(t);
     this.tangent = this.spline.getTangentAt(t);
 
-    
+    const positionOnCurve2 = this.spline5.getPointAt(t);
+
+    this.modelClone= this.model.clone()
+    this.modelClone.position.copy(positionOnCurve2.add( this.offset))
+    this.modelClone.scale.setScalar(1.2)
+    this.scene2.add(this.modelClone)
+   
 
     const referenceVector = new THREE.Vector3(0,1, 0);
 
@@ -1141,7 +1153,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.binormal.crossVectors(this.tangent, normal).normalize(); 
 
    
-    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
+    //this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
 
     const angle = Math.atan2(this.tangent.x , this.tangent.z );
 
@@ -1171,6 +1183,9 @@ racetrackShape6.lineTo(-.2, -1);
       
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
+
+
+      
      
 
     }  
@@ -1194,10 +1209,10 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      this.water.material.uniforms.time.value+=  this.time.elapsed * 5
+      //this.water.material.uniforms.time.value+=  this.time.elapsed * 5
 
-      this.shaderMaterial.uniforms.time.value +=  this.time.delta * 1.5
-      this.shaderMaterial3.uniforms.time.value +=  this.time.delta * .5
+      this.shaderMaterial.uniforms.time.value +=  this.time.delta * .5
+      this.shaderMaterial2.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
@@ -1255,7 +1270,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     let normalizedValue = (originalValue + 1) / 2;
 
-    const distance = this.model.position.distanceTo(pos2)*.01
+    const distance = this.model.position.distanceTo(pos2)
 
     this.label.textContent = (this.model.position.y).toFixed(12)
     this.label3.textContent = (normalizedValue).toFixed(8);
@@ -1289,8 +1304,8 @@ racetrackShape6.lineTo(-.2, -1);
         intersectsPoint.scale.setScalar(15)
         intersectsPoint.material = this.shaderMaterial
         intersectsPoint.rotation.x +=  this.time.delta
-        intersectsPoint.position.x +=  15 *        Math.random()
-        intersectsPoint.position.y +=  250 *        Math.random()
+        intersectsPoint.position.x +=  15 *        Math.random()* Math.PI /2
+        intersectsPoint.position.y +=  150 * this.time.delta  *    Math.random()
         intersectsPoint.position.z += -50 *        Math.random()
 
 }
@@ -1300,10 +1315,10 @@ if (intersects2.length > 0) {
   const intersectsPoint = intersects2[0].object
 
   intersectsPoint.scale.setScalar(10)
-  intersectsPoint.material = this.shaderMaterial4
+  intersectsPoint.material = this.shaderMaterial2
   intersectsPoint.rotation.z += this.time.delta
-  intersectsPoint.position.x += -15 * Math.random()
-  intersectsPoint.position.y +=  50 * Math.random()
+  intersectsPoint.position.x += -15 * Math.random() * Math.PI /2
+  intersectsPoint.position.y +=  150 * Math.random() * Math.PI /2
   intersectsPoint.position.z += -50 * Math.random()
 
 }
@@ -1349,7 +1364,7 @@ if (intersects2.length > 0) {
 
     if (this.arrowLeftPressed) {
 
-         this.isPointerDown=true
+         
       
 
 
@@ -1369,7 +1384,7 @@ if (intersects2.length > 0) {
 
     if (this.arrowRightPressed) {
 
-      this.isPointerDown=true
+     
 
     this.camera.instance.rotation.z += Math.PI/2; 
 
