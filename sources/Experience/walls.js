@@ -648,8 +648,8 @@ export default class Walls extends EventEmitter {
 
 
         this.meshes[0].material = this.displacementMaterial //body
-        this.meshes[1].material = this.shaderMaterial4  //toplight
-        this.meshes[2].material = this.shaderMaterial4  //backlight
+        //this.meshes[1].material = this.shaderMaterial4  //toplight
+        //this.meshes[2].material = this.shaderMaterial4  //backlight
     
 
 
@@ -1240,8 +1240,8 @@ racetrackShape6.lineTo(-.2, -1);
 
     
 
-    const offset = new THREE.Vector3(0,75, 0)
-    const offset2 = new THREE.Vector3(0,7, 0)
+    const offset = new THREE.Vector3(0,125, 0)
+    const offset2 = new THREE.Vector3(0,15, 0)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
    
