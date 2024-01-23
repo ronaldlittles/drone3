@@ -63,10 +63,6 @@ export default class Walls extends EventEmitter {
     document.addEventListener("keyup", this.handleKeyUp)
   
   
-    //document.addEventListener("pointerdown", this.handleKeyDown)
-    //document.addEventListener("pointerup", this.handleKeyUp)
-   
-  
   
       this.arrowUpPressed = false;
       this.arrowLeftPressed = false;
@@ -145,7 +141,7 @@ export default class Walls extends EventEmitter {
 
     this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
     //this.light1.position.set(-10,40,0)
-     this.scene2.add(this.light1 );
+     //this.scene2.add(this.light1 );
      this.light1.lookAt(this.scene2.position)
      this.light1.translateZ(-100)
      this.light1.translateX(50)
@@ -166,16 +162,12 @@ export default class Walls extends EventEmitter {
 
      console.log(this.light1)
 
-     this.directionalLight = new THREE.DirectionalLight( 0x0000ff, 3.5 );
+     this.directionalLight = new THREE.DirectionalLight( 0xffffff, .5 );
      this.scene2.add(this.directionalLight);
-     this.directionalLight.position.set(200,5,600)
-     //this.camera.instance.add( this.directionalLight ); 
+     //this.directionalLight.position.set(200,500,0)
+     this.camera.instance.add( this.directionalLight ); 
      this.directionalLight.castShadow = true;
-     this.directionalLight.shadow.mapSize.width = 48
-     this.directionalLight.shadow.mapSize.height = 48
-     this.directionalLight.shadow.camera.near = 0;
-     this.directionalLight.shadow.camera.far = 1000;
-     this.directionalLight.shadow.radius = 2;
+     
     
 
 
@@ -306,16 +298,10 @@ export default class Walls extends EventEmitter {
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
    
-    this.model.scale.set(.9,.5,1)
-    //this.directionalLight.lookAt(this.model.position)
+    
+    this.directionalLight.lookAt(this.model.position)
 
     
-    
-   
-    
-   const angleTrans = 15 * Math.PI / 180;
-   this.model.translateZ(-150)
-   
 
 
    if(this.debug){
@@ -979,7 +965,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube.visible = false;
 
     this.tube.receiveShadow = true;
-    this.tube.castShadow = true;
+    //this.tube.castShadow = true;
    
  
     this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
@@ -1004,8 +990,8 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.tube4.position.y = 10;
        
-      this.tube4.receiveShadow = true;
-      //this.tube4.castShadow = true;
+      ///////////////////this.tube4.receiveShadow = true;
+      this.tube4.castShadow = true;
 
       
       
@@ -1014,6 +1000,10 @@ racetrackShape6.lineTo(-.2, -1);
       this.scene2.add(this.tube5);
 
       this.tube5.position.y = 10;
+
+      //this.tube5.receiveShadow = true;
+      this.tube5.castShadow = true;
+
 
 
       this.tube6 = new THREE.Mesh(this.tubeGeo6, this.shaderMaterial5)
@@ -1072,8 +1062,6 @@ racetrackShape6.lineTo(-.2, -1);
           this.plane.scale.setScalar(1000)
 
           ////////////////////////////////this.scene2.add(this.plane)
-
-          
 
          
           ////////this.plane.rotation.z += Math.PI/2;
@@ -1146,14 +1134,14 @@ racetrackShape6.lineTo(-.2, -1);
 
     const referenceVector = new THREE.Vector3(0,1, 0);
 
-    this.normal = new THREE.Vector3();
-    this.normal.crossVectors(referenceVector, this.tangent).normalize();
+    const normal = new THREE.Vector3();
+    normal.crossVectors(referenceVector, this.tangent).normalize();
 
     this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(this.tangent, this.normal).normalize(); 
+    this.binormal.crossVectors(this.tangent, normal).normalize(); 
 
    
-    this.offset = this.normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
+    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
 
     const angle = Math.atan2(this.tangent.x , this.tangent.z );
 
@@ -1187,6 +1175,10 @@ racetrackShape6.lineTo(-.2, -1);
 
     }  
 
+
+
+
+
         }
         
       
@@ -1217,14 +1209,18 @@ racetrackShape6.lineTo(-.2, -1);
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
         const t2 =  (speed * this.time.elapsed + 1)/loopTime % 1;
-        const t3 =  (speed * this.time.elapsed + 2)/loopTime % 1;
+        const t3 =  (speed * this.time.elapsed + 2)/loopTime % 1;//reverse
+
+        const t4 =  (speed * this.time.elapsed + 1.3)/loopTime % 1;
+
 
      
     
         const pos = this.spline.getPointAt(t);
         const pos2 = this.spline.getPointAt(t2);
         const pos3 =  this.spline4.getPointAt(t3);
-     
+
+        const pos4 = this.spline.getPointAt(t4)
         
   
     const tangent = this.spline.getTangentAt(t).normalize();
@@ -1245,14 +1241,16 @@ racetrackShape6.lineTo(-.2, -1);
     
 
     
-    const offset = new THREE.Vector3(0,35+(15 * Math.PI / 180), 0)
+
+    const offset = new THREE.Vector3(0,100, 0)
+    const offset2 = new THREE.Vector3(0,5, 100)
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
    
 
     ///CAMERA MOVEMENT
 
-    this.camera.instance.add(this.model)
+   
     //this.camera.instance.add(this.light1)
     //this.camera.instance.add(this.plane)
 
@@ -1263,7 +1261,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.camera.instance.lookAt(pos2.add(tangent).add(this.normal)).add(this.binormal))
 
      
-
+ 
     
 
     let originalValue = this.normal.y
@@ -1276,16 +1274,10 @@ racetrackShape6.lineTo(-.2, -1);
     this.label3.textContent = (normalizedValue).toFixed(8);
     this.label4.textContent = (distance).toFixed(10);
 
-     //this.model.position.z = this.normal.z 
+     this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal) )
    
-    this.model.position.y = (normalizedValue - distance)*.1
 
-   /*  this.model.rotation.z +=  this.binormal.z *  2
-    this.model.rotation.x += -this.normal.x * .02
-    this.model.rotation.y +=  this.angle */
-    this.camera.instance.rotation.z = -this.model.rotation.z * .6
-    //this.camera.instance.rotation.x =  this.model.rotation.x * .05
-    //this.camera.instance.rotation.y = this.model.rotation.y
+   
 
 
     this.objectsArray2.forEach((object) => {
@@ -1377,7 +1369,11 @@ if (intersects2.length > 0) {
 
     if (this.arrowLeftPressed) {
 
-    this.camera.instance.rotation.z -= Math.PI/2*.9;                                                                                                 
+         this.isPointerDown=true
+      
+
+
+    this.camera.instance.rotation.z -= Math.PI/2;                                                                                                 
     //this.model.rotation.z += Math.PI/4;
    //this.model.rotation.y += Math.PI/4;
    
@@ -1392,9 +1388,9 @@ if (intersects2.length > 0) {
 
 
     if (this.arrowRightPressed) {
+  this.isPointerDown=true
 
-
-    this.camera.instance.rotation.z += Math.PI/2*.9; 
+    this.camera.instance.rotation.z += Math.PI/2; 
 
     ///////this.model.rotation.z -= Math.PI/4;
     ///////this.model.rotation.y += Math.PI/4;
@@ -1407,11 +1403,13 @@ if (intersects2.length > 0) {
 
     if (this.arrowUpPressed) {
 
+      this.isPointerDown=true
+
       this.camera.instance.position.copy( pos.add(tangent).add(this.normal).add(this.binormal).add( offset ) )
 
-      this.camera.instance.lookAt( lookAt.copy(pos2).add(tangent).add(this.normal).add(this.binormal) ) 
+      this.camera.instance.lookAt(this.model.position ) 
 
-      this.model.lookAt( pos2.add(tangent).add(this.normal).add(this.binormal) )
+      this.model.lookAt(  lookAt.copy(pos4) )
 
     } 
     
