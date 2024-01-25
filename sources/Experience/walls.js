@@ -870,7 +870,6 @@ racetrackShape.lineTo(0, 120);
 racetrackShape.lineTo(-2, -120);
 
 
-
 const racetrackShape2 = new THREE.Shape();
 
 racetrackShape2.moveTo(0, -130);
@@ -888,11 +887,7 @@ racetrackShape3.lineTo(10, 110);
 racetrackShape3.lineTo(-5, 110);  
 racetrackShape3.lineTo(-5, 130); 
 
-
-
 const racetrackShape4 = new THREE.Shape();
-
-
 
 const outerRadius = 250;
 const innerRadius = .4;
@@ -946,9 +941,6 @@ racetrackShape6.lineTo(-.2, -1);
     } 
 
     
-
-
-    
  
     this.tubeGeo = new THREE.ExtrudeGeometry(racetrackShape, this.extrudeSettings);
     this.tubeGeo2 = new THREE.ExtrudeGeometry(racetrackShape2, this.extrudeSettings);
@@ -959,20 +951,14 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
 
-    
-    
-   
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
     
-  
     this.scene2.add(this.tube);
 
     console.log(this.tube)
    
-
-    
 
     
     this.tube.position.y =-10 
@@ -1457,8 +1443,6 @@ if (intersects2.length > 0) {
     if (this.arrowUpPressed) {
 
       
-
-
 
 
       this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
