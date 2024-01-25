@@ -50,7 +50,7 @@ export default class Walls extends EventEmitter {
     
     this.setRaycaster();
 
-
+ this.addToDebugger(this.model2Clone)
 
     this.depth = 50;
     this.rotationSpeed = .005;
@@ -141,7 +141,7 @@ export default class Walls extends EventEmitter {
    
 
     this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
-    //this.light1.position.set(-10,40,0)
+    this.light1.position.set(-10,600,0)
      this.scene2.add(this.light1 );
      this.light1.lookAt(this.scene2.position)
      this.light1.translateZ(-100)
@@ -649,8 +649,8 @@ export default class Walls extends EventEmitter {
 
             side: THREE.DoubleSide,
             color: 'white',
-            //opacity: 1,
-           //transparent: true,
+            opacity: .8,
+           transparent: true,
 
             //map: this.resource6,
             
@@ -664,7 +664,7 @@ export default class Walls extends EventEmitter {
 
 
          
-        this.numPoints = 1000;
+        this.numPoints = 2000;
         this.points = [];
         this.derivatives = []; 
         
@@ -783,7 +783,7 @@ export default class Walls extends EventEmitter {
     this.spline.closed = true;
     this.spline.tension = .5;
 
-   
+   console.log(this.spline)
 
     window.addEventListener("pointerdown", (event) => {
 
@@ -828,11 +828,11 @@ export default class Walls extends EventEmitter {
     })
     
 
-    this.spacedPoints = this.spline.getSpacedPoints(1500).slice(1100,1300)
+    this.spacedPoints = this.spline.getSpacedPoints(1000).slice(800,1000)
 
-    this.spacedPoints2 = this.spline.getSpacedPoints(1500).slice(700,900)
+    this.spacedPoints2 = this.spline.getSpacedPoints(1000).slice(400,600)
 
-    this.spacedPoints3 = this.spline.getSpacedPoints(1500).slice(0,500)
+    this.spacedPoints3 = this.spline.getSpacedPoints(1000)//.slice(0,100)
 
    
     /* const sectionSize = 10;
@@ -1129,10 +1129,10 @@ racetrackShape6.lineTo(-.2, -1);
   
     
    
-    const numObjects = 100; 
+    const numObjects = 50; 
     this.spacing = 5; 
     this.scaleFactor = 5;
-    const offset = new THREE.Vector3(300,0,0);
+    const offset = new THREE.Vector3(-75,-130,-100);
 
    
 
@@ -1153,20 +1153,20 @@ racetrackShape6.lineTo(-.2, -1);
     const positionOnCurve = this.spline.getPointAt(t);
     const tangent = this.spline.getTangentAt(t);
 
-    const positionOnCurve2 = this.spline.getPointAt(t);
+    const positionOnCurve2 = this.spline5.getPointAt(t);
 
    
 
     const referenceVector = new THREE.Vector3(0,1, 0);
 
     const binormal = new THREE.Vector3();
-    binormal.crossVectors(derivative, tangent).normalize();
+    binormal.crossVectors(tangent, derivative).normalize();
 
     const normal = new THREE.Vector3();
     normal.crossVectors(tangent, binormal).normalize(); 
 
    
-    //this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
+    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
 
     const angle = Math.atan2(tangent.x , tangent.z );
 
@@ -1203,19 +1203,52 @@ racetrackShape6.lineTo(-.2, -1);
     this.modelClone.scale.setScalar(1.2)
     //this.scene2.add(this.modelClone)
 
-    
+    this.model2.castShadow = true
     this.model2Clone= this.model2.clone()
-    this.model2Clone.position.copy(positionOnCurve2.add( tangent.multiplyScalar(offset.x).add( normal).add( binormal)))
-    this.model2Clone.scale.setScalar(10.2)
+    this.model2Clone.position.copy(positionOnCurve2.add( tangent).add( normal).add( binormal).add(this.offset))
+    this.model2Clone.scale.setScalar(75)
     this.scene2.add(this.model2Clone)
 
 
+
+
+    }
       
      
 
     }  
 
+    
 
+   addToDebugger(object) {
+    // Check if 'this.debug' exists and 'object' is actually an object
+    if (this.debug) {
+        // Further check if 'object' has the necessary properties like 'name', 'position', etc.
+        const folderName = object.name || 'Object';
+        const folder = this.debug.addFolder(folderName);
+
+        // Assuming 'object' has position, rotation, and scale properties
+        if (object.position && object.rotation && object.scale) {
+            // Add position controls
+            folder.add(object.position, 'x', -100, 100).name('Position X');
+            folder.add(object.position, 'y', -1000, 100).name('Position Y');
+            folder.add(object.position, 'z', -100, 100).name('Position Z');
+
+            // Add rotation co
+            folder.add(object.rotation, 'x', -Math.PI, Math.PI).name('Rotation X');
+            folder.add(object.rotation, 'y', -Math.PI, Math.PI).name('Rotation Y');
+            folder.add(object.rotation, 'z', -Math.PI, Math.PI).name('Rotation Z');
+
+            // Add scale controls
+            folder.add(object.scale, 'x', 0, 500).name('Scale X');
+            folder.add(object.scale, 'y', 0, 500).name('Scale Y');
+            folder.add(object.scale, 'z', 0, 500).name('Scale Z');
+        
+    }
+}
+
+
+//this.addToDebugger(this.model2)
 
 
 
@@ -1234,9 +1267,9 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      this.water.material.uniforms.time.value+=  this.time.elapsed * 5
+      this.water.material.uniforms.time.value +=  this.time.elapsed * .05
 
-      this.shaderMaterial.uniforms.time.value +=  this.time.delta * .5
+      this.shaderMaterial.uniforms.time.value +=  this.time.elapsed * .05
       this.shaderMaterial2.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
@@ -1244,8 +1277,7 @@ racetrackShape6.lineTo(-.2, -1);
       let currentPosition = 0; 
       let speed = .8; 
       let loopTime = 60;
-      
-
+    
       
         const t =  (speed *this.time.elapsed )/loopTime % 1;
         const t2 =  (speed * this.time.elapsed + .7)/loopTime % 1;
@@ -1276,7 +1308,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.binormal.crossVectors(tangent, this.derivativeTangent).normalize(); 
 
     this.normal = new THREE.Vector3();
-    this.normal.crossVectors( this.binormal, tangent ).normalize();
+    this.normal.crossVectors( tangent, this.binormal ).normalize();
 
     
 
@@ -1289,7 +1321,7 @@ racetrackShape6.lineTo(-.2, -1);
     ///CAMERA MOVEMENT
 
    
-    this.camera.instance.add(this.light1)
+    //this.camera.instance.add(this.light1)
     
     let originalValue = this.normal.y
 
@@ -1385,7 +1417,7 @@ if (intersects2.length > 0) {
     this.forwardDirection3.applyQuaternion(this.model.quaternion).add(maxRotation).normalize(); 
 
    
-   
+   const speedFactor = 0.0001;
 
     if (this.arrowLeftPressed) {
 
@@ -1426,13 +1458,21 @@ if (intersects2.length > 0) {
 
       
 
+
+
+
       this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
 
-      this.camera.instance.lookAt(this.model.position ) 
+      this.camera.instance.lookAt(this.model.position)
 
       this.model.lookAt(   pos4   )
 
-      this.camera.instance.rotation.z = this.binormal.z *.01                             
+      //this.camera.instance.rotation.z = this.normal.y *.01  
+      
+      // make the camera look at the model but with less up down precision
+      //this.camera.instance.lookAt(this.model.position.x, this.model.position.y, this.model.position.z);
+      //this.camera.instance.rotation.x = THREE.MathUtils.lerp(this.camera.instance.rotation.x, this.model.position.y , this.time.delta * speedFactor);
+
 
     } 
     

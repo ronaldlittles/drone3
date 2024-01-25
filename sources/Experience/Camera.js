@@ -113,7 +113,7 @@ export default class Camera {
     this.orbitControls.zoomSpeed = 3.5;
     this.orbitControls.enableDamping = true;
     this.orbitControls.autoRotate = true;
-    this.orbitControls.autoRotateSpeed = 25
+    this.orbitControls.autoRotateSpeed = 5
     //this.orbitControls.maxPolarAngle = Math.PI/2;
     //this.orbitControls.minPolarAngle = Math.PI/2;
 

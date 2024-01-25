@@ -28,7 +28,7 @@
     "troika-3d-ui": "^0.46.4",
     "troika-three-text": "^0.46.4",
     "tweakpane": "^3.1.6",
-    "vite": "^2.9.12"
+    "vite": "^2.9.17"
   },
   "devDependencies": {
     "lil-gui": "^0.17.0",
