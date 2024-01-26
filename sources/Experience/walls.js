@@ -325,7 +325,7 @@ export default class Walls extends EventEmitter {
   .step(50.0)
   .onChange((value) => {
 
-    this.model.position.z = value 
+    this.model2.position.x = value 
   
   })
  
@@ -413,7 +413,7 @@ export default class Walls extends EventEmitter {
       element.style.left = leftPosition //- elementWidth /2 + 'px';
       element.style.top = topPosition //- elementHeight /2 + 'px';
       element.style.display = 'block'
-      element.play()
+      //element.play()
 
 
       }
@@ -430,7 +430,7 @@ export default class Walls extends EventEmitter {
           this.label.style.top = "65px";
           this.label.style.right = '50%';
           this.label.style.backgroundColor = 'transparent';
-          this.label.style.color = "#0000ff";
+         this.label.style.color = "#0000ff";
           this.label.style.fontFamily = "sans-serif";
           this.label.style.fontSize = "34px";
           this.label.style.textShadow = "1px 2px #000000";
@@ -1115,10 +1115,10 @@ racetrackShape6.lineTo(-.2, -1);
   
     
    
-    const numObjects = 50; 
+    const numObjects = 100; 
     this.spacing = 5; 
     this.scaleFactor = 5;
-    const offset = new THREE.Vector3(-75,-130,-100);
+    const offset = new THREE.Vector3( (Math.random()*200-100)*75,-530,-100);
 
    
 
@@ -1165,9 +1165,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.randomOffset = new THREE.Vector3(
 
-      (Math.random() * 2 - 1 )*100,
-      0,//(Math.random() * 2 - 1 ) * 50,
-      0,//(Math.random() * 2 - 1 ) 
+      (Math.random(i* 100) * 200 - 100 )* -10,
+     -150,//(Math.random() * 2 - 1 ) * 50,
+     -1800,//(Math.random() * 2 - 1 ) 
       
       )
 
@@ -1175,7 +1175,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.sphereClone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
 
       this.scene2.add(this.sphereClone)
-
+ 
 
       this.sphere2Clone = this.sphere.clone()
       this.sphere2Clone.position.copy(positionOnCurve.clone())//.add(this.randomOffset)//.add(this.test)
@@ -1183,7 +1183,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
 
-      
+    
     this.modelClone= this.model.clone()
     this.modelClone.position.copy(positionOnCurve2.add( tangent).add( normal).add( binormal))
     this.modelClone.scale.setScalar(1.2)
@@ -1191,9 +1191,10 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.model2.castShadow = true
     this.model2Clone= this.model2.clone()
-    this.model2Clone.position.copy(positionOnCurve2.add( tangent).add( normal).add( binormal).add(this.offset))
-    this.model2Clone.scale.setScalar(75)
+    this.model2Clone.position.copy(positionOnCurve2.add( tangent).add(this.randomOffset))
+    this.model2Clone.scale.setScalar(275)
     this.scene2.add(this.model2Clone)
+    this.model2Clone.lookAt(tangent)
 
 
 
@@ -1255,7 +1256,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.water.material.uniforms.time.value +=  this.time.elapsed * .05
 
-      this.shaderMaterial.uniforms.time.value +=  this.time.elapsed * .05
+      this.shaderMaterial.uniforms.time.value +=  this.time.elapsed * .01
       this.shaderMaterial2.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
