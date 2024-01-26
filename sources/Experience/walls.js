@@ -1042,27 +1042,20 @@ racetrackShape6.lineTo(-.2, -1);
         this.resource6.wrapT = THREE.RepeatWrapping;
     
         //this.resource6.repeat.set(4, 4) 
+       //SKYBOX
 
-      console.log(this.renderer)
-          //SKYBOX
+          
 
           this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,200,200 ),
 
           this.shaderMaterial2,
 
-         /*  new THREE.MeshStandardMaterial({
-
-          side: THREE.DoubleSide,
-
-          map: this.renderer.renderTarget.texture
-
-          }) */
-
+         
           )
 
           this.plane.scale.setScalar(1000)
 
-          ////////////////////////////////this.scene2.add(this.plane)
+        ///////////////////this.scene2.add(this.plane)
 
          
           ////////this.plane.rotation.z += Math.PI/2;
@@ -1185,16 +1178,16 @@ racetrackShape6.lineTo(-.2, -1);
 
     
     this.modelClone= this.model.clone()
-    this.modelClone.position.copy(positionOnCurve2.add( tangent).add( normal).add( binormal))
-    this.modelClone.scale.setScalar(1.2)
-    //this.scene2.add(this.modelClone)
+    this.modelClone.position.copy(positionOnCurve2.add(tangent).add(normal).add(binormal))
+    this.modelClone.scale.setScalar(1.0)
+    this.scene2.add(this.modelClone)
 
     this.model2.castShadow = true
     this.model2Clone= this.model2.clone()
-    this.model2Clone.position.copy(positionOnCurve2.add( tangent).add(this.randomOffset))
-    this.model2Clone.scale.setScalar(275)
+    this.model2Clone.position.copy(positionOnCurve2.add(tangent.multiplyScalar(100)).add( normal.multiplyScalar(110)))
+    this.model2Clone.scale.setScalar(300)
     this.scene2.add(this.model2Clone)
-    this.model2Clone.lookAt(tangent)
+    this.model2Clone.lookAt(this.scene2.position)
 
 
 
