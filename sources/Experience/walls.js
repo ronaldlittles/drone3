@@ -10,6 +10,7 @@ import { vertexShader } from "./vertex.js";
 import { fragmentShader } from "./fragment.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { Water } from 'three/examples/jsm/objects/Water.js';
+import { Vector3 } from "three";
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -49,6 +50,8 @@ export default class Walls extends EventEmitter {
     this.createWall();
     
     this.setRaycaster();
+
+    this.setSound();
 
  this.addToDebugger(this.model2Clone)
 
@@ -104,6 +107,33 @@ export default class Walls extends EventEmitter {
      
   }
 
+  setSound(){
+
+    this.audioListener = new THREE.AudioListener()
+    this.camera.instance.add( this.audioListener)
+
+    const audio = new THREE.PositionalAudio(this.audioListener)
+
+    this.audioLoader = new THREE.AudioLoader()
+
+    this.audioLoader.load('/assets/mixkitfunky.mp3',
+
+    function(buffer){
+    audio.setBuffer(buffer)
+    audio.setLoop(true)
+    audio.setRefDistance(25)
+    audio.setDirectionalCone(50,500,.8)
+    audio.play()
+    
+    
+  })
+if(this.tube4  && this.tube){
+  this.tube4.add(audio)
+  this.tube.add(audio)
+}
+
+  }
+
   setBoxes(){
 
     //this.scene2.fog = new THREE.FogExp2('0xefd1b5', 0.0025);
@@ -136,12 +166,23 @@ export default class Walls extends EventEmitter {
     this.scene2.add( this.water );
 
     this.sky = new Sky();
-    this.sky.scale.setScalar( 500000 );
-    //this.scene2.add( this.sky );
-   
+    this.sky.scale.setScalar( 100000 );
+    this.scene2.add( this.sky );
+
+   const skyUniforms = this.sky.material.uniforms;
+
+				skyUniforms[ 'turbidity' ].value = 10;
+				skyUniforms[ 'rayleigh' ].value = 2;
+				skyUniforms[ 'mieCoefficient' ].value = 0.005;
+				skyUniforms[ 'mieDirectionalG' ].value = 0.8;
+
+				const parameters = {
+					elevation: 2,
+					azimuth: 180
+				};
 
     this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
-    this.light1.position.set(-10,600,0)
+    this.light1.position.set(-10,1200,0)
      this.scene2.add(this.light1 );
      this.light1.lookAt(this.scene2.position)
      this.light1.translateZ(-100)
@@ -153,7 +194,7 @@ export default class Walls extends EventEmitter {
     this.light1.shadow.mapSize.height = 512
     this.light1.shadow.camera.near = 10;
     this.light1.shadow.camera.far = 800;
-    this.light1.shadow.radius = 2;
+    this.light1.shadow.radius = .5;
     //this.light1.angle = Math.PI / 5;
 		//this.light1.penumbra = 0.3;
     //this.light1.shadow.bias = -.002;
@@ -298,6 +339,7 @@ export default class Walls extends EventEmitter {
     this.model.scale.set(1.2,.5,1.1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
+  
    
     
     this.directionalLight.lookAt(this.model.position)
@@ -832,7 +874,7 @@ export default class Walls extends EventEmitter {
 
     this.spacedPoints2 = this.spline.getSpacedPoints(1000).slice(400,600)
 
-    this.spacedPoints3 = this.spline.getSpacedPoints(1000)//.slice(0,100)
+    this.spacedPoints3 = this.spline.getSpacedPoints(1000).slice(25,300)
 
    
     /* const sectionSize = 10;
@@ -1108,8 +1150,8 @@ racetrackShape6.lineTo(-.2, -1);
   
     
    
-    const numObjects = 100; 
-    this.spacing = 5; 
+    const numObjects = 50; 
+    this.spacing = 8; 
     this.scaleFactor = 5;
     const offset = new THREE.Vector3( (Math.random()*200-100)*75,-530,-100);
 
@@ -1123,17 +1165,17 @@ racetrackShape6.lineTo(-.2, -1);
     const t = (i / this.numPoints) * Math.PI * 2;
 
     const tvalue  = .5
-    const step=.1;
-    const pointBefore = this.spline.getPointAt(tvalue - step);
-    const pointAfter = this.spline.getPointAt(tvalue + step);
+    const step=.001;
+    const pointBefore = this.spline5.getPointAt(tvalue - step);
+    const pointAfter = this.spline5.getPointAt(tvalue + step);
 
     const derivative = pointAfter.clone().sub(pointBefore).normalize();
    
-    const positionOnCurve = this.spline.getPointAt(t);
-    const tangent = this.spline.getTangentAt(t);
+    const positionOnCurve = this.spline5.getPointAt(t);
+    const tangent = this.spline5.getTangentAt(t);
 
     const positionOnCurve2 = this.spline5.getPointAt(t);
-
+    const tangent2= this.spline5.getTangentAt(t);
    
 
     const referenceVector = new THREE.Vector3(0,1, 0);
@@ -1145,7 +1187,9 @@ racetrackShape6.lineTo(-.2, -1);
     normal.crossVectors(tangent, binormal).normalize(); 
 
    
-    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)); 
+    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)+30)
+
+    this.offset3 = i%2===0?1.5:-1.5
 
     const angle = Math.atan2(tangent.x , tangent.z );
 
@@ -1180,16 +1224,25 @@ racetrackShape6.lineTo(-.2, -1);
     this.modelClone= this.model.clone()
     this.modelClone.position.copy(positionOnCurve2.add(tangent).add(normal).add(binormal))
     this.modelClone.scale.setScalar(1.0)
-    this.scene2.add(this.modelClone)
+    //this.scene2.add(this.modelClone)
 
     this.model2.castShadow = true
     this.model2Clone= this.model2.clone()
-    this.model2Clone.position.copy(positionOnCurve2.add(tangent.multiplyScalar(100)).add( normal.multiplyScalar(110)))
-    this.model2Clone.scale.setScalar(300)
+    this.model2Clone.position.copy(positionOnCurve2.add(tangent).add(this.offset.subScalar(50)).add(binormal))
+    this.model2Clone.scale.setScalar(20)
     this.scene2.add(this.model2Clone)
-    this.model2Clone.lookAt(this.scene2.position)
 
+    this.model2Clone.rotation.y += Math.sin(Math.random( Math.PI *50))
+   // this.model2Clone.lookAt(this.scene2.position)
 
+      if(this.offset3 === 1.5){
+
+        this.model2Clone.rotation.y = Math.PI
+
+      } else {
+
+        this.model2Clone.rotation.y = 0
+      }
 
 
     }
@@ -1202,7 +1255,7 @@ racetrackShape6.lineTo(-.2, -1);
 
    addToDebugger(object) {
     // Check if 'this.debug' exists and 'object' is actually an object
-    if (this.debug) {
+    if (this.debug) {h
         // Further check if 'object' has the necessary properties like 'name', 'position', etc.
         const folderName = object.name || 'Object';
         const folder = this.debug.addFolder(folderName);
@@ -1361,7 +1414,9 @@ if (intersects2.length > 0) {
 }
     
   
-           
+     
+
+      
     
     /* this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
   
@@ -1453,8 +1508,21 @@ if (intersects2.length > 0) {
 
 
     } 
+
+
+    /* if(t < .25 && t > 0 ) {
+
+      this.model.scale.setScalar(2.5)
+
+    }  else {
+
+      this.model.scale.setScalar(.5)
+    }*/
+
     
-  
+
+
+
       }
 
       resize() {
