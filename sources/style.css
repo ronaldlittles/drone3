@@ -101,7 +101,11 @@ button {
   height: 100px;
   box-shadow: 3px 2px 2px #030303;
   opacity: 50%;
+  border: none;
   border-radius: 85%;
+  background-image: url(/assets/wip.png);
+  background-position: center;
+  background-size: contain;
   
 }
 

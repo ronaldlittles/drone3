@@ -467,7 +467,7 @@ if(this.tube4  && this.tube){
   
         setRaycaster() {
 
-          this.label = document.createElement("div");
+         /* this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "65px";
           this.label.style.right = '50%';
@@ -479,7 +479,7 @@ if(this.tube4  && this.tube){
           //this.label.style.justifyContent = "center";
           this.label.style.display = "block";
           //this.label.style.pointerEvents = "none"; 
-          document.body.appendChild(this.label);
+          document.body.appendChild(this.label);*/
            
 
           this.label3 = document.createElement("div");
@@ -730,7 +730,7 @@ if(this.tube4  && this.tube){
 
             } else if (-(t < Math.PI/.5) && t > Math.PI/1.5) {
 
-              y = Math.cos( Math.sin(t * 5.7* Math.PI)) * 50;
+              y = Math.cos( Math.sin(t * 1.7* Math.PI)) * 50;
 
               } else{
 
@@ -874,7 +874,7 @@ if(this.tube4  && this.tube){
 
     this.spacedPoints2 = this.spline.getSpacedPoints(1000).slice(400,600)
 
-    this.spacedPoints3 = this.spline.getSpacedPoints(1000).slice(25,300)
+    this.spacedPoints3 = this.spline.getSpacedPoints(1000).slice(125,575)
 
    
     /* const sectionSize = 10;
@@ -1150,8 +1150,8 @@ racetrackShape6.lineTo(-.2, -1);
   
     
    
-    const numObjects = 50; 
-    this.spacing = 8; 
+    const numObjects = 150; 
+    this.spacing = 35; 
     this.scaleFactor = 5;
     const offset = new THREE.Vector3( (Math.random()*200-100)*75,-530,-100);
 
@@ -1171,8 +1171,8 @@ racetrackShape6.lineTo(-.2, -1);
 
     const derivative = pointAfter.clone().sub(pointBefore).normalize();
    
-    const positionOnCurve = this.spline5.getPointAt(t);
-    const tangent = this.spline5.getTangentAt(t);
+    const positionOnCurve = this.spline.getPointAt(t);
+    const tangent = this.spline.getTangentAt(t);
 
     const positionOnCurve2 = this.spline5.getPointAt(t);
     const tangent2= this.spline5.getTangentAt(t);
@@ -1180,14 +1180,14 @@ racetrackShape6.lineTo(-.2, -1);
 
     const referenceVector = new THREE.Vector3(0,1, 0);
 
-    const binormal = new THREE.Vector3();
-    binormal.crossVectors(tangent, derivative).normalize();
-
     const normal = new THREE.Vector3();
-    normal.crossVectors(tangent, binormal).normalize(); 
+    normal.crossVectors(tangent2, referenceVector).normalize();
+
+    const binormal = new THREE.Vector3();
+    binormal.crossVectors(tangent2, normal).normalize(); 
 
    
-    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5)+30)
+    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 2.0 : -2.0)-30)
 
     this.offset3 = i%2===0?1.5:-1.5
 
@@ -1222,27 +1222,20 @@ racetrackShape6.lineTo(-.2, -1);
 
     
     this.modelClone= this.model.clone()
-    this.modelClone.position.copy(positionOnCurve2.add(tangent).add(normal).add(binormal))
+    this.modelClone.position.copy(positionOnCurve2.add(tangent2).add(normal).add(binormal))
     this.modelClone.scale.setScalar(1.0)
     //this.scene2.add(this.modelClone)
 
     this.model2.castShadow = true
     this.model2Clone= this.model2.clone()
-    this.model2Clone.position.copy(positionOnCurve2.add(tangent).add(this.offset.subScalar(50)).add(binormal))
+    this.model2Clone.position.copy(positionOnCurve2.add(tangent2).add(this.offset).add(binormal))
     this.model2Clone.scale.setScalar(20)
     this.scene2.add(this.model2Clone)
 
     this.model2Clone.rotation.y += Math.sin(Math.random( Math.PI *50))
    // this.model2Clone.lookAt(this.scene2.position)
 
-      if(this.offset3 === 1.5){
-
-        this.model2Clone.rotation.y = Math.PI
-
-      } else {
-
-        this.model2Clone.rotation.y = 0
-      }
+      
 
 
     }
@@ -1360,9 +1353,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     let normalizedValue = (originalValue + 1) / 2;
 
-    const distance = this.model.position.distanceTo(pos2)
+    const distance = this.model.position.distanceTo(this.model2Clone.position)
 
-    this.label.textContent = (this.model.position.y).toFixed(12)
+   // this.label.textContent = (this.model.position.y).toFixed(12)
     this.label3.textContent = (normalizedValue).toFixed(8);
     this.label4.textContent = (distance).toFixed(10);
 
@@ -1506,10 +1499,23 @@ if (intersects2.length > 0) {
       //this.camera.instance.lookAt(this.model.position.x, this.model.position.y, this.model.position.z);
       //this.camera.instance.rotation.x = THREE.MathUtils.lerp(this.camera.instance.rotation.x, this.model.position.y , this.time.delta * speedFactor);
 
+      this.objectsArray1.forEach(object=>{
 
-    } 
+        if(distance > 0 && distance <2000){
 
+          object.rotation.z =  -Math.PI/2 
 
+        } else{
+
+          object.rotation.z = 0
+        }
+
+      
+})
+
+} 
+
+  
     /* if(t < .25 && t > 0 ) {
 
       this.model.scale.setScalar(2.5)
