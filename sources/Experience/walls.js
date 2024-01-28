@@ -122,11 +122,13 @@ export default class Walls extends EventEmitter {
     audio.setBuffer(buffer)
     audio.setLoop(true)
     audio.setRefDistance(25)
-    audio.setDirectionalCone(50,500,.8)
+    audio.setDirectionalCone(150,500,.8)
     audio.play()
     
     
   })
+
+
 if(this.tube4  && this.tube){
   this.tube4.add(audio)
   this.tube.add(audio)
@@ -407,10 +409,9 @@ if(this.tube4  && this.tube){
 
        
         this.menuButton.addEventListener('pointerdown', ()=>{
-          this.centerElement(popUp)
+          //this.centerElement(popUp)
           this.arrowUpPressed = true;
-        })
-       
+        })       
 
           this.rotateLeftButton.addEventListener('pointerdown', () => {
   
