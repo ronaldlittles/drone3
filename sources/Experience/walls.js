@@ -140,7 +140,6 @@ export default class Walls extends EventEmitter {
   
   this.audioHelper = new PositionalAudioHelper(audio)
   audio.add(this.audioHelper )
-
 if(this.tube4){
 
 this.tube4.add(audio)
