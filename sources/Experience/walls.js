@@ -199,7 +199,7 @@ this.tube4.add(this.audio)
 					azimuth: 180
 				};
 
-    this.light1 = new THREE.PointLight( 0x0000ff, 3.5, 10, 0  );
+    this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
     this.light1.position.set(-500,120,-500)
      this.scene2.add(this.light1 );
      this.light1.lookAt(this.scene2.position)
@@ -266,7 +266,7 @@ this.tube4.add(this.audio)
 
 
 
-    let length = 50;
+    let length = 250;
     this.boxes = [];
     
     this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
@@ -317,7 +317,7 @@ this.tube4.add(this.audio)
       this.boxes.push(this.box)
 
       
-      this.box.position.set(-2387,103,0)
+      this.box.position.set(-0,0,0)
 
 
        
@@ -762,7 +762,7 @@ this.tube4.add(this.audio)
 
             } else if (-(t < Math.PI/.5) && t > Math.PI/1.5) {
 
-              y = Math.cos( Math.sin(t * 1.7* Math.PI)) * 50;
+              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 100;
 
               } else{
 
@@ -1158,14 +1158,14 @@ racetrackShape6.lineTo(-.2, -1);
 
           
 
-          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,200,200 ),
+          /*this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,200,200 ),
 
           this.shaderMaterial2,
 
          
           )
 
-          this.plane.scale.setScalar(1000)
+          this.plane.scale.setScalar(1000)*/
 
         ///////////////////this.scene2.add(this.plane)
 
@@ -1302,7 +1302,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.model2Clone.scale.setScalar(20)
     this.scene2.add(this.model2Clone)
 
-    this.model.add(this.plane)
+    
 
   
 
@@ -1358,7 +1358,9 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.audioHelper.update()
 
-    
+    this.model2Clone.lookAt(this.model.position)
+
+    this.plane2.position.copy(this.model.position)
 
     this.shaderMaterial.uniforms.needsUpdate = true;
     this.shaderMaterial2.uniforms.needsUpdate = true;
