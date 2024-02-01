@@ -13,6 +13,7 @@ import { Water } from 'three/examples/jsm/objects/Water.js';
 import { Vector3 } from "three";
 import Drawing from "./drawing.js"
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
+import { div, range } from "@tensorflow/tfjs";
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -121,31 +122,31 @@ export default class Walls extends EventEmitter {
     this.audioListener = new THREE.AudioListener()
     this.camera.instance.add( this.audioListener)
 
-    let audio = new THREE.PositionalAudio(this.audioListener)
+    this.audio = new THREE.PositionalAudio(this.audioListener)
 
     this.audioLoader = new THREE.AudioLoader()
 
     this.audioLoader.load('/assets/mixkitfunky.mp3',
 
     function(buffer){
-    audio.setBuffer(buffer)
-    audio.setLoop(true)
-    audio.setRefDistance(5)
-    audio.setDirectionalCone(0,90,.8)
-    audio.play()
+    this.audio.setBuffer(buffer)
+    this.audio.setLoop(true)
+    this.audio.setRefDistance(20)
+    this.audio.setDirectionalCone(100,230,0)
+    this.audio.play()
     
     
-  })
+  }.bind(this)
+  )
 
   
-  this.audioHelper = new PositionalAudioHelper(audio)
-  audio.add(this.audioHelper )
+  this.audioHelper = new PositionalAudioHelper(this.audio, 100, 100, 100, 'green')
+  this.scene2.add(this.audioHelper )
+
 if(this.tube4){
 
-this.tube4.add(audio)
+this.tube4.add(this.audio)
   
-this.tube4.children[0].autoplay=false
-
   
 }
 
@@ -180,7 +181,7 @@ this.tube4.children[0].autoplay=false
     this.water.rotation.x = - Math.PI / 2;
     this.water.position.y-= 100;
 
-    this.scene2.add( this.water );
+   //this.scene2.add( this.water );
 
     this.sky = new Sky();
     this.sky.scale.setScalar( 100000 );
@@ -198,36 +199,44 @@ this.tube4.children[0].autoplay=false
 					azimuth: 180
 				};
 
-    this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
+    this.light1 = new THREE.PointLight( 0x0000ff, 3.5, 10, 0  );
     this.light1.position.set(-500,120,-500)
      this.scene2.add(this.light1 );
-     //this.light1.lookAt(this.scene2.position)
+     this.light1.lookAt(this.scene2.position)
      //this.light1.translateZ(-100)
      //this.light1.translateX(50)
      //this.light1.translateY(125)
      
     this.light1.castShadow = true;
-    this.light1.shadow.mapSize.width = 2
-    this.light1.shadow.mapSize.height = 2
+    this.light1.shadow.mapSize.width = 2048
+    this.light1.shadow.mapSize.height = 2048
     this.light1.shadow.camera.near = 10;
-    this.light1.shadow.camera.far = 1800;
+    this.light1.shadow.camera.far = 5000;
     this.light1.shadow.radius = .5;
-    //this.light1.angle = Math.PI / 5;
-		//this.light1.penumbra = 0.3;
-    //this.light1.shadow.bias = -.002;
+    this.light1.angle = Math.PI / 5;
+		this.light1.penumbra = 0.3;
+    this.light1.shadow.bias = -.002;
+    this.light1.shadow.camera.updateProjectionMatrix();
 
      const light1Helper = new THREE.PointLightHelper( this.light1, 100 );
      this.scene2.add( light1Helper );
 
-     console.log(this.light1)
+     
 
-     this.directionalLight = new THREE.DirectionalLight( 0xffffff, 1.5 );
+     this.directionalLight = new THREE.DirectionalLight( 0xffffff, 3.5 );
      this.scene2.add(this.directionalLight);
      //this.directionalLight.position.set(200,500,0)
      this.camera.instance.add( this.directionalLight ); 
      this.directionalLight.castShadow = true;
-     
-    
+     this.directionalLight.shadow.mapSize.width = 2048
+     this.directionalLight.shadow.mapSize.height = 2048
+     this.directionalLight.shadow.camera.left = -500; // Adjust as needed
+     this.directionalLight.shadow.camera.right = 500; // Adjust as needed
+     this.directionalLight.shadow.camera.top = 500; // Adjust as needed
+     this.directionalLight.shadow.camera.bottom = -500; // Adjust as needed
+     this.directionalLight.shadow.camera.near = 0.5; // Adjust as needed
+     this.directionalLight.shadow.camera.far = 5000; // Adjust as needed
+     this.directionalLight.shadow.camera.updateProjectionMatrix(); // Update the shadow camera projection
 
 
      const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 500, 0xffffff)
@@ -257,7 +266,7 @@ this.tube4.children[0].autoplay=false
 
 
 
-    let length = 5000;
+    let length = 50;
     this.boxes = [];
     
     this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
@@ -369,7 +378,7 @@ this.tube4.children[0].autoplay=false
     this.model2 = this.resource8.scene;
     this.model2.name = "trees2model";
     this.model2.upVector = new THREE.Vector3(0, 1, 0);
-    //this.model2.castShadow = true;
+    this.model2.castShadow = true;
     //this.model2.receiveShadow = true;
     this.model2.visible = true;
     //this.model2.scale.setScalar(10)
@@ -429,7 +438,7 @@ this.tube4.children[0].autoplay=false
 
        
         this.menuButton.addEventListener('pointerdown', ()=>{
-          //this.centerElement(popUp)
+          this.centerElement(popUp)
           this.arrowUpPressed = true;
         })       
 
@@ -604,8 +613,8 @@ this.tube4.children[0].autoplay=false
           time: { value: this.time.elapsed },
           uNoise: { value: this.iNoise },
           uvScale: { value: new THREE.Vector2(.5,.5)},
-        uTangent:{ value: this.tangent2},
-        uNormal: { value: this.normal},
+          uTangent:{ value: this.tangent2},
+          uNormal: { value: this.normal},
           texture1: { value: this.resource5 },
           texture2:  { value: this.resource7 },
           
@@ -1095,7 +1104,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.tube4.position.y = 10;
        
       ///////////////////this.tube4.receiveShadow = true;
-      this.tube4.castShadow = true;
+      //this.tube4.castShadow = true;
 
       
       
@@ -1106,7 +1115,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.tube5.position.y = 10;
 
       //this.tube5.receiveShadow = true;
-      this.tube5.castShadow = true;
+      //this.tube5.castShadow = true;
 
 
 
@@ -1196,7 +1205,7 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 );
        
-          this.sphere2 = new THREE.Mesh(
+        this.sphere2 = new THREE.Mesh(
             
             new THREE.CylinderGeometry( .2, .2, 10, 32 ),
           
@@ -1293,6 +1302,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.model2Clone.scale.setScalar(20)
     this.scene2.add(this.model2Clone)
 
+    this.model.add(this.plane)
+
   
 
     
@@ -1346,6 +1357,8 @@ racetrackShape6.lineTo(-.2, -1);
   update() {
 
     this.audioHelper.update()
+
+    
 
     this.shaderMaterial.uniforms.needsUpdate = true;
     this.shaderMaterial2.uniforms.needsUpdate = true;
@@ -1414,7 +1427,7 @@ racetrackShape6.lineTo(-.2, -1);
     
     //this.camera.instance.add(this.light1)
 
-    this.plane2.position.copy(this.model.position)
+    //this.plane2.position.copy(this.model.position)
     
     let originalValue = this.normal.y
 
@@ -1475,9 +1488,27 @@ if (intersects2.length > 0) {
 
 }
     
-  
-      
+  if(intersects.length > 0) { 
 
+for (let i = 0; i < this.boxes.length; i++) {
+  this.box1 = this.boxes[i];
+  const distance = 1000;
+  
+ 
+  GSAP.to(this.box1.position, 2, {
+
+    x: this.box1.position.x + Math.random() * distance - distance / 2,
+    y: this.box1.position.y + Math.random() * distance - distance / 2,
+    z: this.box1.rotation.z + Math.random() * distance - distance / 2,
+    ease: 'power2.easeOut',
+    //repeat: -1,
+ 
+  });
+
+
+}
+
+  }
       
     
     /* this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
@@ -1526,7 +1557,7 @@ if (intersects2.length > 0) {
     //this.model.rotation.z += Math.PI/4;
    //this.model.rotation.y += Math.PI/4;
    
-    this.model.position.x -=  .09
+    this.model.position.x -=  5
 
                                                                                                                
     
@@ -1545,7 +1576,7 @@ if (intersects2.length > 0) {
     ///////this.model.rotation.z -= Math.PI/4;
     ///////this.model.rotation.y += Math.PI/4;
     
-    this.model.position.x +=  .9
+    this.model.position.x +=  5
 
   
    
@@ -1568,14 +1599,7 @@ if (intersects2.length > 0) {
  
 
   
-    /* if(t < .25 && t > 0 ) {
-
-      this.model.scale.setScalar(2.5)
-
-    }  else {
-
-      this.model.scale.setScalar(.5)
-    }*/
+       
 
     
   }else if(this.arrowUp = false){
@@ -1585,6 +1609,7 @@ if (intersects2.length > 0) {
     this.model.position.copy(stopped)
 
       }
+
 
     }
 

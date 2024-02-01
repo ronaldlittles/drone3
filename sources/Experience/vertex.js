@@ -81,7 +81,8 @@ const vertexShader = {
     vec3 pos = vec3( 0.0 );
     float angle = progress * PI * 2.0;
     pos.x = cos( angle ) * 100.0;
-    pos.y = sin( angle ) * 100.0;
+    pos.y = sin( angle ) * 10.0;
+    pos.z = sin( time * 0.5 + progress * PI * 2.0 ) * 10.0;
     return pos;
 
   }
