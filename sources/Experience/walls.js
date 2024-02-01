@@ -409,7 +409,7 @@ if(this.tube4  && this.tube){
 
        
         this.menuButton.addEventListener('pointerdown', ()=>{
-          //this.centerElement(popUp)
+          this.centerElement(popUp)
           this.arrowUpPressed = true;
         })       
 
