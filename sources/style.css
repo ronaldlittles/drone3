@@ -99,10 +99,12 @@ button {
   right: 100px;
   width: 100px;
   height: 100px;
-  box-shadow: 3px 2px 2px #030303;
-  opacity: 50%;
-  border-radius: 85%;
-  background-image: url(/assets/wip.png);
+ /* box-shadow: 3px 2px 2px #030303;*/
+  opacity: 100%;
+  /*border-radius: 85%;*/
+  border: none;
+padding: 0;
+  background-image: url('/assets/wip.png');
   background-position: center;
   background-size: contain;
   

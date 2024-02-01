@@ -5,13 +5,13 @@ const vertexShader = {
 
   vertexShader: `
 
+  
     varying vec2 vUv;
     
     varying vec3 newPosition;
 
     //varying vec3 vNormal;
 
-    float PI = 3.141592653589793238;
     
     uniform float uNoise;
   
@@ -31,7 +31,7 @@ const vertexShader = {
      
    
   
-    vec4 mvPosition = modelViewMatrix * vec4(position  , 1.0 );
+    vec4 mvPosition = modelViewMatrix * vec4(newPosition  , 1.0 );
   
   
 
@@ -44,15 +44,20 @@ const vertexShader = {
 
       vertexShader2: `
 
+  
+
       varying vec2 vUv;
       
       varying vec3 newPosition;
 
       varying vec3 vNormal;
       varying vec3 vTangent;
+      varying vec3 vBinormal;
+
       varying vec3 vPosition;
 
-      uniform vec3 tangent;
+      uniform vec3 uTangent;
+      uniform vec3  uNormal;
 
       uniform sampler2D texture1;
       uniform sampler2D texture2;
@@ -65,34 +70,48 @@ const vertexShader = {
 
       uniform float time;
 
+      attribute vec3 aRandom;
+      attribute float aSize;
+
+      
+   
+
+  vec3 getPos( float progress ) {
+
+    vec3 pos = vec3( 0.0 );
+    float angle = progress * PI * 2.0;
+    pos.x = cos( angle ) * 100.0;
+    pos.y = sin( angle ) * 100.0;
+    return pos;
+
+  }
+
+
+
   
     void main() {
   
       vUv =  uv * uvScale;
 
-   float heightColor = texture2D(texture2, vUv).r;
+      float heightColor = texture2D(texture2, vUv).r;
 
-      float height = heightColor*.7 ;
+      float progress = position.y / 10.0;
 
-      //float height2 = heightColor.g * .5;
-      vec3 vNormal = normalize(mat3(normalMatrix)* tangent);
-      vec3 vTangent = normalize(mat3(normalMatrix) * normal);
-      vec3 vPosition = position;
-  
-      //newPosition = position + normal * height;  
-      
-      float maxHeight = 1.0; // Adjust as needed
-
-      float roundingFactor = 5.5; // Adjust to control the extent of rounding
-      
-      
-      float adjustedHeight = pow(heightColor / maxHeight, roundingFactor) * maxHeight;
-      
-      
-      vec3 newPosition = vec3(vPosition.x, adjustedHeight, vPosition.z);
+      vec3 pos = getPos( progress );
+     
        
-      vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0 );
-    
+
+      
+      pos *= fract(time * aRandom.x * 0.1);
+      
+      
+      
+
+      
+       
+        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0 );
+
+        gl_PointSize = 10.0 * ( 300.0 / -mvPosition.z );
       
         gl_Position = projectionMatrix * mvPosition;
   

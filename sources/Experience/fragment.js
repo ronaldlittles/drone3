@@ -78,24 +78,31 @@ void main() {
       uniform vec2 uvScale;
 
       varying vec2 vUv;
+
       varying vec3 vNormal;
       varying vec3 vTangent;
+      //varying vec3 vBinormal;
       varying vec3 vPosition;
 
       uniform sampler2D texture2;
 
       void main() {
         
-        vec3 mountainColor = vec3(1.0, 1.0, 1.0);
+        vec3 mountainColor = vec3(.0, .0, .0);
+
+        vec3 translation =  vNormal * vTangent;
+
+        translation.x *= -sin(time);
 
 
         vec3 heightColor = texture2D(texture2, vUv).rgb;
-        vec3  mixed = mix(mountainColor, heightColor, .5);                                                                                         
+        vec3  mixed = mix(mountainColor*translation, heightColor*translation, 1.3);                                                                                         
 
 
 
        
-        gl_FragColor = vec4( mixed, 1.0);
+        gl_FragColor = vec4( heightColor, 1.0);
+        
     }
     
     

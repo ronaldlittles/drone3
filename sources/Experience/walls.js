@@ -11,6 +11,8 @@ import { fragmentShader } from "./fragment.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { Water } from 'three/examples/jsm/objects/Water.js';
 import { Vector3 } from "three";
+import Drawing from "./drawing.js"
+import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -104,15 +106,22 @@ export default class Walls extends EventEmitter {
         this.arrowUpPressed = false;
       }
 
+      
      
   }
-
+  
   setSound(){
+
+    //this.drawing = new Drawing()
+  
+  
+  
+   
 
     this.audioListener = new THREE.AudioListener()
     this.camera.instance.add( this.audioListener)
 
-    const audio = new THREE.PositionalAudio(this.audioListener)
+    let audio = new THREE.PositionalAudio(this.audioListener)
 
     this.audioLoader = new THREE.AudioLoader()
 
@@ -121,17 +130,24 @@ export default class Walls extends EventEmitter {
     function(buffer){
     audio.setBuffer(buffer)
     audio.setLoop(true)
-    audio.setRefDistance(25)
-    audio.setDirectionalCone(150,500,.8)
+    audio.setRefDistance(5)
+    audio.setDirectionalCone(0,90,.8)
     audio.play()
     
     
   })
 
+  
+  this.audioHelper = new PositionalAudioHelper(audio)
+  audio.add(this.audioHelper )
 
-if(this.tube4  && this.tube){
-  this.tube4.add(audio)
-  this.tube.add(audio)
+if(this.tube4){
+
+this.tube4.add(audio)
+  
+this.tube4.children[0].autoplay=false
+
+  
 }
 
   }
@@ -184,18 +200,18 @@ if(this.tube4  && this.tube){
 				};
 
     this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
-    this.light1.position.set(-10,1200,0)
+    this.light1.position.set(-500,120,-500)
      this.scene2.add(this.light1 );
-     this.light1.lookAt(this.scene2.position)
-     this.light1.translateZ(-100)
-     this.light1.translateX(50)
-     this.light1.translateY(125)
+     //this.light1.lookAt(this.scene2.position)
+     //this.light1.translateZ(-100)
+     //this.light1.translateX(50)
+     //this.light1.translateY(125)
      
     this.light1.castShadow = true;
-    this.light1.shadow.mapSize.width = 512
-    this.light1.shadow.mapSize.height = 512
+    this.light1.shadow.mapSize.width = 2
+    this.light1.shadow.mapSize.height = 2
     this.light1.shadow.camera.near = 10;
-    this.light1.shadow.camera.far = 800;
+    this.light1.shadow.camera.far = 1800;
     this.light1.shadow.radius = .5;
     //this.light1.angle = Math.PI / 5;
 		//this.light1.penumbra = 0.3;
@@ -242,7 +258,7 @@ if(this.tube4  && this.tube){
 
 
 
-    let length = 250;
+    let length = 5000;
     this.boxes = [];
     
     this.boxGeometry = new THREE.CylinderGeometry(1, 1, 5, 32, 1);
@@ -288,8 +304,12 @@ if(this.tube4  && this.tube){
     
       
       this.scene2.add(this.box);
+
     
-      this.boxes.push(this.box);
+      this.boxes.push(this.box)
+
+      
+      this.box.position.set(-2387,103,0)
 
 
        
@@ -304,7 +324,7 @@ if(this.tube4  && this.tube){
       
       for (let i = 0; i < this.boxes.length; i++) {
         this.box1 = this.boxes[i];
-        const distance = 900;
+        const distance = 1000;
         
        
         GSAP.to(this.box1.position, 2, {
@@ -313,6 +333,7 @@ if(this.tube4  && this.tube){
           y: this.box1.position.y + Math.random() * distance - distance / 2,
           z: this.box1.rotation.z + Math.random() * distance - distance / 2,
           ease: 'power2.easeOut',
+          //repeat: -1,
        
         });
     
@@ -341,7 +362,7 @@ if(this.tube4  && this.tube){
     this.model.scale.set(1.2,.5,1.1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
-  
+    //this.model.add(this.audioListener)
    
     
     this.directionalLight.lookAt(this.model.position)
@@ -468,7 +489,7 @@ if(this.tube4  && this.tube){
   
         setRaycaster() {
 
-         /* this.label = document.createElement("div");
+         this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "65px";
           this.label.style.right = '50%';
@@ -480,7 +501,7 @@ if(this.tube4  && this.tube){
           //this.label.style.justifyContent = "center";
           this.label.style.display = "block";
           //this.label.style.pointerEvents = "none"; 
-          document.body.appendChild(this.label);*/
+          document.body.appendChild(this.label);
            
 
           this.label3 = document.createElement("div");
@@ -584,13 +605,15 @@ if(this.tube4  && this.tube){
           time: { value: this.time.elapsed },
           uNoise: { value: this.iNoise },
           uvScale: { value: new THREE.Vector2(.5,.5)},
-          tangent:{ value: this.tangent},
+        uTangent:{ value: this.tangent2},
+        uNormal: { value: this.normal},
           texture1: { value: this.resource5 },
           texture2:  { value: this.resource7 },
+          
 
       },
 
-      vertexShader: vertexShader.vertexShader,
+      vertexShader: vertexShader.vertexShader2,
       fragmentShader: fragmentShader.fragmentShader2,
 
     });  
@@ -995,13 +1018,51 @@ racetrackShape6.lineTo(-.2, -1);
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
 
 
+    //CUSTOM GEOMETRY
+
+    this.geometry = new THREE.BufferGeometry();
+    
+    this.positions = new Float32Array( this.numPoints * 3 );
+    this.randoms = new Float32Array( this.numPoints * 3 );
+    this.sizes = new Float32Array( this.numPoints );
+
+    for ( let i = 0; i < this.numPoints; i ++ ) {
+
+      this.positions[ i + 0 ] = ( Math.random() - 0.7 );
+      this.positions[ i + 1 ] = ( Math.random() - 0.7 );
+      this.positions[ i + 2 ] = ( Math.random() - 0.7 );
+
+      
+      this.randoms[ i + 0 ] = Math.random();
+      this.randoms[ i + 1 ] = Math.random();
+      this.randoms[ i + 2 ] = Math.random();
+
+      this.sizes[ i ] = Math.random() * .5 + .5;
+
+    }
+
+    
+    this.geometry.setAttribute( 'position', new THREE.BufferAttribute( this.positions, 3 ) );
+
+    this.geometry.setAttribute( 'aRandom', new THREE.BufferAttribute( this.randoms, 3 ) );
+
+    this.geometry.setAttribute( 'aSize', new THREE.BufferAttribute( this.sizes, 1 ) );
+
+    this.plane2 = new THREE.Points( this.geometry, this.shaderMaterial2)
+    this.scene2.add(this.plane2)
+    this.plane2.scale.setScalar(5)
+
+
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
     
     this.scene2.add(this.tube);
 
-    console.log(this.tube)
+    
    
+
+
+
 
     
     this.tube.position.y =-10 
@@ -1012,7 +1073,7 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube.castShadow = true;
    
  
-    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial2)   
+    this.tube2 = new THREE.Mesh(this.tubeGeo2, this.shaderMaterial)   
 
 
     this.scene2.add(this.tube2);
@@ -1021,7 +1082,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial2)  
+    this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
 
     this.scene2.add(this.tube3);
         
@@ -1194,11 +1255,11 @@ racetrackShape6.lineTo(-.2, -1);
 
     const angle = Math.atan2(tangent.x , tangent.z );
 
+    this.offset1 = new THREE.Vector3(50,0,0)
+
     
 
-    this.positionLeft = positionOnCurve.clone()//.add(this.offset);
-    this.positionRight = positionOnCurve.clone()//.sub(this.offset);
-
+    
 
 
     this.randomOffset = new THREE.Vector3(
@@ -1229,12 +1290,13 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.model2.castShadow = true
     this.model2Clone= this.model2.clone()
-    this.model2Clone.position.copy(positionOnCurve2.add(tangent2).add(this.offset).add(binormal))
+    this.model2Clone.position.copy(positionOnCurve2.add(tangent2).add(normal).add(binormal))
     this.model2Clone.scale.setScalar(20)
     this.scene2.add(this.model2Clone)
 
-    this.model2Clone.rotation.y += Math.sin(Math.random( Math.PI *50))
-   // this.model2Clone.lookAt(this.scene2.position)
+  
+
+    
 
       
 
@@ -1284,12 +1346,12 @@ racetrackShape6.lineTo(-.2, -1);
       
   update() {
 
+    this.audioHelper.update()
+
     this.shaderMaterial.uniforms.needsUpdate = true;
     this.shaderMaterial2.uniforms.needsUpdate = true;
    
-                              
-    
-    
+ 
       this.iNoise += .5;
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
@@ -1297,7 +1359,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.water.material.uniforms.time.value +=  this.time.elapsed * .05
 
       this.shaderMaterial.uniforms.time.value +=  this.time.elapsed * .01
-      this.shaderMaterial2.uniforms.time.value +=  this.time.delta * .5
+      this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 2.5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
@@ -1320,10 +1382,14 @@ racetrackShape6.lineTo(-.2, -1);
         const pos3 =  this.spline4.getPointAt(t3);//reverse
 
         const pos4 = this.spline.getPointAt(t4)
+
+        const velocity = 2.5;
         
   
     const tangent = this.spline.getTangentAt(t).normalize();
-    const tangent2 = this.spline.getTangentAt(t3).normalize();
+    this.tangent2 = this.spline.getTangentAt(t3).normalize();
+
+    tangent.multiplyScalar(velocity)
 
     this.derivativeTangent = this.spline.getTangentAt(t4).sub(tangent).normalize();
 
@@ -1346,9 +1412,10 @@ racetrackShape6.lineTo(-.2, -1);
    
 
     ///CAMERA MOVEMENT
-
-   
+    
     //this.camera.instance.add(this.light1)
+
+    this.plane2.position.copy(this.model.position)
     
     let originalValue = this.normal.y
 
@@ -1356,11 +1423,11 @@ racetrackShape6.lineTo(-.2, -1);
 
     const distance = this.model.position.distanceTo(this.model2Clone.position)
 
-   // this.label.textContent = (this.model.position.y).toFixed(12)
+    this.label.textContent = `${this.model.position.x.toString()} ${this.model.position.y.toString()}  ${this.model.position.z.toString()}`
     this.label3.textContent = (normalizedValue).toFixed(8);
     this.label4.textContent = (distance).toFixed(10);
 
-     this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
+     //this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
    
     this.objectsArray2.forEach((object) => {
 
@@ -1392,6 +1459,8 @@ racetrackShape6.lineTo(-.2, -1);
         intersectsPoint.position.y +=  150 * this.time.delta  *    Math.random()
         intersectsPoint.position.z += -50 *        Math.random()
 
+
+      
 }
 
 if (intersects2.length > 0) {
@@ -1408,7 +1477,7 @@ if (intersects2.length > 0) {
 }
     
   
-     
+      
 
       
     
@@ -1454,7 +1523,7 @@ if (intersects2.length > 0) {
       
 
 
-    this.camera.instance.rotation.z -= Math.PI/2;                                                                                                 
+    //this.camera.instance.rotation.z -= Math.PI/2;                                                                                                 
     //this.model.rotation.z += Math.PI/4;
    //this.model.rotation.y += Math.PI/4;
    
@@ -1472,12 +1541,14 @@ if (intersects2.length > 0) {
 
      
 
-    this.camera.instance.rotation.z += Math.PI/2; 
+    //this.camera.instance.rotation.z += Math.PI/2; 
 
     ///////this.model.rotation.z -= Math.PI/4;
     ///////this.model.rotation.y += Math.PI/4;
     
-    this.model.position.x +=  .09
+    this.model.position.x +=  .9
+
+  
    
     
 
@@ -1486,7 +1557,8 @@ if (intersects2.length > 0) {
     if (this.arrowUpPressed) {
 
       
-
+      this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
+  
 
       this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
 
@@ -1494,27 +1566,7 @@ if (intersects2.length > 0) {
 
       this.model.lookAt(   pos4   )
 
-      //this.camera.instance.rotation.z = this.normal.y *.01  
-      
-      // make the camera look at the model but with less up down precision
-      //this.camera.instance.lookAt(this.model.position.x, this.model.position.y, this.model.position.z);
-      //this.camera.instance.rotation.x = THREE.MathUtils.lerp(this.camera.instance.rotation.x, this.model.position.y , this.time.delta * speedFactor);
-
-      this.objectsArray1.forEach(object=>{
-
-        if(distance > 0 && distance <2000){
-
-          object.rotation.z =  -Math.PI/2 
-
-        } else{
-
-          object.rotation.z = 0
-        }
-
-      
-})
-
-} 
+ 
 
   
     /* if(t < .25 && t > 0 ) {
@@ -1527,10 +1579,15 @@ if (intersects2.length > 0) {
     }*/
 
     
+  }else if(this.arrowUp = false){
 
+    let stopped = this.model.position
 
+    this.model.position.copy(stopped)
 
       }
+
+    }
 
       resize() {
         

@@ -36,51 +36,12 @@ export default class Drawing extends EventEmitter {
 
   
 
-    //this.setDraw()
-    this.setMaterial()
+    this.setDraw()
+    
     
      
-  }
-
-
-  setMaterial(){
-
-    this.mesh1 = new THREE.Mesh( 
-        
-      new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({
-       map: this.renderer.renderTarget.texture,
-
-     color: 0x0000ff,
-
-     })
-
- ) 
-
-this.mesh1.scale.setScalar(1300)
-
- //this.scene2.add(this.mesh1)  
- this.scene.add(this.mesh1) 
-
-
-    
-    
-
-    this.mesh = new THREE.Mesh( 
-        
-         new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({
-          map: this.renderer.renderTarget.texture,
-
-        color: 0xffffff,
-
-        })
-
-    )
-
-    this.mesh.scale.setScalar(200)
-
-    this.scene2.add(this.mesh) 
-    //this.scene.add(this.mesh) 
-  }
+  } 
+  
 
 
 setDraw(){
@@ -113,7 +74,7 @@ setDraw(){
 
   }
 
-  this.currentPath = [];
+this.currentPath = [];
 this.allPaths = []
 
 let isDrawing = false;
@@ -171,9 +132,7 @@ document.addEventListener('pointerup', () => {
 
   if (this.currentPath.length > 0) {
 
-    this.currentPath.push(this.currentPath);
-
-    
+    this.currentPath.push(this.currentPath); 
 
     this.createLine()
     
@@ -200,36 +159,35 @@ createLine() {
 
     this.line = new THREE.Line(geometry, material);
 
-    
-
     this.scene2.add(this.line);
 
-    this.line.scale.setScalar(1000)
+    this.line.scale.setScalar(2000)
  
+    this.line.position.set(0,0,750)
+
 
 }
 
 update() {
 
-  this.mesh.position.x += Math.sin(this.time.elapsed )* 50;
-  this.mesh.position.z += Math.cos(this.time.delta )* 2;
+  
+
 
   if (this.line) {
 
-    this.scale = 2250;
-
+  
+    
    
     const rotation = this.calculateRotation(this.time.delta);
 
    
-    this.line.rotation.y += .005;
+    this.line.rotation.y += 5;
 
     
 
     if (this.currentPath.length > 0) {
 
       const index = Math.floor(this.time.elapsed * (this.currentPath.length - 1)) % this.currentPath.length;
-
       
       
       
@@ -241,7 +199,7 @@ update() {
       const x = point.x * this.scale;
       const y = point.y * this.scale;
 
-      this.mesh.position.set(x, y, 500);
+      
 
       this.newPath = this.currentPath.map((index)=>{
 
