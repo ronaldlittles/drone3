@@ -78,15 +78,36 @@ const vertexShader = {
 
   vec3 getPos( float progress ) {
 
-    vec3 pos = vec3( 0.0 );
+    vec3 pos = vec3(0.0);
     float angle = progress * PI * 2.0;
-    pos.x = cos( angle ) * 100.0;
-    pos.y = sin( angle ) * 10.0;
-    pos.z = sin( time * 0.5 + progress * PI * 2.0 ) * 10.0;
-    return pos;
+    float x = cos( angle ) * 10.0 ;
+    float y = sin( angle ) * 10.0;
+    float z =  -cos(10.0 * angle);
+    return vec3(x,y,z);
 
   }
 
+vec3 getNormal( float progress ) {
+
+    float angle = progress * PI * 2.0;
+    float x = -cos( angle );
+    float y = -sin( angle );
+    float z = 9.0 * cos(3.0 * angle);
+    return vec3(x,y,z);
+
+  }
+
+  vec3 getTangent( float progress ) {
+
+    float angle = progress * PI * 2.0;
+    float x = -sin( angle );
+    float y = cos( angle );
+    float z = .5 * sin(.1 * angle);
+    return vec3(x,y,z);
+
+  }
+
+  
 
 
   
@@ -96,23 +117,25 @@ const vertexShader = {
 
       float heightColor = texture2D(texture2, vUv).r;
 
-      float progress = position.y / 10.0;
+      float progress = position.x / 2.0;
 
       vec3 pos = getPos( progress );
+      vec3 normal = getNormal( progress );
+      vec3 tangent = getTangent( progress );
+      vec3 binormal = normalize( cross(normal, tangent) );
      
-       
+      float radius = .2 * aRandom.x * .4;
 
-      
-      pos *= fract(time * aRandom.x * 0.1);
-      
-      
-      
+      float cx = radius * cos( aRandom.y * PI * 2.0 * time * .1* aRandom.z *.7  );
+      float cy = radius * sin( aRandom.x * PI * 2.0 * time * .1 *aRandom.z *.7 );
+      //float cz = sin( time * 0.5 ) * 10.0;
 
+      pos += (normal * cx + binormal * cy);
       
        
         vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0 );
 
-        gl_PointSize = 10.0 * ( 300.0 / -mvPosition.z );
+        gl_PointSize = 300.0 * ( 1.5 / -mvPosition.z );
       
         gl_Position = projectionMatrix * mvPosition;
   

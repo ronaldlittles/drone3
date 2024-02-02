@@ -6,14 +6,15 @@ import { ImprovedNoise } from "three/examples/jsm/math/ImprovedNoise.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import {smokeFragment} from "./smokeFragment.js";
 import {smokeVertex} from './smokeVertex.js';
-import { vertexShader } from "./vertex.js";
+import { vertexShader } from "./shaders/vertex.js";
 import { fragmentShader } from "./fragment.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { Water } from 'three/examples/jsm/objects/Water.js';
-import { Vector3 } from "three";
+
 import Drawing from "./drawing.js"
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
-import { div, range } from "@tensorflow/tfjs";
+
+
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -57,6 +58,10 @@ export default class Walls extends EventEmitter {
     this.setSound();
 
  this.addToDebugger(this.model2Clone)
+
+
+
+    this.on('gsap', this.setGsap)
 
     this.depth = 50;
     this.rotationSpeed = .005;
@@ -109,6 +114,11 @@ export default class Walls extends EventEmitter {
 
       
      
+  }
+
+  test(){
+
+    console.log('test from walls.js')
   }
   
   setSound(){
@@ -199,8 +209,8 @@ this.tube4.add(this.audio)
 					azimuth: 180
 				};
 
-    this.light1 = new THREE.PointLight( 0x0000ff, 1.5, 10, 0  );
-    this.light1.position.set(-500,120,-500)
+    this.light1 = new THREE.PointLight( 0xffffff, .5, 0, 0  );
+    this.light1.position.set(50,520,50)
      this.scene2.add(this.light1 );
      this.light1.lookAt(this.scene2.position)
      //this.light1.translateZ(-100)
@@ -324,10 +334,11 @@ this.tube4.add(this.audio)
     }
    
    
+    
 
   
     
-    window.addEventListener('pointerdown', () => {
+   /*  window.addEventListener('pointerdown', () => {
     
       
       for (let i = 0; i < this.boxes.length; i++) {
@@ -347,11 +358,11 @@ this.tube4.add(this.audio)
     
     
       }
-
+ 
      
 
     
-      })
+      })*/
       
        
       }
@@ -360,6 +371,8 @@ this.tube4.add(this.audio)
 
 
   setModel() {
+
+
 
     this.model = this.resource3.scene;
     this.model.name = "droneModel";
@@ -372,7 +385,7 @@ this.tube4.add(this.audio)
     this.scene2.add(this.model);
     //this.model.add(this.audioListener)
    
-    
+    this.model.children[0].children[0].castShadow= true
     this.directionalLight.lookAt(this.model.position)
 
     this.model2 = this.resource8.scene;
@@ -610,13 +623,13 @@ this.tube4.add(this.audio)
       
       uniforms: {
          
-          time: { value: this.time.elapsed },
+          time: { value: 0.0},
           uNoise: { value: this.iNoise },
           uvScale: { value: new THREE.Vector2(.5,.5)},
           uTangent:{ value: this.tangent2},
           uNormal: { value: this.normal},
           texture1: { value: this.resource5 },
-          texture2:  { value: this.resource7 },
+          texture2:  { value: this.resource1 },
           
 
       },
@@ -834,7 +847,7 @@ this.tube4.add(this.audio)
 
         /////////this.test = getPointAboveCurve(2000, .1)
         
-        //console.log(this.test)
+        
   
 
 
@@ -1036,16 +1049,16 @@ racetrackShape6.lineTo(-.2, -1);
 
     for ( let i = 0; i < this.numPoints; i ++ ) {
 
-      this.positions[ i + 0 ] = ( Math.random() - 0.7 );
-      this.positions[ i + 1 ] = ( Math.random() - 0.7 );
-      this.positions[ i + 2 ] = ( Math.random() - 0.7 );
+      this.positions[ i + 0 ] = ( Math.random() - 0.3 );
+      this.positions[ i + 1 ] = ( Math.random() - 0.3 );
+      this.positions[ i + 2 ] = ( Math.random() - 0.003 );
 
       
       this.randoms[ i + 0 ] = Math.random();
       this.randoms[ i + 1 ] = Math.random();
       this.randoms[ i + 2 ] = Math.random();
 
-      this.sizes[ i ] = Math.random() * .5 + .5;
+      this.sizes[ i ] = Math.random() * 5.5 + 5.5;
 
     }
 
@@ -1304,12 +1317,6 @@ racetrackShape6.lineTo(-.2, -1);
 
     
 
-  
-
-    
-
-      
-
 
     }
       
@@ -1351,9 +1358,37 @@ racetrackShape6.lineTo(-.2, -1);
 
 
 
-        }
+  }
         
+ 
+  
+  setGsap() {
+
+
+    for (let i = 0; i < this.boxes.length; i++) {
+      this.box1 = this.boxes[i];
+      const distance = 1000;
       
+     
+      GSAP.to(this.box1.position, 2, {
+    
+        x: this.box1.position.x + Math.random() * distance - distance / 2,
+        y: this.box1.position.y + Math.random() * distance - distance / 2,
+        z: this.box1.rotation.z + Math.random() * distance - distance / 2,
+        ease: 'power2.easeOut',
+        //repeat: -1,
+     
+      });
+    
+    
+      }
+    
+
+  }
+
+
+
+
   update() {
 
     this.audioHelper.update()
@@ -1373,7 +1408,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.water.material.uniforms.time.value +=  this.time.elapsed * .05
 
       this.shaderMaterial.uniforms.time.value +=  this.time.elapsed * .01
-      this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 2.5
+      this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 25.0
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
@@ -1490,28 +1525,7 @@ if (intersects2.length > 0) {
 
 }
     
-  if(intersects.length > 0) { 
-
-for (let i = 0; i < this.boxes.length; i++) {
-  this.box1 = this.boxes[i];
-  const distance = 1000;
-  
- 
-  GSAP.to(this.box1.position, 2, {
-
-    x: this.box1.position.x + Math.random() * distance - distance / 2,
-    y: this.box1.position.y + Math.random() * distance - distance / 2,
-    z: this.box1.rotation.z + Math.random() * distance - distance / 2,
-    ease: 'power2.easeOut',
-    //repeat: -1,
- 
-  });
-
-
-}
-
-  }
-      
+        
     
     /* this.camera.azimuth = Math.max(minAngle, Math.min(maxAngle, this.camera.azimuth));
   
@@ -1613,6 +1627,7 @@ for (let i = 0; i < this.boxes.length; i++) {
       }
 
 
+   
     }
 
       resize() {

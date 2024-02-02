@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Experience from "./Experience.js";
-import {vertexShader} from './vertex.js'
+import {vertexShader} from './shaders/vertex.js'
 import {fragmentShader} from './fragment.js'
 import {Water} from 'three/examples/jsm/objects/Water.js'
 

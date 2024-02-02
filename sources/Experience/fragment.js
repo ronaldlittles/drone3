@@ -87,6 +87,8 @@ void main() {
       uniform sampler2D texture2;
 
       void main() {
+
+        
         
         vec3 mountainColor = vec3(.0, .0, .0);
 
@@ -95,7 +97,7 @@ void main() {
         translation.x *= -sin(time);
 
 
-        vec3 heightColor = texture2D(texture2, vUv).rgb;
+        vec3 heightColor = texture2D(texture2, vUv* .0001).rgb;
         vec3  mixed = mix(mountainColor*translation, heightColor*translation, 1.3);                                                                                         
 
 

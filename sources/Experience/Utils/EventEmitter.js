@@ -21,7 +21,8 @@ export default class
         // Errors
         if(typeof _names === 'undefined' || _names === '')
         {
-            console.warn('wrong names')
+            console.wa
+            rn('wrong names')
             return false
         }
 

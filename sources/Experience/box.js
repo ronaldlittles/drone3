@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import Experience from "./Experience.js";
+import EventEmitter from "./Utils/EventEmitter.js";
 import { Text } from "troika-three-text";
 import { smokeVertex } from "./smokeVertex.js";
 import { smokeFragment } from "./smokeFragment.js";
@@ -8,19 +9,24 @@ import Floor from "./floor.js";
 //import GUI from 'lil-gui';
 import GSAP from "gsap";
 
-import { vertexShader } from "./vertex.js";
+import { vertexShader } from "./shaders/vertex.js";
 import { fragmentShader } from "./fragment.js";
 //import {test}  from "./video.js";
 
+//import Walls from "./walls.js"; 
 
+export default class Box extends EventEmitter {
 
-export default class Box {
+  
 
   constructor(_options = {}) {
+
+    super()
 
     this.experience = new Experience();
     this.config = this.experience.config;
     this.debug = this.experience.debug;
+    this.world = this.experience.world;
 
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
@@ -42,13 +48,12 @@ export default class Box {
     this.setCity() 
     this.setBox()
    
-   
-    
+    //this.setLights()
    
     this.clamp = THREE.MathUtils.clamp;
    
    
-    //test.test('test from box.js')
+  
     
   }
 
@@ -89,6 +94,8 @@ export default class Box {
 
   
   setCity() {
+
+    
 
      this.shaderMaterial = new THREE.ShaderMaterial({
 
@@ -220,7 +227,7 @@ export default class Box {
     //this.myText.textAlign = 'center';
     
     this.myText.color = 'yellow';
-    this.myText.position.set(-1526, 300 , -1012);
+    
     
     this.myText.maxWidth = 1050;
     this.myText.sync();
@@ -366,9 +373,9 @@ function nextText() {
   setLights() {
 
 
-    const lights = new THREE.HemisphereLight(0xff0000,0xffffff, 1.0);
-    lights.position.set(0, 100, 0);
-    this.scene2.add(lights);
+    this.lights = new THREE.HemisphereLight(0xff0000,0xffffff, 1.0);
+    this.lights.position.set(0, 100, 0);
+    this.scene2.add(this.lights);
     //this.camera.instance.add(lights)
    
 
