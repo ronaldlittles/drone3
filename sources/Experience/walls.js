@@ -38,7 +38,7 @@ export default class Walls extends EventEmitter {
     this.scene2 = this.experience.scene2;
     this.mouse = this.experience.mouse;
 
-    this.resource1 = this.resources.items.me;
+    this.resource1 = this.resources.items.tacoBell;
     this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.droneModel;
     this.resource4 = this.resources.items.smokeModel;
@@ -144,7 +144,7 @@ console.log(FontLoader)
     this.audio.setBuffer(buffer)
     this.audio.setLoop(true)
     this.audio.setRefDistance(this.model.position.distanceTo(this.tube4.position)*.05 )  
-    this.audio.setDirectionalCone(0,0 ,0)
+    this.audio.setDirectionalCone(0,360,0)
     this.audio.play()
     
     
@@ -546,12 +546,12 @@ this.tube4.add(this.audio)
   
         setRaycaster() {
 
-         this.label = document.createElement("div");
+          this.label = document.createElement("div");
           this.label.style.position = "absolute";
           this.label.style.top = "65px";
           this.label.style.right = '50%';
           this.label.style.backgroundColor = 'transparent';
-         this.label.style.color = "#0000ff";
+          this.label.style.color = "#0000ff";
           this.label.style.fontFamily = "sans-serif";
           this.label.style.fontSize = "34px";
           this.label.style.textShadow = "1px 2px #000000";
@@ -758,11 +758,11 @@ this.tube4.add(this.audio)
     this.displacementMaterial = new THREE.MeshStandardMaterial({
       
       //wireframe: true,
-      color: 'white',
+      //color: 'white',
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 1.0,
-      //map: this.resource1,
+      map: this.resource1,
      
 
     });
@@ -1157,7 +1157,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.shaderMaterial) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.displacementMaterial) 
 
       this.scene2.add(this.tube5);
 
@@ -1188,7 +1188,7 @@ racetrackShape6.lineTo(-.2, -1);
 
         this.resource1.wrapT = THREE.RepeatWrapping;
     
-        //this.resource1.repeat.set(1,1)
+        this.resource1.repeat.set(4,8)
 
 
         this.resource2.wrapS = THREE.RepeatWrapping;
@@ -1328,7 +1328,7 @@ racetrackShape6.lineTo(-.2, -1);
       )
 
       this.sphereClone = this.sphere2.clone()
-      this.sphereClone.position.copy(positionOnCurve.clone()).add(this.randomOffset)
+      this.sphereClone.position.copy(positionOnCurve.clone()).add(this.offset).add(this.randomOffset)
 
       this.scene2.add(this.sphereClone)
  
