@@ -88,7 +88,7 @@ export default [
 
       {
         name: "trees2",
-        source: "/assets/trees2.glb",
+        source: "/assets/curly_palm.glb",
         type: "gltfModel",
       },
     ],

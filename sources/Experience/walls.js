@@ -10,6 +10,8 @@ import { vertexShader } from "./shaders/vertex.js";
 import { fragmentShader } from "./fragment.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { Water } from 'three/examples/jsm/objects/Water.js';
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
 
 import Drawing from "./drawing.js"
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
@@ -59,7 +61,7 @@ export default class Walls extends EventEmitter {
 
  this.addToDebugger(this.model2Clone)
 
-
+console.log(FontLoader)
 
     this.on('gsap', this.setGsap)
 
@@ -130,7 +132,7 @@ export default class Walls extends EventEmitter {
    
 
     this.audioListener = new THREE.AudioListener()
-    this.camera.instance.add( this.audioListener)
+    //this.camera.instance.add( this.audioListener)
 
     this.audio = new THREE.PositionalAudio(this.audioListener)
 
@@ -141,8 +143,8 @@ export default class Walls extends EventEmitter {
     function(buffer){
     this.audio.setBuffer(buffer)
     this.audio.setLoop(true)
-    this.audio.setRefDistance(20)
-    this.audio.setDirectionalCone(100,230,0)
+    this.audio.setRefDistance(this.model.position.distanceTo(this.tube4.position)*.05 )  
+    this.audio.setDirectionalCone(0,0 ,0)
     this.audio.play()
     
     
@@ -165,6 +167,37 @@ this.tube4.add(this.audio)
   setBoxes(){
 
     //this.scene2.fog = new THREE.FogExp2('0xefd1b5', 0.0025);
+
+    const text = new FontLoader()
+    text.load( '/assets/gentilis.json', function ( font ) {  
+      let textGeometry = new TextGeometry( 'LAX', {
+        font: font,
+        size: 80,
+        height: 7,
+        curveSegments: 10,
+        bevelEnabled: true,
+        bevelThickness: 10,
+        bevelSize: 1,
+        bevelOffset: 0,
+        bevelSegments: 1,
+
+
+      })
+
+      this.textMaterial = new THREE.MeshStandardMaterial({ color: 'grey' })
+      this.textGeometry = new THREE.Mesh( textGeometry, this.textMaterial )
+      this.scene2.add( this.textGeometry )
+      //this.textGeometry.position.set(-500, 300, 0)
+      //this.textGeometry.scale.setScalar(2)
+      this.model.add(this.textGeometry)
+      this.textGeometry.translateY(100)
+      this.textGeometry.translateX(100)
+      this.textGeometry.translateZ(50)
+      this.textGeometry.rotateY(Math.PI)
+
+      }.bind(this) );
+
+      
 
     
     const waterGeometry = new THREE.PlaneGeometry( 100000, 100000 );
@@ -247,7 +280,7 @@ this.tube4.add(this.audio)
      this.directionalLight.shadow.camera.near = 0.5; // Adjust as needed
      this.directionalLight.shadow.camera.far = 5000; // Adjust as needed
      this.directionalLight.shadow.camera.updateProjectionMatrix(); // Update the shadow camera projection
-
+        this.directionalLight.translateY(-500)
 
      const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 500, 0xffffff)
 
@@ -384,6 +417,7 @@ this.tube4.add(this.audio)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
     //this.model.add(this.audioListener)
+    
    
     this.model.children[0].children[0].castShadow= true
     this.directionalLight.lookAt(this.model.position)
@@ -1197,7 +1231,7 @@ racetrackShape6.lineTo(-.2, -1);
 
          /*  new THREE.MeshStandardMaterial({
 
-             //color: Math.random() * 0xffffff,
+             //color: Math.random() * 0xffff,
              map: this.renderer.renderTarget.texture, 
              side: THREE.DoubleSide,
              transparent: true,
@@ -1220,10 +1254,10 @@ racetrackShape6.lineTo(-.2, -1);
        
         this.sphere2 = new THREE.Mesh(
             
-            new THREE.CylinderGeometry( .2, .2, 10, 32 ),
+            new THREE.CylinderGeometry( 2, 2, 20, 32 ),
           
  
-            this.shaderMaterial3,
+            this.shaderMaterial,
             
           )
 
@@ -1233,9 +1267,9 @@ racetrackShape6.lineTo(-.2, -1);
   
     
    
-    const numObjects = 150; 
-    this.spacing = 35; 
-    this.scaleFactor = 5;
+    const numObjects = 100; 
+    this.spacing = 40; 
+    this.scaleFactor = 10;
     const offset = new THREE.Vector3( (Math.random()*200-100)*75,-530,-100);
 
    
@@ -1270,7 +1304,7 @@ racetrackShape6.lineTo(-.2, -1);
     binormal.crossVectors(tangent2, normal).normalize(); 
 
    
-    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 2.0 : -2.0)-30)
+    this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5))
 
     this.offset3 = i%2===0?1.5:-1.5
 
@@ -1312,8 +1346,9 @@ racetrackShape6.lineTo(-.2, -1);
     this.model2.castShadow = true
     this.model2Clone= this.model2.clone()
     this.model2Clone.position.copy(positionOnCurve2.add(tangent2).add(normal).add(binormal))
-    this.model2Clone.scale.setScalar(20)
+    this.model2Clone.scale.setScalar(80)
     this.scene2.add(this.model2Clone)
+    this.model2Clone.rotation.y += Math.random()
 
     
 
@@ -1394,6 +1429,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.audioHelper.update()
 
     this.model2Clone.lookAt(this.model.position)
+
+    this.trigger('gsap')
 
     this.plane2.position.copy(this.model.position)
 

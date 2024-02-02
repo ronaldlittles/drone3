@@ -54,6 +54,15 @@ p{
 
 }
 
+#popuptext1{
+
+  font-size: 36px;
+  color: #fFF;
+  text-shadow: 1px 1px #000000;
+  padding-bottom: 5px;
+
+}
+
 #popuptext2{
   
 font-size: 12px;

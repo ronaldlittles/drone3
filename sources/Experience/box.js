@@ -249,11 +249,11 @@ export default class Box extends EventEmitter {
 
    
     const myText3 = new Text();
-    //this.scene2.add(myText3);
+    this.scene2.add(myText3);
 
     myText3.text =
-      "EVERYTHING is PATTERN2"
-    //myText3.curveRadius = -170.0;
+      "EVERYTHING is PATTERN"
+    myText3.curveRadius = -170.0;
     myText3.fontSize = 72.0;
     myText3.color = "yellow";
     myText3.maxWidth = 500;
