@@ -194,6 +194,8 @@ this.tube4.add(this.audio)
       this.textGeometry.translateX(100)
       this.textGeometry.translateZ(50)
       this.textGeometry.rotateY(Math.PI)
+      this.textGeometry.castShadow = true
+      this.textGeometry.receiveShadow = true
 
       }.bind(this) );
 
