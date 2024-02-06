@@ -440,7 +440,7 @@ this.tube4.add(this.audio)
     
   
 this.clones = [];
-let amount = 225;
+let amount = 100;
 
 for (let i = 0; i < amount; i++) {
     this.clone = this.model.clone();
@@ -663,7 +663,7 @@ for (let i = 0; i < amount; i++) {
             time: { value: 1.0 },
            
             uNoise: { value: this.iNoise},
-            uvScale:  { value: new THREE.Vector2( 3, 1 ) },
+            uvScale:  { value: new THREE.Vector2( .00003, .0001 ) },
             tangent:{ value: this.tangent},
     
             fogDensity: { value: 0.45 },
