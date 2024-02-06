@@ -46,7 +46,7 @@ export default class Box extends EventEmitter {
     this.resource6 =  this.resources.items.hdr
     //this.setLights()
     this.setCity() 
-    this.setBox()
+    //this.setBox()
    
     //this.setLights()
    
@@ -93,7 +93,7 @@ export default class Box extends EventEmitter {
   }
 
   
-  setCity() {
+  //setCity() {
 
     
 
