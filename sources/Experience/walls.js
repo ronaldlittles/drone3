@@ -52,7 +52,7 @@ export default class Walls extends EventEmitter {
 
     this.mesh1 = this.world.box.mesh1
 
-    console.log(this.time)
+    
 
     this.world.box.mesh1.material.map = this.resource2
     this.world.box.mesh1.scale.setScalar(20)
@@ -385,7 +385,7 @@ this.tube4.add(this.audio)
 
   
     
-   /*  window.addEventListener('pointerdown', () => {
+     window.addEventListener('pointerdown', () => {
     
       
       for (let i = 0; i < this.boxes.length; i++) {
@@ -409,7 +409,7 @@ this.tube4.add(this.audio)
      
 
     
-      })*/
+      })
       
        
       }
@@ -760,19 +760,18 @@ for (let i = 0; i < amount; i++) {
    
     this.shaderMaterial6 = new THREE.ShaderMaterial({
 
-
       side: THREE.DoubleSide,
       transparent: true,
     
       uniforms: {
 
         time: { value: 1.0 },
-        resolution: { value: new THREE.Vector2() },
-        uvScale: { value: new THREE.Vector2(.001,.001) },
+        resolution: { value: new THREE.Vector2(0,0) },
+        uvScale: { value: new THREE.Vector2(1.0,1.0) },
+        uScale: { value: 1.0 },
         texture1: { value: this.resource1 },
     
       },
-
 
       vertexShader: checkerVertex.vertexShader,
       fragmentShader: checkerFragment.fragmentShader,
@@ -916,7 +915,7 @@ for (let i = 0; i < amount; i++) {
 
     this.spline = new THREE.CatmullRomCurve3(this.points);
 
-    console.log(this.spline)
+  
 
 
     this.splinePoints = [];
@@ -984,7 +983,7 @@ for (let i = 0; i < amount; i++) {
     this.spline.closed = true;
     this.spline.tension = .5;
 
-   console.log(this.spline)
+   
 
     window.addEventListener("pointerdown", (event) => {
 
@@ -1308,7 +1307,7 @@ racetrackShape6.lineTo(-.2, -1);
          
           )
 
-        this.plane3.scale.setScalar(130)
+        this.plane3.scale.setScalar(1300)
 
         //this.scene2.add(this.plane3)
 
@@ -1353,7 +1352,7 @@ racetrackShape6.lineTo(-.2, -1);
             
           )
 
-          this.sphere2.scale.setScalar(20)
+          this.sphere2.scale.setScalar(25)
           this.sphere2.castShadow = true;
           this.scene2.add(this.sphere2)
   
@@ -1412,8 +1411,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.randomOffset = new THREE.Vector3(
 
       (Math.random(i* 100) * 200 - 100 )* -10,
-     -150,//(Math.random() * 2 - 1 ) * 50,
-     -1800,//(Math.random() * 2 - 1 ) 
+     250,//(Math.random() * 2 - 1 ) * 50,
+     -1500,//(Math.random() * 2 - 1 ) 
       
       )
 
@@ -1547,7 +1546,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.shaderMaterial.uniforms.time.value +=  this.time.elapsed * .01
       this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 2.0
-     // this.shaderMaterial5.uniforms.time.value +=  this.time.delta * .5
+      this.shaderMaterial6.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
       
@@ -1594,7 +1593,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.tangent3 = this.spline.getTangentAt(t5).normalize();
     this.tangent4 = this.spline.getTangentAt(t7).normalize();
 
-    console.log(this.tangent2)
+    
 
     tangent.multiplyScalar(velocity)
 
