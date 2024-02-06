@@ -24,7 +24,7 @@ export default class Camera {
    
     // Set up
     this.mode = "debug"; // defaultCamera \ debugCamera
-    //this.createOrthographicCamera()
+    this.createOrthographicCamera()
     this.setInstance();
     this.setInstance2();
     this.setOrbitControls()
@@ -93,12 +93,11 @@ export default class Camera {
     );
 
     // 6.5
-    this.orthographicCamera.position.set(0,200,400);
+    //this.orthographicCamera.position.set(0,200,400);
     //this.orthographicCamera.lookAt(this.scene.position);
     //this.orthographicCamera.rotation.x = Math.PI/2;
 
-    this.scene.add(this.orthographicCamera);
-    this.scene.add( new THREE.CameraHelper(this.orthographicCamera))
+    //this.scene2.add( new THREE.CameraHelper(this.orthographicCamera))
 
   }
 

@@ -72,15 +72,18 @@ void main() {
 
   fragmentShader2: `
 
+  precision highp float;
 
+  uniform sampler2D splinePoints; 
+     
       uniform float uNoise;
       uniform float time;
       uniform vec2 uvScale;
 
       varying vec2 vUv;
 
-      varying vec3 vNormal;
-      varying vec3 vTangent;
+      //varying vec3 vNormal;
+      //varying vec3 vTangent;
       //varying vec3 vBinormal;
       varying vec3 vPosition;
 
@@ -90,20 +93,19 @@ void main() {
 
         
         
-        vec3 mountainColor = vec3(.0, .0, .0);
+        vec4 mountainColor = vec4(.0, .0, .0,.05);
 
-        vec3 translation =  vNormal * vTangent;
+        //vec3 translation =  vNormal * vTangent;
 
-        translation.x *= -sin(time);
+        //translation.x *= -sin(time);
 
 
-        vec3 heightColor = texture2D(texture2, vUv* .0001).rgb;
-        vec3  mixed = mix(mountainColor*translation, heightColor*translation, 1.3);                                                                                         
-
+        vec4 heightColor = texture2D(texture2, vUv);
+        vec4  mixed = mix( heightColor,mountainColor, .9);                                                                                         
 
 
        
-        gl_FragColor = vec4( heightColor, 1.0);
+        gl_FragColor = vec4( mixed);
         
     }
     

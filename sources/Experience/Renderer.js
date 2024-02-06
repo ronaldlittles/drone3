@@ -278,8 +278,8 @@ export default class Renderer {
     this.instance.setPixelRatio(this.config.pixelRatio);
 
     // Post process
-    //this.postProcess.composer.setSize(this.config.width, this.config.height);
-    //this.postProcess.composer.setPixelRatio(this.config.pixelRatio);
+    this.postProcess.composer.setSize(this.config.width, this.config.height);
+    this.postProcess.composer.setPixelRatio(this.config.pixelRatio);
   }
 
   update() {
@@ -319,23 +319,28 @@ export default class Renderer {
 
        //this.renderer.clear()
 
-      this.instance.setRenderTarget(this.renderTarget);
+      //this.instance.setRenderTarget(this.renderTarget);
 
       this.instance.render(this.scene2, this.camera.instance);
 
-      this.instance.setRenderTarget(null);
+     this.instance.setRenderTarget(null);
 
-      this.postProcess.renderToScreen = true;
+     this.postProcess.renderToScreen = false;
 
-      this.postProcess.composer.render();
+      //this.postProcess.composer.render();
 
      
 
     } else {
      
       this.postProcess.composer.render(0.01);
-      //this.instance.render(this.scene2, this.camera.instance);
+      //this.camera.orthographicCamera.setVeiwport(0, 0, this.sizes.width, this.sizes.height);  
+
+      //this.camera.orthographicCamera.render(this.scene, this.camera.instance);
+         //this.instance.render(this.scene2, this.camera.instance);
     }
+
+   // this.instance.render(this.scene2, this.camera.instance);
 
     if (this.stats) {
       this.stats.afterRender();

@@ -160,7 +160,7 @@ export default class Box extends EventEmitter {
 
       this.mesh1.receiveShadow = true;
       this.mesh1.castShadow = true;
-
+        this.mesh1.name = 'debbugerClassMesh1'
       //this.mesh1.lookAt(new THREE.Vector3(0, 0, 1200))
     
 
@@ -218,7 +218,7 @@ export default class Box extends EventEmitter {
     this.myText = new Text();
 
    
-    //this.scene2.add(this.myText);
+    this.scene.add(this.myText);
 
     this.myText.text =
       "the brain is the strongest muscle of the body.";
@@ -236,11 +236,11 @@ export default class Box extends EventEmitter {
     
      
     const myText2 = new Text();
-    this.scene2.add(myText2);
+    this.scene.add(myText2);
 
     myText2.text = "Ronald C. Littles";
 
-    myText2.fontSize = 50.0;
+    myText2.fontSize = 350.0;
     myText2.color = "yellow";
     myText2.position.set(1907, 230 , 1174) 
     
@@ -260,6 +260,7 @@ export default class Box extends EventEmitter {
     myText3.position.set(0,50, 310);
     myText3.sync();
     myText3.lookAt(this.camera.instance.position)
+    myText3.name = 'everything is pattern'
 
 
     this.myText4 = new Text();
@@ -275,6 +276,8 @@ export default class Box extends EventEmitter {
     this.myText4.position.set(0, 25, -1000);
     this.myText4.sync();
     this.myText4.lookAt(new THREE.Vector3(0, 0, 1))
+
+    this.myText4.name = 'wherever you go there you are'
 
 
 /* let keyPressStartTime = 0;

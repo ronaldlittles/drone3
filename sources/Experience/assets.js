@@ -10,8 +10,8 @@ export default [
       },
 
       {
-        name: "meTexture",
-        source: "/assets/me.jpg",
+        name: "dominos",
+        source: "/assets/lava.jpg",
         type: "texture",
       },
 

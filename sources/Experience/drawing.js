@@ -163,7 +163,7 @@ createLine() {
 
     this.line.scale.setScalar(2000)
  
-    this.line.position.set(0,0,750)
+    //this.line.position.set(0,0,750)
 
 
 }
@@ -210,7 +210,7 @@ update() {
 
       })
 
-      console.log(this.newPath)
+      //console.log(this.newPath)
 
      
       }

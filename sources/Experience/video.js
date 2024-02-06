@@ -42,19 +42,20 @@ export default class Video extends EventEmitter {
     //this.setVideo();
     //this.setVideo2();
    
-    //this.setLiveVideo();
+    this.setLiveVideo();
    
    
     //this.setVideoTexture();
 
     //this.setSound();
    
-    this.setPlane();
-    this.walls = new Walls();
+    //this.setPlane();
+    
   }
 
   setLiveVideo() {
-    /* this.liveVideo = document.querySelector(".video");
+     this.liveVideo = document.querySelector(".video");
+     
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const constraints = {
@@ -79,7 +80,7 @@ export default class Video extends EventEmitter {
     this.texture3.name = "liveVideoTexture";
 
     return this.texture3;
- */
+ 
     //console.log(handPoseDetection)
 
     /*  const model = handPoseDetection.SupportedModels.MediaPipeHands;
@@ -101,7 +102,8 @@ export default class Video extends EventEmitter {
       runit() */
   }
 
- /*  setVideoTexture() {
+
+ setVideoTexture() {
     this.material = new THREE.MeshBasicMaterial({
       //color: 'blue',
       side: THREE.DoubleSide,
@@ -111,6 +113,8 @@ export default class Video extends EventEmitter {
 
     return this.material;
   } 
+
+
 
   setVideo() {
     this.video = document.querySelector(".video");
@@ -124,9 +128,11 @@ export default class Video extends EventEmitter {
     return this.texture;
   }
 
+
+
   setVideo2() {
     this.video2 = document.querySelector(".video");
-    this.video2.src = "./assets/water.mp4";
+    //this.video2.src = "./assets/water.mp4";
     //this.video2.play()
     this.video2.name = "video2";
 
@@ -134,7 +140,7 @@ export default class Video extends EventEmitter {
     this.texture2.name = "videoTexture2";
 
     return this.texture2;
-  }*/
+  }
 
   setSound(){
 
@@ -396,8 +402,8 @@ export default class Video extends EventEmitter {
 
     
 
-    this.shaderMaterial.uniforms.time.value +=  5;
-    this.shaderMaterial.uniforms.pNoise.value.x += this.time.delta * 2;
+    //this.shaderMaterial.uniforms.time.value +=  5;
+    //this.shaderMaterial.uniforms.pNoise.value.x += this.time.delta * 2;
 
    
    

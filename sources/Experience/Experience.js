@@ -140,7 +140,7 @@ export default class Experience
             //this.debug = new Pane()
             //this.debug.containerElem_.style.width = '320px'
             //this.debug.containerElem_.style.width = '320px'
-
+console.log(this.debug)
             
         }
     } 
