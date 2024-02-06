@@ -1546,7 +1546,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.water.material.uniforms.time.value +=  this.time.elapsed * .05
 
-      this.shaderMaterial.uniforms.time.value +=  this.time.elapsed * .01
+      this.shaderMaterial.uniforms.time.value +=  this.time.delta * 2.5
       this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 2.0
       this.shaderMaterial6.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005

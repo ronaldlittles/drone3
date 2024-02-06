@@ -1,6 +1,9 @@
 import * as THREE from "three";
 import Experience from "./Experience.js";
 import SceneWorld from "./sceneworld.js";
+
+//import PreLoader from "./preloader.js";
+
 import Box from "./box.js";
 import Walls from "./walls.js"
 
@@ -41,7 +44,7 @@ export default class World {
     this.resources.on("_groupEnd", (_group) => {
       if (_group.name === "base") {
 
-        
+        //this.setPreLoader();
         //this.setRaceTrack()
         this.setRaycaster();
         //this.setSceneWorld();
@@ -61,6 +64,12 @@ export default class World {
       this.setDebugger()
       }
     });
+  }
+
+  setPreLoader() {
+
+    this.preloader = new PreLoader();
+
   }
 
   /*  setRaceTrack(){
@@ -162,6 +171,9 @@ export default class World {
   resize() {}
 
   update() {
+
+    if(this.preloader)
+    this.preloader.update()
 
     if(this.debugger)
     this.debugger.update()
