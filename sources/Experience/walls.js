@@ -50,13 +50,10 @@ export default class Walls extends EventEmitter {
 
     this.resource1.colorSpace = THREE.SRGBColorSpace
 
-    this.mesh1 = this.world.box.mesh1
+    
 
     
 
-    this.world.box.mesh1.material.map = this.resource2
-    this.world.box.mesh1.scale.setScalar(20)
-    this.world.box.mesh1.visible = true
 
     this.setBoxes();
 
@@ -236,7 +233,7 @@ this.tube4.add(this.audio)
     this.water.rotation.x = - Math.PI / 2;
     this.water.position.y-= 100;
 
-   //this.scene2.add( this.water );
+   this.scene2.add( this.water );
 
     this.sky = new Sky();
     this.sky.scale.setScalar( 1000 );
@@ -812,10 +809,10 @@ for (let i = 0; i < amount; i++) {
 
 
          
-        this.numPoints = 2000;
+        this.numPoints = 5000;
         this.points = [];
         this.derivatives = [];
-        let originalY = 0; 
+    
         
         let radius = 1500;
         
@@ -835,9 +832,7 @@ for (let i = 0; i < amount; i++) {
 
                 y = Math.sin(Math.cos(t * 6 * Math.PI)) * 5;
 
-                //const smoothY = THREE.MathUtils.smoothstep( targetY, y, 0.9);
-
-                //y = smoothY * 2;
+              
 
             } else if (-(t < Math.PI/.5) && t > Math.PI/1.5) {
 
@@ -846,11 +841,16 @@ for (let i = 0; i < amount; i++) {
               } else{
 
                 y = Math.sin(Math.cos(t * 6) * Math.PI) * 5;
-                //y = (1-smoothStep) * originalY + smoothStep * y;
+              
            
             }
 
-            return new THREE.Vector3(x, y, z).multiplyScalar(2);
+           
+   
+
+  
+  return new THREE.Vector3(x, y, z).multiplyScalar(2);
+        
 
         }
         
@@ -1396,6 +1396,8 @@ racetrackShape6.lineTo(-.2, -1);
 
    
     this.offset = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5))
+    //this.offsetCones = normal.multiplyScalar(this.spacing * (i % 2 === 0 ? 1.5 : -1.5))
+
 
     this.offset3 = i%2===0?1.5:-1.5
 
@@ -1412,7 +1414,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       (Math.random(i* 100) * 200 - 100 )* -10,
      250,//(Math.random() * 2 - 1 ) * 50,
-     -1500,//(Math.random() * 2 - 1 ) 
+     -100,//(Math.random() * 2 - 1 ) 
       
       )
 

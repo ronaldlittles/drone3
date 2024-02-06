@@ -45,7 +45,7 @@ export default class Box extends EventEmitter {
     this.resource3 = this.resources.items.sceneModel
     this.resource6 =  this.resources.items.hdr
     //this.setLights()
-    this.setCity() 
+    //this.setCity() 
     //this.setBox()
    
     //this.setLights()
@@ -93,7 +93,7 @@ export default class Box extends EventEmitter {
   }
 
   
-  //setCity() {
+  setCity() {
 
     
 
@@ -405,8 +405,8 @@ function nextText() {
 
   update(){
     
-    this.shaderMaterial.uniforms.time.value += this.time.delta * 0.2;
-    this.mesh1.rotation.y += 0.01;
+    //this.shaderMaterial.uniforms.time.value += this.time.delta * 0.2;
+    //this.mesh1.rotation.y += 0.01;
 
    
   } 
