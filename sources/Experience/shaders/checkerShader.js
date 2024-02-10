@@ -31,7 +31,7 @@ void main() {
                            vec4(0.0, 0.0, 1.0,1.0)); // Blue
 
     // Calculate the index of the current color pair based on time
-    int index = int(mod(time, 2.0));
+    int index = int(mod(time, 3.0));
 
     // Select the current color pair
     vec4 color1 = colors[index];

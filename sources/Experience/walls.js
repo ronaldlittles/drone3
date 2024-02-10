@@ -354,16 +354,18 @@ this.tube4.add(this.audio)
       for (let i = 0; i < length; i++) {
 
       const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
-    
-      this.box1 = new THREE.Mesh( this.boxGeometry, material);
+    this.box1 = this.resource4.scene
+    console.log(this.box1)
+      //this.box1 = new THREE.Mesh( this.boxGeometry, material);
       this.box1.castShadow = true
       this.box1.receiveShadow = true
     
 
-      this.box = this.box1.clone();
+      this.box = this.resource4.scene.clone()//this.box1.clone();
     
     
-      this.box.scale.set(5, 1, 5);
+     // this.box.scale.set(5, 1, 5)
+      this.box.scale.setScalar(100)
     
       
       this.scene2.add(this.box);
@@ -372,7 +374,7 @@ this.tube4.add(this.audio)
       this.boxes.push(this.box)
 
       
-      this.box.position.set(-0,0,0)
+      this.box.position.set(0,0,0)
 
 
        
@@ -388,7 +390,7 @@ this.tube4.add(this.audio)
       
       for (let i = 0; i < this.boxes.length; i++) {
         this.box1 = this.boxes[i];
-        const distance = 1000;
+        const distance = 1500;
         
        
         GSAP.to(this.box1.position, 2, {
@@ -397,7 +399,8 @@ this.tube4.add(this.audio)
           y: this.box1.position.y + Math.random() * distance - distance / 2,
           z: this.box1.rotation.z + Math.random() * distance - distance / 2,
           ease: 'power2.easeOut',
-          //repeat: -1,
+          yoyo: true,
+          repeat: -1,
        
         });
     
