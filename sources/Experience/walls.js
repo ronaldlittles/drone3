@@ -776,7 +776,7 @@ for (let i = 0; i < amount; i++) {
       //color: 'white',
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 1.0,
+      opacity: .3,
       map: this.resource1,
      
 
@@ -787,7 +787,7 @@ for (let i = 0; i < amount; i++) {
 
             side: THREE.DoubleSide,
             color: 'white',
-            opacity: .8,
+            opacity: .3,
            transparent: true,
 
             map: this.resource2,
