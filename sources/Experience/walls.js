@@ -390,7 +390,7 @@ this.tube4.add(this.audio)
       
       for (let i = 0; i < this.boxes.length; i++) {
         this.box1 = this.boxes[i];
-        const distance = 1500;
+        const distance = 2000;
         
        
         GSAP.to(this.box1.position, 2, {
@@ -779,7 +779,7 @@ for (let i = 0; i < amount; i++) {
       //color: 'white',
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: .3,
+      opacity: .8,
       map: this.resource1,
      
 
@@ -790,7 +790,7 @@ for (let i = 0; i < amount; i++) {
 
             side: THREE.DoubleSide,
             color: 'white',
-            opacity: .3,
+            opacity: .8,
            transparent: true,
 
             map: this.resource2,

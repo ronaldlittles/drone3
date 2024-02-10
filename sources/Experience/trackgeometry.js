@@ -65,7 +65,7 @@ export default class TrackGeometry extends EventEmitter {
        
       if(t >0 && t < Math.PI/2){
           
-           y =0// Math.sin(Math.PI*t*t*t)*-Math.sqrt(60)*20  
+           y = Math.sin(Math.PI*t*t*t)*-Math.sqrt(60)*20  
       
       }
 
