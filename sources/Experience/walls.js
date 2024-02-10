@@ -16,6 +16,7 @@ import { checkerFragment, checkerVertex } from "./shaders/checkerShader.js";
 
 
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
+import { sign, softmax } from "@tensorflow/tfjs";
 
 
 
@@ -42,7 +43,7 @@ export default class Walls extends EventEmitter {
     this.resource1 = this.resources.items.tacoBell;
     this.resource2 = this.resources.items.dominos;
     this.resource3 = this.resources.items.droneModel;
-    this.resource4 = this.resources.items.smokeModel;
+    this.resource4 = this.resources.items.baloonsModel;
     this.resource5 = this.resources.items.wallTexture;
     this.resource6 = this.resources.items.hdr;
     this.resource7 = this.resources.items.snowm;
@@ -52,7 +53,7 @@ export default class Walls extends EventEmitter {
 
     
 
-    
+    console.log(this.world)
 
 
     this.setBoxes();
@@ -463,24 +464,16 @@ for (let i = 0; i < amount; i++) {
     ///////this.scene2.add(this.model2);
 
 
-   if(this.debug){
+   this.modelTube = new THREE.Mesh(
 
-   
+    new THREE.TorusGeometry( 6, .3, 10, 100 ), 
+    this.shaderMaterial6
 
-  this.debugFolder
-  .add(this.model.position,'z')
-  .min(-500)
-  .max(500)
-  .step(50.0)
-  .onChange((value) => {
+    );
 
-    this.model2.position.x = value 
-  
-  })
- 
-   
-
-  }
+   // this.scene2.add(this.modelTube)
+    this.model.add(this.modelTube)
+    this.modelTube.scale.setScalar(10.)
    
       //USE THE FOLLOWING TO TRAVERSE ANY OF THE MODELS PROPERTIES
 
@@ -807,52 +800,48 @@ for (let i = 0; i < amount; i++) {
         //this.meshes[2].material = this.shaderMaterial4  //backlight
     
 
-
+/* 
          
         this.numPoints = 5000;
         this.points = [];
         this.derivatives = [];
     
         
-        let radius = 1500;
-        
+        let radius = 1000
+
         function figureEightCurve(t) {
 
-            let x = Math.sin(t * 2) * radius;
-            let z = Math.cos(t) * radius;
-            let y;
+          let x = Math.sin(t * 2) * radius;
+          let z = Math.cos(t) * radius;
+          let y;
 
-            let normalizedT = t / (Math.PI * 2)/(Math.PI * 2);
-            let smoothStep = 3 * Math.pow(normalizedT, 2) - 2 * Math.pow(normalizedT, 3);
-
-
-            if ( t < Math.PI / 1.5 && t > Math.PI / 2.5 ) {
-
-                const targetY = Math.sin(Math.cos(t * 1.5) * -Math.PI) * 100;
-
-                y = Math.sin(Math.cos(t * 6 * Math.PI)) * 5;
-
-              
-
-            } else if (-(t < Math.PI/.5) && t > Math.PI/1.5) {
-
-              y = Math.cos( Math.sin(t * 2.7* Math.PI)) * 150;
-
-              } else{
-
-                y = Math.sin(Math.cos(t * 6) * Math.PI) * 5;
-              
-           
-            }
-
-           
-   
-
-  
-  return new THREE.Vector3(x, y, z).multiplyScalar(2);
-        
-
+          
+          
+          let amplitude = 20;
+          let frequency = 2; 
+          function sigmoid(t) {
+            return 1 / (1 + Math.exp(-t));
         }
+           
+          if(t >0 && t < Math.PI/2){
+              
+               y = Math.sin(Math.PI*t*t*t)*-Math.sqrt(60)*20  
+          
+          }
+
+
+           if(t > Math.PI && t < 1.5*Math.PI
+            y = Math.sin(Math.PI*t*t)*40
+
+          }
+
+          
+
+
+      return new THREE.Vector3(x, y, z).multiplyScalar(2);
+      
+
+      }
         
         function derivativeCurve(t) {
             const h = 0.0001;
@@ -865,12 +854,13 @@ for (let i = 0; i < amount; i++) {
         
         
         for (let i = 0; i <= this.numPoints; i++) {
-            const t = (i / this.numPoints) * Math.PI * 2;
+            let t = (i / this.numPoints) * Math.PI * 2;
             const point = figureEightCurve(t);
             this.points.push(point);
         
             const derivative = derivativeCurve(t);
-            this.derivatives.push(derivative);
+            this.
+import TrackGeometry from "./trackgeometry.js";atives.push(derivative);
         }
         
         
@@ -909,43 +899,35 @@ for (let i = 0; i < amount; i++) {
 
         return pointAboveCurve;
 
-      }
+      } */
  
-
-
-    this.spline = new THREE.CatmullRomCurve3(this.points);
+this.numPoints = 5000;
+ 
+    this.spline = new THREE.CatmullRomCurve3(this.world.trackGeometry.points);
 
   
 
 
     this.splinePoints = [];
 
-    for (let i = 0; i < this.spline.points.length; i++) {
+    
 
-
-      this.splinePoints.push(this.spline.points[i].x, this.spline.points[i].y, this.spline.points[i].z);
-      if(Math.floor(this.model.position.x) === Math.floor(this.spline.points[i].x)){
-        console.log('found it')
-      }
-
-    }
-
-    let dataTexture = new THREE.DataTexture(
+    /* let dataTexture = new THREE.DataTexture(
       new Float32Array(this.splinePoints),
       this.splinePoints.length / 3, // assuming each point has x, y, z
       1,
       THREE.RGBAFormat,
       THREE.FloatType
     );
-    
-    dataTexture.needsUpdate = true;
+     */
+    //dataTexture.needsUpdate = true; 
    
 
-    const attributes =  new THREE.BufferAttribute(new Float32Array(this.splinePoints), 3);  
+   // const attributes =  new THREE.BufferAttribute(new Float32Array(this.splinePoints), 3);  
 
 
    
-  this.shaderMaterial2 = new THREE.ShaderMaterial({
+  /* this.shaderMaterial2 = new THREE.ShaderMaterial({
    
   side: THREE.DoubleSide,
   transparent: true,
@@ -959,8 +941,8 @@ for (let i = 0; i < amount; i++) {
       uTangent:{ value: this.tangent2},
       uNormal: { value: this.normal},
       texture1: { value: this.resource5 },
-      texture2:  { value: this.resource1 },
-      splinePoints: { value: dataTexture },
+      //texture2:  { value: this.resource1 },
+     // splinePoints: { value: dataTexture },
     
       
 
@@ -970,7 +952,7 @@ for (let i = 0; i < amount; i++) {
   fragmentShader: fragmentShader.fragmentShader2,
 
 });
-
+ */
 
     //this.distance= this.splinePoints.distanceTo(this.model.position)
 
@@ -979,9 +961,12 @@ for (let i = 0; i < amount; i++) {
     
 
 
-    this.spline.curveType = 'catmullrom';
-    this.spline.closed = true;
-    this.spline.tension = .5;
+    //this.spline.curveType = 'catmullrom';
+    //this.spline.closed = true;
+    //this.spline.tension = 0.5;
+    
+
+
 
    
 
@@ -997,18 +982,18 @@ for (let i = 0; i < amount; i++) {
       
       
    
-        const intersects = raycaster.intersectObjects(this.objectsArray2, true);
+        const intersects = raycaster.intersectObjects( this.objectsArray1, true);
 
             
 
         if (intersects.length > 0) {
 
           const intersectsPoint = intersects[0].object
-          this.intersectsPoint2 = intersects[0].point
+          //this.intersectsPoint2 = intersects[0].point
           
 
           intersectsPoint.scale.setScalar(.5)
-          intersectsPoint.material = this.shaderMaterial2
+          intersectsPoint.material = this.shaderMaterial
           //intersectsPoint.position.z += -100
           intersectsPoint.rotation.x += Math.PI/2
 
@@ -1056,7 +1041,7 @@ for (let i = 0; i < amount; i++) {
     this.spline5 = new THREE.CatmullRomCurve3(this.spacedPoints3);
 
 
-    this.splineReverse = this.spline.points
+    this.splineReverse = this.world.trackGeometry.points
     this.rev = this.splineReverse.toReversed()
     this.spline4 = new THREE.CatmullRomCurve3(this.rev); 
    
@@ -1182,12 +1167,12 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.geometry.setAttribute( 'aSize', new THREE.BufferAttribute( this.sizes, 1 ) );
 
-    this.plane2 = new THREE.Points( this.geometry, this.shaderMaterial2)
+    this.plane2 = new THREE.Points( this.geometry, this.shaderMaterial)
     this.scene2.add(this.plane2)
     this.plane2.scale.setScalar(100)
 
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial6) 
 
     
     this.scene2.add(this.tube);
@@ -1201,7 +1186,7 @@ racetrackShape6.lineTo(-.2, -1);
     
     this.tube.position.y =-10 
 
-    //this.tube.visible = false;
+    this.tube.visible =true;
 
     this.tube.receiveShadow = true;
     //this.tube.castShadow = true;
@@ -1300,17 +1285,22 @@ racetrackShape6.lineTo(-.2, -1);
 
           //this.plane.rotation.x += Math.PI/2;
 
-          this.plane3 = new THREE.Mesh( new THREE.BoxGeometry( 2,2,2 ),
+          this.plane3 = new THREE.Mesh( new THREE.SphereGeometry( 1,36,36 ),
 
-          this.shaderMaterial6,
+          new THREE.MeshBasicMaterial({
 
+          map: this.resource6,
+          side: THREE.BackSide,
+
+
+          })
          
           )
 
-        this.plane3.scale.setScalar(1300)
+        this.plane3.scale.setScalar(4000)
 
-        //this.scene2.add(this.plane3)
-
+        this.scene2.add(this.plane3)
+        this.plane3.position.set(0,0,0)
 
 
           this.sphere = new THREE.Mesh(
@@ -1354,7 +1344,7 @@ racetrackShape6.lineTo(-.2, -1);
 
           this.sphere2.scale.setScalar(25)
           this.sphere2.castShadow = true;
-          this.scene2.add(this.sphere2)
+          //this.scene2.add(this.sphere2)
   
     
    
@@ -1421,7 +1411,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.sphereClone = this.sphere2.clone()
       this.sphereClone.position.copy(positionOnCurve.clone()).add(this.offset).add(this.randomOffset)
 
-      this.scene2.add(this.sphereClone)
+      //this.scene2.add(this.sphereClone)
       this.objectsArray1.push(this.sphereClone) 
 
       
@@ -1429,7 +1419,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.sphere2Clone = this.sphere.clone()
       this.sphere2Clone.position.copy(positionOnCurve.clone())//.add(this.randomOffset)//.add(this.test)
       
-      this.scene2.add(this.sphere2Clone) 
+      //this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
 
     
@@ -1529,25 +1519,27 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.model2Clone.lookAt(this.model.position)
 
-    this.plane3.rotation.y +=  5;
-    this.plane.rotation.y +=  5;
+    //this.plane3.rotation.y +=  5;
+    //this.plane.rotation.y +=  5;
 
-
+    //this.modelTube.rotation.x +=  .2;
+    this.modelTube.rotation.y +=  .2;
+    //this.modelTube.rotation.z +=  2;
 
     this.plane2.position.copy(this.model.position)
 
     this.shaderMaterial.uniforms.needsUpdate = true;
-    this.shaderMaterial2.uniforms.needsUpdate = true;
+    //this.shaderMaterial2.uniforms.needsUpdate = true;
    
  
       this.iNoise += .5;
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      this.water.material.uniforms.time.value +=  this.time.elapsed * .05
+      //this.water.material.uniforms.time.value +=  this.time.delta * 1.5
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 2.5
-      this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 2.0
+      //this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 2.0
       this.shaderMaterial6.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
@@ -1623,7 +1615,27 @@ racetrackShape6.lineTo(-.2, -1);
     const offset2 = new THREE.Vector3(Math.random(),25, Math.random())
     const lookAt =  new THREE.Vector3(0, 0, 0)
   
-   
+     let tangentHelper = new THREE.ArrowHelper(tangent, pos, 100, 0xff0000); // Red for tangent
+    let normalHelper = new THREE.ArrowHelper(this.normal, pos, 100, 0x00ff00); // Green for normal
+    let binormalHelper = new THREE.ArrowHelper(this.binormal, pos, 100, 0x0000ff); // Blue for binormal
+
+  
+tangentHelper.position.copy(pos);
+tangentHelper.setDirection(tangent);
+normalHelper.position.copy(pos);
+normalHelper.setDirection(this.normal);
+binormalHelper.position.copy(pos);
+binormalHelper.setDirection(this.binormal);
+
+    // Add the arrow helpers to the scene
+    this.scene2.add(tangentHelper);
+    this.scene2.add(normalHelper);
+    this.scene2.add(binormalHelper);
+
+    
+    
+
+    
 
     ///CAMERA MOVEMENT
     
@@ -1659,7 +1671,7 @@ racetrackShape6.lineTo(-.2, -1);
     const raycaster = new THREE.Raycaster( origin, new THREE.Vector3(0,1,0) );
     const raycaster2 = new THREE.Raycaster( origin2, new THREE.Vector3(0,1,0) );
 
-    const intersects = raycaster.intersectObjects(this.objectsArray2, true);
+    const intersects = raycaster.intersectObjects(this.objectsArray1, true);
     const intersects2 = raycaster2.intersectObjects(this.objectsArray2, true);
 
   if (intersects.length > 0) {
@@ -1682,7 +1694,7 @@ if (intersects2.length > 0) {
   const intersectsPoint = intersects2[0].object
 
   intersectsPoint.scale.setScalar(10)
-  intersectsPoint.material = this.shaderMaterial2
+  intersectsPoint.material = this.shaderMaterial
   intersectsPoint.rotation.z += this.time.delta
   intersectsPoint.position.x += -15 * Math.random() * Math.PI /2
   intersectsPoint.position.y +=  150 * Math.random() * Math.PI /2
@@ -1717,8 +1729,15 @@ if (intersects2.length > 0) {
 
 
     //this.model.quaternion.copy(this.q3)
- 
-
+    
+   /*  let matrix = new THREE.Matrix4();
+    matrix.set(
+        tangent.x, this.normal.x, this.binormal.x, 0,
+        tangent.y, this.normal.y, this.binormal.y, 0,
+        tangent.z, this.normal.z, this.binormal.z, 0,
+        0, 0, 0, 1
+    );
+ */
 
     const angleToRotate = THREE.MathUtils.degToRad(-45)
  
@@ -1796,7 +1815,7 @@ if (intersects2.length > 0) {
       this.model.lookAt(   pos4   )
 
  
-
+    //this.model.rotation.setFromRotationMatrix(matrix)
   
        
 

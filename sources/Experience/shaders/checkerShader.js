@@ -31,7 +31,7 @@ void main() {
                            vec4(0.0, 0.0, 1.0,1.0)); // Blue
 
     // Calculate the index of the current color pair based on time
-    int index = int(mod(time, 3.0));
+    int index = int(mod(time, 2.0));
 
     // Select the current color pair
     vec4 color1 = colors[index];
@@ -39,7 +39,10 @@ void main() {
 
     // Create a checker pattern
     float checker = mod(gridPos.x + gridPos.y, 2.0);
-    vec4 color = mix(color1, color2, checker); // Apply the checker pattern to the color
+
+    float factor = (sin(time) + 1.0) / 2.0;
+
+    vec4 color = mix(color1, color2, checker * factor); // Apply the checker pattern to the color
 
     gl_FragColor = vec4(color);
 }
@@ -69,7 +72,7 @@ vec3 vPosition = position;
 
 vUv = uv;
 
-vPosition.y *= sin(2.0);
+
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
 

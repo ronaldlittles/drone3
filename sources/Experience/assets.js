@@ -82,7 +82,7 @@ export default [
 
          {
         name: "hdr",
-        source: "/assets/michelleskids.jpg",
+        source: "/assets/park.hdr",
         type: "texture",
       },  
 

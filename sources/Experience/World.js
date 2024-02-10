@@ -2,10 +2,13 @@ import * as THREE from "three";
 import Experience from "./Experience.js";
 import SceneWorld from "./sceneworld.js";
 
+
 //import PreLoader from "./preloader.js";
 
 import Box from "./box.js";
 import Walls from "./walls.js"
+
+import TrackGeometry from "./trackgeometry.js";
 
 import Font from './font.js'
 
@@ -45,6 +48,7 @@ export default class World {
       if (_group.name === "base") {
 
         //this.setPreLoader();
+        this.setTrackGeometry()
         //this.setRaceTrack()
         this.setRaycaster();
         //this.setSceneWorld();
@@ -70,6 +74,12 @@ export default class World {
 
     this.preloader = new PreLoader();
 
+  }
+
+  setTrackGeometry(){
+
+
+    this.trackGeometry = new TrackGeometry()
   }
 
   /*  setRaceTrack(){
@@ -174,6 +184,9 @@ export default class World {
 
     if(this.preloader)
     this.preloader.update()
+
+    if(this.trackGeometry)
+    this.trackGeometry.update()
 
     if(this.debugger)
     this.debugger.update()
