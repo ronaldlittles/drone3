@@ -210,7 +210,7 @@ this.tube4.add(this.audio)
       
 
     
-    const waterGeometry = new THREE.PlaneGeometry( 100000, 100000 );
+    const waterGeometry = new THREE.PlaneGeometry( 150000, 150000 );
 
                             this.water = new Water(
       waterGeometry,
@@ -232,7 +232,8 @@ this.tube4.add(this.audio)
     );
 
     this.water.rotation.x = - Math.PI / 2;
-    this.water.position.y-= 100;
+    this.water.position.y= -450;
+    
 
    this.scene2.add( this.water );
 
@@ -1300,10 +1301,11 @@ racetrackShape6.lineTo(-.2, -1);
          
           )
 
-        this.plane3.scale.setScalar(4000)
+        this.plane3.scale.setScalar(5000)
+        this.plane3.name = "skybox"
 
         this.scene2.add(this.plane3)
-        this.plane3.position.set(0,0,0)
+        this.plane3.position.set(0,-200,0)
 
 
           this.sphere = new THREE.Mesh(
@@ -1539,7 +1541,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      //this.water.material.uniforms.time.value +=  this.time.delta * 1.5
+      this.water.material.uniforms.time.value +=  this.time.delta * 1.5
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 2.5
       //this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 2.0
@@ -1631,9 +1633,9 @@ binormalHelper.position.copy(pos);
 binormalHelper.setDirection(this.binormal);
 
     // Add the arrow helpers to the scene
-    this.scene2.add(tangentHelper);
-    this.scene2.add(normalHelper);
-    this.scene2.add(binormalHelper);
+    //this.scene2.add(tangentHelper);
+    //this.scene2.add(normalHelper);
+    //this.scene2.add(binormalHelper);
 
     
     
