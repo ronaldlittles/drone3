@@ -82,7 +82,7 @@ export default class Experience
         })
 
         const testMesh = new THREE.Mesh( testGeometry, testMaterial )
-        this.scene.add(testMesh)
+       // this.scene.add(testMesh)
 
         testMesh.scale.set(2,2,2)
 

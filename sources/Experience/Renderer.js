@@ -321,7 +321,7 @@ export default class Renderer {
 
       //this.instance.setRenderTarget(this.renderTarget);
 
-      this.instance.render(this.scene2, this.camera.instance);
+      this.instance.render(this.scene, this.camera.instance);
 
      this.instance.setRenderTarget(null);
 

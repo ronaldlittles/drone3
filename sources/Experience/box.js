@@ -13,7 +13,11 @@ import { vertexShader } from "./shaders/vertex.js";
 import { fragmentShader } from "./fragment.js";
 //import {test}  from "./video.js";
 
-//import Walls from "./walls.js"; 
+import Walls from "./walls.js"; 
+import TrackGeometry from "./trackgeometry.js";
+
+
+import {mergeBufferGeometries} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 export default class Box extends EventEmitter {
 
@@ -36,7 +40,10 @@ export default class Box extends EventEmitter {
    
     this.renderer = this.experience.renderer;
     this.targetElement = this.experience.targetElement;
-    this.world = this.experience.world;
+
+    
+    //this.world = this.experience.world;
+    
     
    
     this.setCubeTexture()
@@ -44,17 +51,59 @@ export default class Box extends EventEmitter {
     this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.sceneModel
     this.resource6 =  this.resources.items.hdr
-    //this.setLights()
-    //this.setCity() 
+    
+    
+   this.walls = new Walls()
+   this.track = new TrackGeometry()
+    
+   // this.setLights()
+    this.setCity() 
     //this.setBox()
    
-    //this.setLights()
+  //  /this.walls = new Walls()
+  
    
     this.clamp = THREE.MathUtils.clamp;
    
-   
+   this.setScene()
   
     
+  }
+
+  setScene() {
+
+// Create two circle geometries
+let circle1 = new THREE.BoxGeometry(1, 1,1).translate(0, 0, 0); // Offset to the left
+let circle2 = new THREE.SphereGeometry(1,36, 36,0,Math.PI*2,0,Math.PI/2).translate(0, 0, 0); // Offset to the right
+
+// Rotate one circle to align for figure-eight shape
+circle2.rotateY(Math.PI);
+
+// Merge geometries
+let mergedGeometry = mergeBufferGeometries([circle1, circle2], false);
+
+// Create mesh
+let material = new THREE.MeshBasicMaterial({ 
+  //color: 0xff0000, 
+  side: THREE.DoubleSide,
+  map: this.resource2,
+  transparent: true,
+  opacity: 1,
+
+});
+this.mesh = new THREE.Mesh(mergedGeometry, this.walls.shaderMaterial2);
+
+//this.scene.add(this.mesh);
+
+this.mesh.scale.setScalar(500)
+
+console.log(this.mesh)
+
+this.mesh.castShadow = true;
+this.mesh.receiveShadow = true;
+
+
+
   }
 
  
@@ -143,8 +192,8 @@ export default class Box extends EventEmitter {
       this.mesh1 = new THREE.Mesh(this.geometry,
          new THREE.MeshStandardMaterial({
 
-          map: this.resource6,
-          //color: 0x0000ff,
+         // map: this.resource6,
+          color: 0xffffff,
           side: THREE.DoubleSide
 
         }));
@@ -152,16 +201,22 @@ export default class Box extends EventEmitter {
       
       this.mesh1.scale.set(0,0,0)
 
-      this.mesh1.scale.setScalar(50)
+      //this.mesh1.scale.setScalar(20)
 
-      this.mesh1.position.set(1000, 150 , -500)
+      this.mesh1.position.set(0, 0 , 0)
+
+      this.mesh1.rotation.x = Math.PI/2
       
-      this.scene2.add(this.mesh1);
+      this.scene.add(this.mesh1);
 
       this.mesh1.receiveShadow = true;
       this.mesh1.castShadow = true;
-        this.mesh1.name = 'debbugerClassMesh1'
+      this.mesh1.name = 'debbugerClassMesh1'
       //this.mesh1.lookAt(new THREE.Vector3(0, 0, 1200))
+
+    
+
+      //this.scene.add(this.world.walls.tube)
     
 
     
@@ -218,7 +273,7 @@ export default class Box extends EventEmitter {
     this.myText = new Text();
 
    
-    this.scene.add(this.myText);
+    //this.scene.add(this.myText);
 
     this.myText.text =
       "the brain is the strongest muscle of the body.";
@@ -236,7 +291,7 @@ export default class Box extends EventEmitter {
     
      
     const myText2 = new Text();
-    this.scene.add(myText2);
+   // this.scene.add(myText2);
 
     myText2.text = "Ronald C. Littles";
 
@@ -264,7 +319,7 @@ export default class Box extends EventEmitter {
 
 
     this.myText4 = new Text();
-    //this.scene2.add(this.myText4);
+    //this.scene.add(this.myText4);
 
     this.myText4.text =
       "wherever you go there you are";
@@ -377,14 +432,14 @@ function nextText() {
 
 
     this.lights = new THREE.HemisphereLight(0xff0000,0xffffff, 1.0);
-    this.lights.position.set(0, 100, 0);
-    this.scene2.add(this.lights);
+    this.lights.position.set(0, 600, 0);
+    //this.scene.add(this.lights);
     //this.camera.instance.add(lights)
    
 
     const light1 = new THREE.AmbientLight( 0xff0000, 1.0 );
-    light1.position.set( 0, 5, 0 );
-    this.scene2.add( light1 );
+    light1.position.set( 0, 500, 0 );
+    this.scene.add( light1 );
     //this.camera.instance.add( light1 );
     
 
@@ -392,21 +447,33 @@ function nextText() {
     //pointLight.position.set( 0, 0, 50 );
     this.camera.instance.add( pointLight ); 
     pointLight.castShadow = true;
-    pointLight.lookAt(0, 10, -50)
+    pointLight.lookAt(0, 500, 0)
 
-    var directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
-    this.scene2.add(directionalLight);
+    var directionalLight = new THREE.DirectionalLight( 0x0000ff, 3.0 );
+    this.scene.add(directionalLight);
      //this.camera.instance.add( directionalLight ); 
      directionalLight.castShadow = true;
-     //directionalLight.lookAt(0, 10, -50)
+     directionalLight.lookAt(0, 0, 0)
+      directionalLight.position.set(10, 500, 0)  
+      directionalLight.shadow.camera.updateProjectionMatrix();
+      
+      console.log(this.track)
+
+      
+
+
    
   }
 
 
   update(){
+
+    this.mesh.rotation.y += 0.01;
     
-    //this.shaderMaterial.uniforms.time.value += this.time.delta * 0.2;
-    //this.mesh1.rotation.y += 0.01;
+    //this.walls.shaderMaterial6.uniforms.time.value += this.time.delta * 0.2;
+    this.mesh1.rotation.y += 0.01;
+
+    //this.mesh1.position.copy(this.walls.model.position)
 
    
   } 

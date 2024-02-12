@@ -56,12 +56,12 @@ export default [
         type: "gltfModel",
       }, 
 
-       /*{
+       /* {
         name: "terrainModel",
         source: "/assets/terrain.glb",
         type: "gltfModel",
-      },*/ 
-
+      }, 
+ */
        {
         name: "droneModel",
         source: "/assets/spacetaxi.glb",
@@ -70,7 +70,7 @@ export default [
 
       {
         name: "buildingModel",
-        source: "/assets/streetlight/scene.gltf",
+        source: "/assets/building.glb",
         type: "gltfModel",
       },
 
@@ -82,7 +82,7 @@ export default [
 
          {
         name: "hdr",
-        source: "/assets/park.hdr",
+        source: "/assets/snow1.hdr",
         type: "texture",
       },  
 

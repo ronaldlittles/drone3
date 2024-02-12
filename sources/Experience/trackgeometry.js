@@ -31,13 +31,91 @@ export default class TrackGeometry extends EventEmitter {
     this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.sceneModel
     this.resource6 =  this.resources.items.hdr
+    
+    this.resource4 = this.resources.items.baloonsModel;
+
+    console.log(this.resources.items.buidingModel)
+    this.resource5 = this.resources.items.buildingModel;
 
     this.setGeometry()
+    this.setGeometry2()
 
+    
+ 
     
   }
   
-  
+  setGeometry2(){
+
+    const points = [];
+    const R = 300; // Large circle radius
+    const A = 10;  // Amplitude of the winding
+    const B = 0;   // Amplitude of the humps
+    const k = 25;   // Frequency of the winding
+    const m = 10;   // Frequency of the humps
+    const phi = 0; // Phase shift for the humps
+    const segments = 3000; // Number of segments for smoothness
+    
+    for (let i = 0; i <= segments; i++) {
+        let theta = (i / segments) * 2 * Math.PI; // Full circle
+        let r = R + A * Math.sin(k * theta); // Modulated radius for winding
+        let y = B * Math.sin(m * theta + phi); // Y for humps
+        let x = r * Math.cos(theta);
+        let z = r * Math.sin(theta);
+        points.push(new THREE.Vector3(x, y, z).multiplyScalar(2))
+    }
+    
+    this.curve = new THREE.CatmullRomCurve3(points);
+    const geometry = new THREE.TubeGeometry(this.curve, segments, 12, 8, false);
+    const material = new THREE.MeshBasicMaterial({
+       //color: 0xff0000,
+       map: this.resource2,
+       transparent: true,
+        opacity: 0.5,
+        side: THREE.DoubleSide,
+        //wireframe: true
+
+      
+      });
+    this.mesh = new THREE.Mesh(geometry, material);
+    this.scene.add(this.mesh);
+
+    //this.mesh.visible = false;
+    
+    //mesh.scale.setScalar(2);
+    
+this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource6}));
+//this.scene.add(this.mesh2);
+this.mesh2.scale.setScalar(50);
+this.mesh2Clone = this.mesh2.clone();
+
+this.buildingModel = this.resource5.scene
+
+this.buildingModel.scale.setScalar(50);
+
+this.scene.add(this.buildingModel);
+
+
+this.baloonsModel = this.resource4.scene
+
+this.baloonsModel.scale.setScalar(300);
+
+this.baloonsModel.position.set(400, 100, 0);
+
+this.scene.add(this.baloonsModel);
+
+this.light = new THREE.AmbientLight(0xffffff, 1);
+this.light.position.set(0, 500, 0);
+this.scene.add(this.light);
+
+this.light2 = new THREE.DirectionalLight(0xffffff, 1);
+
+this.light2.position.set(600, 0, 0);
+
+//this.scene.background = this.world.scene2.background;
+
+
+  }
     
 
     setGeometry(){
@@ -47,39 +125,43 @@ export default class TrackGeometry extends EventEmitter {
     this.derivatives = [];
 
     
-    let radius = 1500
+    let radius = 2500
 
     function figureEightCurve(t) {
 
-      let x = Math.sin(t * 2) * radius;
-      let z = Math.cos(t) * radius;
-      let y;
+      let x,y,z;
 
       
-      
-      let amplitude = 20;
-      let frequency = 2; 
-      function sigmoid(t) {
-        return 1 / (1 + Math.exp(-t));
-    }
+
+       x = Math.sin(t ) * radius;
+       z = (Math.sin(t) * Math.cos(t)) * radius;
+       y=0
+
        
-      if(t >0 && t < Math.PI/2){
-          
-           y = Math.sin(Math.PI*t*t*t)*-Math.sqrt(60)*20  
+      if(t >= (8*Math.PI/10) && t <= (12* Math.PI/10)){
+          let a = (t-8 *Math.PI/10)* (Math.PI/ (12*Math.PI/10 - 8*Math.PI/10))
+
+           y= Math.sin(a*3)* radius/6
       
       }
+ 
+    
+    
+   /* else 
+      if(t > 3*Math.PI && t < 4*Math.PI){
 
-
-      /* if(t > Math.PI && t < 1.5*Math.PI){
-
-        y = Math.sin(Math.PI*t*t)*40
-
-      }*/
+        y =100// Math.sin(Math.PI*t*t)*40
 
       
 
+      //x = -Math.sin(t * 2) * radius
+      //z = -Math.cos(t) * radius
+      //y = Math.sin(Math.PI*t*t)*40
 
-  return new THREE.Vector3(x, y, z).multiplyScalar(2);
+    }*/
+
+
+  return new THREE.Vector3(x, y, z)//.multiplyScalar(2);
   
 
   }
@@ -92,6 +174,8 @@ export default class TrackGeometry extends EventEmitter {
     
         return new THREE.Vector3(dx, dy, dz);
     }
+
+    
     
     
     for (let i = 0; i <= this.numPoints; i++) {
@@ -99,7 +183,7 @@ export default class TrackGeometry extends EventEmitter {
         const point = figureEightCurve(t);
         this.points.push(point);
     
-        const derivative = derivativeCurve(t);
+        const derivative = derivativeCurve(t).normalize();
         this.derivatives.push(derivative);
     }
     
@@ -133,18 +217,75 @@ export default class TrackGeometry extends EventEmitter {
 function getPointAboveCurve(t, distanceAbove) {
 
     const pointOnCurve = figureEightCurve(t);  
-    const normalVector = derivativeCurve(t).normalize(); 
+    this.normalVector = derivativeCurve(t).normalize(); 
+
+    
 
     const pointAboveCurve = new THREE.Vector3().copy(pointOnCurve).add(normalVector.multiplyScalar(distanceAbove));
 
-    return pointAboveCurve;
+    return pointAboveCurve
 
   }
+
+  
 
 } 
 
 
     update() {
+
+      let loopTime = 60;
+      let speed = 10.5;
+
+
+      
+      let  t =  (speed * this.time.elapsed)/loopTime % 1;
+      let t2 =  (speed * this.time.elapsed + 1.5)/loopTime % 1;
+
+      let pos = this.curve.getPointAt(t);
+      let pos2 = this.curve.getPointAt(t2).normalize();
+
+      let upVector = new THREE.Vector3(0, 1, 0);
+
+      let tangent = this.curve.getTangentAt(t).normalize();
+      let normal = new THREE.Vector3().crossVectors(tangent, upVector).normalize();
+      let binormal = new THREE.Vector3().crossVectors( tangent,normal).normalize();
+      let distanceAbove = 100;
+      //let pointAbove = getPointAboveCurve(t, distanceAbove);
+      //this.camera.instance.position.copy(pos)
+      //this.camera.instance.lookAt(pos2);
+
+      this.mesh2added=false
+if(!this.mesh2added ){
+      this.scene.add(this.mesh2);
+      this.mesh2added = true;
+}
+       
+      this.offset = new THREE.Vector3(0, 50, 0);
+      this.mesh2.position.copy(pos).add(this.offset);
+this.baloonsModel.rotation.y += 0.01;
+
+      /* let tangentHelper = new THREE.ArrowHelper(tangent, pos, 35, 0xff00ff); // Red for tangent
+      let normalHelper = new THREE.ArrowHelper(normal, pos, 10, 0x00ff00); // Green for normal
+      let binormalHelper = new THREE.ArrowHelper(binormal, pos, 10, 0x0000ff); // Blue for binormal
+  
+  
+  
+    
+  tangentHelper.position.copy(pos2);
+  tangentHelper.setDirection(tangent);
+  normalHelper.position.copy(pos2);
+  normalHelper.setDirection(normal);
+  binormalHelper.position.copy(pos2);
+  binormalHelper.setDirection(binormal);
+  
+      
+      this.scene.add(tangentHelper);
+     this.scene.add(normalHelper);
+      this.scene.add(binormalHelper);
+   */
+
+      //this.camera.instance.position.copy(point).add(tangent.multiplyScalar(100));
 
     }
    

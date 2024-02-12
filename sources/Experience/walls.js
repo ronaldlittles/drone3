@@ -13,6 +13,7 @@ import { Water } from 'three/examples/jsm/objects/Water.js';
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
 import { checkerFragment, checkerVertex } from "./shaders/checkerShader.js";
+import TrackGeometry from "./trackgeometry.js";
 
 
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
@@ -55,6 +56,9 @@ export default class Walls extends EventEmitter {
 
     console.log(this.world)
 
+    this.geo = new TrackGeometry()
+    console.log(this.geo)
+
 
     this.setBoxes();
 
@@ -66,7 +70,7 @@ export default class Walls extends EventEmitter {
 
     //this.setSound();
 
- this.addToDebugger(this.model2Clone)
+ 
 
 
 
@@ -232,10 +236,10 @@ this.tube4.add(this.audio)
     );
 
     this.water.rotation.x = - Math.PI / 2;
-    this.water.position.y= -450;
+    this.water.position.y= -550;
     
 
-   this.scene2.add( this.water );
+   //this.scene2.add( this.water );
 
     this.sky = new Sky();
     this.sky.scale.setScalar( 1000 );
@@ -270,7 +274,7 @@ this.tube4.add(this.audio)
     this.light1.angle = Math.PI / 5;
 		this.light1.penumbra = 0.03;
     this.light1.shadow.bias = -.002;
-    this.light1.shadow.camera.updateProjectionMatrix();
+    this.light1.shadow.camera.updateProjectionMatrix()
 
      const light1Helper = new THREE.PointLightHelper( this.light1, 100 );
      this.scene2.add( light1Helper );
@@ -355,8 +359,8 @@ this.tube4.add(this.audio)
       for (let i = 0; i < length; i++) {
 
       const material = i % 2 === 0 ? this.purpleMaterial : this.yellowMaterial;
-    this.box1 = this.resource4.scene
-    console.log(this.box1)
+      this.box1 = this.resource4.scene
+    
       //this.box1 = new THREE.Mesh( this.boxGeometry, material);
       this.box1.castShadow = true
       this.box1.receiveShadow = true
@@ -794,7 +798,7 @@ for (let i = 0; i < amount; i++) {
             opacity: .8,
            transparent: true,
 
-            map: this.resource2,
+            map: this.resource6,
             
         });
 
@@ -804,106 +808,14 @@ for (let i = 0; i < amount; i++) {
         //this.meshes[2].material = this.shaderMaterial4  //backlight
     
 
-/* 
+
          
         this.numPoints = 5000;
         this.points = [];
         this.derivatives = [];
     
         
-        let radius = 1000
-
-        function figureEightCurve(t) {
-
-          let x = Math.sin(t * 2) * radius;
-          let z = Math.cos(t) * radius;
-          let y;
-
-          
-          
-          let amplitude = 20;
-          let frequency = 2; 
-          function sigmoid(t) {
-            return 1 / (1 + Math.exp(-t));
-        }
-           
-          if(t >0 && t < Math.PI/2){
-              
-               y = Math.sin(Math.PI*t*t*t)*-Math.sqrt(60)*20  
-          
-          }
-
-
-           if(t > Math.PI && t < 1.5*Math.PI
-            y = Math.sin(Math.PI*t*t)*40
-
-          }
-
-          
-
-
-      return new THREE.Vector3(x, y, z).multiplyScalar(2);
-      
-
-      }
         
-        function derivativeCurve(t) {
-            const h = 0.0001;
-            const dx = (figureEightCurve(t + h).x - figureEightCurve(t).x) / h;
-            const dy = (figureEightCurve(t + h).y - figureEightCurve(t).y) / h;
-            const dz = (figureEightCurve(t + h).z - figureEightCurve(t).z) / h;
-        
-            return new THREE.Vector3(dx, dy, dz);
-        }
-        
-        
-        for (let i = 0; i <= this.numPoints; i++) {
-            let t = (i / this.numPoints) * Math.PI * 2;
-            const point = figureEightCurve(t);
-            this.points.push(point);
-        
-            const derivative = derivativeCurve(t);
-            this.
-import TrackGeometry from "./trackgeometry.js";atives.push(derivative);
-        }
-        
-        
-        function calculateSurfaceArea(numPoints, derivativesArray) {
-            let surfaceArea = 0;
-        
-            for (let i = 0; i < numPoints; i++) {
-                const firstDerivative = derivativesArray[i];
-        
-                // For the last point, wrap around to the first derivative to close the loop
-                const secondDerivative = (i === numPoints - 1) ? derivativesArray[0] : derivativesArray[i + 1];
-        
-                const crossProduct = new THREE.Vector3();
-                crossProduct.crossVectors(firstDerivative, secondDerivative);
-        
-                const magnitude = crossProduct.length();
-                surfaceArea += magnitude;
-            }
-        
-            surfaceArea *= (Math.PI * 2) / numPoints;
-        
-            return surfaceArea;
-        }
-        
-        const totalSurfaceArea = calculateSurfaceArea(this.numPoints, this.derivatives);
-        console.log("Total Surface Area of the figure-eight curve:", totalSurfaceArea);
-        
-
-
-    function getPointAboveCurve(t, distanceAbove) {
-
-        const pointOnCurve = figureEightCurve(t);  
-        const normalVector = derivativeCurve(t).normalize(); 
-
-        const pointAboveCurve = new THREE.Vector3().copy(pointOnCurve).add(normalVector.multiplyScalar(distanceAbove));
-
-        return pointAboveCurve;
-
-      } */
  
 this.numPoints = 5000;
  
@@ -916,14 +828,14 @@ this.numPoints = 5000;
 
     
 
-    /* let dataTexture = new THREE.DataTexture(
+     let dataTexture = new THREE.DataTexture(
       new Float32Array(this.splinePoints),
       this.splinePoints.length / 3, // assuming each point has x, y, z
       1,
       THREE.RGBAFormat,
       THREE.FloatType
     );
-     */
+     
     //dataTexture.needsUpdate = true; 
    
 
@@ -931,7 +843,7 @@ this.numPoints = 5000;
 
 
    
-  /* this.shaderMaterial2 = new THREE.ShaderMaterial({
+   this.shaderMaterial2 = new THREE.ShaderMaterial({
    
   side: THREE.DoubleSide,
   transparent: true,
@@ -956,7 +868,7 @@ this.numPoints = 5000;
   fragmentShader: fragmentShader.fragmentShader2,
 
 });
- */
+ 
 
     //this.distance= this.splinePoints.distanceTo(this.model.position)
 
@@ -1017,24 +929,14 @@ this.numPoints = 5000;
     })
     
 
-    this.spacedPoints = this.spline.getSpacedPoints(1000).slice(800,1000)
+    this.spacedPoints = this.spline.getSpacedPoints(1000).slice(700,1000)
 
-    this.spacedPoints2 = this.spline.getSpacedPoints(1000).slice(400,600)
+    this.spacedPoints2 = this.spline.getSpacedPoints(6000).slice(300,600)
 
-    this.spacedPoints3 = this.spline.getSpacedPoints(1000).slice(125,575)
+    this.spacedPoints3 = this.spline.getSpacedPoints(1000).slice(125,875)
 
    
-    /* const sectionSize = 10;
-    const skipSize = 50;
-
-    for(let i = 0; i <sectionSize; i++)  { 
-    
-     this.slicedPoints = this.spacedPoints3.slice(i, i + sectionSize);
-
-    
-
-    }
- */
+   
 
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
     
@@ -1176,7 +1078,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.plane2.scale.setScalar(100)
 
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.shaderMaterial6) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
 
     
     this.scene2.add(this.tube);
@@ -1186,7 +1088,7 @@ racetrackShape6.lineTo(-.2, -1);
 
 
 
-
+    //this.tube.rotation.x = Math.PI/2;
     
     this.tube.position.y =-10 
 
@@ -1203,6 +1105,7 @@ racetrackShape6.lineTo(-.2, -1);
 
     //this.tube2.position.y =-12
 
+    //this.tube2.rotation.x = Math.PI/2;
     
   
     this.tube3 = new THREE.Mesh( this.tubeGeo3, this.shaderMaterial)  
@@ -1212,12 +1115,15 @@ racetrackShape6.lineTo(-.2, -1);
     //this.tube3.position.y =-12
 
 
+    //this.tube3.rotation.x = Math.PI/2;
+
       this.tube4 = new THREE.Mesh(this.tubeGeo4, this.redMaterial) 
 
       this.scene2.add(this.tube4);
 
       this.tube4.position.y = 10;
        
+    //this.tube4.rotation.x = Math.PI/2;
       ///////////////////this.tube4.receiveShadow = true;
       //this.tube4.castShadow = true;
 
@@ -1229,6 +1135,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.tube5.position.y = 10;
 
+      //this.tube5.rotation.x = Math.PI/2;
       //this.tube5.receiveShadow = true;
       //this.tube5.castShadow = true;
 
@@ -1239,6 +1146,7 @@ racetrackShape6.lineTo(-.2, -1);
       //this.scene2.add(this.tube6);
 
 
+      //this.tube6.rotation.x = Math.PI/2;
 
       this.tubeGeo7 = new THREE.TubeGeometry(this.spline, 400, 1, 300, false); 
 
@@ -1248,7 +1156,7 @@ racetrackShape6.lineTo(-.2, -1);
 
       this.scene2.add(this.tube7);
      
-
+      //this.tube7.rotation.x = Math.PI/2;
 
         this.resource1.wrapS = THREE.RepeatWrapping;
 
@@ -1367,12 +1275,17 @@ racetrackShape6.lineTo(-.2, -1);
 
     const t = (i / this.numPoints) * Math.PI * 2;
 
+
+    
+
     const tvalue  = .5
     const step=.001;
     const pointBefore = this.spline5.getPointAt(tvalue - step);
     const pointAfter = this.spline5.getPointAt(tvalue + step);
 
     const derivative = pointAfter.clone().sub(pointBefore).normalize();
+
+    
    
     const positionOnCurve = this.spline.getPointAt(t);
     const tangent = this.spline.getTangentAt(t);
@@ -1440,54 +1353,12 @@ racetrackShape6.lineTo(-.2, -1);
     this.scene2.add(this.model2Clone)
     this.model2Clone.rotation.y += Math.random()
 
-  
-    
+
 
 
     }
-      
-     
-
-    }  
-
     
-
-   addToDebugger(object) {
-    // Check if 'this.debug' exists and 'object' is actually an object
-    if (this.debug) {
-        // Further check if 'object' has the necessary properties like 'name', 'position', etc.
-        const folderName = object.name || 'Object';
-        const folder = this.debug.addFolder(folderName);
-
-        // Assuming 'object' has position, rotation, and scale properties
-        if (object.position && object.rotation && object.scale) {
-            // Add position controls
-            folder.add(object.position, 'x', -100, 100).name('Position X');
-            folder.add(object.position, 'y', -1000, 100).name('Position Y');
-            folder.add(object.position, 'z', -100, 100).name('Position Z');
-
-            // Add rotation co
-            folder.add(object.rotation, 'x', -Math.PI, Math.PI).name('Rotation X');
-            folder.add(object.rotation, 'y', -Math.PI, Math.PI).name('Rotation Y');
-            folder.add(object.rotation, 'z', -Math.PI, Math.PI).name('Rotation Z');
-
-            // Add scale controls
-            folder.add(object.scale, 'x', 0, 500).name('Scale X');
-            folder.add(object.scale, 'y', 0, 500).name('Scale Y');
-            folder.add(object.scale, 'z', 0, 500).name('Scale Z');
-        
-    }
-}
-
-
-//this.addToDebugger(this.model2)
-
-
-
-
-
-  }
-        
+    } 
 
   
   setGsap() {
@@ -1512,8 +1383,8 @@ racetrackShape6.lineTo(-.2, -1);
     
       }
     
-
-  }
+    
+    }
 
 
 
@@ -1583,9 +1454,20 @@ racetrackShape6.lineTo(-.2, -1);
 
         let  pos8 = this.spline.getPointAt(t8)
 
+        
+    
+
 
         let  velocity = 2.5;
+
+    
+
         
+    
+
+    
+
+    
   
     const tangent = this.spline.getTangentAt(t).normalize();
     this.tangent2 = this.spline.getTangentAt(t3).normalize();
@@ -1598,16 +1480,17 @@ racetrackShape6.lineTo(-.2, -1);
 
     this.derivativeTangent = this.spline.getTangentAt(t4).sub(tangent).normalize();
     this.derivativeTangent2 = this.spline.getTangentAt(t5).sub(this.tangent4).normalize();
-
+ 
     this.angle = Math.atan2(tangent.x , tangent.y );
 
 
+    this.normal = new THREE.Vector3();
+    this.normal.crossVectors( tangent, this.derivativeTangent).normalize();
 
     this.binormal = new THREE.Vector3();
-    this.binormal.crossVectors(tangent, this.derivativeTangent).normalize(); 
+    this.binormal.crossVectors(tangent, this.normal).normalize(); 
 
-    this.normal = new THREE.Vector3();
-    this.normal.crossVectors( tangent, this.binormal ).normalize();
+    
 
     this.binormal2 = new THREE.Vector3();
     this.binormal2.crossVectors(this.tangent4, this.derivativeTangent2).normalize(); 
@@ -1619,23 +1502,27 @@ racetrackShape6.lineTo(-.2, -1);
     const offset = new THREE.Vector3(0,125, 0)
     const offset2 = new THREE.Vector3(Math.random(),25, Math.random())
     const lookAt =  new THREE.Vector3(0, 0, 0)
+
+        
   
-     let tangentHelper = new THREE.ArrowHelper(tangent, pos, 100, 0xff0000); // Red for tangent
+    let tangentHelper = new THREE.ArrowHelper(tangent, pos, 50, 0xff0000); // Red for tangent
     let normalHelper = new THREE.ArrowHelper(this.normal, pos, 100, 0x00ff00); // Green for normal
     let binormalHelper = new THREE.ArrowHelper(this.binormal, pos, 100, 0x0000ff); // Blue for binormal
 
+
+let thOffset = new THREE.Vector3(0,20,0)
   
-tangentHelper.position.copy(pos);
+tangentHelper.position.copy(pos).add(thOffset);
 tangentHelper.setDirection(tangent);
 normalHelper.position.copy(pos);
 normalHelper.setDirection(this.normal);
 binormalHelper.position.copy(pos);
 binormalHelper.setDirection(this.binormal);
 
-    // Add the arrow helpers to the scene
-    //this.scene2.add(tangentHelper);
-    //this.scene2.add(normalHelper);
-    //this.scene2.add(binormalHelper);
+    
+    this.scene2.add(tangentHelper);
+    this.scene2.add(normalHelper);
+    this.scene2.add(binormalHelper);
 
     
     
@@ -1711,6 +1598,7 @@ if (intersects2.length > 0) {
  for (let i = 0; i < this.clones.length; i++) {
   setInterval(() => {
     this.clonedCars = this.clones[i];
+    this.clones[i].lookAt(this.model.position)
 
     let offset = new THREE.Vector3(Math.random()*.0001 - .00005, 0, Math.random() * .5 - .025 ).normalize();  
 
@@ -1800,7 +1688,9 @@ if (intersects2.length > 0) {
     
     this.model.position.x +=  25
 
-  
+    
+
+
    
     
 
@@ -1812,10 +1702,10 @@ if (intersects2.length > 0) {
       this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
   
       
-  this.camera.instance2.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2)) 
-      this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
+  //this.camera.instance2.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2)) 
+      //this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
 
-      this.camera.instance.lookAt(this.model.position)
+      //this.camera.instance.lookAt(this.model.position)
 
       this.model.lookAt(   pos4   )
 

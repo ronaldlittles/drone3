@@ -48,11 +48,11 @@ export default class World {
       if (_group.name === "base") {
 
         //this.setPreLoader();
-        this.setTrackGeometry()
+        
         //this.setRaceTrack()
         this.setRaycaster();
         //this.setSceneWorld();
-        this.setBox();
+      
         //this.setDrawing();
         //this.setCar();
         //this.setMenu();
@@ -60,12 +60,18 @@ export default class World {
         //this.setParticles()
         //this.setTShirt();
         
+        
+        this.setTrackGeometry()
+        this.setWalls();
+        this.setBox();
         //this.setDrone();
       //this.setVideo();
-      this.setWalls();
+      
       //this.setControls2();
-
+      
       this.setDebugger()
+
+      
       }
     });
   }
