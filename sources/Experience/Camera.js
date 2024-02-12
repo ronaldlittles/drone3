@@ -73,7 +73,7 @@ export default class Camera {
     this.instance2.matrixAutoUpdate = true;
     this.instance2.updateProjectionMatrix();
     this.instance2.matrixWorldNeedsUpdate = true;
-    this.instance2.position.set(0, 510,2200);
+    this.instance2.position.set(0, 510,3000);
     this.instance2.lookAt(this.scene2.position)
 
     this.scene.add(this.instance);
