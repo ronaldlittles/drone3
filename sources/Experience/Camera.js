@@ -76,7 +76,7 @@ export default class Camera {
     this.instance2.position.set(0, 510,2200);
     this.instance2.lookAt(this.scene2.position)
 
-    this.scene.add(this.instance2);
+    this.scene.add(this.instance);
 
 
   }
