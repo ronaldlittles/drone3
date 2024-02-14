@@ -1452,9 +1452,9 @@ console.log(this.tube)
     
         let  pos = this.spline.getPointAt(t)
         let  pos2 = this.spline.getPointAt(t2)
-        let  pos3 =  this.spline4.getPointAt(t3)
+        let  pos3 =  this.spline4.getPointAt(t3);//reverse
 
-        let  pos4 = this.spline.getPointAt(t4).normalize();
+        let  pos4 = this.spline.getPointAt(t4)
 
         let  pos5 = this.spline.getPointAt(t5);
         let  pos6 = this.spline.getPointAt(t6);
@@ -1492,8 +1492,8 @@ console.log(this.tube)
     this.angle = Math.atan2(tangent.x , tangent.y );
 
 
-    this.normal = this.tube.geometry.attributes.normal.array//new THREE.Vector3();
-    //this.normal.crossVectors( tangent, this.derivativeTangent).normalize();
+    this.normal = new THREE.Vector3();
+    this.normal.crossVectors( tangent, this.derivativeTangent).normalize();
 
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(tangent, this.normal).normalize(); 
@@ -1520,7 +1520,7 @@ console.log(this.tube)
 
 let thOffset = new THREE.Vector3(0,20,0)
   
-tangentHelper.position.copy(pos).add(thOffset);
+tangentHelper.position.copy(pos);
 tangentHelper.setDirection(tangent);
 normalHelper.position.copy(pos);
 normalHelper.setDirection(this.normal);
@@ -1528,9 +1528,9 @@ binormalHelper.position.copy(pos);
 binormalHelper.setDirection(this.binormal);
 
     
-    this.scene2.add(tangentHelper);
-    this.scene2.add(normalHelper);
-    this.scene2.add(binormalHelper);
+   // this.scene2.add(tangentHelper);
+    //this.scene2.add(normalHelper);
+   // this.scene2.add(binormalHelper);
 
     
     
@@ -1710,10 +1710,10 @@ if (intersects2.length > 0) {
       this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
   
       
-  //this.camera.instance2.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2)) 
-      //this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
+  //this.camera.instance.position.copy( pos.add(tangent).add(this.normal).add(this.binormal).add(offset2)) 
+      this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
 
-      //this.camera.instance.lookAt(this.model.position)
+      this.camera.instance.lookAt(this.model.position)
 
       this.model.lookAt(   pos4   )
 
