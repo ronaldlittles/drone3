@@ -10,10 +10,12 @@ import { vertexShader } from "./shaders/vertex.js";
 import { fragmentShader } from "./fragment.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { Water } from 'three/examples/jsm/objects/Water.js';
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
 import { checkerFragment, checkerVertex } from "./shaders/checkerShader.js";
 import TrackGeometry from "./trackgeometry.js";
+import { TTFLoader } from "three/examples/jsm/loaders/TTFLoader.js";
+//import { Font } from    "three/examples/jsm/loaders/Font.js";
 
 
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
@@ -178,9 +180,13 @@ this.tube4.add(this.audio)
   setBoxes(){
 
     //this.scene2.fog = new THREE.FogExp2('0xefd1b5', 0.0025);
+    
 
-    const text = new FontLoader()
-    text.load( '/assets/gentilis.json', function ( font ) {  
+
+    const text = new TTFLoader()
+    text.load( '/assets/ProtestRiot-Regular.ttf', function ( json ) {  
+
+      const font = new Font(json)
       let textGeometry = new TextGeometry( 'LAX', {
         font: font,
         size: 80,
@@ -1041,6 +1047,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.tubeGeo5 = new THREE.TubeGeometry(this.spline3, 100, 200, 100, false);
 
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
+this.tubeGeo.computeVertexNormals()
+//this.tubeGeo2.computeTangents()
 
 
     //CUSTOM GEOMETRY
@@ -1079,7 +1087,7 @@ racetrackShape6.lineTo(-.2, -1);
 
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
-
+console.log(this.tube)
     
     this.scene2.add(this.tube);
 
@@ -1442,11 +1450,11 @@ racetrackShape6.lineTo(-.2, -1);
 
   
     
-        let  pos = this.spline.getPointAt(t);
-        let  pos2 = this.spline.getPointAt(t2);
-        let  pos3 =  this.spline4.getPointAt(t3);//reverse
+        let  pos = this.spline.getPointAt(t)
+        let  pos2 = this.spline.getPointAt(t2)
+        let  pos3 =  this.spline4.getPointAt(t3)
 
-        let  pos4 = this.spline.getPointAt(t4)
+        let  pos4 = this.spline.getPointAt(t4).normalize();
 
         let  pos5 = this.spline.getPointAt(t5);
         let  pos6 = this.spline.getPointAt(t6);
@@ -1469,10 +1477,10 @@ racetrackShape6.lineTo(-.2, -1);
 
     
   
-    const tangent = this.spline.getTangentAt(t).normalize();
-    this.tangent2 = this.spline.getTangentAt(t3).normalize();
-    this.tangent3 = this.spline.getTangentAt(t5).normalize();
-    this.tangent4 = this.spline.getTangentAt(t7).normalize();
+    const tangent = this.spline.getTangentAt(t)
+    this.tangent2 = this.spline.getTangentAt(t3)
+    this.tangent3 = this.spline.getTangentAt(t5)
+    this.tangent4 = this.spline.getTangentAt(t7)
 
     
 
@@ -1484,8 +1492,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.angle = Math.atan2(tangent.x , tangent.y );
 
 
-    this.normal = new THREE.Vector3();
-    this.normal.crossVectors( tangent, this.derivativeTangent).normalize();
+    this.normal = this.tube.geometry.attributes.normal.array//new THREE.Vector3();
+    //this.normal.crossVectors( tangent, this.derivativeTangent).normalize();
 
     this.binormal = new THREE.Vector3();
     this.binormal.crossVectors(tangent, this.normal).normalize(); 

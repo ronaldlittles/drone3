@@ -220,7 +220,7 @@ export default class World {
 
     if (this.particles) this.particles.update();
 
-    //if (this.font) this.font.update();
+    if (this.font) this.font.update();
 
     if (this.floor) this.floor.update();
 

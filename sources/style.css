@@ -123,13 +123,22 @@ button {
 }
 
 .bottom-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.bottom-left2 {
+  position: absolute;
   bottom: 50px;
-  left: 70px;
-  width: 75px;
-  height: 75px;
-  font-size: 14px;
-  font-weight: bold;
-  
+  left: 0;
+
+}
+
+.bottom-left3 {
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+
 }
 
 .bottom-right {
@@ -140,6 +149,10 @@ button {
   font-size: 14px;
   font-weight: bold;
  
+}
+
+.bottom-left button {
+  margin-bottom: 10px;
 }
 
 /* Additional styles for the new div elements */

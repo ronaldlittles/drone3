@@ -37,8 +37,7 @@ export default class Debugger extends EventEmitter {
    
 
     //this.addToDebugger = this.addToDebugger.bind(this)
-   //this.addToDebugger(this.world.walls.shaderMaterial6)
-   //this.addToShaderDebugger(this.world.walls.shaderMaterial)
+   //this.addToDebugger(this.world)   //this.addToShaderDebugger(this.world.walls.shaderMaterial)
     //this.addToShaderDebugger(this.world.walls.shaderMaterial5)  
     //this.addToShaderDebugger(this.world.walls.shaderMaterial)  
     

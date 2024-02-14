@@ -5,9 +5,13 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+
+import { TTFLoader } from "three/examples/jsm/loaders/TTFLoader.js";
 import { BasisTextureLoader } from 'three/examples/jsm/loaders/BasisTextureLoader.js'
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { CubeTextureLoader, TextureLoader, VideoTexture } from 'three'
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
+
 
 export default class Resources extends EventEmitter
 {
@@ -125,9 +129,10 @@ this.loaders.push({
 
         //FONT
         const fontLoader = new FontLoader()
+        
        
         this.loaders.push({
-            extensions: ['json', 'ttf'],
+            extensions: ['json'],
             action: (_resource) =>
             {
                 fontLoader.load(_resource.source, (_data) =>
@@ -136,6 +141,24 @@ this.loaders.push({
                 })
             }
         })
+
+        const ttfLoader = new TTFLoader()
+        
+       
+        this.loaders.push({
+            extensions: ['ttf'],
+            action: (_resource) =>
+            {
+                ttfLoader.load(_resource.source, (_data) =>
+                {
+                    this.fileLoadEnd(_resource, _data)
+                })
+            }
+        })
+
+
+
+        
 
 
         // GLTF

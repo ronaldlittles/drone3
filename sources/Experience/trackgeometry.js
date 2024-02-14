@@ -2,6 +2,12 @@ import * as THREE from "three";
 import Experience from "./Experience.js";
 import EventEmitter from "./Utils/EventEmitter.js";
 
+import { TTFLoader } from "three/examples/jsm/loaders/TTFLoader.js";
+import { Water } from 'three/examples/jsm/objects/Water.js';
+import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader.js";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
+
+
 export default class TrackGeometry extends EventEmitter {
 
   
@@ -34,8 +40,9 @@ export default class TrackGeometry extends EventEmitter {
     
     this.resource4 = this.resources.items.baloonsModel;
 
-    console.log(this.resources.items.buidingModel)
+    
     this.resource5 = this.resources.items.buildingModel;
+    this.resource7 = this.resources.items.riot
 
     this.setGeometry()
     this.setGeometry2()
@@ -49,8 +56,8 @@ export default class TrackGeometry extends EventEmitter {
 
     const points = [];
     const R = 300; // Large circle radius
-    const A = 10;  // Amplitude of the winding
-    const B = 0;   // Amplitude of the humps
+    const A = 5;  // Amplitude of the winding
+    const B = 15;   // Amplitude of the humps
     const k = 25;   // Frequency of the winding
     const m = 10;   // Frequency of the humps
     const phi = 0; // Phase shift for the humps
@@ -67,26 +74,31 @@ export default class TrackGeometry extends EventEmitter {
     
     this.curve = new THREE.CatmullRomCurve3(points);
     const geometry = new THREE.TubeGeometry(this.curve, segments, 12, 8, false);
-    const material = new THREE.MeshBasicMaterial({
-       //color: 0xff0000,
-       map: this.resource2,
+    const material = new THREE.PointsMaterial({
+       //color: 0x0000ff,
+      // map: this.resource2,
        transparent: true,
-        opacity: 0.5,
+        opacity: 1,
         side: THREE.DoubleSide,
-        //wireframe: true
-
+        //wireframe: true,
+      size: 0.001
       
       });
     this.mesh = new THREE.Mesh(geometry, material);
     this.scene.add(this.mesh);
 
+    geometry.computeVertexNormals();
+    
+
+    console.log(this.mesh)
+
     //this.mesh.visible = false;
     
-    //mesh.scale.setScalar(2);
+    //this.mesh.scale.setScalar(5);
     
 this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource6}));
 //this.scene.add(this.mesh2);
-this.mesh2.scale.setScalar(50);
+this.mesh2.scale.setScalar(10);
 this.mesh2Clone = this.mesh2.clone();
 
 this.buildingModel = this.resource5.scene
@@ -95,24 +107,70 @@ this.buildingModel.scale.setScalar(50);
 
 this.scene.add(this.buildingModel);
 
+this.baloons = [];
 
-this.baloonsModel = this.resource4.scene
+for(let i = 0; i < 100; i++){
+
+
+this.baloonsModel = this.resource4.scene.clone();
 
 this.baloonsModel.scale.setScalar(300);
 
-this.baloonsModel.position.set(400, 100, 0);
+//this.baloonsModel.position.set(Math.random()*1000, Math.random()*1000, Math.random()*1000);
 
 this.scene.add(this.baloonsModel);
 
+this.baloons = this.baloonsModel
+
+
+
+
+}
+
+
+
+
+
+const text = new TTFLoader()
+    text.load( '/assets/ProtestRiot-Regular.ttf', function ( json ) {  
+
+      const font = new Font(json)
+
+      console.log(font)
+      let textGeometry = new TextGeometry( 'Ronald Littles', {
+        font: font,
+        size: 100,
+        height: 10,
+  
+        curveSegments: 10,
+        bevelEnabled: true,
+        bevelThickness: 50,
+        bevelSize: 2,
+        bevelOffset: 2,
+        bevelSegments: 5,
+
+
+      })
+    
+
+      this.textMaterial = new THREE.MeshStandardMaterial({ color: 'blue' })
+      this.textGeometry = new THREE.Mesh( textGeometry, this.world.walls.shaderMaterial  )
+      this.scene.add( this.textGeometry )
+      this.textGeometry.position.set(0, 0, 0)
+
+    }.bind(this) );
+
+
+
 this.light = new THREE.AmbientLight(0xffffff, 1);
-this.light.position.set(0, 500, 0);
+this.light.position.set(0, 1500, 0);
 this.scene.add(this.light);
 
 this.light2 = new THREE.DirectionalLight(0xffffff, 1);
 
 this.light2.position.set(600, 0, 0);
 
-//this.scene.background = this.world.scene2.background;
+this.scene.background = this.resource6;
 
 
   }
@@ -235,7 +293,7 @@ function getPointAboveCurve(t, distanceAbove) {
     update() {
 
       let loopTime = 60;
-      let speed = 10.5;
+      let speed = .5;
 
 
       
@@ -243,7 +301,7 @@ function getPointAboveCurve(t, distanceAbove) {
       let t2 =  (speed * this.time.elapsed + 1.5)/loopTime % 1;
 
       let pos = this.curve.getPointAt(t);
-      let pos2 = this.curve.getPointAt(t2).normalize();
+      let pos2 = this.curve.getPointAt(t2)
 
       let upVector = new THREE.Vector3(0, 1, 0);
 
@@ -261,11 +319,48 @@ if(!this.mesh2added ){
       this.mesh2added = true;
 }
        
-      this.offset = new THREE.Vector3(0, 50, 0);
+      this.offset = new THREE.Vector3(0, -5, 0);
+      this.offset2 = new THREE.Vector3(0, -800, -5000);
       this.mesh2.position.copy(pos).add(this.offset);
-this.baloonsModel.rotation.y += 0.01;
 
-      /* let tangentHelper = new THREE.ArrowHelper(tangent, pos, 35, 0xff00ff); // Red for tangent
+
+      let delay =3.8;
+
+      
+
+        
+
+        
+
+
+
+        this.baloons.position.x = delay +(Math.random()*1000 - 500);
+
+        this.baloons.rotation.y += 0.01;
+
+      //element.position.y =t+(Math.random() * 1000 - 500);
+
+        //element.position.z =  Math.random() * 1000 - 500;
+
+        
+
+        
+
+       // element.scale.setScalar(100*Math.random(t));
+
+        
+
+
+
+
+        
+    
+
+
+
+//this.light2.position.copy(pos)
+
+       let tangentHelper = new THREE.ArrowHelper(tangent, pos, 35, 0xff0000); // Red for tangent
       let normalHelper = new THREE.ArrowHelper(normal, pos, 10, 0x00ff00); // Green for normal
       let binormalHelper = new THREE.ArrowHelper(binormal, pos, 10, 0x0000ff); // Blue for binormal
   
@@ -283,7 +378,7 @@ this.baloonsModel.rotation.y += 0.01;
       this.scene.add(tangentHelper);
      this.scene.add(normalHelper);
       this.scene.add(binormalHelper);
-   */
+   
 
       //this.camera.instance.position.copy(point).add(tangent.multiplyScalar(100));
 

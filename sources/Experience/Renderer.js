@@ -196,7 +196,7 @@ export default class Renderer {
    
     this.postProcess.unrealBloomPass.renderTarget = this.renderTarget;
 
-    console.log(this.renderTarget);
+    console.log(this.postProcess);
   }
 
   setPlane() {

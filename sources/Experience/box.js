@@ -58,7 +58,7 @@ export default class Box extends EventEmitter {
     
    // this.setLights()
     this.setCity() 
-    //this.setBox()
+    this.setBox()
    
   //  /this.walls = new Walls()
   
@@ -297,14 +297,14 @@ this.mesh.receiveShadow = true;
 
     myText2.fontSize = 350.0;
     myText2.color = "yellow";
-    myText2.position.set(1907, 230 , 1174) 
+    myText2.position.set(0, 0 , 0) 
     
     myText2.sync();
     myText2.lookAt(this.camera.instance.position)
 
    
     const myText3 = new Text();
-    this.scene2.add(myText3);
+    this.scene.add(myText3);
 
     myText3.text =
       "EVERYTHING is PATTERN"
@@ -312,7 +312,7 @@ this.mesh.receiveShadow = true;
     myText3.fontSize = 72.0;
     myText3.color = "yellow";
     myText3.maxWidth = 500;
-    myText3.position.set(0,50, 310);
+    myText3.position.set(0,50, 0);
     myText3.sync();
     myText3.lookAt(this.camera.instance.position)
     myText3.name = 'everything is pattern'

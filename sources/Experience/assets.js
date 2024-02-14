@@ -91,6 +91,14 @@ export default [
         source: "/assets/curly_palm.glb",
         type: "gltfModel",
       },
+
+    {
+      name: 'riot',
+      source: '/assets/ProtestRiot-Regular.ttf',
+      type: 'font',
+
+    },
+
     ],
   },
 ];
