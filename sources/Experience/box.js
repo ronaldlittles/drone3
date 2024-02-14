@@ -91,9 +91,9 @@ let material = new THREE.MeshBasicMaterial({
   opacity: 1,
 
 });
-this.mesh = new THREE.Mesh(mergedGeometry, this.walls.shaderMaterial2);
+this.mesh = new THREE.Mesh(mergedGeometry, this.world.walls.shaderMaterial);
 
-//this.scene.add(this.mesh);
+this.scene.add(this.mesh);
 
 this.mesh.scale.setScalar(500)
 

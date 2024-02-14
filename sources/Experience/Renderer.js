@@ -36,8 +36,38 @@ export default class Renderer {
     this.setInstance();
     this.setPostProcess();
 
-    //this.setPlane();
+
+  
+const buttonLeft2 = document.getElementById('left2');
+const buttonLeft3 = document.getElementById('left3');
+
+// Add event listeners to the buttons
+buttonLeft2.addEventListener('click', () => {
+  this.currentScene = this.scene;
+  // You may need to call the update method here to render the new scene
+  this.update();
+});
+
+buttonLeft3.addEventListener('click', () => {
+  this.currentScene = this.scene2;
+  // You may need to call the update method here to render the new scene
+  this.update();
+});
+
+    this.currentScene = this.scene2;
+
+
+this.switchScene = function() {
+  if (this.currentScene === this.scene) {
+    this.currentScene = this.scene;
+  } else {
+    this.currentScene = this.scene2;
   }
+}
+    
+  }
+
+
 
   setInstance() {
     this.clearColor = "#ffffff"; //#02010e
@@ -199,78 +229,6 @@ export default class Renderer {
     console.log(this.postProcess);
   }
 
-  setPlane() {
-    this.video = document.querySelector(".video");
-    this.search = window.document.getElementById("search");
-    this.social = window.document.getElementById("social");
-    this.ssie = window.document.getElementById("ssie");
-    //this.video.play();
-
-    this.texture = new THREE.VideoTexture(this.video);
-
-    this.plane = new THREE.BoxGeometry(2, 2, 2, 2);
-    this.material = new THREE.MeshBasicMaterial({
-      color: "yellow",
-      side: THREE.DoubleSide,
-      //map: this.resource1,
-      //wireframe: true,
-    });
-    this.mesh = new THREE.Mesh(this.plane, this.material);
-    this.mesh.scale.set(275, 200, 200);
-    //this.scene2.add(this.mesh);
-
-    this.plane = new THREE.SphereGeometry(1, 32, 32);
-
-    this.material = new THREE.MeshBasicMaterial({
-      //color: 'black',
-      side: THREE.DoubleSide,
-      //map: this.texture,
-      transparent: true,
-      opacity: 0.8,
-    });
-
-    this.mesh2 = new THREE.Mesh(this.plane, this.material);
-    this.mesh2.scale.set(35, 35, 35);
-    //this.scene2.add(this.mesh2);
-    this.mesh2.position.y = 50;
-    this.mesh2.position.x = 210;
-
-    this.plane = new THREE.PlaneGeometry(2, 2, 2, 2);
-    this.material = new THREE.MeshBasicMaterial({
-      color: "purple",
-      side: THREE.DoubleSide,
-      map: this.renderTarget.texture,
-      transparent: true,
-      opacity: 1,
-    });
-    this.mesh3 = new THREE.Mesh(this.plane, this.material);
-    this.mesh3.scale.set(275, 50, 10);
-    //this.scene2.add(this.mesh3);
-    this.mesh3.position.set(0, -250, 0);
-
-    this.mesh3.name = "added";
-
-    this.car = this.scene2.getObjectByName("added");
-
-    //add pingpong
-
-    const newPosition = new THREE.Vector3(-200, -250, 0);
-    const oldPosition = new THREE.Vector3(200, -250, 0);
-
-    const damp = new THREE.MathUtils.damp(
-      oldPosition.x,
-      newPosition.x,
-      0.000000000001,
-      this.time.delta * 0.000000009
-    );
-
-    const smootherstep = new THREE.MathUtils.smootherstep(
-      this.time.delta,
-      200,
-      -200
-    );
-
-  }
 
   resize() {
     // Instance
@@ -321,7 +279,7 @@ export default class Renderer {
 
       //this.instance.setRenderTarget(this.renderTarget);
 
-      this.instance.render(this.scene, this.camera.instance);
+      this.instance.render(this.currentScene, this.camera.instance);
 
      this.instance.setRenderTarget(null);
 

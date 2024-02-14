@@ -124,20 +124,20 @@ button {
 
 .bottom-left {
   position: absolute;
-  bottom: 0;
+  bottom: 100px;
   left: 0;
 }
 .bottom-left2 {
   position: absolute;
-  bottom: 50px;
-  left: 0;
-
+  bottom: 100px;
+  left: 50px;
+  
 }
 
 .bottom-left3 {
   position: absolute;
   bottom: 100px;
-  left: 0;
+  left: 100px;
 
 }
 
