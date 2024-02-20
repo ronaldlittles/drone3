@@ -1736,6 +1736,10 @@ if (intersects2.length > 0) {
        
       }
 
+      destroy(){
+      window.removeEventListener("pointerdown", this.onPointerDown);
+      }
+
     }
 
    
