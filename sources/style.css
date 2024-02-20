@@ -40,7 +40,7 @@ z-index: 9999;
 
 }
 
-p {
+p{
 
   margin: 0;
   padding: 0;
@@ -54,9 +54,18 @@ p {
 
 }
 
+#popuptext1{
+
+  font-size: 36px;
+  color: #fFF;
+  text-shadow: 1px 1px #000000;
+  padding-bottom: 5px;
+
+}
+
 #popuptext2{
   
-font-size: 12px;
+font-size: 14px;
 color: #f00a0a;
 text-shadow: none;
 padding-bottom: 10px;
@@ -66,7 +75,7 @@ padding-bottom: 10px;
 button {
 
   position: absolute;
-  border: none;
+
   cursor: pointer;
   background-color: transparent;
   color: #fff;
@@ -99,10 +108,13 @@ button {
   right: 100px;
   width: 100px;
   height: 100px;
+  opacity: 100%;
+  
+  padding: 0;
   box-shadow: 3px 2px 2px #030303;
   opacity: 100%;
   border-radius: 85%;
-  border: none;
+
   padding: 0;
   background-image: url('/assets/wip.png');
   background-position: center;
@@ -111,13 +123,22 @@ button {
 }
 
 .bottom-left {
-  bottom: 50px;
-  left: 70px;
-  width: 75px;
-  height: 75px;
-  font-size: 14px;
-  font-weight: bold;
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+}
+.bottom-left2 {
+  position: absolute;
+  bottom: 100px;
+  left: 50px;
   
+}
+
+.bottom-left3 {
+  position: absolute;
+  bottom: 100px;
+  left: 100px;
+
 }
 
 .bottom-right {
@@ -128,6 +149,10 @@ button {
   font-size: 14px;
   font-weight: bold;
  
+}
+
+.bottom-left button {
+  margin-bottom: 10px;
 }
 
 /* Additional styles for the new div elements */

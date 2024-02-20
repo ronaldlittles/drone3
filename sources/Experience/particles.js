@@ -29,8 +29,8 @@ export default class Particles extends EventEmitter{
     //this.test.setParticles()
     
     
-    this.setParticles()
-    //this.setParticles2()
+    //this.setParticles()
+    this.setParticles2()
   }
 
 
@@ -122,7 +122,7 @@ return this
 
   }  
   update(){
-
+/* 
   this.particle = this.particles.shift();
   this.particles.push(this.particle);
 
@@ -154,18 +154,18 @@ return this
      
       
    
-    }
+    } */
 
    
 
-   
+   console.log(this)
 
 
    // this.box = new THREE.BoxHelper( this.particle, 0xffff00 );
     //this.scene.add( this.box );
    // this.box.update()
 
-    /*const numFaces = this.particle.geometry.attributes.position.count / 3;
+    const numFaces = this.original.geometry.attributes.position.count / 3;
 
     const colors = new Float32Array( numFaces * 3 * 3 );
 
@@ -193,8 +193,8 @@ return this
    
 this.particle.geometry.setAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
 
-  }*/
   }
+  //}
   
 
 

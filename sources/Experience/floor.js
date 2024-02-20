@@ -2,7 +2,7 @@ import * as THREE from "three";
 import Experience from "./Experience.js";
 import { Reflector } from "three/examples/jsm/objects/Reflector.js";
 import * as Curves from "three/examples/jsm/curves/CurveExtras.js";
-import { vertexShader } from "./vertex.js";
+import { vertexShader } from "./shaders/vertex.js";
 import {fragmentShader} from "./fragment.js";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 

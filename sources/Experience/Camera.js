@@ -24,7 +24,7 @@ export default class Camera {
    
     // Set up
     this.mode = "debug"; // defaultCamera \ debugCamera
-    //this.createOrthographicCamera()
+    this.createOrthographicCamera()
     this.setInstance();
     this.setInstance2();
     this.setOrbitControls()
@@ -73,10 +73,10 @@ export default class Camera {
     this.instance2.matrixAutoUpdate = true;
     this.instance2.updateProjectionMatrix();
     this.instance2.matrixWorldNeedsUpdate = true;
-    this.instance2.position.set(0, 510,2200);
+    this.instance2.position.set(0, 510,3000);
     this.instance2.lookAt(this.scene2.position)
 
-    this.scene.add(this.instance2);
+    this.scene2.add(this.instance);
 
 
   }
@@ -93,12 +93,11 @@ export default class Camera {
     );
 
     // 6.5
-    this.orthographicCamera.position.set(0,200,400);
+    //this.orthographicCamera.position.set(0,200,400);
     //this.orthographicCamera.lookAt(this.scene.position);
     //this.orthographicCamera.rotation.x = Math.PI/2;
 
-    this.scene.add(this.orthographicCamera);
-    this.scene.add( new THREE.CameraHelper(this.orthographicCamera))
+    //this.scene2.add( new THREE.CameraHelper(this.orthographicCamera))
 
   }
 
@@ -112,7 +111,7 @@ export default class Camera {
     this.orbitControls.enableKeys = false;
     this.orbitControls.zoomSpeed = 3.5;
     this.orbitControls.enableDamping = true;
-    this.orbitControls.autoRotate = true;
+    this.orbitControls.autoRotate = false;
     this.orbitControls.autoRotateSpeed = 5
     //this.orbitControls.maxPolarAngle = Math.PI/2;
     //this.orbitControls.minPolarAngle = Math.PI/2;

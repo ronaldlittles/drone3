@@ -10,8 +10,8 @@ export default [
       },
 
       {
-        name: "meTexture",
-        source: "/assets/me.jpg",
+        name: "dominos",
+        source: "/assets/lava.jpg",
         type: "texture",
       },
 
@@ -56,12 +56,12 @@ export default [
         type: "gltfModel",
       }, 
 
-       /*{
+       /* {
         name: "terrainModel",
         source: "/assets/terrain.glb",
         type: "gltfModel",
-      },*/ 
-
+      }, 
+ */
        {
         name: "droneModel",
         source: "/assets/spacetaxi.glb",
@@ -70,7 +70,7 @@ export default [
 
       {
         name: "buildingModel",
-        source: "/assets/streetlight/scene.gltf",
+        source: "/assets/building.glb",
         type: "gltfModel",
       },
 
@@ -82,15 +82,23 @@ export default [
 
          {
         name: "hdr",
-        source: "/assets/michelleskids.jpg",
+        source: "/assets/snow1.hdr",
         type: "texture",
       },  
 
       {
         name: "trees2",
-        source: "/assets/trees2.glb",
+        source: "/assets/curly_palm.glb",
         type: "gltfModel",
       },
+
+    {
+      name: 'riot',
+      source: '/assets/ProtestRiot-Regular.ttf',
+      type: 'font',
+
+    },
+
     ],
   },
 ];

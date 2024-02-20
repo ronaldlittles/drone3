@@ -4,8 +4,8 @@
         import EventEmitter from "./Utils/EventEmitter.js";
         import CANNON from 'cannon';
         import { TextureLoader } from 'three';
-       /*  import {ParametricGeometry} from 'three/examples/jsm/geometries/ParametricGeometry.js';
-        import { ParametricGeometries } from 'three/examples/jsm/geometries/ParametricGeometries.js'; */
+        import {ParametricGeometry} from 'three/examples/jsm/geometries/ParametricGeometry.js';
+        import { ParametricGeometries } from 'three/examples/jsm/geometries/ParametricGeometries.js'; 
 
         export default class TShirt extends EventEmitter {
             constructor() {
@@ -19,10 +19,10 @@
               this.debug = this.experience.debug;
               this.camera = this.experience.camera;
               this.controls = this.experience.controls;
-              this.scene = this.experience.scene;
+              this.scene2 = this.experience.scene2;
               this.world1 = this.experience.world;
 
-              //this.setTShirt()
+              this.setTShirt()
 
             }
 
@@ -137,7 +137,7 @@
   
                   // scene
   
-                  scene = new THREE.Scene();
+                  scene= new THREE.Scene();
   
                   scene.fog = new THREE.Fog( 0x000000, 500, 10000 );
                   //scene.background = '0xffffff'
@@ -232,7 +232,7 @@
                   object.position.set(0, 0, 0);
                   object.castShadow = true;
                   //object.receiveShadow = true;
-                  scene.add( object );
+                  this.scene2.add( object );
                  
                   // sphere
                   var ballGeo = new THREE.SphereGeometry( ballSize, 20, 20 );
@@ -241,7 +241,7 @@
                   sphereMesh = new THREE.Mesh( ballGeo, ballMaterial );
                   sphereMesh.castShadow = true;
                   //sphereMesh.receiveShadow = true;
-                  scene.add( sphereMesh );
+                  this.scene2.add( sphereMesh );
                  
   
   /* 
