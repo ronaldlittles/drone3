@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\sources\\Experience\\vertex.js"
+            "program": "${workspaceFolder}\\sources\\Experience\\index.js"
         }
     ]
 }
