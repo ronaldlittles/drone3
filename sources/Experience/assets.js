@@ -56,12 +56,12 @@ export default [
         type: "gltfModel",
       }, 
 
-       /* {
-        name: "terrainModel",
-        source: "/assets/terrain.glb",
-        type: "gltfModel",
-      }, 
- */
+       /*{
+        name: "video",
+        source: "/assets/video.mp4",
+        type: "videoTexture",
+      },*/
+ 
        {
         name: "droneModel",
         source: "/assets/spacetaxi.glb",

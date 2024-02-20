@@ -42,13 +42,13 @@
 
               let third = new THREE.Vector3()
   
-              var clothFunction = plane(restDistance * Nx, restDistance * Ny, third);
+              var clothFunction = plane(restDistance * Nx, restDistance * Ny, mass/3);
   
               function plane(width, height, third) {
                   return function(u, v) {
                       var x = (u-0.5) * width;
                       var y = (v+0.5) * height;
-                      var z = third;
+                      var z = third.z * (u-0.5) * width;
                       return new THREE.Vector3(x, y, z);
                   };
               }

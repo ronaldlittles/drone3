@@ -5,7 +5,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
-
 import { TTFLoader } from "three/examples/jsm/loaders/TTFLoader.js";
 import { BasisTextureLoader } from 'three/examples/jsm/loaders/BasisTextureLoader.js'
 import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader.js";
@@ -90,21 +89,21 @@ export default class Resources extends EventEmitter
             }
         })*/
 
-        // Video
+                // Video
 
-        // Video
- /* const videoLoader = new  VideoTexture();
+                
+        /*const videoLoader = new  VideoTexture();
 
-this.loaders.push({
-    extensions: ['mp4'],
-    action: (_resource) =>
-    {
-        videoLoader.load(_resource.source, (_data) =>
-        {
-            this.fileLoadEnd(_resource, _data);
-        });
-    }
-});  */
+        this.loaders.push({
+            extensions: ['mp4'],
+            action: (_resource) =>
+            {
+                videoLoader.load(_resource.source, (_data) =>
+                {
+                    this.fileLoadEnd(_resource, _data);
+                });
+            }
+        });*/  
 
 
         // Draco

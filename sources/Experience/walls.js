@@ -15,12 +15,9 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
 import { checkerFragment, checkerVertex } from "./shaders/checkerShader.js";
 import TrackGeometry from "./trackgeometry.js";
 import { TTFLoader } from "three/examples/jsm/loaders/TTFLoader.js";
-//import { Font } from    "three/examples/jsm/loaders/Font.js";
-
 
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
 import { sign, softmax } from "@tensorflow/tfjs";
-
 
 
 export default class Walls extends EventEmitter {
@@ -56,10 +53,16 @@ export default class Walls extends EventEmitter {
 
     
 
-    console.log(this.world)
+    //console.log(this.world)
 
-    this.geo = new TrackGeometry()
-    console.log(this.geo)
+    //this.geo = new TrackGeometry()
+  
+
+  
+
+   
+
+   
 
 
     this.setBoxes();
@@ -100,8 +103,7 @@ export default class Walls extends EventEmitter {
   }
 
   
-  
-    handleKeyDown(event) {
+     handleKeyDown(event) {
 
       if (event.key === 'ArrowUp') {
         this.arrowUpPressed = true;
@@ -113,9 +115,9 @@ export default class Walls extends EventEmitter {
         this.arrowRightPressed = true;
       }
 
-      }
+    }
       
-       handleKeyUp(event) {
+     handleKeyUp(event) {
 
       if (event.key === 'ArrowUp') {
         this.arrowUpPressed = false;
@@ -129,14 +131,14 @@ export default class Walls extends EventEmitter {
 
       
      
-  }
+    }
 
-  test(){
+      test(){
 
     console.log('test from walls.js')
-  }
+     }
   
-  setSound(){
+      setSound(){
 
     //this.drawing = new Drawing()
   
@@ -175,9 +177,9 @@ this.tube4.add(this.audio)
   
 }
 
-  }
+     }
 
-  setBoxes(){
+      setBoxes(){
 
     //this.scene2.fog = new THREE.FogExp2('0xefd1b5', 0.0025);
     
@@ -426,10 +428,7 @@ this.tube4.add(this.audio)
        
       }
 
-
-
-
-  setModel() {
+      setModel() {
 
 
 
@@ -550,8 +549,7 @@ for (let i = 0; i < amount; i++) {
       
       }
      
-
-     centerElement(element){
+      centerElement(element){
 
       //this.video = document.querySelector(".top-right");
 
@@ -572,13 +570,8 @@ for (let i = 0; i < amount; i++) {
 
 
       }
-    
-
   
-   
-
-  
-        setRaycaster() {
+      setRaycaster() {
 
           this.label = document.createElement("div");
           this.label.style.position = "absolute";
@@ -638,24 +631,13 @@ for (let i = 0; i < amount; i++) {
 
           
 
-        }
+      }
           
-          
-        
-         
-
       createWall() {
 
         this.noise = new ImprovedNoise()
 
        
-        
-        
-        
-
-        
-      
-        
         //SHADERS
 
         this.shaderMaterial = new THREE.ShaderMaterial({
@@ -804,7 +786,7 @@ for (let i = 0; i < amount; i++) {
             opacity: .8,
            transparent: true,
 
-            map: this.resource6,
+            //map: this.resource6,
             
         });
 
@@ -823,7 +805,7 @@ for (let i = 0; i < amount; i++) {
         
         
  
-this.numPoints = 5000;
+    this.numPoints = 5000;
  
     this.spline = new THREE.CatmullRomCurve3(this.world.trackGeometry.points);
 
@@ -1209,7 +1191,7 @@ console.log(this.tube)
 
           new THREE.MeshBasicMaterial({
 
-          map: this.resource6,
+          map: this.resource7,
           side: THREE.BackSide,
 
 
@@ -1269,7 +1251,7 @@ console.log(this.tube)
   
     
    
-    const numObjects = 100; 
+    const numObjects = 500; 
     this.spacing = 40; 
     this.scaleFactor = 10;
     const offset = new THREE.Vector3( (Math.random()*200-100)*75,-530,-100);
@@ -1278,6 +1260,8 @@ console.log(this.tube)
 
     this.objectsArray1 = [];
     this.objectsArray2 = [];
+
+    this.treesArray = [];
 
     for (let i = 0; i < numObjects; i++) {
 
@@ -1361,15 +1345,13 @@ console.log(this.tube)
     this.scene2.add(this.model2Clone)
     this.model2Clone.rotation.y += Math.random()
 
-
-
+    this.treesArray.push(this.model2Clone)
 
     }
     
-    } 
+       } 
 
-  
-  setGsap() {
+      setGsap() {
 
 
     for (let i = 0; i < this.boxes.length; i++) {
@@ -1392,12 +1374,9 @@ console.log(this.tube)
       }
     
     
-    }
+       }
 
-
-
-
-  update() {
+      update() {
 
    // this.audioHelper.update()
 
@@ -1468,12 +1447,7 @@ console.log(this.tube)
 
         let  velocity = 2.5;
 
-    
 
-        
-    
-
-    
 
     
   
@@ -1539,7 +1513,7 @@ binormalHelper.setDirection(this.binormal);
 
     ///CAMERA MOVEMENT
     
-    this.camera.instance.add(this.light1)
+    //this.camera.instance.add(this.light1)
 
     //this.plane2.position.copy(this.model.position)
     
@@ -1547,14 +1521,12 @@ binormalHelper.setDirection(this.binormal);
 
     let normalizedValue = (originalValue + 1) / 2;
 
-    const distance = this.model.position.distanceTo(this.model2Clone.position)
-
-    this.label.textContent = `${this.model.position.x.toString()} ${this.model.position.y.toString()}  ${this.model.position.z.toString()}`
-    this.label3.textContent = (normalizedValue).toFixed(8);
-    this.label4.textContent = (distance).toFixed(10);
-
-
     
+    this.label.textContent = `${this.model.position.x.toString()} ${this.model.position.y.toString()}  ${this.model.position.z.toString()}`
+    this.label3.textContent = (normalizedValue).toFixed(5);
+    //this.label4.textContent = (this.distance).toFixed(10);
+
+
 
       this.cars.position.copy( pos7.add(this.tangent2).add(this.normal2).add(this.binormal2).add(offset2))
    
@@ -1717,17 +1689,44 @@ if (intersects2.length > 0) {
 
       this.model.lookAt(   pos4   )
 
- 
-    //this.model.rotation.setFromRotationMatrix(matrix)
-  
-       
+    
+      this.treesArray.forEach((model2Clone) => {
 
+      let currentTreePosition = new THREE.Vector3()
+        
+      currentTreePosition.x = model2Clone.position.x;
+      currentTreePosition.y = model2Clone.position.y;
+      currentTreePosition.z = model2Clone.position.z;
+
+        this.distance = this.model.position.distanceTo(model2Clone.position)
+
+        if(this.distance < 200) {
+      
+
+      model2Clone.rotation.x += -10 * this.time.delta
+        
+      model2Clone.rotation.y += .5 * this.time.delta
+
+      model2Clone.rotation.z += -10 * this.time.delta
+
+        } /*else {
+
+          model2Clone.rotation.x = currentPosition.x
+        
+          model2Clone.rotation.y = currentPosition.y
+
+          model2Clone.rotation.z = currentPosition.z
+
+        }*/
+
+  })
+      
     
   }
 
 
    
-    }
+      }
 
       resize() {
         

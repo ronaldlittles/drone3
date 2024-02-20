@@ -1,18 +1,15 @@
 import * as THREE from "three";
 import Experience from "./Experience.js";
 import EventEmitter from "./Utils/EventEmitter.js";
-
 import { TTFLoader } from "three/examples/jsm/loaders/TTFLoader.js";
 import { Water } from 'three/examples/jsm/objects/Water.js';
 import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
-
+import TShirt from "./tshirt.js";
 
 export default class TrackGeometry extends EventEmitter {
 
-  
-
-  constructor(_options = {}) {
+  constructor() {
 
     super()
 
@@ -20,39 +17,30 @@ export default class TrackGeometry extends EventEmitter {
     this.config = this.experience.config;
     this.debug = this.experience.debug;
     this.world = this.experience.world;
-
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
     this.camera = this.experience.camera;
     this.resources = this.experience.resources;
     this.time = this.experience.time;
-   
     this.renderer = this.experience.renderer;
     this.targetElement = this.experience.targetElement;
     this.world = this.experience.world;
-    
-   
-
     this.resource1 = this.resources.items.me;
     this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.sceneModel
     this.resource6 =  this.resources.items.hdr
-    
     this.resource4 = this.resources.items.baloonsModel;
-
-    
     this.resource5 = this.resources.items.buildingModel;
     this.resource7 = this.resources.items.riot
 
     this.setGeometry()
     this.setGeometry2()
 
-    
- 
-    
-  }
   
-  setGeometry2(){
+    }
+
+  
+    setGeometry2(){
 
     const points = [];
     const R = 300; // Large circle radius
@@ -84,6 +72,7 @@ export default class TrackGeometry extends EventEmitter {
       size: 0.001
       
       });
+
     this.mesh = new THREE.Mesh(geometry, material);
     this.scene.add(this.mesh);
 
@@ -96,7 +85,7 @@ export default class TrackGeometry extends EventEmitter {
     
     //this.mesh.scale.setScalar(5);
     
-this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource6}));
+this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource2}));
 //this.scene.add(this.mesh2);
 this.mesh2.scale.setScalar(10);
 this.mesh2Clone = this.mesh2.clone();
@@ -132,6 +121,7 @@ this.baloons = this.baloonsModel
 
 
 const text = new TTFLoader()
+
     text.load( '/assets/ProtestRiot-Regular.ttf', function ( json ) {  
 
       const font = new Font(json)
@@ -154,7 +144,7 @@ const text = new TTFLoader()
     
 
       this.textMaterial = new THREE.MeshStandardMaterial({ color: 'blue' })
-      this.textGeometry = new THREE.Mesh( textGeometry, this.world.walls.shaderMaterial  )
+      this.textGeometry = new THREE.Mesh( textGeometry,  new THREE.MeshBasicMaterial({map: this.resource2})  )
       this.scene.add( this.textGeometry )
       this.textGeometry.position.set(0, 0, 0)
 
@@ -170,10 +160,10 @@ this.light2 = new THREE.DirectionalLight(0xffffff, 1);
 
 this.light2.position.set(600, 0, 0);
 
-this.scene.background = this.resource6;
+this.scene.background = this.resource2;
 
 
-  }
+    }
     
 
     setGeometry(){
@@ -199,8 +189,7 @@ this.scene.background = this.resource6;
       if(t >= (8*Math.PI/10) && t <= (12* Math.PI/10)){
           let a = (t-8 *Math.PI/10)* (Math.PI/ (12*Math.PI/10 - 8*Math.PI/10))
 
-           y= Math.sin(a*3)* radius/6
-      
+           y= Math.sin(a*3)* radius/6       
       }
  
     
@@ -287,7 +276,7 @@ function getPointAboveCurve(t, distanceAbove) {
 
   
 
-} 
+    } 
 
 
     update() {
@@ -383,9 +372,6 @@ if(!this.mesh2added ){
       //this.camera.instance.position.copy(point).add(tangent.multiplyScalar(100));
 
     }
-   
-        
-    
 
 
 }

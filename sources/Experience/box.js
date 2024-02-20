@@ -56,7 +56,7 @@ export default class Box extends EventEmitter {
    this.walls = new Walls()
    this.track = new TrackGeometry()
     
-   // this.setLights()
+    this.setLights()
     this.setCity() 
     this.setBox()
    
@@ -73,8 +73,8 @@ export default class Box extends EventEmitter {
   setScene() {
 
 // Create two circle geometries
-let circle1 = new THREE.BoxGeometry(1, 1,1).translate(0, 0, 0); // Offset to the left
-let circle2 = new THREE.SphereGeometry(1,36, 36,0,Math.PI*2,0,Math.PI/2).translate(0, 0, 0); // Offset to the right
+let circle1 = new THREE.PlaneGeometry(2, 2, 2).translate(.5, 0, .5); // Offset to the left
+let circle2 = new THREE.PlaneGeometry(2, 2, 2); // Offset to the right
 
 // Rotate one circle to align for figure-eight shape
 circle2.rotateY(Math.PI);
@@ -91,9 +91,10 @@ let material = new THREE.MeshBasicMaterial({
   opacity: 1,
 
 });
-this.mesh = new THREE.Mesh(mergedGeometry, this.world.walls.shaderMaterial);
 
-//this.scene.add(this.mesh);
+this.mesh = new THREE.Mesh(mergedGeometry, new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide}));
+
+this.scene.add(this.mesh);
 
 this.mesh.scale.setScalar(500)
 
@@ -101,7 +102,6 @@ console.log(this.mesh)
 
 this.mesh.castShadow = true;
 this.mesh.receiveShadow = true;
-
 
 
   }
@@ -322,7 +322,7 @@ this.mesh.receiveShadow = true;
     //this.scene.add(this.myText4);
 
     this.myText4.text =
-      "wherever you go there you are";
+    "wherever you go there you are";
     this.myText4.fontSize = 182.0;
     this.myText4.color = "blue";
     this.myText4.maxWidth = 550;
@@ -447,7 +447,7 @@ function nextText() {
     //pointLight.position.set( 0, 0, 50 );
     this.camera.instance.add( pointLight ); 
     pointLight.castShadow = true;
-    pointLight.lookAt(0, 500, 0)
+    pointLight.lookAt(0, 0, 0)
 
     var directionalLight = new THREE.DirectionalLight( 0x0000ff, 3.0 );
     this.scene.add(directionalLight);
