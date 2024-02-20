@@ -1107,7 +1107,7 @@ console.log(this.tube)
 
     //this.tube3.rotation.x = Math.PI/2;
 
-      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.redMaterial) 
+      this.tube4 = new THREE.Mesh(this.tubeGeo4, this.displacementMaterial) 
 
       this.scene2.add(this.tube4);
 
