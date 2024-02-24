@@ -73,9 +73,8 @@ export default class Walls extends EventEmitter {
     
     this.setRaycaster();
 
-    //this.setSound();
+    this.setSound();
 
- 
 
 
 
@@ -101,6 +100,16 @@ export default class Walls extends EventEmitter {
       this.isPointerDown = false;
       
   }
+
+  setPlane(){
+
+    let direction = new THREE.Vector3().subVectors(this.model.position, this.plane.position).normalize()
+  
+  
+  this.plane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), direction )
+  
+
+}
 
   
      handleKeyDown(event) {
@@ -153,14 +162,16 @@ export default class Walls extends EventEmitter {
 
     this.audioLoader = new THREE.AudioLoader()
 
-    this.audioLoader.load('/assets/mixkitfunky.mp3',
+    this.audioLoader.load('/assets/bush.mp3',
+    
 
     function(buffer){
     this.audio.setBuffer(buffer)
-    this.audio.setLoop(true)
-    this.audio.setRefDistance(this.model.position.distanceTo(this.tube4.position)*.05 )  
-    this.audio.setDirectionalCone(0,360,0)
-    this.audio.play()
+    //this.audio.setLoop(true)
+    this.audio.setRefDistance(50)  
+    //this.audio.setDirectionalCone(0,360,0)
+    //this.audio.play()
+    //this.audio.setVolume(1)
     
     
   }.bind(this)
@@ -168,7 +179,7 @@ export default class Walls extends EventEmitter {
 
   
   this.audioHelper = new PositionalAudioHelper(this.audio, 100, 100, 100, 'green')
-  //this.scene2.add(this.audioHelper )
+  this.scene2.add(this.audioHelper )
 
 if(this.tube4){
 
@@ -472,6 +483,8 @@ for (let i = 0; i < amount; i++) {
     //this.model2.receiveShadow = true;
     this.model2.visible = true;
     //this.model2.scale.setScalar(10)
+
+    console.log(this.model2)
    
    
     ///////this.scene2.add(this.model2);
@@ -491,23 +504,23 @@ for (let i = 0; i < amount; i++) {
       //USE THE FOLLOWING TO TRAVERSE ANY OF THE MODELS PROPERTIES
 
                  this.meshes = [];
-                      this.model.traverse((object) => {
-                        if (object.isMesh) {
+                      this.model2.traverse((object) => {
+                        if ( object.isMesh) {
                           this.meshes.push(object);
                         } 
                       });  
 
 
-        
+        console.log(this.meshes)
 
-        this.meshes[0].receiveShadow = true
-        //this.meshes[1].receiveShadow = true
+        //this.meshes[0].receiveShadow = true
+        //this.meshes[1].receiveShadow = tru
         //this.meshes[2].receiveShadow = true 
 
         
 
-        this.meshes[0].material.transparent = true
-        this.meshes[0].material.opacity = 1.0
+        //this.meshes[0].material.transparent = true
+       // this.meshes[0].material.opacity = 1.0
        
 
 
@@ -738,7 +751,7 @@ for (let i = 0; i < amount; i++) {
 
       },
    
-      vertexShader: vertexShader.vertexShader,
+      vertexShader: vertexShader.vertexShader2,
       fragmentShader: fragmentShader.fragmentShader4,
    
     });
@@ -791,10 +804,10 @@ for (let i = 0; i < amount; i++) {
         });
 
 
-        this.meshes[0].material = this.displacementMaterial //body
-        //this.meshes[1].material = this.shaderMaterial4  //toplight
-        //this.meshes[2].material = this.shaderMaterial4  //backlight
-    
+        //this.meshes[0].material = this.displacementMaterial //body
+        //this.meshes[1].material = this.displacementMaterial  //treetrunk
+        //this.meshes[2].material = this.displacementMaterial //leaves
+         // this.meshes[3].material = this.displacementMaterial
 
 
          
@@ -1029,8 +1042,8 @@ racetrackShape6.lineTo(-.2, -1);
     this.tubeGeo5 = new THREE.TubeGeometry(this.spline3, 100, 200, 100, false);
 
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
-this.tubeGeo.computeVertexNormals()
-//this.tubeGeo2.computeTangents()
+    this.tubeGeo.computeVertexNormals()
+
 
 
     //CUSTOM GEOMETRY
@@ -1043,9 +1056,9 @@ this.tubeGeo.computeVertexNormals()
 
     for ( let i = 0; i < this.numPoints; i ++ ) {
 
-      this.positions[ i + 0 ] = ( Math.random() - 0.5 );
-      this.positions[ i + 1 ] = ( Math.random() - 0.5 );
-      this.positions[ i + 2 ] = ( Math.random() - 0.5 );
+      this.positions[ i + 0 ] = ( Math.random() - .5 );
+      this.positions[ i + 1 ] = ( Math.random() - .5 );
+      this.positions[ i + 2 ] = ( Math.random() - .5 );
 
       
       this.randoms[ i + 0 ] = Math.random();
@@ -1063,13 +1076,13 @@ this.tubeGeo.computeVertexNormals()
 
     this.geometry.setAttribute( 'aSize', new THREE.BufferAttribute( this.sizes, 1 ) );
 
-    this.plane2 = new THREE.Points( this.geometry, this.shaderMaterial)
+    this.plane2 = new THREE.Points( this.geometry, this.shaderMaterial5)
     this.scene2.add(this.plane2)
-    this.plane2.scale.setScalar(100)
+    this.plane2.scale.setScalar(1000)
 
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
-console.log(this.tube)
+    
     
     this.scene2.add(this.tube);
 
@@ -1171,16 +1184,23 @@ console.log(this.tube)
 
           
 
-          this.plane = new THREE.Mesh( new THREE.BoxGeometry( 2,2,2 ),
+          this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,2 ),
 
-          this.shaderMaterial,
+          new THREE.MeshBasicMaterial({
+
+            transparent:true,
+            opacity: .5,
+            map:this.resource2,
+          })
 
          
           )
 
-        this.plane.scale.setScalar(100)
+        this.plane.scale.setScalar(1300)
 
-       // this.scene2.add(this.plane)
+        //this.plane.translateZ(100)
+
+        //this.scene2.add(this.plane)
 
          
           //this.plane.rotation.z += Math.PI/2;
@@ -1202,7 +1222,7 @@ console.log(this.tube)
         this.plane3.scale.setScalar(5000)
         this.plane3.name = "skybox"
 
-        this.scene2.add(this.plane3)
+        //this.scene2.add(this.plane3)
         this.plane3.position.set(0,-200,0)
 
 
@@ -1378,7 +1398,7 @@ console.log(this.tube)
 
       update() {
 
-   // this.audioHelper.update()
+   this.audioHelper.update()
 
     this.model2Clone.lookAt(this.model.position)
 
@@ -1628,26 +1648,22 @@ if (intersects2.length > 0) {
     this.forwardDirection3 = this.forwardVector3.clone();
     this.forwardDirection3.applyQuaternion(this.model.quaternion).add(maxRotation).normalize(); 
 
+
+    //plane to follow as clouds
+    //this.setPlane();
+    
+
    
    const speedFactor = 0.0001;
 
     if (this.arrowLeftPressed) {
 
       this.arrowRightPressed = false;
-
-      //this.arrowLeftPressed = true;
-
-      
-
-
-    //this.camera.instance.rotation.z -= Math.PI/2;                                                                                                 
-    //this.model.rotation.z += Math.PI/4;
-   this.model.rotation.y += Math.PI/4;
+                  
+      this.model.rotation.y += Math.PI/4;
    
-    this.model.position.x -=  25
-
-                                                                                                               
-    
+      this.model.position.x -=  25
+                                    
     
     }
                                       
@@ -1656,70 +1672,90 @@ if (intersects2.length > 0) {
 
     if (this.arrowRightPressed) {
 
-      //this.arrowRightPressed = true;
+      this.arrowLeftPressed = false; 
 
-      this.arrowLeftPressed = false;
-
-
-    //this.camera.instance.rotation.z += Math.PI/2; 
-
-    ///////this.model.rotation.z -= Math.PI/4;
-    this.model.rotation.y += Math.PI/4;
+      this.model.rotation.y += Math.PI/4;
     
-    this.model.position.x +=  25
-
-    
-
-
-   
-    
+      this.model.position.x +=  25
 
     } 
 
+
     if (this.arrowUpPressed) {
 
-      
       this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
   
-      
-  //this.camera.instance.position.copy( pos.add(tangent).add(this.normal).add(this.binormal).add(offset2)) 
       this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
 
       this.camera.instance.lookAt(this.model.position)
 
       this.model.lookAt(   pos4   )
 
-    
-      this.treesArray.forEach((model2Clone) => {
-
-      let currentTreePosition = new THREE.Vector3()
-        
-      currentTreePosition.x = model2Clone.position.x;
-      currentTreePosition.y = model2Clone.position.y;
-      currentTreePosition.z = model2Clone.position.z;
-
-        this.distance = this.model.position.distanceTo(model2Clone.position)
-
-        if(this.distance < 200) {
       
 
+    
+      this.treesArray.forEach((model2Clone, index) => {
+        //this.mesh = this.meshes[2]
+        this.mesh = model2Clone.children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0]
+        //console.log(this.meshes)
+
+        model2Clone.userData = { 
+
+          originalRotation: model2Clone.rotation.clone(),
+          currentRotation: model2Clone.rotation.clone(),
+          
+          audioTriggered: false,
+          sound: this.audio,
+        
+        }
+        model2Clone.userData.currentRotation.copy(model2Clone.rotation)
+
+       //console.log(model2Clone.userData.originalRotation)
+        //console.log(model2Clone.userData.currentRotation)
+        
+        this.distance = this.model.position.distanceTo(model2Clone.position)
+
+        if(this.distance < 175) {
+      
       model2Clone.rotation.x += -10 * this.time.delta
         
       model2Clone.rotation.y += .5 * this.time.delta
 
       model2Clone.rotation.z += -10 * this.time.delta
 
-        } /*else {
+      //needs to be regulated to play once
 
-          model2Clone.rotation.x = currentPosition.x
+      
+
+      if(!model2Clone.userData.audioTriggered ){
+
+
+        model2Clone.userData.sound.play()
+
+
+        model2Clone.userData.audioTriggered = true
+
+
+      }
+            
+      
+
+        } else {
+
+          model2Clone.rotation.x = model2Clone.userData.originalRotation.x
         
-          model2Clone.rotation.y = currentPosition.y
+          model2Clone.rotation.y = model2Clone.userData.originalRotation.y
 
-          model2Clone.rotation.z = currentPosition.z
+          model2Clone.rotation.z = model2Clone.userData.originalRotation.z
+        }
 
-        }*/
+      
 
   })
+
+
+
+
       
     
   }

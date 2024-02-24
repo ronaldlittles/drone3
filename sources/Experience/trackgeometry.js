@@ -160,7 +160,7 @@ this.light2 = new THREE.DirectionalLight(0xffffff, 1);
 
 this.light2.position.set(600, 0, 0);
 
-this.scene.background = this.resource2;
+//.scene.background = this.resource2;
 
 
     }

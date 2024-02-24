@@ -296,8 +296,24 @@ void main() {
     camPos.yz *= rot(pitch); camPos.zx *= rot(yaw);
     rd.yz     *= rot(pitch);     rd.zx *= rot(yaw);
 
-	  gl_FragColor = vec4(pow(shading(camPos, rd), vec3(1. / 2.2)), 1.);
 
+    vec2 pointCoord = gl_PointCoord * 2.0 - 1.0;
+    
+    float distance = length(pointCoord);
+
+    float threshold = .5;
+
+    if(distance > threshold){
+
+      discard;
+
+    }
+
+
+
+  
+	  //gl_FragColor = vec4(pow(shading(camPos, rd), vec3(1. / 2.2)), 1.);
+    gl_FragColor = vec4(1,0.0,0.0,1.0);
     
 }
 
