@@ -164,6 +164,7 @@ export default class Walls extends EventEmitter {
 
     this.audioLoader.load('/assets/bush.mp3',
     
+    
 
     function(buffer){
     this.audio.setBuffer(buffer)
@@ -178,12 +179,31 @@ export default class Walls extends EventEmitter {
   )
 
   
+  this.audio2 = new THREE.PositionalAudio(this.audioListener)
+
+  this.audioLoader.load('/assets/engine.wav',
+    
+    
+
+    function(buffer){
+    this.audio2.setBuffer(buffer)
+    this.audio2.setLoop(true)
+    this.audio2.setRefDistance(50)  
+    //this.audio.setDirectionalCone(0,360,0)
+    this.audio2.play()
+    //this.audio.setVolume(1)
+    
+    
+  }.bind(this)
+  )
+
+  
   this.audioHelper = new PositionalAudioHelper(this.audio, 100, 100, 100, 'green')
-  this.scene2.add(this.audioHelper )
+  //this.scene2.add(this.audioHelper )
 
 if(this.tube4){
 
-this.tube4.add(this.audio)
+//this.tube4.add(this.audio)
   
   
 }
@@ -452,7 +472,8 @@ this.tube4.add(this.audio)
     this.model.scale.set(1.2,.5,1.1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
-    //this.model.add(this.audioListener)
+    this.model.add(this.audio2)
+    
 
     this.cars = this.model.clone()
     this.scene2.add(this.cars)
