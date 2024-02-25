@@ -197,8 +197,8 @@ export default class World {
     if(this.debugger)
     this.debugger.update()
 
-    if(this.controls2)
-    this.controls2.update()
+   // if(this.controls2)
+    //this.controls2.update()
 
 
     if(this.floorparticles)

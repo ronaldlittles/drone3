@@ -116,13 +116,17 @@ const vertexShader = {
        //pos.y += (normal * attributes.x + binormal * attributes.y + tangent * attributes.z) * 0.1;
 
         //pos += attributes;
+
+        pos.x += sin(cx * time) * 0.1;
+        pos.z *= cos(cy * time) * 0.1;
+
         vUv = uv;
         vec4 mvPosition = modelViewMatrix * vec4( pos, 1. );
         
-        gl_PointSize = 25.;//40.*(5. + 50. * aSize) * ( 1. / - mvPosition.z );
+        gl_PointSize = 20.0; //40.*(5. + 50. * aSize) * ( 1. / - mvPosition.z );
         gl_Position = projectionMatrix * mvPosition;
       }
-  
+
      
         `,
 

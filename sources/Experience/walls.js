@@ -763,7 +763,7 @@ for (let i = 0; i < amount; i++) {
     
       uniforms: {
 
-        time: { value: this.time.elapsed },
+        time: { value: 0.0 },
         texture1: { value: this.resource1 },
         uNoise: { value: this.iNoise },
         uvScale: { value: new THREE.Vector2(1,1) },
@@ -1068,6 +1068,11 @@ racetrackShape6.lineTo(-.2, -1);
 
 
     //CUSTOM GEOMETRY
+this.s = new THREE.SphereGeometry( 1, 32, 32 );
+
+console.log(this.s)
+    
+    //this.geometry2 = new THREE.BufferGeometry().setFromPoints( );
 
     this.geometry = new THREE.BufferGeometry();
     
@@ -1443,7 +1448,7 @@ racetrackShape6.lineTo(-.2, -1);
       this.water.material.uniforms.time.value +=  this.time.delta * 1.5
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 2.5
-      //this.shaderMaterial2.uniforms.time.value +=  this.time.delta * 2.0
+      this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 2.0
       this.shaderMaterial6.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 

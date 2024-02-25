@@ -53,8 +53,8 @@ export default class Box extends EventEmitter {
     this.resource6 =  this.resources.items.hdr
     
     
-   this.walls = new Walls()
-   this.track = new TrackGeometry()
+   //this.walls = new Walls()
+   //this.track = new TrackGeometry()
     
     this.setLights()
     this.setCity() 
