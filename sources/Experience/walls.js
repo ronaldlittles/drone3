@@ -18,7 +18,7 @@ import { TTFLoader } from "three/examples/jsm/loaders/TTFLoader.js";
 
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
 import { sign, softmax } from "@tensorflow/tfjs";
-
+import Box from "./box.js";
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -61,9 +61,9 @@ export default class Walls extends EventEmitter {
   
 
    
-
+ // this.box = new Box()
    
-
+  //console.log(this.box)
 
     this.setBoxes();
 
@@ -98,7 +98,20 @@ export default class Walls extends EventEmitter {
       this.arrowRightPressed = false;
       
       this.isPointerDown = false;
+
+      this.isRunning = false;
       
+  }
+
+  //END OF CONSTRUCTOR
+
+  setModelPosition(){
+
+  console.log(this.isRunning)
+
+    this.isRunning = true
+
+
   }
 
   setPlane(){
@@ -514,13 +527,13 @@ for (let i = 0; i < amount; i++) {
    this.modelTube = new THREE.Mesh(
 
     new THREE.TorusGeometry( 6, .3, 10, 100 ), 
-    this.shaderMaterial6
+    new THREE.MeshStandardMaterial({ map: this.resource2, opacity: 1, transparent: true, side: THREE.DoubleSide }) 
 
     );
 
    // this.scene2.add(this.modelTube)
     this.model.add(this.modelTube)
-    this.modelTube.scale.setScalar(10.)
+    this.modelTube.scale.setScalar(9.)
    
       //USE THE FOLLOWING TO TRAVERSE ANY OF THE MODELS PROPERTIES
 
@@ -1693,7 +1706,7 @@ if (intersects2.length > 0) {
     
     }
                                       
-   
+   this.setModelPosition()
 
 
     if (this.arrowRightPressed) {
@@ -1707,16 +1720,16 @@ if (intersects2.length > 0) {
     } 
 
 
-    if (this.arrowUpPressed) {
+    if (this.arrowUpPressed ) {
 
-      this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
+       this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
   
       this.camera.instance.position.copy( pos.add(tangent).add(this.normal.add( offset )).add(this.binormal) )
 
       this.camera.instance.lookAt(this.model.position)
 
       this.model.lookAt(   pos4   )
-
+ 
       
 
     

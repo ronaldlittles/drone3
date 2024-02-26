@@ -369,12 +369,9 @@ if(!this.mesh2added ){
       this.scene.add(binormalHelper);
    
 
-      //this.camera.instance.position.copy(point).add(tangent.multiplyScalar(100));
-
-    }
 
 
 }
 
-
+}
 
