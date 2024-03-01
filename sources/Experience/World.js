@@ -37,6 +37,8 @@ export default class World {
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
     this.resources = this.experience.resources;
+    
+    this.renderer = this.experience.renderer;
     this.time = this.experience.time;
     this.camera = this.experience.camera;
     this.controls = this.experience.controls;

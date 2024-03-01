@@ -59,7 +59,6 @@ export default class Walls extends EventEmitter {
   
 
   
-
    
  // this.box = new Box()
    
@@ -107,7 +106,7 @@ export default class Walls extends EventEmitter {
 
   setModelPosition(){
 
-  console.log(this.isRunning)
+  
 
     this.isRunning = true
 
@@ -833,7 +832,7 @@ for (let i = 0; i < amount; i++) {
             opacity: .8,
            transparent: true,
 
-            //map: this.resource6,
+            map: this.renderer.renderTarget.texture,
             
         });
 
@@ -1225,21 +1224,21 @@ console.log(this.s)
 
           this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,2 ),
 
-          new THREE.MeshBasicMaterial({
-
+          new THREE.MeshStandardMaterial({
+            side: THREE.DoubleSide,
             transparent:true,
-            opacity: .5,
-            map:this.resource2,
+            opacity: 1,
+            map:this.renderer.renderTarget.texture,
           })
 
          
           )
 
-        this.plane.scale.setScalar(1300)
+        this.plane.scale.setScalar(1000)
 
         //this.plane.translateZ(100)
 
-        //this.scene2.add(this.plane)
+        this.scene.add(this.plane)
 
          
           //this.plane.rotation.z += Math.PI/2;
@@ -1248,10 +1247,10 @@ console.log(this.s)
 
           this.plane3 = new THREE.Mesh( new THREE.SphereGeometry( 1,36,36 ),
 
-          new THREE.MeshBasicMaterial({
+          new THREE.MeshStandardMaterial({
 
-          map: this.resource7,
-          side: THREE.BackSide,
+          map: this.renderer.renderTarget.texture,
+          side: THREE.DoubleSide,
 
 
           })
@@ -1425,6 +1424,7 @@ console.log(this.s)
         y: this.box1.position.y + Math.random() * distance - distance / 2,
         z: this.box1.rotation.z + Math.random() * distance - distance / 2,
         ease: 'power2.easeOut',
+        stagger:{ amount: 10, grid: [25,25], from: 'center'},  
         //repeat: -1,
      
       });
@@ -1574,7 +1574,7 @@ binormalHelper.setDirection(this.binormal);
     
     //this.camera.instance.add(this.light1)
 
-    //this.plane2.position.copy(this.model.position)
+    this.plane2.position.copy(this.model.position)
     
     let originalValue = this.normal.y
 
@@ -1719,6 +1719,13 @@ if (intersects2.length > 0) {
 
     } 
 
+    if(this.renderer.currentScene == this.scene){
+
+      this.arrowUpPressed = false
+
+      this.camera.instance.position.copy( new THREE.Vector3(0, 500, 500))
+    }
+
 
     if (this.arrowUpPressed ) {
 
@@ -1808,7 +1815,6 @@ if (intersects2.length > 0) {
         this.camera.instance.setSize(this.config.width, this.config.height);
         this.camera.instance.setPixelRatio(this.config.pixelRatio);
     
-       
       }
 
       destroy(){

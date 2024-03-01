@@ -7,9 +7,12 @@ import Sizes from './Utils/Sizes.js'
 import Stats from './Utils/Stats.js'
 
 import Resources from './Resources.js'
+
 import Renderer from './Renderer.js'
-import Camera from './Camera.js'
+
+
 import World from './World.js'
+import Camera from './Camera.js'
 
 
 import SceneWorld from './sceneworld.js'
@@ -62,13 +65,16 @@ export default class Experience
         this.setScene()
         this.setScene2()
         this.setCamera()
+
+        
         this.setRenderer()
+        
         this.setMouse()
       
         this.setResources()
-        this.setWorld()
         //this.setControls()
 
+        this.setWorld()
         //this.setVideo();
       
         

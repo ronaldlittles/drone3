@@ -30,7 +30,7 @@ export default class Box extends EventEmitter {
     this.experience = new Experience();
     this.config = this.experience.config;
     this.debug = this.experience.debug;
-    this.world = this.experience.world;
+    
 
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
@@ -42,9 +42,8 @@ export default class Box extends EventEmitter {
     this.targetElement = this.experience.targetElement;
 
     
-    //this.world = this.experience.world;
-    
-    
+    this.world = this.experience.world;
+    console.log(this.world.walls.arrowUpPressed)
    
     this.setCubeTexture()
     this.resource1 = this.resources.items.me;
@@ -60,7 +59,7 @@ export default class Box extends EventEmitter {
     this.setCity() 
     this.setBox()
    
-  //  /this.walls = new Walls()
+    //this.walls = new Walls()
   
    
     this.clamp = THREE.MathUtils.clamp;
@@ -86,17 +85,17 @@ let mergedGeometry = mergeBufferGeometries([circle1, circle2], false);
 let material = new THREE.MeshBasicMaterial({ 
   //color: 0xff0000, 
   side: THREE.DoubleSide,
-  map: this.resource2,
+  map: this.renderer.renderTarget.texture,
   transparent: true,
   opacity: 1,
 
 });
 
-this.mesh = new THREE.Mesh(mergedGeometry, new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide}));
+this.mesh = new THREE.Mesh(mergedGeometry, new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide, map:this.renderer.renderTarget.texture}));
 
 this.scene.add(this.mesh);
 
-this.mesh.scale.setScalar(500)
+this.mesh.scale.setScalar(350)
 
 console.log(this.mesh)
 
@@ -476,6 +475,7 @@ function nextText() {
     //this.mesh1.position.copy(this.walls.model.position)
 
    
+  
   } 
 
   resize() {

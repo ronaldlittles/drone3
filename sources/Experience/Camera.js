@@ -89,13 +89,13 @@ export default class Camera {
       this.sizes.frustrum / 2,
       -this.sizes.frustrum / 2,
       -50,
-      50
+     50
     );
 
     // 6.5
-    //this.orthographicCamera.position.set(0,200,400);
-    //this.orthographicCamera.lookAt(this.scene.position);
-    //this.orthographicCamera.rotation.x = Math.PI/2;
+    this.orthographicCamera.position.set(0,50,0);
+    this.orthographicCamera.lookAt(new THREE.Vector3(0,0,0));
+    this.orthographicCamera.rotation.x = Math.PI/2;
 
     //this.scene2.add( new THREE.CameraHelper(this.orthographicCamera))
 

@@ -21,8 +21,11 @@ export default class Renderer {
     this.camera = this.experience.camera;
     this.resources = this.experience.resources;
 
+    this.world = this.experience.world;
     const layers = new THREE.Layers();
 
+
+    
     //this.video = this.experience.video;
 
     //this.resource1 = this.resources.items.tacoBell;
@@ -36,7 +39,8 @@ export default class Renderer {
     this.setInstance();
     this.setPostProcess();
 
-
+  
+    
   
 const buttonLeft2 = document.getElementById('left2');
 const buttonLeft3 = document.getElementById('left3');
@@ -45,13 +49,13 @@ const buttonLeft3 = document.getElementById('left3');
 buttonLeft2.addEventListener('click', () => {
   this.currentScene = this.scene;
   // You may need to call the update method here to render the new scene
-  this.update();
+  
 });
 
 buttonLeft3.addEventListener('click', () => {
   this.currentScene = this.scene2;
   // You may need to call the update method here to render the new scene
-  this.update();
+  
 });
 
     this.currentScene = this.scene2;
@@ -195,6 +199,10 @@ this.switchScene = function() {
       }
     );
 
+    
+
+    
+
     this.renderTarget2 = new THREE.WebGLRenderTarget(
       this.sizes.width,
       this.sizes.height,
@@ -226,7 +234,8 @@ this.switchScene = function() {
    
     this.postProcess.unrealBloomPass.renderTarget = this.renderTarget;
 
-    console.log(this.postProcess);
+    
+
   }
 
 
@@ -249,9 +258,9 @@ this.switchScene = function() {
     }
 
     if (this.usePostprocess) {
-      /* this.instance.setViewport(0, 0, this.sizes.width, this.sizes.height);
+       /*this.instance.setViewport(0, 0, this.sizes.width, this.sizes.height);
 
-        this.instance.render(this.scene2, this.camera.instance);
+        //this.instance.render(this.scene2, this.camera.instance);
 
         this.postProcess.composer.render();
         
@@ -275,23 +284,27 @@ this.switchScene = function() {
         
        this.instance.setScissorTest(false); */
 
-       //this.renderer.clear()
+       this.instance.setRenderTarget(this.renderTarget)
 
-      //this.instance.setRenderTarget(this.renderTarget);
+       this.instance.render(this.scene2, this.camera.orthographicCamera)
+        
+       this.instance.setRenderTarget(null)
+      //this.renderTarget.texture.needsUpdate = false   //this.camera.orthographicCamera.renderTarget(this.currentScene, );
 
       this.instance.render(this.currentScene, this.camera.instance);
 
-     this.instance.setRenderTarget(null);
+      //this.instance.setRenderTarget(null);
 
-     this.postProcess.renderToScreen = false;
+     //this.postProcess.renderToScreen = false;
 
       //this.postProcess.composer.render();
 
+      //this.camera.orthographicCamera.render(this.scene, this.camera.instance);
      
 
     } else {
      
-      this.postProcess.composer.render(0.01);
+      this.postProcess.composer.render();
       //this.camera.orthographicCamera.setVeiwport(0, 0, this.sizes.width, this.sizes.height);  
 
       //this.camera.orthographicCamera.render(this.scene, this.camera.instance);

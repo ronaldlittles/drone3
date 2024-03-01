@@ -35,8 +35,45 @@ export default class TrackGeometry extends EventEmitter {
 
     this.setGeometry()
     this.setGeometry2()
+    this.setCirlces()
 
   
+    }
+
+    setCirlces(){
+
+
+// Array to hold torus geometries
+var torusGeometries = [];
+
+// Create 20 torus geometries with decreasing radii
+for (var i = 0; i < 20; i++) {
+    var radius = 1 - (i * 0.05);
+    var tubeRadius = 0.002;
+    var radialSegments = 32;
+    var tubularSegments = 32;
+
+    var geometry = new THREE.TorusGeometry(radius, tubeRadius, radialSegments, tubularSegments);
+    torusGeometries.push(geometry);
+}
+
+// Create materials for the toruses
+var material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
+
+// Create meshes for each torus geometry and position them inside each other
+for (var i = 0; i < torusGeometries.length; i++) {
+    this.torus = new THREE.Mesh(torusGeometries[i], material);
+    this.offsetY = Math.sin(this.time.elapsed *i*15)*.5
+    this.torus.position.set(0, this.offsetY, 200); // You can adjust the position as needed
+    this.scene.add(this.torus);
+    this.torus.scale.setScalar(250)
+}
+
+
+
+
+
+
     }
 
   
@@ -94,7 +131,7 @@ this.buildingModel = this.resource5.scene
 
 this.buildingModel.scale.setScalar(50);
 
-this.scene.add(this.buildingModel);
+//this.scene.add(this.buildingModel);
 
 this.baloons = [];
 
@@ -281,6 +318,9 @@ function getPointAboveCurve(t, distanceAbove) {
 
     update() {
 
+      
+    
+
       let loopTime = 60;
       let speed = .5;
 
@@ -364,9 +404,9 @@ if(!this.mesh2added ){
   binormalHelper.setDirection(binormal);
   
       
-      this.scene.add(tangentHelper);
-     this.scene.add(normalHelper);
-      this.scene.add(binormalHelper);
+     // this.scene.add(tangentHelper);
+     //this.scene.add(normalHelper);
+      //this.scene.add(binormalHelper);
    
 
 
