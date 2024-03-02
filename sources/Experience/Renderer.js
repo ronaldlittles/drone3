@@ -286,10 +286,10 @@ this.switchScene = function() {
 
        this.instance.setRenderTarget(this.renderTarget)
 
-       this.instance.render(this.scene2, this.camera.orthographicCamera)
+       this.instance.render(this.scene2, this.camera.instance2)
         
        this.instance.setRenderTarget(null)
-      //this.renderTarget.texture.needsUpdate = false   //this.camera.orthographicCamera.renderTarget(this.currentScene, );
+      this.renderTarget.texture.needsUpdate = false   //this.camera.orthographicCamera.renderTarget(this.currentScene, );
 
       this.instance.render(this.currentScene, this.camera.instance);
 

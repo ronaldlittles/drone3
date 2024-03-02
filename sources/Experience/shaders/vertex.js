@@ -160,6 +160,43 @@ const vertexShader = {
 
 `,
 
+vertexShader4: `
+
+
+varying vec2 vUv;
+uniform float time;
+uniform sampler2D texture1;
+
+
+void main(){
+
+  float max = .05;
+  vUv = uv;
+
+  vec3 newPosition = position;
+
+  vec4 color = texture2D(texture1, vUv);
+
+  float height = color.r;
+  
+
+  float base = 0.0;
+
+newPosition.z += height*max;
+
+
+  
+ 
+
+  
+  
+vec4 mvPosition = modelViewMatrix * vec4(newPosition+normal, 1.0);
+gl_Position = projectionMatrix * mvPosition;
+
+}
+
+`,
+
 
 
 

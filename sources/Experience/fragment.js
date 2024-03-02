@@ -319,6 +319,28 @@ void main() {
 
 
 `,
+
+
+fragmentShader5: `
+
+
+uniform sampler2D texture1;
+varying vec2 vUv;
+
+void main(){
+
+  float height = texture2D(texture1, vUv).r;
+
+  vec3 color1 = vec3(height);
+
+  gl_FragColor = vec4(color1,1.0);
+  
+}
+
+
+
+`,
+
 }; 
 
   

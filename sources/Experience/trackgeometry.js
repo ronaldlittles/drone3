@@ -6,6 +6,8 @@ import { Water } from 'three/examples/jsm/objects/Water.js';
 import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
 import TShirt from "./tshirt.js";
+import { vertexShader } from "./shaders/vertex.js";
+import { fragmentShader } from "./fragment.js";
 
 export default class TrackGeometry extends EventEmitter {
 
@@ -36,9 +38,45 @@ export default class TrackGeometry extends EventEmitter {
     this.setGeometry()
     this.setGeometry2()
     this.setCirlces()
+    this.setShader()
 
   
     }
+
+    setShader(){
+
+      this.terrainShader = new THREE.ShaderMaterial({
+
+        transparent: true,
+        side: THREE.DoubleSide,
+        
+        uniforms: {
+  
+          time: { value: 1.0 },
+         
+          texture1: { value: this.renderer.renderTarget.texture },
+          
+        },
+     
+        vertexShader: vertexShader.vertexShader4,
+        fragmentShader: fragmentShader.fragmentShader5,
+      })
+
+      this.terrain = new THREE.Mesh(
+
+      new THREE.PlaneGeometry(2,2,512,512), this.terrainShader
+
+
+    )
+
+
+    this.scene.add(this.terrain)
+    this.terrain.scale.setScalar(400)
+    this.terrain.position.set(0,0,250)
+
+    }
+
+
 
     setCirlces(){
 
@@ -49,9 +87,9 @@ var torusGeometries = [];
 // Create 20 torus geometries with decreasing radii
 for (var i = 0; i < 20; i++) {
     var radius = 1 - (i * 0.05);
-    var tubeRadius = 0.002;
-    var radialSegments = 32;
-    var tubularSegments = 32;
+    var tubeRadius = 0.009;
+    var radialSegments = 64;
+    var tubularSegments = 64;
 
     var geometry = new THREE.TorusGeometry(radius, tubeRadius, radialSegments, tubularSegments);
     torusGeometries.push(geometry);
@@ -343,14 +381,17 @@ function getPointAboveCurve(t, distanceAbove) {
       //this.camera.instance.lookAt(pos2);
 
       this.mesh2added=false
-if(!this.mesh2added ){
-      this.scene.add(this.mesh2);
+
+      if(!this.mesh2added ){
+
+      //this.scene.add(this.mesh2);
       this.mesh2added = true;
-}
+
+      }
        
       this.offset = new THREE.Vector3(0, -5, 0);
       this.offset2 = new THREE.Vector3(0, -800, -5000);
-      this.mesh2.position.copy(pos).add(this.offset);
+      //this.mesh2.position.copy(pos).add(this.offset);
 
 
       let delay =3.8;

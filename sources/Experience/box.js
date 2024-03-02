@@ -93,7 +93,7 @@ let material = new THREE.MeshBasicMaterial({
 
 this.mesh = new THREE.Mesh(mergedGeometry, new THREE.MeshStandardMaterial({color: 0xffffff, side: THREE.DoubleSide, map:this.renderer.renderTarget.texture}));
 
-this.scene.add(this.mesh);
+//this.scene.add(this.mesh);
 
 this.mesh.scale.setScalar(350)
 

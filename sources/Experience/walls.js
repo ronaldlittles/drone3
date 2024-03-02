@@ -1723,7 +1723,7 @@ if (intersects2.length > 0) {
 
       this.arrowUpPressed = false
 
-      this.camera.instance.position.copy( new THREE.Vector3(0, 500, 500))
+     // this.camera.instance.position.copy( new THREE.Vector3(0, 500, 500))
     }
 
 

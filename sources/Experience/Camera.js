@@ -73,7 +73,7 @@ export default class Camera {
     this.instance2.matrixAutoUpdate = true;
     this.instance2.updateProjectionMatrix();
     this.instance2.matrixWorldNeedsUpdate = true;
-    this.instance2.position.set(0, 510,3000);
+    this.instance2.position.set(0, 3500, 0);
     this.instance2.lookAt(this.scene2.position)
 
     this.scene2.add(this.instance);
@@ -84,20 +84,20 @@ export default class Camera {
   createOrthographicCamera() {
 
     this.orthographicCamera = new THREE.OrthographicCamera(
-      (-this.sizes.aspect * this.sizes.frustrum) / 2,
-      (this.sizes.aspect * this.sizes.frustrum) / 2,
-      this.sizes.frustrum / 2,
-      -this.sizes.frustrum / 2,
+     (-this.sizes.aspect * this.sizes.frustrum) ,
+     (this.sizes.aspect * this.sizes.frustrum) ,
+     this.sizes.frustrum ,
+      -this.sizes.frustrum ,-100,10000
       -50,
-     50
-    );
-
+    50
+    
+    )
     // 6.5
-    this.orthographicCamera.position.set(0,50,0);
-    this.orthographicCamera.lookAt(new THREE.Vector3(0,0,0));
-    this.orthographicCamera.rotation.x = Math.PI/2;
+    this.orthographicCamera.position.set(0,0,0);
+    this.orthographicCamera.lookAt(this.scene2.position);
+   this.orthographicCamera.rotation.x = Math.PI/2;
 
-    //this.scene2.add( new THREE.CameraHelper(this.orthographicCamera))
+    this.scene2.add( new THREE.CameraHelper(this.orthographicCamera))
 
   }
 
