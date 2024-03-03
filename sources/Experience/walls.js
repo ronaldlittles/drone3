@@ -1269,9 +1269,9 @@ console.log(this.s)
           this.torusGeometry = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 ),
             
 
-          this.redMaterial
+          //this.redMaterial
 
-         /*  new THREE.MeshStandardMaterial({
+           new THREE.MeshStandardMaterial({
 
              //color: Math.random() * 0xffff,
              map: this.renderer.renderTarget.texture, 
@@ -1280,13 +1280,13 @@ console.log(this.s)
              opacity: 1,
            
 
-          }) */
+          }) 
 
           )
 
          
 
-        this.sphere.scale.setScalar(15)
+        this.sphere.scale.setScalar(9)
         this.scene2.add(this.sphere)
 
         this.sphere.castShadow = true
@@ -1303,7 +1303,7 @@ console.log(this.s)
             
           )
 
-          this.sphere2.scale.setScalar(25)
+          this.sphere2.scale.setScalar(10)
           this.sphere2.castShadow = true;
           //this.scene2.add(this.sphere2)
   
@@ -1379,7 +1379,7 @@ console.log(this.s)
       this.sphereClone = this.sphere2.clone()
       this.sphereClone.position.copy(positionOnCurve.clone()).add(this.offset).add(this.randomOffset)
 
-      //this.scene2.add(this.sphereClone)
+      this.scene2.add(this.sphereClone)
       this.objectsArray1.push(this.sphereClone) 
 
       
@@ -1387,7 +1387,7 @@ console.log(this.s)
       this.sphere2Clone = this.sphere.clone()
       this.sphere2Clone.position.copy(positionOnCurve.clone())//.add(this.randomOffset)//.add(this.test)
       
-      //this.scene2.add(this.sphere2Clone) 
+      this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
 
     

@@ -96,7 +96,7 @@ for (var i = 0; i < 20; i++) {
 }
 
 // Create materials for the toruses
-var material = new THREE.MeshBasicMaterial({ map: this.renderer.renderTarget2.texture, transparent: true, opacity:.5 });
+var material = new THREE.MeshBasicMaterial({ map: this.renderer.renderTarget.texture, transparent: true, opacity:.5 });
 
 // Create meshes for each torus geometry and position them inside each other
 for (var i = 0; i < torusGeometries.length; i++) {
@@ -104,7 +104,7 @@ for (var i = 0; i < torusGeometries.length; i++) {
     this.offsetY = Math.sin(this.time.elapsed *i*15)*.5
     this.torus.position.set(0, this.offsetY, 200); // You can adjust the position as needed
     this.scene.add(this.torus);
-    this.torus.scale.setScalar(250)
+    this.torus.scale.setScalar(100)
 }
 
 
