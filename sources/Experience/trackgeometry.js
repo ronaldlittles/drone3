@@ -54,7 +54,7 @@ export default class TrackGeometry extends EventEmitter {
   
           time: { value: 1.0 },
          
-          texture1: { value: this.renderer.renderTarget.texture },
+          texture1: { value: this.renderer.renderTarget2.texture },
           
         },
      
@@ -96,7 +96,7 @@ for (var i = 0; i < 20; i++) {
 }
 
 // Create materials for the toruses
-var material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: false });
+var material = new THREE.MeshBasicMaterial({ map: this.renderer.renderTarget2.texture, transparent: true, opacity:.5 });
 
 // Create meshes for each torus geometry and position them inside each other
 for (var i = 0; i < torusGeometries.length; i++) {
@@ -187,7 +187,7 @@ this.scene.add(this.baloonsModel);
 this.baloons = this.baloonsModel
 
 
-
+console.log(this.renderer.renderTarget.texture)
 
 }
 

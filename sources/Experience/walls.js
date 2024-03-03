@@ -228,13 +228,13 @@ if(this.tube4){
     
 
 
-    const text = new TTFLoader()
-    text.load( '/assets/ProtestRiot-Regular.ttf', function ( json ) {  
+    const text = new FontLoader()
+    text.load( '/assets/gentilis.json', function ( json ) {  
 
       const font = new Font(json)
       let textGeometry = new TextGeometry( 'LAX', {
         font: font,
-        size: 80,
+        size: 180,
         height: 7,
   
         curveSegments: 10,
@@ -251,7 +251,7 @@ if(this.tube4){
       this.textGeometry = new THREE.Mesh( textGeometry, this.textMaterial )
       this.scene2.add( this.textGeometry )
       //this.textGeometry.position.set(-500, 300, 0)
-      //this.textGeometry.scale.setScalar(2)
+      this.textGeometry.scale.setScalar(2)
       this.model.add(this.textGeometry)
       this.textGeometry.translateY(100)
       this.textGeometry.translateX(100)
@@ -484,7 +484,7 @@ if(this.tube4){
     this.model.scale.set(1.2,.5,1.1)
     //this.model.scale.setScalar(30)
     this.scene2.add(this.model);
-    this.model.add(this.audio2)
+    //this.model.add(this.audio2)
     
 
     this.cars = this.model.clone()
@@ -526,7 +526,7 @@ for (let i = 0; i < amount; i++) {
    this.modelTube = new THREE.Mesh(
 
     new THREE.TorusGeometry( 6, .3, 10, 100 ), 
-    new THREE.MeshStandardMaterial({ map: this.resource2, opacity: 1, transparent: true, side: THREE.DoubleSide }) 
+    new THREE.MeshStandardMaterial({ map: this.renderer.renderTarget2.texture, opacity: 1, transparent: true, side: THREE.DoubleSide }) 
 
     );
 

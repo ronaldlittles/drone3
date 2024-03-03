@@ -39,7 +39,7 @@ export default class Renderer {
     this.setInstance();
     this.setPostProcess();
 
-  
+  this.setCapture()
     
   
 const buttonLeft2 = document.getElementById('left2');
@@ -238,6 +238,27 @@ this.switchScene = function() {
 
   }
 
+  // Assuming `captureButton` is the button element to trigger the capture process
+
+  setCapture(){
+
+
+
+  this.instance.setRenderTarget(this.renderTarget2);
+
+ this.instance.render(this.scene, this.camera.instance);
+
+ this.instance.setRenderTarget(null)
+
+  
+  
+
+
+
+  }
+
+
+
 
   resize() {
     // Instance
@@ -258,64 +279,38 @@ this.switchScene = function() {
     }
 
     if (this.usePostprocess) {
-       /*this.instance.setViewport(0, 0, this.sizes.width, this.sizes.height);
 
-        //this.instance.render(this.scene2, this.camera.instance);
+      this.instance.setRenderTarget(this.renderTarget)
+      
+      this.instance.render(this.scene2, this.camera.instance2)
 
-        this.postProcess.composer.render();
-        
-        this.instance.setScissorTest(true);
+      
+  
 
-        this.instance.setViewport(
-            this.sizes.width - this.sizes.width ,
-            this.sizes.height - this.sizes.height / 6,
-            this.sizes.width *2,
-          100
-        );
-       
-         this.instance.setScissor(
-            this.sizes.width - this.sizes.width ,
-            this.sizes.height - this.sizes.height / 6,
-            this.sizes.width *2,
-           100
-        );  
- 
-       //this.instance.render(this.scene, this.camera.instance2);
-        
-       this.instance.setScissorTest(false); */
-
-       this.instance.setRenderTarget(this.renderTarget)
-
-       this.instance.render(this.scene2, this.camera.instance2)
-        
        this.instance.setRenderTarget(null)
-      this.renderTarget.texture.needsUpdate = false   //this.camera.orthographicCamera.renderTarget(this.currentScene, );
+
+      this.instance.autoClear = false
+
+      this.instance.clear()
+      
+      this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
 
       this.instance.render(this.currentScene, this.camera.instance);
 
-      //this.instance.setRenderTarget(null);
-
-     //this.postProcess.renderToScreen = false;
-
-      //this.postProcess.composer.render();
-
-      //this.camera.orthographicCamera.render(this.scene, this.camera.instance);
      
-
     } else {
      
       this.postProcess.composer.render();
-      //this.camera.orthographicCamera.setVeiwport(0, 0, this.sizes.width, this.sizes.height);  
-
-      //this.camera.orthographicCamera.render(this.scene, this.camera.instance);
-         //this.instance.render(this.scene2, this.camera.instance);
     }
 
-   // this.instance.render(this.scene2, this.camera.instance);
+   
 
     if (this.stats) {
+
       this.stats.afterRender();
+
     }
+
   }
 
   destroy() {

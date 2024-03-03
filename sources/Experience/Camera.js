@@ -73,10 +73,10 @@ export default class Camera {
     this.instance2.matrixAutoUpdate = true;
     this.instance2.updateProjectionMatrix();
     this.instance2.matrixWorldNeedsUpdate = true;
-    this.instance2.position.set(0, 3500, 0);
-    this.instance2.lookAt(this.scene2.position)
+    this.instance2.position.set(0, 0, 400);
+    //this.instance2.lookAt(this.scene.position)
 
-    this.scene2.add(this.instance);
+    this.scene.add(this.instance2);
 
 
   }
@@ -97,7 +97,7 @@ export default class Camera {
     this.orthographicCamera.lookAt(this.scene2.position);
    this.orthographicCamera.rotation.x = Math.PI/2;
 
-    this.scene2.add( new THREE.CameraHelper(this.orthographicCamera))
+    //this.scene2.add( new THREE.CameraHelper(this.orthographicCamera))
 
   }
 

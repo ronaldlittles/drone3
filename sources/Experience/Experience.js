@@ -55,7 +55,7 @@ export default class Experience
 
         this.time = new Time()
         this.sizes = new Sizes()
-        //this.scene2 = new THREE.Scene()
+        
         
          
   
@@ -77,25 +77,6 @@ export default class Experience
         this.setWorld()
         //this.setVideo();
       
-        
-      
-
-         const testGeometry = new THREE.PlaneGeometry(20,20)
-         const testMaterial = new THREE.MeshBasicMaterial({
-            color: 'blue',
-            side: THREE.DoubleSide,
-            //map: this.video,
-        })
-
-        const testMesh = new THREE.Mesh( testGeometry, testMaterial )
-       // this.scene.add(testMesh)
-
-        testMesh.scale.set(2,2,2)
-
-        testMesh.scale.setScalar(5) 
-
-         
-       
        
         this.sizes.on('resize', () =>
         {
@@ -146,7 +127,7 @@ export default class Experience
             //this.debug = new Pane()
             //this.debug.containerElem_.style.width = '320px'
             //this.debug.containerElem_.style.width = '320px'
-console.log(this.debug)
+
             
         }
     } 

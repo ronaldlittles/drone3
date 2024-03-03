@@ -94,7 +94,7 @@ export default [
 
     {
       name: 'riot',
-      source: '/assets/ProtestRiot-Regular.ttf',
+      source: '/assets/fonts/gentilis.json',
       type: 'font',
 
     },
