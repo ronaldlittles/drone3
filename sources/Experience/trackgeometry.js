@@ -8,6 +8,7 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
 import TShirt from "./tshirt.js";
 import { vertexShader } from "./shaders/vertex.js";
 import { fragmentShader } from "./fragment.js";
+import GSAP from 'gsap';
 
 export default class TrackGeometry extends EventEmitter {
 
@@ -83,6 +84,7 @@ export default class TrackGeometry extends EventEmitter {
 
 // Array to hold torus geometries
 var torusGeometries = [];
+ this.toruses =[];
 
 // Create 20 torus geometries with decreasing radii
 for (var i = 0; i < 20; i++) {
@@ -105,12 +107,22 @@ for (var i = 0; i < torusGeometries.length; i++) {
     this.torus.position.set(0, this.offsetY, 200); // You can adjust the position as needed
     this.scene.add(this.torus);
     this.torus.scale.setScalar(100)
+    this.toruses.push(this.torus)
+    
+
+
+let distance = 10;
+
+GSAP.to(this.torus.position, {
+
+    z: -50,
+    ease: 'sine.inOut',
+    stagger:{ each: .5, from: 'center', repeat: -1, yoyo: true}, 
+
+  });
+
+
 }
-
-
-
-
-
 
     }
 

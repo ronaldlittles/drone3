@@ -5,6 +5,7 @@ import {DragControls} from 'three/examples/jsm/controls/DragControls.js';
 import World from './World.js'
 import EventEmitter from './Utils/EventEmitter.js'
 import * as Tweakpane from 'tweakpane';
+import { TubeBufferGeometry } from "three";
 
 export default class Camera {
   constructor(_options) {
@@ -29,7 +30,7 @@ export default class Camera {
     this.setInstance2();
     this.setOrbitControls()
     this.setModes()
-    //this.setMapControls()
+    this.setMapControls()
     //this.setDebug()
     //this.setDragControls();
      
@@ -76,7 +77,7 @@ export default class Camera {
     this.instance2.position.set(0, 0, 400);
     //this.instance2.lookAt(this.scene.position)
 
-    this.scene.add(this.instance2);
+    //this.scene.add(this.instance2);
 
 
   }
@@ -125,20 +126,31 @@ export default class Camera {
 
   setMapControls(){
 
-    this.mapControls = new MapControls(this.instance, this.targetElement );
-
+    this.mapControls = new MapControls(this.instance2, this.targetElement );
+console.log(this.mapControls)
     //mapControls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
 
     this.mapControls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    this.mapControls.dampingFactor = 0.05;
+    this.mapControls.dampingFactor = 0.05
 
     this.mapControls.screenSpacePanning = false;
 
-    this.mapControls.minDistance = 100;
+    this.mapControls.minDistance = 50;
     this.mapControls.maxDistance = 200;
 
-    this.mapControls.maxPolarAngle = Math.PI /3;
+   // this.mapControls.minPolarAngle = Math.PI/2
 
+    this.mapControls.maxPolarAngle = Math.PI/2
+
+   // this.mapControls.minAzimuthAngle = 0
+    this.mapControls.maxAzimuthAngle = Math.PI/2
+
+    //this.mapControls.rotateSpeed = 25
+
+    //this.mapControls.zoomSpeed = 25
+this.mapControls.enablePan = true
+this.mapControls.enableRotate = false
+this.mapControls.enableZoom = false
     
 }
 
@@ -227,7 +239,8 @@ export default class Camera {
 
   update() {
    
-  this.orbitControls.update()
+  //this.orbitControls.update()
+  this.mapControls.update()
 
   //this.azimuth = this.orbitControls.getAzimuthalAngle()
 
