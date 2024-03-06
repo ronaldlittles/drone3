@@ -824,11 +824,17 @@ for (let i = 0; i < amount; i++) {
 
     });
 
+    var redValue = 100; // Value above 1
+    var greenValue = 0;
+    var blueValue = 0;
+    
+    // Create the color without normalizing the values
+    var color = new THREE.Color(redValue, greenValue, blueValue);
 
     this.redMaterial = new THREE.MeshStandardMaterial({ 
 
             side: THREE.DoubleSide,
-            color: new THREE.Color(0,0,1),
+            color: color,
             opacity: 1,
            transparent: true,
 
@@ -836,7 +842,8 @@ for (let i = 0; i < amount; i++) {
             
         });
 
-
+//this.redMaterial.emissive = color
+//this.redMaterial.emissiveIntensity = 1
         //this.meshes[0].material = this.displacementMaterial //body
         //this.meshes[1].material = this.displacementMaterial  //treetrunk
         //this.meshes[2].material = this.displacementMaterial //leaves
@@ -1448,7 +1455,7 @@ this.s = new THREE.SphereGeometry( 1, 32, 32 );
     this.modelTube.rotation.y +=  .2;
     //this.modelTube.rotation.z +=  2;
 
-    this.plane2.position.copy(this.model.position)
+   // this.plane2.position.copy(this.model.position)
 
     this.shaderMaterial.uniforms.needsUpdate = true;
     //this.shaderMaterial2.uniforms.needsUpdate = true;
@@ -1574,7 +1581,7 @@ binormalHelper.setDirection(this.binormal);
     
     //this.camera.instance.add(this.light1)
 
-    this.plane2.position.copy(this.model.position)
+    //this.plane2.position.copy(this.model.position)
     
     let originalValue = this.normal.y
 

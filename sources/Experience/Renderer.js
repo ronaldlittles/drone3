@@ -184,7 +184,7 @@ this.switchScene = function() {
 
     this.postProcess.unrealBloomPass.enabled = true;
 
-    this.postProcess.unrealBloomPass.basic.color = new THREE.Color(100,0,0)
+    
 
     console.log(this.postProcess)
 
