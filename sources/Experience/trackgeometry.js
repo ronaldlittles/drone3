@@ -72,7 +72,7 @@ export default class TrackGeometry extends EventEmitter {
     )
 
 
-    this.scene.add(this.terrain)
+    //this.scene.add(this.terrain)
     this.terrain.scale.setScalar(400)
     this.terrain.position.set(0,0,250)
 

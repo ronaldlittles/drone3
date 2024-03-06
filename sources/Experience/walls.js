@@ -226,7 +226,7 @@ if(this.tube4){
 
     //this.scene2.fog = new THREE.FogExp2('0xefd1b5', 0.0025);
     
-
+/* 
 
     const text = new FontLoader()
     text.load( '/assets/gentilis.json', function ( json ) {  
@@ -260,7 +260,7 @@ if(this.tube4){
       this.textGeometry.castShadow = true
       this.textGeometry.receiveShadow = true
 
-      }.bind(this) );
+      }.bind(this) ); */
 
       
 
@@ -1588,8 +1588,8 @@ binormalHelper.setDirection(this.binormal);
     let normalizedValue = (originalValue + 1) / 2;
 
     
-    this.label.textContent = `${this.model.position.x.toString()} ${this.model.position.y.toString()}  ${this.model.position.z.toString()}`
-    this.label3.textContent = (normalizedValue).toFixed(5);
+    //this.label.textContent = `${this.model.position.x.toString()} ${this.model.position.y.toString()}  ${this.model.position.z.toString()}`
+    //this.label3.textContent = (normalizedValue).toFixed(5);
     //this.label4.textContent = (this.distance).toFixed(10);
 
 

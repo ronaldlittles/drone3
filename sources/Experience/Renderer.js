@@ -295,9 +295,10 @@ this.switchScene = function() {
 
       this.instance.clear()
       
-      //this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
+      
+      this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
 
-      this.instance.render(this.scene2, this.camera.instance);
+      this.instance.render(this.currentScene, this.camera.instance);
 
      //this.postProcess.composer.render();
 
