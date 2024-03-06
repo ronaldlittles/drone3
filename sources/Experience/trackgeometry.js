@@ -9,6 +9,9 @@ import TShirt from "./tshirt.js";
 import { vertexShader } from "./shaders/vertex.js";
 import { fragmentShader } from "./fragment.js";
 import GSAP from 'gsap';
+import { Vector3 } from "three";
+import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
+import { bindVertexBufferToProgramAttribute } from "@tensorflow/tfjs-backend-webgl/dist/webgl_util.js";
 
 export default class TrackGeometry extends EventEmitter {
 
@@ -40,8 +43,6 @@ export default class TrackGeometry extends EventEmitter {
     this.setGeometry2()
     this.setCirlces()
     this.setShader()
-
-  
     }
 
     setShader(){
@@ -109,20 +110,21 @@ for (var i = 0; i < torusGeometries.length; i++) {
     this.torus.scale.setScalar(100)
     this.toruses.push(this.torus)
     
+}
+
 
 
 let distance = 10;
 
-GSAP.to(this.torus.position, {
+GSAP.to(this.toruses.position, {
 
-    z: -50,
-    ease: 'sine.inOut',
-    stagger:{ each: .5, from: 'center', repeat: -1, yoyo: true}, 
+  z: -50,
+  ease: 'sine.inOut',
+  stagger:{ each: .5, from: 'center', repeat: -1, yoyo: true}, 
 
-  });
+});
 
 
-}
 
     }
 
@@ -148,7 +150,7 @@ GSAP.to(this.torus.position, {
     }
     
     this.curve = new THREE.CatmullRomCurve3(points);
-    const geometry = new THREE.TubeGeometry(this.curve, segments, 12, 8, false);
+    this.geometry = new THREE.TubeGeometry(this.curve, segments, 12, 8, false);
     const material = new THREE.PointsMaterial({
        //color: 0x0000ff,
       // map: this.resource2,
@@ -160,13 +162,15 @@ GSAP.to(this.torus.position, {
       
       });
 
-    this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh = new THREE.Mesh(this.geometry, material);
     this.scene.add(this.mesh);
 
-    geometry.computeVertexNormals();
-    
+    this.geometry.computeVertexNormals()
 
-    console.log(this.mesh)
+    //this.geometry.attributes.normal.array.onUploadCallback(dispose)
+  
+
+    console.log(this.geometry)
 
     //this.mesh.visible = false;
     
@@ -266,7 +270,17 @@ this.light2.position.set(600, 0, 0);
 
       let x,y,z;
 
-      
+
+/*const points = [];
+const numPoints = 100;
+for (let i = 0; i <= numPoints; i++) {
+    const t = (i / numPoints) * Math.PI * 2; // Parametric parameter
+    const x = Math.sin(t);
+    const y = Math.sin(2 * t);
+    const z = Math.cos(2 * t);
+    points.push(new THREE.Vector3(x, y, z));
+}*/
+
 
        x = Math.sin(t ) * radius;
        z = (Math.sin(t) * Math.cos(t)) * radius;
@@ -443,7 +457,7 @@ function getPointAboveCurve(t, distanceAbove) {
 //this.light2.position.copy(pos)
 
        let tangentHelper = new THREE.ArrowHelper(tangent, pos, 35, 0xff0000); // Red for tangent
-      let normalHelper = new THREE.ArrowHelper(normal, pos, 10, 0x00ff00); // Green for normal
+      let normalHelper = new THREE.ArrowHelper(normal, pos, 100, 0x00ff00); // Green for normal
       let binormalHelper = new THREE.ArrowHelper(binormal, pos, 10, 0x0000ff); // Blue for binormal
   
   
@@ -451,14 +465,14 @@ function getPointAboveCurve(t, distanceAbove) {
     
   tangentHelper.position.copy(pos2);
   tangentHelper.setDirection(tangent);
-  normalHelper.position.copy(pos2);
-  normalHelper.setDirection(normal);
+  normalHelper.position.copy(pos);
+  normalHelper.setDirection(new THREE.Vector3(0,1,0));
   binormalHelper.position.copy(pos2);
   binormalHelper.setDirection(binormal);
   
       
      // this.scene.add(tangentHelper);
-     //this.scene.add(normalHelper);
+     this.scene.add(normalHelper);
       //this.scene.add(binormalHelper);
    
 

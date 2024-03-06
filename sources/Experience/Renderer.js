@@ -143,7 +143,7 @@ this.switchScene = function() {
     const params = {
       exposure:.5,
       bloomStrength:0,
-      bloomThreshold:0,
+      bloomThreshold:1,
       bloomRadius:0,
     };
 
@@ -163,28 +163,30 @@ this.switchScene = function() {
       this.debugFolder
      .add(this.postProcess.unrealBloomPass, "exposure", 0)
       .min(0)
-      .max(10)
+      .max(1)
       .step(0.0001); 
       this.debugFolder
         .add(this.postProcess.unrealBloomPass, "threshold", 0)
         .min(0)
-        .max(10)
+        .max(1)
         .step(0.0001);
       this.debugFolder
         .add(this.postProcess.unrealBloomPass, "strength", 0)
         .min(0)
-        .max(10)
+        .max(1)
         .step(0.0001);
       this.debugFolder
         .add(this.postProcess.unrealBloomPass, "radius", 0)
         .min(0)
-        .max(10)
+        .max(1)
         .step(0.0001);
     }
 
     this.postProcess.unrealBloomPass.enabled = true;
 
-    //this.postProcess.outputPass = new OutputPass();
+    this.postProcess.unrealBloomPass.basic.color = new THREE.Color(100,0,0)
+
+    console.log(this.postProcess)
 
     this.renderTarget = new THREE.WebGLRenderTarget(
       this.sizes.width,
@@ -293,11 +295,12 @@ this.switchScene = function() {
 
       this.instance.clear()
       
-      this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
+      //this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
 
-      this.instance.render(this.currentScene, this.camera.instance);
+      this.instance.render(this.scene2, this.camera.instance);
 
-     
+     //this.postProcess.composer.render();
+
     } else {
      
       this.postProcess.composer.render();

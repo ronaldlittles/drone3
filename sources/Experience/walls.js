@@ -828,11 +828,11 @@ for (let i = 0; i < amount; i++) {
     this.redMaterial = new THREE.MeshStandardMaterial({ 
 
             side: THREE.DoubleSide,
-            color: 'white',
-            opacity: .8,
+            color: new THREE.Color(0,0,1),
+            opacity: 1,
            transparent: true,
 
-            map: this.renderer.renderTarget.texture,
+            //map: this.renderer.renderTarget.texture,
             
         });
 
@@ -1082,7 +1082,7 @@ racetrackShape6.lineTo(-.2, -1);
     //CUSTOM GEOMETRY
 this.s = new THREE.SphereGeometry( 1, 32, 32 );
 
-console.log(this.s)
+
     
     //this.geometry2 = new THREE.BufferGeometry().setFromPoints( );
 
@@ -1094,9 +1094,9 @@ console.log(this.s)
 
     for ( let i = 0; i < this.numPoints; i ++ ) {
 
-      this.positions[ i + 0 ] = ( Math.random() - .5 );
-      this.positions[ i + 1 ] = ( Math.random() - .5 );
-      this.positions[ i + 2 ] = ( Math.random() - .5 );
+      this.positions[ i + 0 ] = ( Math.random() *2 - 1 );
+      this.positions[ i + 1 ] = ( Math.random() * 1 - .5 );
+      this.positions[ i + 2 ] = ( Math.random() * 4 - 2);
 
       
       this.randoms[ i + 0 ] = Math.random();
@@ -1116,7 +1116,7 @@ console.log(this.s)
 
     this.plane2 = new THREE.Points( this.geometry, this.shaderMaterial5)
     this.scene2.add(this.plane2)
-    this.plane2.scale.setScalar(1000)
+    this.plane2.scale.setScalar(3000)
 
 
     this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
@@ -1461,7 +1461,7 @@ console.log(this.s)
       this.water.material.uniforms.time.value +=  this.time.delta * 1.5
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 2.5
-      this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 2.0
+      this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 1.5
       this.shaderMaterial6.uniforms.time.value +=  this.time.delta * .5
       this.shaderMaterial4.uniforms.time.value +=  this.time.elapsed * .0005
 
