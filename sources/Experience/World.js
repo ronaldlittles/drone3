@@ -12,6 +12,8 @@ import TrackGeometry from "./trackgeometry.js";
 
 import Font from './font.js'
 
+import AnimationController from "./animationcontroller.js";
+
 
 import Car from "./car.js";
 //import Drone from "./drone.js";
@@ -66,12 +68,13 @@ export default class World {
         this.setTrackGeometry()
         this.setWalls();
         this.setBox();
+        this.setAnimationController()
         //this.setDrone();
-      //this.setVideo();
+        //this.setVideo();
       
-      //this.setControls2();
+        //this.setControls2();
       
-      this.setDebugger()
+        this.setDebugger()
 
       
       }
@@ -88,6 +91,12 @@ export default class World {
 
 
     this.trackGeometry = new TrackGeometry()
+  }
+
+  setAnimationController(){
+
+    this.animationController = new AnimationController()
+
   }
 
   /*  setRaceTrack(){
@@ -195,6 +204,9 @@ export default class World {
 
     if(this.trackGeometry)
     this.trackGeometry.update()
+
+    if(this.animationController)
+    this.animationController.update()
 
     if(this.debugger)
     this.debugger.update()

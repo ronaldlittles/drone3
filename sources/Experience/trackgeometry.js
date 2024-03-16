@@ -13,6 +13,7 @@ import { Vector3 } from "three";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 import { bindVertexBufferToProgramAttribute } from "@tensorflow/tfjs-backend-webgl/dist/webgl_util.js";
 
+
 export default class TrackGeometry extends EventEmitter {
 
   constructor() {
@@ -72,7 +73,7 @@ export default class TrackGeometry extends EventEmitter {
     )
 
 
-    //this.scene.add(this.terrain)
+    this.scene.add(this.terrain)
     this.terrain.scale.setScalar(400)
     this.terrain.position.set(0,0,250)
 
@@ -84,7 +85,7 @@ export default class TrackGeometry extends EventEmitter {
 
 
 // Array to hold torus geometries
-var torusGeometries = [];
+ var torusGeometries = [];
  this.toruses =[];
 
 // Create 20 torus geometries with decreasing radii
@@ -472,7 +473,7 @@ function getPointAboveCurve(t, distanceAbove) {
   
       
      // this.scene.add(tangentHelper);
-     this.scene.add(normalHelper);
+     //this.scene.add(normalHelper);
       //this.scene.add(binormalHelper);
    
 

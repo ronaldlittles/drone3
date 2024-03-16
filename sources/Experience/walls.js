@@ -20,6 +20,8 @@ import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudi
 import { sign, softmax } from "@tensorflow/tfjs";
 import Box from "./box.js";
 
+//import  default from "./vertex.glsl"
+
 export default class Walls extends EventEmitter {
   constructor() {
 
@@ -118,7 +120,7 @@ export default class Walls extends EventEmitter {
     let direction = new THREE.Vector3().subVectors(this.model.position, this.plane.position).normalize()
   
   
-  this.plane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), direction )
+  //this.plane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), direction )
   
 
 }
@@ -507,7 +509,7 @@ for (let i = 0; i < amount; i++) {
     
    
     this.model.children[0].children[0].castShadow= true
-    this.directionalLight.lookAt(this.model.position)
+   // this.directionalLight.lookAt(this.model.position)
 
     this.model2 = this.resource8.scene;
     this.model2.name = "trees2model";
@@ -538,17 +540,24 @@ for (let i = 0; i < amount; i++) {
 
                  this.meshes = [];
                       this.model2.traverse((object) => {
-                        if ( object.isMesh) {
-                          this.meshes.push(object);
+
+                        if ( object.isMesh  ) {
+                          this.meshes.push(object)
+                          this.leavesClone = this.meshes[2]
+                          this.leavesClone2 = this.meshes[3]
                         } 
-                      });  
 
+                        
+                       });  
 
-        console.log(this.meshes)
-
-        //this.meshes[0].receiveShadow = true
+        
+                       this.leaves = this.leavesClone.clone()
+                       this.leaves2 = this.leavesClone2.clone()
+        //this.meshes[3].scale.setScalar(5)
         //this.meshes[1].receiveShadow = tru
         //this.meshes[2].receiveShadow = true 
+
+        this.leaves.rotation.y += Math.random() *5
 
         
 
@@ -838,7 +847,7 @@ for (let i = 0; i < amount; i++) {
             opacity: 1,
            transparent: true,
 
-            //map: this.renderer.renderTarget.texture,
+            map: this.renderer.renderTarget.texture,
             
         });
 
@@ -851,7 +860,7 @@ for (let i = 0; i < amount; i++) {
 
 
          
-        this.numPoints = 5000;
+        // this.numPoints = 5000;
         this.points = [];
         this.derivatives = [];
     
@@ -1089,21 +1098,35 @@ racetrackShape6.lineTo(-.2, -1);
     //CUSTOM GEOMETRY
 this.s = new THREE.SphereGeometry( 1, 32, 32 );
 
-
+let radius = 100;
     
     //this.geometry2 = new THREE.BufferGeometry().setFromPoints( );
 
     this.geometry = new THREE.BufferGeometry();
+
+    
+    const spherical = new THREE.Spherical(
+
+      radius,
+      Math.random() * Math.PI,
+      Math.random() * Math.PI *2
+      
+    )
+
+    //this.geometry.setFromSpherical(spherical)
     
     this.positions = new Float32Array( this.numPoints * 3 );
     this.randoms = new Float32Array( this.numPoints * 3 );
     this.sizes = new Float32Array( this.numPoints );
 
+    
+
     for ( let i = 0; i < this.numPoints; i ++ ) {
 
-      this.positions[ i + 0 ] = ( Math.random() *2 - 1 );
-      this.positions[ i + 1 ] = ( Math.random() * 1 - .5 );
-      this.positions[ i + 2 ] = ( Math.random() * 4 - 2);
+
+      this.positions[ i + 0 ] = ( Math.random()  - .5);
+      this.positions[ i + 1 ] = ( Math.random()  - .5);
+      this.positions[ i + 2 ] = ( Math.random()  - .5);
 
       
       this.randoms[ i + 0 ] = Math.random();
@@ -1177,7 +1200,7 @@ this.s = new THREE.SphereGeometry( 1, 32, 32 );
 
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5,this.displacementMaterial) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.redMaterial) 
 
       this.scene2.add(this.tube5);
 
@@ -1235,7 +1258,7 @@ this.s = new THREE.SphereGeometry( 1, 32, 32 );
             side: THREE.DoubleSide,
             transparent:true,
             opacity: 1,
-            map:this.renderer.renderTarget.texture,
+            map:this.renderer.renderTarget2.texture,
           })
 
          
@@ -1297,7 +1320,6 @@ this.s = new THREE.SphereGeometry( 1, 32, 32 );
         this.scene2.add(this.sphere)
 
         this.sphere.castShadow = true
-
 
         this.roundedBox = new RoundedBoxGeometry( 2, 2, 2, 24, 0.09 );
        
@@ -1444,6 +1466,8 @@ this.s = new THREE.SphereGeometry( 1, 32, 32 );
 
       update() {
 
+        
+
    this.audioHelper.update()
 
     this.model2Clone.lookAt(this.model.position)
@@ -1572,8 +1596,6 @@ binormalHelper.setDirection(this.binormal);
     //this.scene2.add(normalHelper);
    // this.scene2.add(binormalHelper);
 
-    
-    
 
     
 
@@ -1720,9 +1742,17 @@ if (intersects2.length > 0) {
 
       this.arrowLeftPressed = false; 
 
-      this.model.rotation.y += Math.PI/4;
+      //this.model.rotation.y += Math.PI/4;
     
-      this.model.position.x +=  25
+      //this.model.position.x +=  25
+
+      
+      const referenceVector = new THREE.Vector3(0,0,1)
+    
+      const quaternion = new THREE.Quaternion().setFromUnitVectors(referenceVector, tangent)
+  
+  
+     this.model.setRotationFromQuaternion(quaternion)
 
     } 
 
@@ -1743,8 +1773,9 @@ if (intersects2.length > 0) {
       this.camera.instance.lookAt(this.model.position)
 
       this.model.lookAt(   pos4   )
+
+  
  
-      
 
     
       this.treesArray.forEach((model2Clone, index) => {
@@ -1754,14 +1785,14 @@ if (intersects2.length > 0) {
 
         model2Clone.userData = { 
 
-          originalRotation: model2Clone.rotation.clone(),
-          currentRotation: model2Clone.rotation.clone(),
+          originalRotation: this.leaves.rotation.clone(),
+          currentRotation:  this.leaves.rotation.clone(),
           
           audioTriggered: false,
           sound: this.audio,
         
         }
-        model2Clone.userData.currentRotation.copy(model2Clone.rotation)
+        model2Clone.userData.currentRotation.copy(this.leaves.rotation)
 
        //console.log(model2Clone.userData.originalRotation)
         //console.log(model2Clone.userData.currentRotation)
@@ -1770,14 +1801,19 @@ if (intersects2.length > 0) {
 
         if(this.distance < 175) {
       
-      model2Clone.rotation.x += -10 * this.time.delta
+      //model2Clone.rotation.x += -10 * this.time.delta
         
-      model2Clone.rotation.y += .5 * this.time.delta
-
-      model2Clone.rotation.z += -10 * this.time.delta
+     
+  this.leaves.rotation.x += 50 * this.time.elapsed * Math.random()
+  this.leaves.rotation.y += 50 * this.time.elapsed * Math.random()
+  this.leaves.rotation.z += 50 * this.time.elapsed * Math.random()
+  
+  this.leaves2.rotation.z = Math.PI/2
+     
+      //model2Clone.rotation.z += -10 * this.time.delta
 
       //needs to be regulated to play once
-
+        
       
 
       if(!model2Clone.userData.audioTriggered ){
@@ -1795,26 +1831,20 @@ if (intersects2.length > 0) {
 
         } else {
 
-          model2Clone.rotation.x = model2Clone.userData.originalRotation.x
+          //model2Clone.rotation.x = model2Clone.userData.originalRotation.x
         
-          model2Clone.rotation.y = model2Clone.userData.originalRotation.y
+          //this.leaves.rotation.y = this.model2Clone.userData.originalRotation.y
 
-          model2Clone.rotation.z = model2Clone.userData.originalRotation.z
+          //model2Clone.rotation.z = model2Clone.userData.originalRotation.z
         }
 
       
 
   })
 
+  //this.leaves.scale.setScalar(55)
 
-
-
-      
-    
-  }
-
-
-   
+}
       }
 
       resize() {

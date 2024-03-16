@@ -6,6 +6,8 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 //import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
+import AnimationController  from './animationcontroller.js'
+
 
 export default class Renderer {
   constructor(_options = {}) {
@@ -24,7 +26,6 @@ export default class Renderer {
     this.world = this.experience.world;
     const layers = new THREE.Layers();
 
-
     
     //this.video = this.experience.video;
 
@@ -39,20 +40,31 @@ export default class Renderer {
     this.setInstance();
     this.setPostProcess();
 
-  this.setCapture()
+    this.setCapture();
+
     
-  
+
+
+
 const buttonLeft2 = document.getElementById('left2');
 const buttonLeft3 = document.getElementById('left3');
 
 // Add event listeners to the buttons
 buttonLeft2.addEventListener('click', () => {
+
+  
+  this.fade(this.scene2);
+
   this.currentScene = this.scene;
   // You may need to call the update method here to render the new scene
   
 });
 
 buttonLeft3.addEventListener('click', () => {
+
+  
+  this.fade(this.scene);
+
   this.currentScene = this.scene2;
   // You may need to call the update method here to render the new scene
   
@@ -62,13 +74,40 @@ buttonLeft3.addEventListener('click', () => {
 
 
 this.switchScene = function() {
+
   if (this.currentScene === this.scene) {
     this.currentScene = this.scene;
   } else {
     this.currentScene = this.scene2;
   }
+
 }
     
+  }
+
+  fade(scene){
+
+  
+    scene.traverse((object) => {
+  
+    if(object.material){
+  
+    if(object.material.opacity > 0){
+  
+      object.material.opacity -= 0.01;
+  
+    }
+
+    
+    this.animationController = new AnimationController(object.material)
+    console.log(this.animationController)
+    console.log(this.world)
+  
+  
+  }
+  
+  
+    })
   }
 
 
@@ -246,9 +285,9 @@ this.switchScene = function() {
 
 
 
-  this.instance.setRenderTarget(this.renderTarget2);
+ this.instance.setRenderTarget(this.renderTarget);
 
- this.instance.render(this.scene, this.camera.instance);
+ this.instance.render(this.scene2, this.camera.instance);
 
  this.instance.setRenderTarget(null)
 
@@ -296,11 +335,15 @@ this.switchScene = function() {
       this.instance.clear()
       
       
+     this.postProcess.composer.render();
+
+     //this.postProcess.renderToScreen = false
+
+     
       this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
 
       this.instance.render(this.currentScene, this.camera.instance);
 
-     //this.postProcess.composer.render();
 
     } else {
      

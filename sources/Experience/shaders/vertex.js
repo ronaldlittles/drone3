@@ -43,8 +43,10 @@ const vertexShader = {
 			`,
 
       vertexShader2: `
+    
 
-     
+
+     // #include "./hash12polar.glsl"
 
       uniform sampler2D splinePoints; 
      
@@ -53,6 +55,7 @@ const vertexShader = {
       varying vec2 vUv;
       varying vec3 vPosition;
       uniform sampler2D texture1;
+      uniform float uNoise; 
       attribute vec3 aRandom;
       attribute float aSize;
 
@@ -100,10 +103,16 @@ const vertexShader = {
       
       void main() {
 
+
+
+        //vec2 hash = Hash12_Polar(time);
+
         
         vec3 pos =  position + attributes;
         float progress = fract(time*0.01 + aRandom.x);
-         pos.y += fract(time + aRandom.x + attributes.y);
+         //pos.y += fract(time + aRandom.x + attributes.y);
+         pos.y *= uNoise;
+         //pos.z *= uNoise;
 
         
         vec3 normal = getNormal(progress);
@@ -120,7 +129,11 @@ const vertexShader = {
         //pos.x += sin(cx * time) * 0.1;
         //pos.z *= cos(cy * time) * 0.1;
 
-        vUv = uv;
+        vUv = uv; //+ hash;
+
+        
+        vec3 color = texture2D(texture1, vUv).rgb;
+
         vec4 mvPosition = modelViewMatrix * vec4( pos, 1. );
         
         float speed = .005;
@@ -129,8 +142,12 @@ const vertexShader = {
 
         mvPosition.y -= mod((time + offset) * speed * scale, 2.0);
 
-        gl_PointSize = 30.0; //40.*(5. + 50. * aSize) * ( 1. / - mvPosition.z );
+        gl_PointSize = 80.;//*(5. + 50. * aSize) * ( 1. / - mvPosition.z );
         gl_Position = projectionMatrix * mvPosition;
+
+
+        
+      
       }
 
      

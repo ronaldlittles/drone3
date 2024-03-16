@@ -45,7 +45,7 @@ void main() {
     float p = texture2D(texture1, T1 * 2.0).a;
   
     vec4 color = texture2D(texture2, T2 * 2.0);
-    vec4 temp = color * (vec4(p, p, p, p) * 2.0) + (color * color - 0.1);
+    vec4 temp = color * (vec4(p, p, p, p) * 2.0) + (color * color - 0.5);
   
     if (temp.r > 1.0) { temp.bg += clamp(temp.r - 2.0, 0.0, 100.0); }
     if (temp.g > 1.0) { temp.rb += temp.g - 1.0; }
@@ -150,15 +150,6 @@ vec2 Hash12(float t){
 
 }
 
-
-vec2 Hash12_Polar(float t){
-
-  float a = fract(sin(t*674.3) * 453.2);
-  float d = fract(sin((t+a)*714.3)*263.2);
-
-  return vec2(sin(a), cos(a)) * d;
-
-}
 
 
 float Explosion(vec2 uv, float t) {
@@ -296,24 +287,31 @@ void main() {
     camPos.yz *= rot(pitch); camPos.zx *= rot(yaw);
     rd.yz     *= rot(pitch);     rd.zx *= rot(yaw);
 
-
-    vec2 pointCoord = gl_PointCoord * 2.0 - 1.0;
     
-    float distance = length(pointCoord);
+    //vec4 pointCoord = gl_PointCoord * 20.0;
 
-    float threshold = .5;
+    
+    
+
+    
+    float distance = length(gl_PointCoord);
+
+    vec4 color = texture2D(texture1, gl_PointCoord+distance);
+
+
+   /* float threshold = .5;
 
     if(distance > threshold){
 
       discard;
 
-    }
+    } */
 
 
 
   
 	  //gl_FragColor = vec4(pow(shading(camPos, rd), vec3(1. / 2.2)), 1.);
-    gl_FragColor = vec4(1,0.0,0.0,1.0);
+    gl_FragColor = color;
     
 }
 
