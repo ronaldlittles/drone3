@@ -193,7 +193,7 @@ uniform sampler2D texture1;
 
 void main(){
 
-  float max = .05;
+  float max = .1;
   vUv = uv;
 
   vec3 newPosition = position;

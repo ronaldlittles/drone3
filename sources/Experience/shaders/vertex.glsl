@@ -1,37 +1,35 @@
-      
-      #include "./hash12polar.glsl"
+//#include ../includes/hash12polar.glsl
 
-      uniform float time;
-      
-      
-      
-      void main() {
+  
+    varying vec2 vUv;
+    
+    varying vec3 newPosition;
 
+    //varying vec3 vNormal;
 
+    
+    uniform float uNoise;
+  
+    uniform vec2 uvScale;
+  
+    uniform float time; 
+    
+    
 
-        vec2 hash = Hash12_Polar(time);
+  void main() {
 
-        
-        vec3 pos =  position;
+    //vNormal = normal;
 
+    vUv =  uv * uvScale; 
 
+    newPosition = position;
+     
+   
+  
+    vec4 mvPosition = modelViewMatrix * vec4(newPosition  , 1.0 );
+  
+  
 
-        vUv = uv + hash;
+    gl_Position = projectionMatrix * mvPosition;
 
-        
-        vec3 color = texture2D(texture1, vUv).rgb;
-
-        vec4 mvPosition = modelViewMatrix * vec4( pos, 1. );
-        
-        float speed = .005;
-        float offset = pos.y * .5;
-        float scale = 2.;
-
-        mvPosition.y -= mod((time + offset) * speed * scale, 2.0);
-
-        gl_PointSize = 80.;//*(5. + 50. * aSize) * ( 1. / - mvPosition.z );
-        gl_Position = projectionMatrix * mvPosition;
-
-      }
-
-      export *
+  }

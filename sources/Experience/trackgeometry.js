@@ -12,6 +12,7 @@ import GSAP from 'gsap';
 import { Vector3 } from "three";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 import { bindVertexBufferToProgramAttribute } from "@tensorflow/tfjs-backend-webgl/dist/webgl_util.js";
+import ShaderTest from "./shadertest.js";
 
 
 export default class TrackGeometry extends EventEmitter {
@@ -44,6 +45,9 @@ export default class TrackGeometry extends EventEmitter {
     this.setGeometry2()
     this.setCirlces()
     this.setShader()
+
+    //console.log(ShaderTest)
+
     }
 
     setShader(){
@@ -74,7 +78,7 @@ export default class TrackGeometry extends EventEmitter {
 
 
     this.scene.add(this.terrain)
-    this.terrain.scale.setScalar(400)
+    this.terrain.scale.setScalar(500)
     this.terrain.position.set(0,0,250)
 
     }

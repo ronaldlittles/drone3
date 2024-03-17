@@ -294,18 +294,20 @@ void main() {
     
 
     
-    float distance = length(gl_PointCoord);
+    float distance = length(gl_PointCoord-vec2(.5));
+
+
 
     vec4 color = texture2D(texture1, gl_PointCoord+distance);
 
 
-   /* float threshold = .5;
+    float threshold = .5;
 
     if(distance > threshold){
 
       discard;
 
-    } */
+    } 
 
 
 

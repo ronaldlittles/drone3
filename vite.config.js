@@ -14,5 +14,10 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
   },
-  plugins: [glsl(), vitePluginString()], 
+  plugins: [glsl(), vitePluginString()],
+  resolve: {
+    alias: {
+      '@shaders': '/src\shaders',
+    },
+  },
 });

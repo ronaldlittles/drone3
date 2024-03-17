@@ -100,8 +100,8 @@ this.switchScene = function() {
 
     
     this.animationController = new AnimationController(object.material)
-    console.log(this.animationController)
-    console.log(this.world)
+    this.animationController.material.opacity -= .005
+    
   
   
   }
@@ -176,14 +176,14 @@ this.switchScene = function() {
 
     this.postProcess.renderPass = new RenderPass(
       this.scene2,
-      this.camera.instance
+      this.camera.instance2
     );
 
     const params = {
       exposure:.5,
-      bloomStrength:0,
-      bloomThreshold:1,
-      bloomRadius:0,
+      bloomStrength:10,
+      bloomThreshold:.5,
+      bloomRadius:10,
     };
 
     this.postProcess.unrealBloomPass = new UnrealBloomPass(
@@ -259,7 +259,7 @@ this.switchScene = function() {
 
     this.postProcess.composer = new EffectComposer(
       this.instance,
-      this.renderTarget
+      this.renderTarget2
     );
 
     this.postProcess.composer.setSize(this.config.width, this.config.height);
@@ -321,7 +321,7 @@ this.switchScene = function() {
 
     if (this.usePostprocess) {
 
-      this.instance.setRenderTarget(this.renderTarget)
+      this.instance.setRenderTarget(this.renderTarget2)
       
       this.instance.render(this.scene2, this.camera.instance2)
 
@@ -330,9 +330,9 @@ this.switchScene = function() {
 
        this.instance.setRenderTarget(null)
 
-      this.instance.autoClear = false
+      //this.instance.autoClear = false
 
-      this.instance.clear()
+      //this.instance.clear()
       
       
      this.postProcess.composer.render();

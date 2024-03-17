@@ -20,7 +20,8 @@ import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudi
 import { sign, softmax } from "@tensorflow/tfjs";
 import Box from "./box.js";
 
-//import  default from "./vertex.glsl"
+import AnimationController from "./animationcontroller.js";
+
 
 export default class Walls extends EventEmitter {
   constructor() {
@@ -53,10 +54,6 @@ export default class Walls extends EventEmitter {
 
     this.resource1.colorSpace = THREE.SRGBColorSpace
 
-    
-
-    //console.log(this.world)
-
     //this.geo = new TrackGeometry()
   
 
@@ -64,7 +61,7 @@ export default class Walls extends EventEmitter {
    
  // this.box = new Box()
    
-  //console.log(this.box)
+  console.log(this.time)
 
     this.setBoxes();
 
@@ -851,6 +848,14 @@ for (let i = 0; i < amount; i++) {
             
         });
 
+        
+    this.anim = new AnimationController(this.redMaterial)
+
+    this.anim.stop()
+
+    console.log(this.anim)
+
+
 //this.redMaterial.emissive = color
 //this.redMaterial.emissiveIntensity = 1
         //this.meshes[0].material = this.displacementMaterial //body
@@ -1057,7 +1062,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.extrudeSettings = {
 
       steps: 1000,
-      depth: 150,
+      depth: 1500,
       
       extrudePath: this.spline,
 
@@ -1149,7 +1154,7 @@ let radius = 100;
     this.plane2.scale.setScalar(3000)
 
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.world.trackGeometry.terrainShader) 
     
     
     this.scene2.add(this.tube);
@@ -1275,11 +1280,11 @@ let radius = 100;
 
           //this.plane.rotation.x += Math.PI/2;
 
-          this.plane3 = new THREE.Mesh( new THREE.SphereGeometry( 1,36,36 ),
+          this.plane3 = new THREE.Mesh( new THREE.SphereGeometry( 1,512,512 ),
 
           new THREE.MeshStandardMaterial({
 
-          map: this.renderer.renderTarget.texture,
+          map: this.renderer.renderTarget2.texture,
           side: THREE.DoubleSide,
 
 
@@ -1287,10 +1292,10 @@ let radius = 100;
          
           )
 
-        this.plane3.scale.setScalar(5000)
+        this.plane3.scale.setScalar(3000)
         this.plane3.name = "skybox"
 
-        //this.scene2.add(this.plane3)
+        this.scene.add(this.plane3)
         this.plane3.position.set(0,-200,0)
 
 
@@ -1327,8 +1332,8 @@ let radius = 100;
             
             new THREE.CylinderGeometry( 2, 2, 20, 32 ),
           
- 
-            this.shaderMaterial6,
+ //new THREE.MeshBasicMaterial({map:this.renderer.renderTarget2.texture})
+            this.world.trackGeometry.terrainShader,
             
           )
 
@@ -1843,6 +1848,11 @@ if (intersects2.length > 0) {
   })
 
   //this.leaves.scale.setScalar(55)
+
+  if(this.anim.isPlaying ==true){
+
+    this.anim.material.opacity -= .05
+  }
 
 }
       }

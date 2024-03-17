@@ -7,7 +7,7 @@ export default class AnimationController {
 
         this.material = material
 
-        this.playing = false
+        this.isPlaying = false
 
 
     
@@ -28,6 +28,7 @@ export default class AnimationController {
     play(){
 
         this.isPlaying = true;
+        
 
     }
 
@@ -38,7 +39,6 @@ export default class AnimationController {
 
 
     update(){
-
 
 
 
