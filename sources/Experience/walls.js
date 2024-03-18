@@ -872,7 +872,7 @@ for (let i = 0; i < amount; i++) {
         
         
  
-    this.numPoints = 5000;
+    this.numPoints = 1000;
  
     this.spline = new THREE.CatmullRomCurve3(this.world.trackGeometry.points);
 
@@ -1154,16 +1154,24 @@ let radius = 100;
     this.plane2.scale.setScalar(3000)
 
 
-    this.tube = new THREE.Mesh(this.tubeGeo, this.world.trackGeometry.terrainShader) 
+    this.tube = new THREE.Mesh(this.tubeGeo, this.redMaterial) 
     
     
     this.scene2.add(this.tube);
-
     
-   
+   this.trackPlane = new THREE.Mesh(new THREE.PlaneGeometry(2,2,512.512), 
+ 
+   this.terrainShader,
+   /* new THREE.MeshBasicMaterial({
+    map:this.renderer.renderTarget2.texture,
+    side: THREE.DoubleSide,
+  }) */) 
 
+  this.scene2.add(this.trackPlane)
 
-
+this.trackPlane.rotation.x += Math.PI/2
+this.trackPlane.scale.setScalar(2000)
+this.trackPlane.position.y += 250
     //this.tube.rotation.x = Math.PI/2;
     
     this.tube.position.y =-10 
@@ -1295,7 +1303,7 @@ let radius = 100;
         this.plane3.scale.setScalar(3000)
         this.plane3.name = "skybox"
 
-        this.scene.add(this.plane3)
+       // this.scene.add(this.plane3)
         this.plane3.position.set(0,-200,0)
 
 
@@ -1853,6 +1861,9 @@ if (intersects2.length > 0) {
 
     this.anim.material.opacity -= .05
   }
+
+  
+
 
 }
       }

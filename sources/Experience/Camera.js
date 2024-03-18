@@ -70,7 +70,7 @@ export default class Camera {
       .1,
       10000
     );
-    this.instance2.rotation.reorder("YXZ");
+    this.instance2.rotation.reorder("XYZ");
     this.instance2.matrixAutoUpdate = true;
     this.instance2.updateProjectionMatrix();
     this.instance2.matrixWorldNeedsUpdate = true;

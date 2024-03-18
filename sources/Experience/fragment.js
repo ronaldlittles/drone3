@@ -329,11 +329,11 @@ varying vec2 vUv;
 
 void main(){
 
-  float height = texture2D(texture1, vUv).r;
+  vec4 height = texture2D(texture1, vUv);
 
   vec3 color1 = vec3(height);
 
-  gl_FragColor = vec4(color1,1.0);
+  gl_FragColor = vec4(height.rgb,1.0);
   
 }
 

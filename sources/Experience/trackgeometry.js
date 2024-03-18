@@ -40,11 +40,11 @@ export default class TrackGeometry extends EventEmitter {
     this.resource4 = this.resources.items.baloonsModel;
     this.resource5 = this.resources.items.buildingModel;
     this.resource7 = this.resources.items.riot
-
+    this.setShader()
     this.setGeometry()
     this.setGeometry2()
     this.setCirlces()
-    this.setShader()
+
 
     //console.log(ShaderTest)
 
@@ -71,15 +71,19 @@ export default class TrackGeometry extends EventEmitter {
 
       this.terrain = new THREE.Mesh(
 
-      new THREE.PlaneGeometry(2,2,512,512), this.terrainShader
+      new THREE.PlaneGeometry(2,2,1024,1024), this.terrainShader
 
 
     )
 
 
     this.scene.add(this.terrain)
-    this.terrain.scale.setScalar(500)
-    this.terrain.position.set(0,0,250)
+    this.scene2.add(this.terrain)
+    this.terrain.scale.setScalar(3000)
+    //this.terrain.position.set(0,100,0)
+    this.terrain.rotation.x += Math.PI/2
+    
+
 
     }
 
@@ -453,7 +457,7 @@ function getPointAboveCurve(t, distanceAbove) {
 
 
 
-
+this.terrainShader.uniforms.time.value += this.time.elapsed * 2.5
         
     
 

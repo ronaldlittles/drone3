@@ -176,14 +176,14 @@ this.switchScene = function() {
 
     this.postProcess.renderPass = new RenderPass(
       this.scene2,
-      this.camera.instance2
+      this.camera.instance
     );
 
     const params = {
       exposure:.5,
-      bloomStrength:10,
+      bloomStrength:1,
       bloomThreshold:.5,
-      bloomRadius:10,
+      bloomRadius:1,
     };
 
     this.postProcess.unrealBloomPass = new UnrealBloomPass(
@@ -285,9 +285,9 @@ this.switchScene = function() {
 
 
 
- this.instance.setRenderTarget(this.renderTarget);
+ this.instance.setRenderTarget(this.renderTarget2);
 
- this.instance.render(this.scene2, this.camera.instance);
+ this.instance.render(this.scene2, this.camera.instance2);
 
  this.instance.setRenderTarget(null)
 
@@ -335,7 +335,6 @@ this.switchScene = function() {
       //this.instance.clear()
       
       
-     this.postProcess.composer.render();
 
      //this.postProcess.renderToScreen = false
 
@@ -344,6 +343,7 @@ this.switchScene = function() {
 
       this.instance.render(this.currentScene, this.camera.instance);
 
+      this.postProcess.composer.render();
 
     } else {
      

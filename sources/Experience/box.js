@@ -128,7 +128,7 @@ this.mesh.receiveShadow = true;
     ]);
 
    
-    //lightthis.scene2.background =  this.cubeTexture
+    this.scene2.background =  this.resource2
     //this.scene2.backgroundBluriness = 1
     
     this.cubeTexture.needsUpdate = true

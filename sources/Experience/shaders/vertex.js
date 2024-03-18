@@ -193,7 +193,7 @@ uniform sampler2D texture1;
 
 void main(){
 
-  float max = .1;
+  float max = .05;
   vUv = uv;
 
   vec3 newPosition = position;
@@ -206,6 +206,7 @@ void main(){
   float base = 0.0;
 
 newPosition.z += height*max;
+//newPosition.y += 100.0 ;
 
 
   
@@ -213,7 +214,7 @@ newPosition.z += height*max;
 
   
   
-vec4 mvPosition = modelViewMatrix * vec4(newPosition+normal, 1.0);
+vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
 gl_Position = projectionMatrix * mvPosition;
 
 }
