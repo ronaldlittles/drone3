@@ -54,14 +54,14 @@ export default class Walls extends EventEmitter {
 
     this.resource1.colorSpace = THREE.SRGBColorSpace
 
-    //this.geo = new TrackGeometry()
+    this.geo = new TrackGeometry()
   
 
   
    
  // this.box = new Box()
    
-  console.log(this.time)
+  console.log(this.geo)
 
     this.setBoxes();
 
@@ -201,7 +201,7 @@ export default class Walls extends EventEmitter {
     this.audio2.setLoop(true)
     this.audio2.setRefDistance(50)  
     //this.audio.setDirectionalCone(0,360,0)
-    this.audio2.play()
+    //this.audio2.play()
     //this.audio.setVolume(1)
     
     
@@ -487,7 +487,7 @@ if(this.tube4){
     
 
     this.cars = this.model.clone()
-    this.scene2.add(this.cars)
+    //this.scene2.add(this.cars)
     this.cars.scale.set(.6,.25,.55)
     this.cars.rotation.set(0,Math.PI,0)
 
@@ -773,9 +773,9 @@ for (let i = 0; i < amount; i++) {
 
 
 
-    this.spline = new THREE.CatmullRomCurve3(this.world.trackGeometry.points);
+    this.spline = new THREE.CatmullRomCurve3(this.geo.points);
 
-    const uPointsSplice = this.spline.points.slice(0,150)
+    /*const uPointsSplice = this.spline.points.slice(0,150)
 
     const flattenedSpliceArray = []
 
@@ -795,24 +795,24 @@ for (let i = 0; i < amount; i++) {
 
     const splinePoints = this.spline.getPoints(100)
 
-    console.log(splinePoints)
+    console.log(splinePoints)*/
 
       this.shaderMaterial5 = new THREE.ShaderMaterial({
      
       side: THREE.DoubleSide,
 
-      glslVersion: THREE.GLSL1,
+      //glslVersion: THREE.GLSL1,
      
     
       uniforms: {
 
         time: { value: 0.0 },
         texture1: { value: this.resource1 },
-        uNoise: { value: this.iNoise },
+        //uNoise: { value: this.iNoise },
         uvScale: { value: new THREE.Vector2(1,1) },
-        iResolution: { value: new THREE.Vector2( this.config.width,this.config.height)},
-        iMouse: { value: new THREE.Vector2(this.mouse.x,this.mouse.y) },
-        uPoints: { value: this.spline.getPoints(100) },
+        //iResolution: { value: new THREE.Vector2( this.config.width,this.config.height)},
+        //iMouse: { value: new THREE.Vector2(this.mouse.x,this.mouse.y) },
+        //uPoints: { value: this.spline.getPoints(100) },
 
       },
    
@@ -822,7 +822,7 @@ for (let i = 0; i < amount; i++) {
     });
 
 
-    console.log(this.shaderMaterial5.uniforms.uPoints.value)
+    //console.log(this.shaderMaterial5.uniforms.uPoints.value)
 
    
     this.shaderMaterial6 = new THREE.ShaderMaterial({
@@ -873,7 +873,7 @@ for (let i = 0; i < amount; i++) {
             opacity: 1,
            transparent: true,
 
-            map: this.renderer.renderTarget.texture,
+            map: this.renderer.renderTarget2.texture,
             
         });
 
@@ -882,7 +882,7 @@ for (let i = 0; i < amount; i++) {
 
     this.anim.stop()
 
-    console.log(this.anim)
+    //console.log(this.anim)
 
 
         //this.redMaterial.emissive = color
@@ -1014,13 +1014,12 @@ for (let i = 0; i < amount; i++) {
 
     this.spacedPoints = this.spline.getSpacedPoints(1000).slice(700,1000)
 
-    this.spacedPoints2 = this.spline.getSpacedPoints(6000).slice(300,600)
+    this.spacedPoints2 = this.spline.getSpacedPoints(1000).slice(300,600)
 
     this.spacedPoints3 = this.spline.getSpacedPoints(1000).slice(125,875)
 
    
-   
-
+  
     this.spline2 = new THREE.CatmullRomCurve3(this.spacedPoints);
     
 
@@ -1509,7 +1508,7 @@ this.trackPlane.position.y += 250
 
         
 
-   this.audioHelper.update()
+   //this.audioHelper.update()
 
     this.model2Clone.lookAt(this.model.position)
 
@@ -1617,14 +1616,14 @@ this.trackPlane.position.y += 250
     const lookAt =  new THREE.Vector3(0, 0, 0)
 
         
-  
+  /*
     let tangentHelper = new THREE.ArrowHelper(tangent, pos, 50, 0xff0000); // Red for tangent
     let normalHelper = new THREE.ArrowHelper(this.normal, pos, 100, 0x00ff00); // Green for normal
     let binormalHelper = new THREE.ArrowHelper(this.binormal, pos, 100, 0x0000ff); // Blue for binormal
-
+*/
 
 let thOffset = new THREE.Vector3(0,20,0)
-  
+  /*
 tangentHelper.position.copy(pos);
 tangentHelper.setDirection(tangent);
 normalHelper.position.copy(pos);
@@ -1632,7 +1631,7 @@ normalHelper.setDirection(this.normal);
 binormalHelper.position.copy(pos);
 binormalHelper.setDirection(this.binormal);
 
-    
+   */ 
    // this.scene2.add(tangentHelper);
     //this.scene2.add(normalHelper);
    // this.scene2.add(binormalHelper);
@@ -1657,7 +1656,7 @@ binormalHelper.setDirection(this.binormal);
 
 
 
-      this.cars.position.copy( pos7.add(this.tangent2).add(this.normal2).add(this.binormal2).add(offset2))
+      //this.cars.position.copy( pos7.add(this.tangent2).add(this.normal2).add(this.binormal2).add(offset2))
    
 //this.orthographicCamera.position.copy( pos7.add(this.tangent2).add(this.normal2).add(this.binormal2).add(offset2))  
   
@@ -1788,12 +1787,12 @@ if (intersects2.length > 0) {
       //this.model.position.x +=  25
 
       
-      const referenceVector = new THREE.Vector3(0,0,1)
+      //const referenceVector = new THREE.Vector3(0,0,1)
     
-      const quaternion = new THREE.Quaternion().setFromUnitVectors(referenceVector, tangent)
+      //const quaternion = new THREE.Quaternion().setFromUnitVectors(referenceVector, tangent)
   
   
-     this.model.setRotationFromQuaternion(quaternion)
+    // this.model.setRotationFromQuaternion(quaternion)
 
     } 
 
@@ -1819,7 +1818,7 @@ if (intersects2.length > 0) {
  
 
     
-      this.treesArray.forEach((model2Clone, index) => {
+      /*this.treesArray.forEach((model2Clone, index) => {
         //this.mesh = this.meshes[2]
         this.mesh = model2Clone.children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0]
         //console.log(this.meshes)
@@ -1881,14 +1880,14 @@ if (intersects2.length > 0) {
 
       
 
-  })
+  })*/
 
   //this.leaves.scale.setScalar(55)
 
-  if(this.anim.isPlaying ==true){
+  /*if(this.anim.isPlaying ==true){
 
     this.anim.material.opacity -= .05
-  }
+  }*/
 
   
 

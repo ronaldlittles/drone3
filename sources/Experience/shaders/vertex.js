@@ -44,12 +44,12 @@ const vertexShader = {
 
       vertexShader2: `
     
-    #define NUM_POINTS 101
+    //#define NUM_POINTS 101
 
      // #include "./hash12polar.glsl"
 
      // uniform sampler2D splinePoints; 
-      uniform vec3 uPoints[NUM_POINTS];
+      //uniform vec3 uPoints[NUM_POINTS];
      
 
       uniform float time;
@@ -150,7 +150,7 @@ const vertexShader = {
         
         vec3 color = texture2D(texture1, vUv).rgb;
 
-        vec4 mvPosition = modelViewMatrix * vec4( figureEight, 1. );
+        vec4 mvPosition = modelViewMatrix * vec4( pos, 1. );
         
         float speed = .005;
         float offset = pos.y * .5;
@@ -158,7 +158,7 @@ const vertexShader = {
 
         mvPosition.y -= mod((time + offset) * speed * scale, 2.0);
 
-        gl_PointSize = 80.;//*(5. + 50. * aSize) * ( 1. / - mvPosition.z );
+        gl_PointSize = 40.;//*(5. + 50. * aSize) * ( 1. / - mvPosition.z );
         gl_Position = projectionMatrix * mvPosition;
 
 

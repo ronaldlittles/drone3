@@ -43,7 +43,7 @@ export default class TrackGeometry extends EventEmitter {
     this.setShader()
     this.setGeometry()
     this.setGeometry2()
-    this.setCirlces()
+    //this.setCirlces()
 
 
     //console.log(ShaderTest)
@@ -77,7 +77,7 @@ export default class TrackGeometry extends EventEmitter {
     )
 
 
-    this.scene.add(this.terrain)
+    //this.scene.add(this.terrain)
     this.scene2.add(this.terrain)
     this.terrain.scale.setScalar(3000)
     //this.terrain.position.set(0,100,0)
@@ -125,13 +125,13 @@ for (var i = 0; i < torusGeometries.length; i++) {
 
 let distance = 10;
 
-GSAP.to(this.toruses.position, {
+/*GSAP.to(this.toruses.position, {
 
   z: -50,
   ease: 'sine.inOut',
   stagger:{ each: .5, from: 'center', repeat: -1, yoyo: true}, 
 
-});
+});*/
 
 
 
@@ -212,7 +212,7 @@ this.scene.add(this.baloonsModel);
 this.baloons = this.baloonsModel
 
 
-console.log(this.renderer.renderTarget.texture)
+//console.log(this.renderer.renderTarget.texture)
 
 }
 
@@ -457,7 +457,7 @@ function getPointAboveCurve(t, distanceAbove) {
 
 
 
-this.terrainShader.uniforms.time.value += this.time.elapsed * 2.5
+//this.terrainShader.uniforms.time.value += this.time.elapsed * 2.5
         
     
 
