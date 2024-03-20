@@ -339,11 +339,11 @@ this.switchScene = function() {
      //this.postProcess.renderToScreen = false
 
      
-      this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
+      //this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
 
       this.instance.render(this.currentScene, this.camera.instance);
 
-      this.postProcess.composer.render();
+      //this.postProcess.composer.render();
 
     } else {
      

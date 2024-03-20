@@ -773,10 +773,35 @@ for (let i = 0; i < amount; i++) {
 
 
 
+    this.spline = new THREE.CatmullRomCurve3(this.world.trackGeometry.points);
+
+    const uPointsSplice = this.spline.points.slice(0,150)
+
+    const flattenedSpliceArray = []
+
+    uPointsSplice.forEach(vector => {
+
+      flattenedSpliceArray.push(vector.x.toFixed(6), vector.y.toFixed(6), vector.z.toFixed(6))
+
+    })
+
+    const flattenedFloatArray = []
+
+    flattenedSpliceArray.forEach(component=>{
+      flattenedFloatArray.push(parseFloat(component))
+
+    })
+
+
+    const splinePoints = this.spline.getPoints(100)
+
+    console.log(splinePoints)
 
       this.shaderMaterial5 = new THREE.ShaderMaterial({
      
       side: THREE.DoubleSide,
+
+      glslVersion: THREE.GLSL1,
      
     
       uniforms: {
@@ -787,6 +812,7 @@ for (let i = 0; i < amount; i++) {
         uvScale: { value: new THREE.Vector2(1,1) },
         iResolution: { value: new THREE.Vector2( this.config.width,this.config.height)},
         iMouse: { value: new THREE.Vector2(this.mouse.x,this.mouse.y) },
+        uPoints: { value: this.spline.getPoints(100) },
 
       },
    
@@ -794,6 +820,9 @@ for (let i = 0; i < amount; i++) {
       fragmentShader: fragmentShader.fragmentShader4,
    
     });
+
+
+    console.log(this.shaderMaterial5.uniforms.uPoints.value)
 
    
     this.shaderMaterial6 = new THREE.ShaderMaterial({
@@ -856,12 +885,12 @@ for (let i = 0; i < amount; i++) {
     console.log(this.anim)
 
 
-//this.redMaterial.emissive = color
-//this.redMaterial.emissiveIntensity = 1
+        //this.redMaterial.emissive = color
+        //this.redMaterial.emissiveIntensity = 1
         //this.meshes[0].material = this.displacementMaterial //body
         //this.meshes[1].material = this.displacementMaterial  //treetrunk
         //this.meshes[2].material = this.displacementMaterial //leaves
-         // this.meshes[3].material = this.displacementMaterial
+        // this.meshes[3].material = this.displacementMaterial
 
 
          
@@ -874,7 +903,6 @@ for (let i = 0; i < amount; i++) {
  
     this.numPoints = 1000;
  
-    this.spline = new THREE.CatmullRomCurve3(this.world.trackGeometry.points);
 
   
 

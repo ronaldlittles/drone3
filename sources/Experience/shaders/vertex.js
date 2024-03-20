@@ -44,11 +44,12 @@ const vertexShader = {
 
       vertexShader2: `
     
-
+    #define NUM_POINTS 101
 
      // #include "./hash12polar.glsl"
 
-      uniform sampler2D splinePoints; 
+     // uniform sampler2D splinePoints; 
+      uniform vec3 uPoints[NUM_POINTS];
      
 
       uniform float time;
@@ -72,6 +73,19 @@ const vertexShader = {
         return vec3(x,y,z);
       }
 
+
+      vec3 generateFigureEightPoints(float t){
+
+        float radius = 10.0;
+
+        float x = sin(t) * radius;
+        float y = cos(t) * radius;
+        float z = 0.0;
+
+        return vec3(x,y,z);
+
+
+      }
 
       vec3 getPos(float progress){
         float angle = progress * PI * 2.;
@@ -107,6 +121,8 @@ const vertexShader = {
 
         //vec2 hash = Hash12_Polar(time);
 
+        vec3 figureEight = generateFigureEightPoints(100.0);
+
         
         vec3 pos =  position + attributes;
         float progress = fract(time*0.01 + aRandom.x);
@@ -134,7 +150,7 @@ const vertexShader = {
         
         vec3 color = texture2D(texture1, vUv).rgb;
 
-        vec4 mvPosition = modelViewMatrix * vec4( pos, 1. );
+        vec4 mvPosition = modelViewMatrix * vec4( figureEight, 1. );
         
         float speed = .005;
         float offset = pos.y * .5;
