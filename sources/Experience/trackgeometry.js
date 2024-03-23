@@ -78,7 +78,7 @@ export default class TrackGeometry extends EventEmitter {
 
 
     this.scene.add(this.terrain)
-    this.scene2.add(this.terrain)
+    //this.scene2.add(this.terrain)
     this.terrain.scale.setScalar(3000)
     //this.terrain.position.set(0,-100,0)
     this.terrain.rotation.x += Math.PI/2
@@ -115,7 +115,7 @@ for (var i = 0; i < torusGeometries.length; i++) {
     this.torus = new THREE.Mesh(torusGeometries[i], material);
     this.offsetY = Math.sin(this.time.elapsed *i*15)*.5
     this.torus.position.set(0, this.offsetY, 200); // You can adjust the position as needed
-    this.scene.add(this.torus);
+    //this.scene.add(this.torus);
     this.torus.scale.setScalar(100)
     this.toruses.push(this.torus)
     
@@ -186,7 +186,7 @@ let distance = 10;
     //this.mesh.scale.setScalar(5);
     
 this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource2}));
-this.scene.add(this.mesh2);
+//this.scene.add(this.mesh2);
 this.mesh2.scale.setScalar(10);
 this.mesh2Clone = this.mesh2.clone();
 
@@ -207,7 +207,7 @@ this.baloonsModel.scale.setScalar(300);
 
 //this.baloonsModel.position.set(Math.random()*1000, Math.random()*1000, Math.random()*1000);
 
-this.scene.add(this.baloonsModel);
+//this.scene.add(this.baloonsModel);
 
 this.baloons = this.baloonsModel
 

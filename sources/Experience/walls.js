@@ -1302,7 +1302,7 @@ this.world.trackGeometry.terrainShader,
 
         //this.plane.translateZ(100)
 
-        this.scene.add(this.plane)
+        //this.scene.add(this.plane)
 
          
           //this.plane.rotation.z += Math.PI/2;
