@@ -141,9 +141,9 @@ let distance = 10;
     setGeometry2(){
 
     const points = [];
-    const R = 300; // Large circle radius
+    const R = 600; // Large circle radius
     const A = 5;  // Amplitude of the winding
-    const B = 15;   // Amplitude of the humps
+    const B = 135;   // Amplitude of the humps
     const k = 25;   // Frequency of the winding
     const m = 10;   // Frequency of the humps
     const phi = 0; // Phase shift for the humps
@@ -162,9 +162,9 @@ let distance = 10;
     this.geometry = new THREE.TubeGeometry(this.curve, segments, 12, 8, false);
     const material = new THREE.PointsMaterial({
        //color: 0x0000ff,
-      // map: this.resource2,
+     map: this.resource1,
        transparent: true,
-        opacity: 1,
+        opacity: .5,
         side: THREE.DoubleSide,
         //wireframe: true,
       size: 0.001
@@ -185,7 +185,7 @@ let distance = 10;
     
     //this.mesh.scale.setScalar(5);
     
-this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource2}));
+this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource1}));
 this.scene.add(this.mesh2);
 this.mesh2.scale.setScalar(200);
 this.mesh2Clone = this.mesh2.clone();
