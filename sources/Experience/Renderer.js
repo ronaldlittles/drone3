@@ -40,7 +40,7 @@ export default class Renderer {
     this.setInstance();
     this.setPostProcess();
 
-    //this.setCapture();
+    this.setCapture();
 
     
 
@@ -50,7 +50,7 @@ const buttonLeft2 = document.getElementById('left2');
 const buttonLeft3 = document.getElementById('left3');
 
 // Add event listeners to the buttons
-/*buttonLeft2.addEventListener('click', () => {
+buttonLeft2.addEventListener('click', () => {
 
   
   this.fade(this.scene2);
@@ -68,7 +68,7 @@ buttonLeft3.addEventListener('click', () => {
   this.currentScene = this.scene2;
   // You may need to call the update method here to render the new scene
   
-});*/
+});
 
     this.currentScene = this.scene2;
 
@@ -259,7 +259,7 @@ this.switchScene = function() {
 
     this.postProcess.composer = new EffectComposer(
       this.instance,
-      this.renderTarget
+      this.renderTarget2
     );
 
     this.postProcess.composer.setSize(this.config.width, this.config.height);
@@ -339,7 +339,7 @@ this.switchScene = function() {
      //this.postProcess.renderToScreen = false
 
      
-      //this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
+     // this.instance.render(this.scene,this.camera.instance2)//this.camera.orthographicCamera.renderTarget(this.currentScene, );
 
       this.instance.render(this.currentScene, this.camera.instance);
 

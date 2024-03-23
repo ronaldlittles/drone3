@@ -43,9 +43,9 @@ export default class Box extends EventEmitter {
 
     
     this.world = this.experience.world;
-    console.log(this.world.walls.arrowUpPressed)
+    //console.log(this.world.walls.arrowUpPressed)
    
-    this.setCubeTexture()
+    //this.setCubeTexture()
     this.resource1 = this.resources.items.me;
     this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.sceneModel
@@ -64,7 +64,7 @@ export default class Box extends EventEmitter {
    
     this.clamp = THREE.MathUtils.clamp;
    
-   this.setScene()
+  // this.setScene()
   
     
   }

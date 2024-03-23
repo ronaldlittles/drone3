@@ -121,7 +121,6 @@ const vertexShader = {
 
         //vec2 hash = Hash12_Polar(time);
 
-        vec3 figureEight = generateFigureEightPoints(100.0);
 
         
         vec3 pos =  position + attributes;
@@ -130,6 +129,7 @@ const vertexShader = {
          pos.y *= uNoise;
          //pos.z *= uNoise;
 
+         vec3 figureEight = generateFigureEightPoints(progress);
         
         vec3 normal = getNormal(progress);
         vec3 tangent = getTangent(progress);
@@ -221,7 +221,7 @@ void main(){
 
   float base = 0.0;
 
-newPosition.z += height*max;
+newPosition.z -= height*max;
 //newPosition.y += 100.0 ;
 
 

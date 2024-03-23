@@ -59,9 +59,7 @@ export default class Walls extends EventEmitter {
 
   
    
- // this.box = new Box()
-   
-  console.log(this.geo)
+ 
 
     this.setBoxes();
 
@@ -117,7 +115,7 @@ export default class Walls extends EventEmitter {
     let direction = new THREE.Vector3().subVectors(this.model.position, this.plane.position).normalize()
   
   
-  //this.plane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), direction )
+  
   
 
 }
@@ -153,14 +151,10 @@ export default class Walls extends EventEmitter {
      
     }
 
-      test(){
-
-    console.log('test from walls.js')
-     }
+      
   
       setSound(){
 
-    //this.drawing = new Drawing()
   
   
   
@@ -582,7 +576,7 @@ for (let i = 0; i < amount; i++) {
 
           this.arrowRightPressed = false;
 
-          console.log(this.model.position.distanceTo(this.tube7.position))
+          //console.log(this.model.position.distanceTo(this.tube7.position))
          
         });
 
@@ -593,7 +587,7 @@ for (let i = 0; i < amount; i++) {
 
           this.arrowLeftPressed = false;
 
-          console.log(this.model.position.distanceTo(this.tube7.position))
+          //console.log(this.model.position.distanceTo(this.tube7.position))
           
         });
   
@@ -707,8 +701,8 @@ for (let i = 0; i < amount; i++) {
             fogDensity: { value: 0.45 },
             fogColor: { value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
               
-            texture1: { value: this.resource1 },
-            texture2: { value: this.resource2 }
+            texture1: { value: this.renderer.renderTarget2.texture },
+            texture2: { value: this.renderer.renderTarget2.texture }
     
           },
        
@@ -880,7 +874,7 @@ for (let i = 0; i < amount; i++) {
         
     this.anim = new AnimationController(this.redMaterial)
 
-    this.anim.stop()
+   this.anim.stop()
 
     //console.log(this.anim)
 
@@ -919,10 +913,10 @@ for (let i = 0; i < amount; i++) {
       THREE.FloatType
     );
      
-    //dataTexture.needsUpdate = true; 
+    dataTexture.needsUpdate = true; 
    
 
-   // const attributes =  new THREE.BufferAttribute(new Float32Array(this.splinePoints), 3);  
+   const attributes =  new THREE.BufferAttribute(new Float32Array(this.splinePoints), 3);  
 
 
    
@@ -969,7 +963,7 @@ for (let i = 0; i < amount; i++) {
 
    
 
-    window.addEventListener("pointerdown", (event) => {
+    /*window.addEventListener("pointerdown", (event) => {
 
       const raycaster = new THREE.Raycaster();
 
@@ -997,19 +991,19 @@ for (let i = 0; i < amount; i++) {
           intersectsPoint.rotation.x += Math.PI/2
 
 
-        /*  this.pointY = intersects[0].point.y;
+         this.pointY = intersects[0].point.y;
          this.pointZ = intersects[0].point.z;
          
          this.label1 = this.pointY.toFixed(4)
          this.label2 = this.pointZ.toFixed(4)
       
-        this.label.textContent = `Index: ${this.label1} ${this.label2 }`; */
+        this.label.textContent = `Index: ${this.label1} ${this.label2 }`; 
         
       } 
     
      
 
-    })
+    })*/
     
 
     this.spacedPoints = this.spline.getSpacedPoints(1000).slice(700,1000)
@@ -1089,7 +1083,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.extrudeSettings = {
 
       steps: 1000,
-      depth: 1500,
+      depth: 500,
       
       extrudePath: this.spline,
 
@@ -1123,7 +1117,7 @@ racetrackShape6.lineTo(-.2, -1);
     this.tubeGeo5 = new THREE.TubeGeometry(this.spline3, 100, 200, 100, false);
 
     this.tubeGeo6 = new THREE.ExtrudeGeometry(racetrackShape6, this.extrudeSettings2);
-    this.tubeGeo.computeVertexNormals()
+    //this.tubeGeo.computeVertexNormals()
 
 
 
@@ -1188,16 +1182,16 @@ let radius = 100;
     
    this.trackPlane = new THREE.Mesh(new THREE.PlaneGeometry(2,2,512.512), 
  
-   this.terrainShader,
+   this.shaderMaterial,
    /* new THREE.MeshBasicMaterial({
     map:this.renderer.renderTarget2.texture,
     side: THREE.DoubleSide,
   }) */) 
 
-  this.scene2.add(this.trackPlane)
+  //this.scene2.add(this.trackPlane)
 
 this.trackPlane.rotation.x += Math.PI/2
-this.trackPlane.scale.setScalar(2000)
+this.trackPlane.scale.setScalar(5000)
 this.trackPlane.position.y += 250
     //this.tube.rotation.x = Math.PI/2;
     
@@ -1240,7 +1234,7 @@ this.trackPlane.position.y += 250
 
       
       
-      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.redMaterial) 
+      this.tube5 = new THREE.Mesh(this.tubeGeo5, this.shaderMaterial) 
 
       this.scene2.add(this.tube5);
 
@@ -1293,18 +1287,18 @@ this.trackPlane.position.y += 250
           
 
           this.plane = new THREE.Mesh( new THREE.PlaneGeometry( 2,2,2 ),
-
-          new THREE.MeshStandardMaterial({
+this.world.trackGeometry.terrainShader,
+          /*new THREE.MeshStandardMaterial({
             side: THREE.DoubleSide,
             transparent:true,
             opacity: 1,
             map:this.renderer.renderTarget2.texture,
-          })
+          })*/
 
          
           )
 
-        this.plane.scale.setScalar(1000)
+        this.plane.scale.setScalar(500)
 
         //this.plane.translateZ(100)
 
@@ -1374,7 +1368,7 @@ this.trackPlane.position.y += 250
 
           this.sphere2.scale.setScalar(10)
           this.sphere2.castShadow = true;
-          //this.scene2.add(this.sphere2)
+          this.scene2.add(this.sphere2)
   
     
    
@@ -1428,7 +1422,7 @@ this.trackPlane.position.y += 250
 
     this.offset3 = i%2===0?1.5:-1.5
 
-    const angle = Math.atan2(tangent.x , tangent.z );
+    const angle = Math.atan2(tangent.y , tangent.x );
 
     this.offset1 = new THREE.Vector3(50,0,0)
 
@@ -1458,21 +1452,21 @@ this.trackPlane.position.y += 250
       
       this.scene2.add(this.sphere2Clone) 
       this.objectsArray2.push(this.sphere2Clone) 
-
+/*
     
     this.modelClone= this.model.clone()
     this.modelClone.position.copy(positionOnCurve2.add(tangent2).add(normal).add(binormal))
     this.modelClone.scale.setScalar(1.0)
-    //this.scene2.add(this.modelClone)
+    this.scene2.add(this.modelClone)
 
     this.model2.castShadow = true
     this.model2Clone= this.model2.clone()
     this.model2Clone.position.copy(positionOnCurve2.add(tangent2).add(normal).add(binormal))
     this.model2Clone.scale.setScalar(80)
-    this.scene2.add(this.model2Clone)
+    //this.scene2.add(this.model2Clone)
     this.model2Clone.rotation.y += Math.random()
 
-    this.treesArray.push(this.model2Clone)
+    this.treesArray.push(this.model2Clone)*/
 
     }
     
@@ -1485,7 +1479,7 @@ this.trackPlane.position.y += 250
       this.box1 = this.boxes[i];
       const distance = 1000;
       
-      this.box1.position.copy(this.model.position)
+      //this.box1.position.copy(this.model.position)
      
       GSAP.to(this.box1.position, 2, {
     
@@ -1510,18 +1504,18 @@ this.trackPlane.position.y += 250
 
    //this.audioHelper.update()
 
-    this.model2Clone.lookAt(this.model.position)
+   // this.model2Clone.lookAt(this.model.position)
 
     //this.plane3.rotation.y +=  5;
     //this.plane.rotation.y +=  5;
 
     //this.modelTube.rotation.x +=  .2;
-    this.modelTube.rotation.y +=  .2;
+    //this.modelTube.rotation.y +=  .2;
     //this.modelTube.rotation.z +=  2;
 
    // this.plane2.position.copy(this.model.position)
 
-    this.shaderMaterial.uniforms.needsUpdate = true;
+    //this.shaderMaterial.uniforms.needsUpdate = true;
     //this.shaderMaterial2.uniforms.needsUpdate = true;
    
  
@@ -1529,7 +1523,7 @@ this.trackPlane.position.y += 250
 
       this.iNoise = this.noise.noise(Math.random()*5,Math.random()*5.1,Math.random()*4.9)
 
-      this.water.material.uniforms.time.value +=  this.time.delta * 1.5
+      //this.water.material.uniforms.time.value +=  this.time.delta * 1.5
 
       this.shaderMaterial.uniforms.time.value +=  this.time.delta * 2.5
       this.shaderMaterial5.uniforms.time.value +=  this.time.delta * 1.5
@@ -1588,12 +1582,12 @@ this.trackPlane.position.y += 250
 
     
 
-    tangent.multiplyScalar(velocity)
+    //tangent.multiplyScalar(velocity)
 
     this.derivativeTangent = this.spline.getTangentAt(t4).sub(tangent).normalize();
     this.derivativeTangent2 = this.spline.getTangentAt(t5).sub(this.tangent4).normalize();
  
-    this.angle = Math.atan2(tangent.x , tangent.y );
+    this.angle = Math.atan2(tangent.y , tangent.x );
 
 
     this.normal = new THREE.Vector3();
@@ -1640,7 +1634,11 @@ binormalHelper.setDirection(this.binormal);
     
 
     ///CAMERA MOVEMENT
+
     
+    this.model.position.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
+    
+    this.camera.instance.copy( pos2.add(tangent).add(this.normal).add(this.binormal).add(offset2))
     //this.camera.instance.add(this.light1)
 
     //this.plane2.position.copy(this.model.position)
@@ -1703,16 +1701,16 @@ if (intersects2.length > 0) {
 }
 
 
- for (let i = 0; i < this.clones.length; i++) {
+ /*for (let i = 0; i < this.clones.length; i++) {
   setInterval(() => {
     this.clonedCars = this.clones[i];
-    this.clones[i].lookAt(this.model.position)
+    //this.clones[i].lookAt(this.model.position)
 
     let offset = new THREE.Vector3(Math.random()*.0001 - .00005, 0, Math.random() * .5 - .025 ).normalize();  
 
     this.clonedCars.position.copy(pos3.add(this.tangent4).add(this.normal2).add(this.binormal2));
 }, i * 1000); // Delay each car's release by 1 second
-} 
+} */
     
    //this.clonedCars.position.copy(pos7.add(this.tangent4).add(this.normal2).add(this.binormal2));
     
@@ -1798,9 +1796,10 @@ if (intersects2.length > 0) {
 
     if(this.renderer.currentScene == this.scene){
 
-      this.arrowUpPressed = false
+     this.arrowUpPressed = false
 
-     // this.camera.instance.position.copy( new THREE.Vector3(0, 500, 500))
+     this.camera.instance.position.copy( new THREE.Vector3(0, 500, 500))
+
     }
 
 
@@ -1884,10 +1883,10 @@ if (intersects2.length > 0) {
 
   //this.leaves.scale.setScalar(55)
 
-  /*if(this.anim.isPlaying ==true){
+  if(this.anim.isPlaying ==true){
 
     this.anim.material.opacity -= .05
-  }*/
+  }
 
   
 

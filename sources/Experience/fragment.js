@@ -1,6 +1,8 @@
 const fragmentShader = {
   fragmentShader: `
 
+
+
   mat2 rotate(float angle){
     
       float c = cos(angle);
@@ -59,7 +61,7 @@ void main() {
     // Apply fog directly to the alpha channel
     temp.a *= fogFactor;
   
-    gl_FragColor = temp;
+    gl_FragColor = noise;
   
   
 
@@ -333,7 +335,7 @@ void main(){
 
   vec3 color1 = vec3(height);
 
-  gl_FragColor = vec4(height.rgb,1.0);
+  gl_FragColor = vec4(color1.rgb,1.0);
   
 }
 

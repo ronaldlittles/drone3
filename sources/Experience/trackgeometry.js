@@ -43,7 +43,7 @@ export default class TrackGeometry extends EventEmitter {
     this.setShader()
     this.setGeometry()
     this.setGeometry2()
-    //this.setCirlces()
+    this.setCirlces()
 
 
     //console.log(ShaderTest)
@@ -77,10 +77,10 @@ export default class TrackGeometry extends EventEmitter {
     )
 
 
-    //this.scene.add(this.terrain)
+    this.scene.add(this.terrain)
     this.scene2.add(this.terrain)
     this.terrain.scale.setScalar(3000)
-    //this.terrain.position.set(0,100,0)
+    //this.terrain.position.set(0,-100,0)
     this.terrain.rotation.x += Math.PI/2
     
 
@@ -174,7 +174,7 @@ let distance = 10;
     this.mesh = new THREE.Mesh(this.geometry, material);
     this.scene.add(this.mesh);
 
-    this.geometry.computeVertexNormals()
+    //this.geometry.computeVertexNormals()
 
     //this.geometry.attributes.normal.array.onUploadCallback(dispose)
   
@@ -186,7 +186,7 @@ let distance = 10;
     //this.mesh.scale.setScalar(5);
     
 this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource2}));
-//this.scene.add(this.mesh2);
+this.scene.add(this.mesh2);
 this.mesh2.scale.setScalar(10);
 this.mesh2Clone = this.mesh2.clone();
 
@@ -229,7 +229,7 @@ const text = new TTFLoader()
       console.log(font)
       let textGeometry = new TextGeometry( 'Ronald Littles', {
         font: font,
-        size: 100,
+        size: 300,
         height: 10,
   
         curveSegments: 10,
@@ -237,16 +237,17 @@ const text = new TTFLoader()
         bevelThickness: 50,
         bevelSize: 2,
         bevelOffset: 2,
-        bevelSegments: 5,
+        bevelSegments: 10,
 
 
       })
     
 
       this.textMaterial = new THREE.MeshStandardMaterial({ color: 'blue' })
-      this.textGeometry = new THREE.Mesh( textGeometry,  new THREE.MeshBasicMaterial({map: this.resource2})  )
+      this.textGeometry = new THREE.Mesh( textGeometry,  this.terrainShader )
       this.scene.add( this.textGeometry )
-      this.textGeometry.position.set(0, 0, 0)
+      this.textGeometry.position.set(-1200, 0, 0)
+    
 
     }.bind(this) );
 
@@ -415,14 +416,14 @@ function getPointAboveCurve(t, distanceAbove) {
       //this.camera.instance.position.copy(pos)
       //this.camera.instance.lookAt(pos2);
 
-      this.mesh2added=false
+      /*this.mesh2added=false
 
       if(!this.mesh2added ){
 
       //this.scene.add(this.mesh2);
       this.mesh2added = true;
 
-      }
+      }*/
        
       this.offset = new THREE.Vector3(0, -5, 0);
       this.offset2 = new THREE.Vector3(0, -800, -5000);
@@ -465,7 +466,7 @@ function getPointAboveCurve(t, distanceAbove) {
 
 //this.light2.position.copy(pos)
 
-       let tangentHelper = new THREE.ArrowHelper(tangent, pos, 35, 0xff0000); // Red for tangent
+      /* let tangentHelper = new THREE.ArrowHelper(tangent, pos, 35, 0xff0000); // Red for tangent
       let normalHelper = new THREE.ArrowHelper(normal, pos, 100, 0x00ff00); // Green for normal
       let binormalHelper = new THREE.ArrowHelper(binormal, pos, 10, 0x0000ff); // Blue for binormal
   
@@ -478,7 +479,7 @@ function getPointAboveCurve(t, distanceAbove) {
   normalHelper.setDirection(new THREE.Vector3(0,1,0));
   binormalHelper.position.copy(pos2);
   binormalHelper.setDirection(binormal);
-  
+  */
       
      // this.scene.add(tangentHelper);
      //this.scene.add(normalHelper);

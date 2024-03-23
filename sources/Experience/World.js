@@ -54,7 +54,7 @@ export default class World {
         //this.setPreLoader();
         
         //this.setRaceTrack()
-        this.setRaycaster();
+        //this.setRaycaster();
         //this.setSceneWorld();
       
         //this.setDrawing();
@@ -74,7 +74,7 @@ export default class World {
       
         //this.setControls2();
       
-        this.setDebugger()
+        //this.setDebugger()
 
       
       }
