@@ -24,15 +24,15 @@ export default class TrackGeometry extends EventEmitter {
     this.experience = new Experience();
     this.config = this.experience.config;
     this.debug = this.experience.debug;
-    this.world = this.experience.world;
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
     this.camera = this.experience.camera;
     this.resources = this.experience.resources;
     this.time = this.experience.time;
     this.renderer = this.experience.renderer;
-    this.targetElement = this.experience.targetElement;
     this.world = this.experience.world;
+    this.targetElement = this.experience.targetElement;
+  
     this.resource1 = this.resources.items.me;
     this.resource2 = this.resources.items.fluffy;
     this.resource3 = this.resources.items.sceneModel
@@ -46,7 +46,7 @@ export default class TrackGeometry extends EventEmitter {
     this.setCirlces()
 
 
-    //console.log(ShaderTest)
+    console.log(this.world)
 
     }
 
@@ -186,8 +186,8 @@ let distance = 10;
     //this.mesh.scale.setScalar(5);
     
 this.mesh2 = new THREE.Mesh(new THREE.SphereGeometry(1,36,36), new THREE.MeshBasicMaterial({map: this.resource2}));
-//this.scene.add(this.mesh2);
-this.mesh2.scale.setScalar(10);
+this.scene.add(this.mesh2);
+this.mesh2.scale.setScalar(200);
 this.mesh2Clone = this.mesh2.clone();
 
 this.buildingModel = this.resource5.scene
@@ -396,7 +396,7 @@ function getPointAboveCurve(t, distanceAbove) {
     
 
       let loopTime = 60;
-      let speed = .5;
+      let speed = 2.5;
 
 
       
@@ -416,18 +416,18 @@ function getPointAboveCurve(t, distanceAbove) {
       //this.camera.instance.position.copy(pos)
       //this.camera.instance.lookAt(pos2);
 
-      /*this.mesh2added=false
+      this.mesh2added=false
 
       if(!this.mesh2added ){
 
-      //this.scene.add(this.mesh2);
+      this.scene.add(this.mesh2);
       this.mesh2added = true;
 
-      }*/
+      }
        
       this.offset = new THREE.Vector3(0, -5, 0);
       this.offset2 = new THREE.Vector3(0, -800, -5000);
-      //this.mesh2.position.copy(pos).add(this.offset);
+      this.mesh2.position.copy(pos2).add(this.offset);
 
 
       let delay =3.8;
@@ -440,9 +440,9 @@ function getPointAboveCurve(t, distanceAbove) {
 
 
 
-        this.baloons.position.x = delay +(Math.random()*1000 - 500);
+        //this.baloons.position.x = delay +(Math.random()*1000 - 500);
 
-        this.baloons.rotation.y += 0.01;
+       // this.baloons.rotation.y += 0.01;
 
       //element.position.y =t+(Math.random() * 1000 - 500);
 
