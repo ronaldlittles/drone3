@@ -1,5 +1,4 @@
 import glsl from "vite-plugin-glsl";
-import vitePluginString from "vite-plugin-string";
 import { defineConfig } from "vite";
 import path from "path";
 
@@ -14,10 +13,10 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
   },
-  plugins: [glsl(), vitePluginString()],
+  plugins: [glsl()],
   resolve: {
     alias: {
-      '@shaders': '/src\shaders',
+      '@shaders': '/src/shaders',
     },
   },
 });

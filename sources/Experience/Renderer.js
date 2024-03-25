@@ -20,6 +20,7 @@ export default class Renderer {
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
+    this.scene3 = this.experience.scene3;
     this.camera = this.experience.camera;
     this.resources = this.experience.resources;
 
@@ -53,7 +54,7 @@ const buttonLeft3 = document.getElementById('left3');
 buttonLeft2.addEventListener('click', () => {
 
   
-  this.fade(this.scene2);
+  this.fade(this.scene3);
 
   this.currentScene = this.scene;
   // You may need to call the update method here to render the new scene
@@ -65,12 +66,12 @@ buttonLeft3.addEventListener('click', () => {
   
   this.fade(this.scene);
 
-  this.currentScene = this.scene2;
+  this.currentScene = this.scene3;
   // You may need to call the update method here to render the new scene
   
 });
 
-    this.currentScene = this.scene2;
+    this.currentScene = this.scene3;
 
 
 this.switchScene = function() {
@@ -78,7 +79,7 @@ this.switchScene = function() {
   if (this.currentScene === this.scene) {
     this.currentScene = this.scene;
   } else {
-    this.currentScene = this.scene2;
+    this.currentScene = this.scene3;
   }
 
 }
@@ -287,7 +288,7 @@ this.switchScene = function() {
 
  this.instance.setRenderTarget(this.renderTarget2);
 
- this.instance.render(this.scene2, this.camera.instance2);
+ this.instance.render(this.scene3, this.camera.instance2);
 
  this.instance.setRenderTarget(null)
 
@@ -323,7 +324,7 @@ this.switchScene = function() {
 
       this.instance.setRenderTarget(this.renderTarget2)
       
-      this.instance.render(this.scene2, this.camera.instance2)
+      this.instance.render(this.scene3, this.camera.instance2)
 
       
   

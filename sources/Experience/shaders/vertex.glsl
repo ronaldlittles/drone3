@@ -1,12 +1,12 @@
-//#include ../includes/hash12polar.glsl
 
-  //#include /sources/Experience/includes/hash12polar.glsl
+
+    #include ./includes/hash12polar.glsl
   
     varying vec2 vUv;
     
     varying vec3 newPosition;
 
-    //varying vec3 vNormal;
+    varying vec3 vNormal;
 
     
     uniform float uNoise;
@@ -15,20 +15,43 @@
   
     uniform float time; 
     
+    uniform sampler2D texture1;
+
     
+    uniform vec3 vTangent;
+
+ 
+ 
+
 
   void main() {
 
-    //vNormal = normal;
+    vNormal = normal;
 
-    vUv =  uv * uvScale; 
+    vec2 hash = Hash12_Polar(time);
+
+    float tl = length(vTangent);
+
+    vUv = uv; 
+
+
+    float height = texture2D(texture1, vUv).r;
 
     newPosition = position;
-     
-   
+
+
+    
+    if(tl <.5){
+
+      newPosition.z -= tl *20.1;
+
+    } else{
+
+
+    newPosition.z -= vTangent.x * tl;
+    }
   
-    vec4 mvPosition = modelViewMatrix * vec4(newPosition  , 1.0 );
-  
+    vec4 mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );
   
 
     gl_Position = projectionMatrix * mvPosition;

@@ -6,13 +6,15 @@ import { Water } from 'three/examples/jsm/objects/Water.js';
 import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
 import TShirt from "./tshirt.js";
-import { vertexShader } from "./shaders/vertex.js";
-import { fragmentShader } from "./fragment.js";
+//import { vertexShader } from "./shaders/vertex.js";
+//import { fragmentShader } from "./fragment.js";
 import GSAP from 'gsap';
 import { Vector3 } from "three";
 import { VertexTangentsHelper } from "three/examples/jsm/helpers/VertexTangentsHelper.js";
 import { bindVertexBufferToProgramAttribute } from "@tensorflow/tfjs-backend-webgl/dist/webgl_util.js";
 import ShaderTest from "./shadertest.js";
+import vertexShaders from "./shaders/vertex.glsl"
+import fragmentShaders from "./shaders/fragment.glsl"
 
 
 export default class TrackGeometry extends EventEmitter {
@@ -24,13 +26,14 @@ export default class TrackGeometry extends EventEmitter {
     this.experience = new Experience();
     this.config = this.experience.config;
     this.debug = this.experience.debug;
+    
+    this.world = this.experience.world;
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
     this.camera = this.experience.camera;
     this.resources = this.experience.resources;
     this.time = this.experience.time;
     this.renderer = this.experience.renderer;
-    this.world = this.experience.world;
     this.targetElement = this.experience.targetElement;
   
     this.resource1 = this.resources.items.me;
@@ -46,7 +49,8 @@ export default class TrackGeometry extends EventEmitter {
     this.setCirlces()
 
 
-    console.log(this.world)
+    
+    
 
     }
 
@@ -60,13 +64,15 @@ export default class TrackGeometry extends EventEmitter {
         uniforms: {
   
           time: { value: 1.0 },
+
+          vTangent: { value: new THREE.Vector3() },
          
           texture1: { value: this.renderer.renderTarget2.texture },
-          
+          texture2: this.resource1,
         },
      
-        vertexShader: vertexShader.vertexShader4,
-        fragmentShader: fragmentShader.fragmentShader5,
+        vertexShader: vertexShaders,
+        fragmentShader: fragmentShaders,
       })
 
       this.terrain = new THREE.Mesh(
@@ -76,6 +82,9 @@ export default class TrackGeometry extends EventEmitter {
 
     )
 
+    this.terrainShader.uniforms.needsUpdate = true;
+
+console.log(this.terrainShader.uniforms.vTangent)
 
     this.scene.add(this.terrain)
     //this.scene2.add(this.terrain)
@@ -408,13 +417,15 @@ function getPointAboveCurve(t, distanceAbove) {
 
       let upVector = new THREE.Vector3(0, 1, 0);
 
-      let tangent = this.curve.getTangentAt(t).normalize();
-      let normal = new THREE.Vector3().crossVectors(tangent, upVector).normalize();
-      let binormal = new THREE.Vector3().crossVectors( tangent,normal).normalize();
+      this.tangent = this.curve.getTangentAt(t).normalize();
+      let normal = new THREE.Vector3().crossVectors(this.tangent, upVector).normalize();
+      let binormal = new THREE.Vector3().crossVectors( this.tangent,normal).normalize();
       let distanceAbove = 100;
       //let pointAbove = getPointAboveCurve(t, distanceAbove);
       //this.camera.instance.position.copy(pos)
       //this.camera.instance.lookAt(pos2);
+
+      this.terrainShader.uniforms.vTangent.value = this.tangent
 
       this.mesh2added=false
 

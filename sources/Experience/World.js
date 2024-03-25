@@ -29,6 +29,7 @@ import Menu from "./menu.js";
 import Raycaster from "./raycaster.js";
 import Drawing from './drawing.js';
 import TShirt from './tshirt.js'
+import UI from './UI.js'
 
 import Debugger from './debugger.js'
 //import RaceTrack from './raceTrack.js'
@@ -38,6 +39,7 @@ export default class World {
     this.config = this.experience.config;
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
+    this.scene3 = this.experience.scene3;
     this.resources = this.experience.resources;
     
     this.renderer = this.experience.renderer;
@@ -54,7 +56,7 @@ export default class World {
         //this.setPreLoader();
         
         //this.setRaceTrack()
-        //this.setRaycaster();
+        this.setRaycaster();
         //this.setSceneWorld();
       
         //this.setDrawing();
@@ -66,7 +68,10 @@ export default class World {
         
         
         this.setTrackGeometry()
-        this.setWalls();
+
+        this.setUI()
+        
+        this.setWalls()
         this.setBox();
         this.setAnimationController()
         //this.setDrone();
@@ -115,6 +120,11 @@ export default class World {
 
     this.controls = new Controls2();
 
+  }
+
+  setUI(){
+
+    this.UI = new UI();
   }
 
   setWalls(){

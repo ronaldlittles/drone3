@@ -29,7 +29,7 @@ export default class Raycaster extends EventEmitter {
 
     this.resource1 = this.resources.items.meTexture;
     
-    //this.setRaycaster();
+    this.setRaycaster();
     
 
    
@@ -37,16 +37,11 @@ export default class Raycaster extends EventEmitter {
 
   setRaycaster() {
 
-    const sphereGeometry = new THREE.SphereGeometry(1, 36, 36);
-
-    const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: true, });
-
-    this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
     
-    this.sphere.scale.set(15,15,15)
+    //this.sphere.scale.set(15,15,15)
 
-     window.addEventListener( "mousemove", (event) => {
+     window.addEventListener( "pointerdown", (event) => {
 
       
 
@@ -60,18 +55,43 @@ export default class Raycaster extends EventEmitter {
 
       const intersects = raycaster.intersectObjects( this.scene2.children );
      
+      
       if (intersects.length > 0) {
 
         const point = intersects[0].point;
 
         
-        //console.log(intersects[0].uv )
+       // console.log(intersects[0])
+
+       
+    const sphereGeometry = new THREE.PlaneGeometry(2,2);
+
+    const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: false, });
+
+    this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+    this.sphere.scale.setScalar(150)
+
+        this.sphere.position.set(point.x,-1500,point.z)
+
+    
+    this.scene2.add(this.sphere);
      
-        this.sphere.position.copy( point );
+        //this.sphere.position.copy( point );
+
+        GSAP.to(this.sphere.position, {
+
+          duration: 5,
+          y: point.y,
+          ease: 'power2.out'
+
+        })
+
+        
+
      
     }
 
-      this.scene2.add(this.sphere);
       
   })
 

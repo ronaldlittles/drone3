@@ -14,6 +14,7 @@ export default class Camera {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.scene2 = this.experience.scene2;
+    this.scene3 = this.experience.scene3;
     this.config = this.experience.config;
     this.debug = this.experience.debug;
     this.time = this.experience.time;
@@ -96,10 +97,12 @@ export default class Camera {
     )
     // 6.5
     this.orthographicCamera.position.set(0,0,0);
-    this.orthographicCamera.lookAt(this.scene2.position);
+    this.orthographicCamera.lookAt(this.scene3.position);
    this.orthographicCamera.rotation.x = Math.PI/2;
 
-    //this.scene2.add( new THREE.CameraHelper(this.orthographicCamera))
+   this.scene3.add(this.orthographicCamera)
+
+    this.scene3.add( new THREE.CameraHelper(this.orthographicCamera))
 
   }
 
