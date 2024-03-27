@@ -60,6 +60,7 @@ export default class TrackGeometry extends EventEmitter {
 
         transparent: true,
         side: THREE.DoubleSide,
+        wireframe: false,
         
         uniforms: {
   

@@ -1,6 +1,7 @@
 
 
-    #include ./includes/hash12polar.glsl
+    //#include ./includes/hash12polar.glsl
+    #include ./includes/hash.glsl
   
     varying vec2 vUv;
     
@@ -28,28 +29,24 @@
 
     vNormal = normal;
 
-    vec2 hash = Hash12_Polar(time);
+    //vec2 hash = Hash12_Polar(time);
+
+    float hash1 = hash(uv);
+  
 
     float tl = length(vTangent);
 
     vUv = uv; 
 
 
+    
+
     float height = texture2D(texture1, vUv).r;
 
     newPosition = position;
 
-
+//newPosition.z += sin(hash1);
     
-    if(tl <.5){
-
-      newPosition.z -= tl *20.1;
-
-    } else{
-
-
-    newPosition.z -= vTangent.x * tl;
-    }
   
     vec4 mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );
   
